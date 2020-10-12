@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://kite-007.github.io</id>
     <title>Gridea</title>
-    <updated>2020-10-12T13:07:46.162Z</updated>
+    <updated>2020-10-12T13:11:55.567Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://kite-007.github.io"/>
     <link rel="self" href="https://kite-007.github.io/atom.xml"/>
@@ -18,7 +18,6 @@
         <updated>2020-10-12T12:02:41.000Z</updated>
         <content type="html"><![CDATA[<p>在主机下载DVWAhttp://www.dvwa.co.uk/并解压，重命名为dvwa后拖进虚拟机的桌面目录。（VMware Tools安装方法https://blog.csdn.net/u011585332/article/details/105120544?utm_source=app）</p>
 <p>👁第一：打开dvwa/dvwa/config，将config.inc.php.dist的后缀.dist去掉。<br>
-<img src="https://kite-007.github.io/post-images/1602505120370.png" alt="" loading="lazy"><br>
 <img src="https://kite-007.github.io/post-images/1602505129501.png" alt="" loading="lazy"></p>
 <p>👁第二：打开config.inc.php<br>
 修改为：<br>
@@ -37,9 +36,9 @@ exit                #退出mysql<br>
 service apache2 start 	      #启动apache2服务<br>
 <img src="https://kite-007.github.io/post-images/1602506995688.png" alt="" loading="lazy"></p>
 <p>👁第四：打开浏览器，输入127.0.0.1/dvwa，回车进入后会自动跳转到127.0.0.1/dvwa/setup.php<br>
+默认账号密码：admin/password<br>
+<img src="https://kite-007.github.io/post-images/1602507875585.png" alt="" loading="lazy"><br>
 <img src="https://kite-007.github.io/post-images/1602507814348.png" alt="" loading="lazy"></p>
-<p>👁第五：默认账号密码：admin/password<br>
-<img src="https://kite-007.github.io/post-images/1602507875585.png" alt="" loading="lazy"></p>
 ]]></content>
     </entry>
     <entry>
