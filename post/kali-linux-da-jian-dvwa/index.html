@@ -2,23 +2,16 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>关于 | Gridea</title>
+<title>kali-linux 搭建DVWA | Gridea</title>
 <link rel="shortcut icon" href="https://kite-007.github.io/favicon.ico?v=1602507967914">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://kite-007.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="关于 | Gridea - Atom Feed" href="https://kite-007.github.io/atom.xml">
+<link rel="alternate" type="application/atom+xml" title="kali-linux 搭建DVWA | Gridea - Atom Feed" href="https://kite-007.github.io/atom.xml">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
-    <meta name="description" content="
-欢迎来到我的小站呀，很高兴遇见你！🤝
-
-🏠 关于本站
-👨‍💻 博主是谁
-⛹ 兴趣爱好
-📬 联系我呀
-..." />
+    <meta name="description" content="在主机下载DVWAhttp://www.dvwa.co.uk/并解压，重命名为dvwa后拖进虚拟机的桌面目录。（VMware Tools安装方法https://blog.csdn.net/u011585332/article/details..." />
     <meta name="keywords" content="" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
     <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
@@ -81,46 +74,64 @@
         <div class="post-detail">
           <article class="post">
             <h2 class="post-title">
-              关于
+              kali-linux 搭建DVWA
             </h2>
             <div class="post-info">
               <span>
-                2019-01-25
+                2020-10-12
               </span>
               <span>
-                1 min read
+                2 min read
               </span>
               
             </div>
             
+              <img class="post-feature-image" src="https://kite-007.github.io/post-images/kali-linux-da-jian-dvwa.png" alt="">
+            
             <div class="post-content-wrapper">
               <div class="post-content">
-                <blockquote>
-<p>欢迎来到我的小站呀，很高兴遇见你！🤝</p>
-</blockquote>
-<h2 id="关于本站">🏠 关于本站</h2>
-<h2 id="博主是谁">👨‍💻 博主是谁</h2>
-<h2 id="兴趣爱好">⛹ 兴趣爱好</h2>
-<h2 id="联系我呀">📬 联系我呀</h2>
+                <p>在主机下载DVWAhttp://www.dvwa.co.uk/并解压，重命名为dvwa后拖进虚拟机的桌面目录。（VMware Tools安装方法https://blog.csdn.net/u011585332/article/details/105120544?utm_source=app）</p>
+<p>👁第一：打开dvwa/dvwa/config，将config.inc.php.dist的后缀.dist去掉。<br>
+<img src="https://kite-007.github.io/post-images/1602505120370.png" alt="" loading="lazy"><br>
+<img src="https://kite-007.github.io/post-images/1602505129501.png" alt="" loading="lazy"></p>
+<p>👁第二：打开config.inc.php<br>
+修改为：<br>
+$_DVWA[ 'db_user' ]     = 'dvwa';<br>
+$_DVWA[ 'db_password' ] = 'dvwa';</p>
+<p>👁第三：进入终端<br>
+输入：<br>
+chmod -R 777 /root/桌面/dvwa  	                #赋予dvwa文件夹相应的权限<br>
+mv /root/桌面/dvwa /var/www/html             #将桌面上的dvwa文件移至/var/www/htm下<br>
+service mysql start		#启动mysql服务<br>
+mysql -u root -p 		#进入mysql（密码默认为空/root，直接回车）<br>
+create user 'dvwa'@'localhost' identified by 'dvwa';#创建用户名（对应第二步）<br>
+grant all on <em>.</em> to 'dvwa'@'localhost';                                  #赋权<br>
+set password for 'dvwa'@'localhost' = password('dvwa');#设置密码（对应第二步）<br>
+exit                #退出mysql<br>
+service apache2 start 	      #启动apache2服务<br>
+<img src="https://kite-007.github.io/post-images/1602506995688.png" alt="" loading="lazy"></p>
+<p>👁第四：打开浏览器，输入127.0.0.1/dvwa，回车进入后会自动跳转到127.0.0.1/dvwa/setup.php<br>
+<img src="https://kite-007.github.io/post-images/1602507814348.png" alt="" loading="lazy"></p>
+<p>👁第五：默认账号密码：admin/password<br>
+<img src="https://kite-007.github.io/post-images/1602507875585.png" alt="" loading="lazy"></p>
 
               </div>
               <div class="toc-container">
-                <ul class="markdownIt-TOC">
-<li>
-<ul>
-<li><a href="#%E5%85%B3%E4%BA%8E%E6%9C%AC%E7%AB%99">🏠 关于本站</a></li>
-<li><a href="#%E5%8D%9A%E4%B8%BB%E6%98%AF%E8%B0%81">👨‍💻 博主是谁</a></li>
-<li><a href="#%E5%85%B4%E8%B6%A3%E7%88%B1%E5%A5%BD">⛹ 兴趣爱好</a></li>
-<li><a href="#%E8%81%94%E7%B3%BB%E6%88%91%E5%91%80">📬 联系我呀</a></li>
-</ul>
-</li>
-</ul>
-
+                
               </div>
             </div>
           </article>
         </div>
 
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://kite-007.github.io/post/sql-injections/">
+              <h3 class="post-title">
+                SQL Injections
+              </h3>
+            </a>
+          </div>
         
 
         

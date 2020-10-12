@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://kite-007.github.io</id>
     <title>Gridea</title>
-    <updated>2020-10-11T14:56:21.964Z</updated>
+    <updated>2020-10-12T13:06:10.312Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://kite-007.github.io"/>
     <link rel="self" href="https://kite-007.github.io/atom.xml"/>
@@ -10,6 +10,38 @@
     <logo>https://kite-007.github.io/images/avatar.png</logo>
     <icon>https://kite-007.github.io/favicon.ico</icon>
     <rights>All rights reserved 2020, Gridea</rights>
+    <entry>
+        <title type="html"><![CDATA[kali-linux 搭建DVWA]]></title>
+        <id>https://kite-007.github.io/post/kali-linux-da-jian-dvwa/</id>
+        <link href="https://kite-007.github.io/post/kali-linux-da-jian-dvwa/">
+        </link>
+        <updated>2020-10-12T12:02:41.000Z</updated>
+        <content type="html"><![CDATA[<p>在主机下载DVWAhttp://www.dvwa.co.uk/并解压，重命名为dvwa后拖进虚拟机的桌面目录。（VMware Tools安装方法https://blog.csdn.net/u011585332/article/details/105120544?utm_source=app）</p>
+<p>👁第一：打开dvwa/dvwa/config，将config.inc.php.dist的后缀.dist去掉。<br>
+<img src="https://kite-007.github.io/post-images/1602505120370.png" alt="" loading="lazy"><br>
+<img src="https://kite-007.github.io/post-images/1602505129501.png" alt="" loading="lazy"></p>
+<p>👁第二：打开config.inc.php<br>
+修改为：<br>
+$_DVWA[ 'db_user' ]     = 'dvwa';<br>
+$_DVWA[ 'db_password' ] = 'dvwa';</p>
+<p>👁第三：进入终端<br>
+输入：<br>
+chmod -R 777 /root/桌面/dvwa  	                #赋予dvwa文件夹相应的权限<br>
+mv /root/桌面/dvwa /var/www/html             #将桌面上的dvwa文件移至/var/www/htm下<br>
+service mysql start		#启动mysql服务<br>
+mysql -u root -p 		#进入mysql（密码默认为空/root，直接回车）<br>
+create user 'dvwa'@'localhost' identified by 'dvwa';#创建用户名（对应第二步）<br>
+grant all on <em>.</em> to 'dvwa'@'localhost';                                  #赋权<br>
+set password for 'dvwa'@'localhost' = password('dvwa');#设置密码（对应第二步）<br>
+exit                #退出mysql<br>
+service apache2 start 	      #启动apache2服务<br>
+<img src="https://kite-007.github.io/post-images/1602506995688.png" alt="" loading="lazy"></p>
+<p>👁第四：打开浏览器，输入127.0.0.1/dvwa，回车进入后会自动跳转到127.0.0.1/dvwa/setup.php<br>
+<img src="https://kite-007.github.io/post-images/1602507814348.png" alt="" loading="lazy"></p>
+<p>👁第五：默认账号密码：admin/password<br>
+<img src="https://kite-007.github.io/post-images/1602507875585.png" alt="" loading="lazy"></p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[SQL Injections]]></title>
         <id>https://kite-007.github.io/post/sql-injections/</id>
