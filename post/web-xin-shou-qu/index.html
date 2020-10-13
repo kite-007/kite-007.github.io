@@ -1,0 +1,296 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>WEB新手区 | Gridea</title>
+<link rel="shortcut icon" href="https://kite-007.github.io/favicon.ico?v=1602603591779">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://kite-007.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="WEB新手区 | Gridea - Atom Feed" href="https://kite-007.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="所用插件：X-Forwarded-For Header、HackBar、FoxyProxy。
+一，xff_referer
+伪造IP与Referer
+1.
+
+2.使用X-Forwarded-For Header伪造123.123.123.12..." />
+    <meta name="keywords" content="" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://kite-007.github.io">
+  <img class="avatar" src="https://kite-007.github.io/images/avatar.png?v=1602603591779" alt="">
+  </a>
+  <h1 class="site-title">
+    Gridea
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              WEB新手区
+            </h2>
+            <div class="post-info">
+              <span>
+                2020-10-13
+              </span>
+              <span>
+                3 min read
+              </span>
+              
+            </div>
+            
+              <img class="post-feature-image" src="https://kite-007.github.io/post-images/web-xin-shou-qu.png" alt="">
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p>所用插件：X-Forwarded-For Header、HackBar、FoxyProxy。<br>
+一，xff_referer</p>
+<p>伪造IP与Referer<br>
+1.<br>
+<img src="https://kite-007.github.io/post-images/1602602934990.png" alt="" loading="lazy"><br>
+2.使用X-Forwarded-For Header伪造123.123.123.123<br>
+<img src="https://kite-007.github.io/post-images/1602602940134.png" alt="" loading="lazy"><br>
+3.使用HackBar打勾Referer伪造<br>
+<img src="https://kite-007.github.io/post-images/1602602945517.png" alt="" loading="lazy"></p>
+<p>二，backup</p>
+<p>查看备份文件<br>
+网页备份文件的后缀为.bak<br>
+1.<br>
+<img src="https://kite-007.github.io/post-images/1602602978909.png" alt="" loading="lazy"><br>
+2.请求index.php.bak<br>
+<img src="https://kite-007.github.io/post-images/1602602990608.png" alt="" loading="lazy"><br>
+3.查看index.php的备份文件<br>
+<img src="https://kite-007.github.io/post-images/1602603003613.png" alt="" loading="lazy"></p>
+<p>三，command_execution</p>
+<p>查找flag<br>
+1.<br>
+<img src="https://kite-007.github.io/post-images/1602603036707.png" alt="" loading="lazy"><br>
+2.ping127.0.0.1<br>
+<img src="https://kite-007.github.io/post-images/1602603046039.png" alt="" loading="lazy"><br>
+3.查找flag.txt<br>
+<img src="https://kite-007.github.io/post-images/1602603051618.png" alt="" loading="lazy"><br>
+4.<br>
+<img src="https://kite-007.github.io/post-images/1602603056682.png" alt="" loading="lazy"></p>
+<p>四，cookie</p>
+<p>了解cookie</p>
+<p>cookie为储存在用户本地终端上的数据<br>
+1.<br>
+<img src="https://kite-007.github.io/post-images/1602603086624.png" alt="" loading="lazy"><br>
+2.cookie在开发者工具，网络一栏，点请求的网址，查看cookie<br>
+<img src="https://kite-007.github.io/post-images/1602603098830.png" alt="" loading="lazy"><br>
+3.继续查看响应<br>
+<img src="https://kite-007.github.io/post-images/1602603109036.png" alt="" loading="lazy"></p>
+<p>五，disabled_button</p>
+<p>disabled=&quot;&quot;使input功能丧失<br>
+1.<br>
+<img src="https://kite-007.github.io/post-images/1602603150444.png" alt="" loading="lazy"><br>
+2.查看源码，发现disabled=&quot;&quot;,使input一行功能丧失，所以<br>
+<img src="https://kite-007.github.io/post-images/1602603157099.png" alt="" loading="lazy"><br>
+3.所以去掉disabled=&quot;&quot;后响应网站，得到flag<br>
+<img src="https://kite-007.github.io/post-images/1602603161359.png" alt="" loading="lazy"><br>
+4.另一种方式<br>
+<img src="https://kite-007.github.io/post-images/1602603165655.png" alt="" loading="lazy"></p>
+<p>六，get_post</p>
+<p>了解get post<br>
+GET - 从资源请求数据<br>
+POST - 向资源提交数据</p>
+<ol>
+<li></li>
+</ol>
+<p><img src="https://kite-007.github.io/post-images/1602603195591.png" alt="" loading="lazy"><br>
+2.get:.在url后加入/?a=1<br>
+<img src="https://kite-007.github.io/post-images/1602603200041.png" alt="" loading="lazy"><br>
+3.勾选post data输入b=2<br>
+<img src="https://kite-007.github.io/post-images/1602603204698.png" alt="" loading="lazy"></p>
+<p>七，robots</p>
+<p>了解robots<br>
+robots是网站跟爬虫间的协议<br>
+1.<br>
+<img src="https://kite-007.github.io/post-images/1602603230285.png" alt="" loading="lazy"><br>
+2.在url栏后加/robots.txt查看，得到如图<br>
+<img src="https://kite-007.github.io/post-images/1602603236973.png" alt="" loading="lazy"><br>
+3.<br>
+<img src="https://kite-007.github.io/post-images/1602603241748.png" alt="" loading="lazy"></p>
+<p>八，simple_js</p>
+<p>js语法<br>
+1.进入随便输入密码查看开发者工具<br>
+<img src="https://kite-007.github.io/post-images/1602603267071.png" alt="" loading="lazy"><br>
+2.分析:无论输入什么，都返回了pass，而密码在dechiffre（h），而h是&quot;\x···\x30&quot;<br>
+<img src="https://kite-007.github.io/post-images/1602603277929.png" alt="" loading="lazy"><br>
+3.对h进行转码，得到一组ASCII码（https://www.bejson.com/convert/ox2str/）<br>
+<img src="https://kite-007.github.io/post-images/1602603296670.png" alt="" loading="lazy"><br>
+4.ASCII编码转换（https://www.qqxiuzi.cn/bianma/ascii.htm）<br>
+<img src="https://kite-007.github.io/post-images/1602603301203.png" alt="" loading="lazy"><br>
+5.完成<br>
+<img src="https://kite-007.github.io/post-images/1602603307908.png" alt="" loading="lazy"></p>
+<p>九，simple_php</p>
+<p>php特性<br>
+在PHP中，不同类型比较时会被自动转换成相同的类型</p>
+<p>1.发现：a要为零，还得满足a为字符串，则请求/?a=0.0(0.0表示字符串)<br>
+<img src="https://kite-007.github.io/post-images/1602603323157.png" alt="" loading="lazy"><br>
+2.b不能是数字，b还要大于1234，所以让b=12345a（字符串），到比较时b会被转化类型<br>
+<img src="https://kite-007.github.io/post-images/1602603333969.png" alt="" loading="lazy"><br>
+3.<br>
+<img src="https://kite-007.github.io/post-images/1602603338681.png" alt="" loading="lazy"></p>
+<p>十，view_source</p>
+<p>f12开发者工具</p>
+<ol>
+<li></li>
+</ol>
+<p><img src="https://kite-007.github.io/post-images/1602603361874.png" alt="" loading="lazy"><br>
+2.f12开发者工具<br>
+<img src="https://kite-007.github.io/post-images/1602603370722.png" alt="" loading="lazy"></p>
+<p>十一，weak_auth</p>
+<p>Burp密码爆破</p>
+<ol>
+<li></li>
+</ol>
+<p><img src="https://kite-007.github.io/post-images/1602603420235.png" alt="" loading="lazy"><br>
+2.随便输入用户名，发现用户名为admin<br>
+<img src="https://kite-007.github.io/post-images/1602603430620.png" alt="" loading="lazy"><br>
+3.<br>
+<img src="https://kite-007.github.io/post-images/1602603436276.png" alt="" loading="lazy"><br>
+4.查看源码，发现需要一个字典（密码爆破），所以使用Burp<br>
+<img src="https://kite-007.github.io/post-images/1602603445185.png" alt="" loading="lazy"><br>
+5.使用Burp抓包，设置变量<br>
+<img src="https://kite-007.github.io/post-images/1602603464715.png" alt="" loading="lazy"><br>
+6.<br>
+<img src="https://kite-007.github.io/post-images/1602603471991.png" alt="" loading="lazy"><br>
+7.加载字典<br>
+<img src="https://kite-007.github.io/post-images/1602603483650.png" alt="" loading="lazy"><br>
+8.设置线程（最大127），得到密码为123456<br>
+<img src="https://kite-007.github.io/post-images/1602603487809.png" alt="" loading="lazy"><br>
+9.<br>
+<img src="https://kite-007.github.io/post-images/1602603495036.png" alt="" loading="lazy"></p>
+<p>十二，webshell</p>
+<p>了解shell，蚁剑<br>
+1.<br>
+<img src="https://kite-007.github.io/post-images/1602603509021.png" alt="" loading="lazy"><br>
+2.<br>
+<img src="https://kite-007.github.io/post-images/1602603516788.png" alt="" loading="lazy"></p>
+
+              </div>
+              <div class="toc-container">
+                
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://kite-007.github.io/post/kali-linux-da-jian-dvwa/">
+              <h3 class="post-title">
+                kali-linux 搭建DVWA
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://kite-007.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>
