@@ -2,17 +2,29 @@
   <head>
     <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>kali-linux 搭建DVWA | Gridea</title>
+<title>Linux找回root密码 | Gridea</title>
 <link rel="shortcut icon" href="https://kite-007.github.io/favicon.ico?v=1615113464986">
 <link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
 <link rel="stylesheet" href="https://kite-007.github.io/styles/main.css">
-<link rel="alternate" type="application/atom+xml" title="kali-linux 搭建DVWA | Gridea - Atom Feed" href="https://kite-007.github.io/atom.xml">
+<link rel="alternate" type="application/atom+xml" title="Linux找回root密码 | Gridea - Atom Feed" href="https://kite-007.github.io/atom.xml">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
 
 
 
-    <meta name="description" content="在主机下载DVWAhttp://www.dvwa.co.uk/并解压，重命名为dvwa后拖进虚拟机的桌面目录。（VMware Tools安装方法https://blog.csdn.net/u011585332/article/details..." />
-    <meta name="keywords" content="" />
+    <meta name="description" content="使用单用户模式进行修改root的密码
+
+
+再启动虚拟机时，进入开机界面后按下“e”，进入编辑页面。
+
+
+
+按向下方向键找到如图所示一行，在这一行之后添加init=/bin/sh之后按下Ctrl+X，进入单用户模式。
+
+
+
+
+3.之后输入mo..." />
+    <meta name="keywords" content="Linux" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
     <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
   </head>
@@ -74,46 +86,40 @@
         <div class="post-detail">
           <article class="post">
             <h2 class="post-title">
-              kali-linux 搭建DVWA
+              Linux找回root密码
             </h2>
             <div class="post-info">
               <span>
-                2020-10-12
+                2021-03-07
               </span>
               <span>
-                2 min read
+                1 min read
               </span>
+              
+                <a href="https://kite-007.github.io/tag/vMLNi3LB4/" class="post-tag">
+                  # Linux
+                </a>
               
             </div>
             
-              <img class="post-feature-image" src="https://kite-007.github.io/post-images/kali-linux-da-jian-dvwa.png" alt="">
+              <img class="post-feature-image" src="https://kite-007.github.io/post-images/linux-zhao-hui-root-mi-ma.png" alt="">
             
             <div class="post-content-wrapper">
               <div class="post-content">
-                <p>在主机下载DVWAhttp://www.dvwa.co.uk/并解压，重命名为dvwa后拖进虚拟机的桌面目录。（VMware Tools安装方法https://blog.csdn.net/u011585332/article/details/105120544?utm_source=app）</p>
-<p>👁第一：打开dvwa/dvwa/config，将config.inc.php.dist的后缀.dist去掉。<br>
-<img src="https://kite-007.github.io/post-images/1602505129501.png" alt="" loading="lazy"></p>
-<p>👁第二：打开config.inc.php<br>
-修改为：<br>
-$_DVWA[ 'db_user' ]     = 'dvwa';<br>
-$_DVWA[ 'db_password' ] = 'dvwa';</p>
-<p>👁第三：进入终端<br>
-输入：<br>
-chmod -R 777 /root/桌面/dvwa  	                #赋予dvwa文件夹相应的权限<br>
-mv /root/桌面/dvwa /var/www/html             #将桌面上的dvwa文件移至/var/www/htm下<br>
-service mysql start		#启动mysql服务<br>
-mysql -u root -p 		#进入mysql（密码默认为空/root，直接回车）<br>
-create user 'dvwa'@'localhost' identified by 'dvwa';#创建用户名（对应第二步）<br>
-grant all on <em>.</em> to 'dvwa'@'localhost';                                  #赋权<br>
-set password for 'dvwa'@'localhost' = password('dvwa');#设置密码（对应第二步）<br>
-exit                #退出mysql<br>
-service apache2 start 	      #启动apache2服务<br>
-<img src="https://kite-007.github.io/post-images/1602506995688.png" alt="" loading="lazy"></p>
-<p>👁第四：打开浏览器，输入127.0.0.1/dvwa，回车进入后会自动跳转到127.0.0.1/dvwa/setup.php<br>
-默认账号密码：admin/password<br>
-<img src="https://kite-007.github.io/post-images/1602507875585.png" alt="" loading="lazy"><br>
-<img src="https://kite-007.github.io/post-images/1602507814348.png" alt="" loading="lazy"></p>
-<p>👁第五：后续问题解决：https://www.jianshu.com/p/05135f8de848（参考）</p>
+                <p><strong>使用单用户模式进行修改root的密码</strong></p>
+<ol>
+<li>
+<p>再启动虚拟机时，进入开机界面后按下“e”，进入编辑页面。<br>
+<img src="https://kite-007.github.io/post-images/1615111403186.png" alt="" loading="lazy"></p>
+</li>
+<li>
+<p>按向下方向键找到如图所示一行，在这一行之后添加init=/bin/sh之后按下Ctrl+X，进入单用户模式。<br>
+<img src="https://kite-007.github.io/post-images/1615112842008.png" alt="" loading="lazy"><br>
+<img src="https://kite-007.github.io/post-images/1615112869941.png" alt="" loading="lazy"></p>
+</li>
+</ol>
+<p>3.之后输入mount -o remount,rw /按下Enter，在输入passwd，之后修改密码，成功之后键入touch /.autorelabel按下Enter，再键入exec /sbin/init按下Enter等待修改成功，如图（这里密码输入了两遍）。<br>
+<img src="https://kite-007.github.io/post-images/1615113030396.png" alt="" loading="lazy"></p>
 
               </div>
               <div class="toc-container">
@@ -123,6 +129,15 @@ service apache2 start 	      #启动apache2服务<br>
           </article>
         </div>
 
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://kite-007.github.io/post/linux-shou-ji-ji-chu-pian/">
+              <h3 class="post-title">
+                # Linux手记（基础篇）
+              </h3>
+            </a>
+          </div>
         
 
         

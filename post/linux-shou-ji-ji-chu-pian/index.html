@@ -1,0 +1,368 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title># Linux手记（基础篇） | Gridea</title>
+<link rel="shortcut icon" href="https://kite-007.github.io/favicon.ico?v=1615113464986">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://kite-007.github.io/styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="# Linux手记（基础篇） | Gridea - Atom Feed" href="https://kite-007.github.io/atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="
+1.  Linux目录结构
+2. Linux远程登陆与远程文件传输
+3. vi与vim的介绍与使用
+4. 关机重启命令
+5. 用户
+6. 用户组
+7. 指定运行级别
+
+(Linux手记)
+1.  Linux目录结构
+
+在Linux的世界里..." />
+    <meta name="keywords" content="Linux" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://kite-007.github.io">
+  <img class="avatar" src="https://kite-007.github.io/images/avatar.png?v=1615113464986" alt="">
+  </a>
+  <h1 class="site-title">
+    Gridea
+  </h1>
+  <p class="site-description">
+    温故而知新
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              # Linux手记（基础篇）
+            </h2>
+            <div class="post-info">
+              <span>
+                2021-03-06
+              </span>
+              <span>
+                7 min read
+              </span>
+              
+                <a href="https://kite-007.github.io/tag/vMLNi3LB4/" class="post-tag">
+                  # Linux
+                </a>
+              
+            </div>
+            
+              <img class="post-feature-image" src="https://kite-007.github.io/post-images/linux-shou-ji-ji-chu-pian.png" alt="">
+            
+            <div class="post-content-wrapper">
+              <div class="post-content">
+                <p><ul class="markdownIt-TOC">
+<li><a href="#1-linux%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84">1.  Linux目录结构</a></li>
+<li><a href="#2-linux%E8%BF%9C%E7%A8%8B%E7%99%BB%E9%99%86%E4%B8%8E%E8%BF%9C%E7%A8%8B%E6%96%87%E4%BB%B6%E4%BC%A0%E8%BE%93">2. Linux远程登陆与远程文件传输</a></li>
+<li><a href="#3-vi%E4%B8%8Evim%E7%9A%84%E4%BB%8B%E7%BB%8D%E4%B8%8E%E4%BD%BF%E7%94%A8">3. vi与vim的介绍与使用</a></li>
+<li><a href="#4-%E5%85%B3%E6%9C%BA%E9%87%8D%E5%90%AF%E5%91%BD%E4%BB%A4">4. 关机重启命令</a></li>
+<li><a href="#5-%E7%94%A8%E6%88%B7">5. 用户</a></li>
+<li><a href="#6-%E7%94%A8%E6%88%B7%E7%BB%84">6. 用户组</a></li>
+<li><a href="#7-%E6%8C%87%E5%AE%9A%E8%BF%90%E8%A1%8C%E7%BA%A7%E5%88%AB">7. 指定运行级别</a></li>
+</ul>
+(Linux手记)</p>
+<h1 id="1-linux目录结构">1.  Linux目录结构</h1>
+<blockquote>
+<p>在Linux的世界里，一切都是文件</p>
+</blockquote>
+<pre><code>/（根）目录\*：根。
+/boot（引导）目录\*：Linux启动的核心文件。
+/swap（缓存）目录\*：与内存大小相同。
+/bin目录：为Binary的缩写，存放着经常使用的命令和指令。
+/sbin目录：s意为Super User的意思，这里存放着系统管理员所使用的系统管理程序。
+/home目录\*：普通用户主目录。
+/root目录\*：系统管理员主目录。
+/lib目录：系统程序运行时需要用到这里的动态链接库，几乎所有的程序都要使用~win下的DLL文件。
+/lost+found（隐藏）目录：一般为空，当非法关机后，这里会存在文件。
+/etc目录\*：存放系统管理所需要的配置文件和目录，像安装了MySQL之后他的配置文件就在这里。
+/usr目录\*：很重要的一个目录，大部分应用程序和文件都在这里~win的program files目录。
+/proc（系统）目录：一个虚拟目录，存放系统内存映射，可以访问来获取系统信息。
+/src（系统）目录：为service的缩写，存放服务启动之后需要提取的数据。
+/sys（系统）目录：该目录安装了Linux2.6内核中新出现的一个文件系统 sysfs=》。
+/tmp目录：存放临时文件。
+/dev目录：把硬件设备用文件的形式存储，~win的设备管理器。
+/media目录\*：Linux识别的一些设备，如U盘，光驱会被挂载到这里。
+/mnt目录：外部临时挂载目录。
+/opt目录：给主机额外安装软件所存放的目录（把要安装的软件放在这里进行解压安装）。
+/usr/local目录\*：给主机额外安装软件所安装的目录，一般是通过编译源码方式安装的程序。
+/var目录\*：存放着不断扩充更新或者经常修改的东西，像各种日志文件。
+/selinux目录：全拼security-enhanced linux，SELinux是一种安全子系统，当启用服务时，该文件可以被看到，他控制程序只能访问特定的文件，有三种工作模式，可以自行设置。
+</code></pre>
+<h1 id="2-linux远程登陆与远程文件传输">2. Linux远程登陆与远程文件传输</h1>
+<p><strong>一般工作时使用远程登陆与远程文件传输，需下载（Xshell与Xftp）.链接：https://www.netsarang.com/en/free-for-home-school/</strong></p>
+<ol>
+<li>Xshell远程登陆
+<ul>
+<li>使用Xshell来远程登陆到Linux，远程登陆使用ssh协议（22端口）。</li>
+<li>ifconfig来查看网络信息，获取IP，并在主机终端进行ping，查看与主机的网络是否ping通。</li>
+<li>在Xshell中新建，输入要链接的Linux网络IP，选择一次性，输入账户密码，连接成功。</li>
+</ul>
+</li>
+<li>Xftp远程文件传输
+<ul>
+<li>与Xshell步骤一致</li>
+<li>左为Windows操作系统，右为Linux操作系统，可以鼠标右键进行相互传输</li>
+<li>处理Xftp中文乱码：菜单栏属性选项卡，选择选项，修改编码。</li>
+</ul>
+</li>
+</ol>
+<h1 id="3-vi与vim的介绍与使用">3. vi与vim的介绍与使用</h1>
+<p><strong>Linux系统会内置vi文本编辑器，而vim则可以视为vi的加强版本，具有程序编程（代码补全，编译和错误跳转等）的能力，可以用字体颜色辨别代码语法的正确性。</strong></p>
+<ol>
+<li>vi与vim介绍
+<ul>
+<li>vi与vim有三种模式：正常模式，插入模式和命令行模式
+<ul>
+<li>正常模式（默认）:wq保存退出。</li>
+<li>插入模式，按下i, o, a, r等字母进入，按下Esc建会退出该模式进入到正常模式。</li>
+<li>命令行模式（低端），正常模式按下Shift与‘：’号进入，:w表示写入，:q表示保存，这之后加‘！’号表示强制的意思，与权限有关。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>vi与vim快捷键（常用）
+<ul>
+<li>yy：拷贝光标当前行，nyy则是拷贝当前光标所在的n行。</li>
+<li>dd：删除光标当前行，ndd则是删除当前光标所在的n行。</li>
+<li>查找关键字：在命令行的模式下输入（/关键字）回车进行查找，按键n表示下一个。</li>
+<li>设置文件行号：在命令行模式下输入set nu，取消文件行号则是set nonu。</li>
+<li>移动光标：G为移动到最后一行，gg为移动到第一行，ngg则为移动到第n行。</li>
+<li>撤销一次动作（从正常模式来到插入模式后返回到正常模式）：u按键</li>
+</ul>
+</li>
+</ol>
+<h1 id="4-关机重启命令">4. 关机重启命令</h1>
+<ul>
+<li>基本介绍：
+<ul>
+<li>shutdown -h now ;         立刻进行关机</li>
+<li>shutdown -h 1 ;               1分钟之后关机，会给客户机发送提示信息</li>
+<li>shutdown -r now ;         立刻进行重启</li>
+<li>halt ;                                关机</li>
+<li>reboot ;                            重启</li>
+<li>sync ;                               把内存的数据同步到磁盘</li>
+</ul>
+</li>
+<li>细节：
+<ul>
+<li>无论是重启或是关闭系统，首先都要运行sync命令，将内存中的数据写入到磁盘。</li>
+<li>目前在运行shutdown/halt/reboot等命令均以在关机前进行了sync。</li>
+</ul>
+</li>
+</ul>
+<h1 id="5-用户">5. 用户</h1>
+<ol>
+<li>切换用户：
+<ul>
+<li>登录之后使用：su - 用户名，来更换用户，在多级用户下使用logout进行注销当前用户，1级无效。</li>
+</ul>
+</li>
+<li>添加用户：
+<ul>
+<li>root权限下使用useradd 用户名，来添加用户，默认该用户目录在/home目录下。</li>
+<li>也可以使用useradd -d 指定目录 用户名，来给创建的用户指定目录。</li>
+<li>pwd，显示当前用户所在的目录</li>
+</ul>
+</li>
+<li>设置密码：
+<ul>
+<li>passwd 用户名，来给用户设置密码，如果不加用户，则是给当前用户设置。</li>
+</ul>
+</li>
+<li>删除用户：
+<ul>
+<li>userdel 用户名，保存该用户的家目录（该用户名的目录不是home）。</li>
+<li>userdel -r 用户名，不保存该用户的家目录。</li>
+</ul>
+</li>
+<li>查询用户：
+<ul>
+<li>id 用户名，查询该用户所在的组。</li>
+<li>whoami/who am i，查询当前所登录的用户。</li>
+</ul>
+</li>
+</ol>
+<h1 id="6-用户组">6. 用户组</h1>
+<p><strong>划分组可以使系统对多个用户进行统一的管理</strong></p>
+<ol>
+<li>新增组：
+<ul>
+<li>groupadd 组名，</li>
+</ul>
+</li>
+<li>删除组：
+<ul>
+<li>groupdel 组名，</li>
+</ul>
+</li>
+<li>增加用户时直接加上组：
+<ul>
+<li>useradd -g 用户组 用户名，如果创建用户不加组，系统会默认生成一个与用户名相同的组，并将该用户放在此组里面。</li>
+</ul>
+</li>
+<li>修改用户的组：
+<ul>
+<li>usermod -g 用户组 用户名，</li>
+</ul>
+</li>
+<li>用户和组相关的文件：
+<ul>
+<li>/etc/passwd：用户的配置文件，记录用户的各种信息。</li>
+<li>每行的含义：（用户名：口令：用户标识号（uid）：组标识号（gid）：注释性描述：主目录：登录Shell）</li>
+<li>/etc/shadow：口令的配置文件</li>
+<li>每行的含义：（登录名：加密口令：最后一次修改的时间：最小时间间隔：最大时间间隔：警告时间：不活动时间：失效时间：标志）</li>
+<li>/etc/group：组的配置文件，记录Linux下用户所包含的组信息</li>
+<li>每行的含义：（组名：口令：组标识号：组内用户列表）</li>
+</ul>
+</li>
+</ol>
+<h1 id="7-指定运行级别">7. 指定运行级别</h1>
+<p><strong>CentOS7在/etc/inittab文件中有修改默认级别说明</strong></p>
+<p>运行级别说明<br>
+* 0：关机<br>
+* 1：单用户【找回丢失密码】<br>
+* 2：多用户状态没有网络服务<br>
+* 3：多用户状态有网络服务<br>
+* 4：系统未使用保留给用户<br>
+* 5：图形界面<br>
+* 6：系统重启<br>
+* 常用的运行级别为3和5，也可以指定默认运行级别<br>
+* init X , X:0.1.2.3.4.5.6,切换不同的运行级别</p>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#1-linux%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84">1.  Linux目录结构</a></li>
+<li><a href="#2-linux%E8%BF%9C%E7%A8%8B%E7%99%BB%E9%99%86%E4%B8%8E%E8%BF%9C%E7%A8%8B%E6%96%87%E4%BB%B6%E4%BC%A0%E8%BE%93">2. Linux远程登陆与远程文件传输</a></li>
+<li><a href="#3-vi%E4%B8%8Evim%E7%9A%84%E4%BB%8B%E7%BB%8D%E4%B8%8E%E4%BD%BF%E7%94%A8">3. vi与vim的介绍与使用</a></li>
+<li><a href="#4-%E5%85%B3%E6%9C%BA%E9%87%8D%E5%90%AF%E5%91%BD%E4%BB%A4">4. 关机重启命令</a></li>
+<li><a href="#5-%E7%94%A8%E6%88%B7">5. 用户</a></li>
+<li><a href="#6-%E7%94%A8%E6%88%B7%E7%BB%84">6. 用户组</a></li>
+<li><a href="#7-%E6%8C%87%E5%AE%9A%E8%BF%90%E8%A1%8C%E7%BA%A7%E5%88%AB">7. 指定运行级别</a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://kite-007.github.io/post/web-xin-shou-qu/">
+              <h3 class="post-title">
+                WEB新手区
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://kite-007.github.io/atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

