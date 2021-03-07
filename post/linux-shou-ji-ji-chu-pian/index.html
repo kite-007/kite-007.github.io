@@ -1,105 +1,115 @@
-
 <!DOCTYPE html>
 <html>
   <head>
-    
-<meta charset="utf-8" >
+    <meta charset="utf-8" >
 
 <title># Linux手记（基础篇） | Gridea</title>
-<meta name="description" content="温故而知新">
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://kite-007.github.io/favicon.ico?v=1615115285181">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+<link rel="shortcut icon" href="https://kite-007.github.io/favicon.ico?v=1615115491457">
 <link rel="stylesheet" href="https://kite-007.github.io/styles/main.css">
 
 
 
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
 
 
 
+    <meta name="description" content="
+1.  Linux目录结构
+2. Linux远程登陆与远程文件传输
+3. vi与vim的介绍与使用
+4. 关机重启命令
+5. 用户
+6. 用户组
+7. 指定运行级别
+
+(Linux手记)
+1.  Linux目录结构
+
+在Linux的世界里..." />
+    <meta name="keywords" content="Linux" />
   </head>
   <body>
     <div id="app" class="main">
-      <div class="site-header-container">
-  <div class="site-header">
-    <div class="left">
-      <a href="https://kite-007.github.io">
-        <img class="avatar" src="https://kite-007.github.io/images/avatar.png?v=1615115285181" alt="" width="32px" height="32px">
-      </a>
-      <a href="https://kite-007.github.io">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://kite-007.github.io">
+        <img src="https://kite-007.github.io/images/avatar.png?v=1615115491457" class="site-logo">
         <h1 class="site-title">Gridea</h1>
       </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
     </div>
-    <div class="right">
-      <transition name="fade">
-        <i class="icon" :class="{ 'icon-close-outline': menuVisible, 'icon-menu-outline': !menuVisible }" @click="menuVisible = !menuVisible"></i>
-      </transition>
-    </div>
-  </div>
-</div>
-
-<transition name="fade">
-  <div class="menu-container" style="display: none;" v-show="menuVisible">
-    <div class="menu-list">
+    <div>
       
         
-          <a href="/" class="menu purple-link">
+          <a href="/" class="site-nav">
             首页
           </a>
         
       
         
-          <a href="/archives" class="menu purple-link">
+          <a href="/archives" class="site-nav">
             归档
           </a>
         
       
         
-          <a href="/tags" class="menu purple-link">
+          <a href="/tags" class="site-nav">
             标签
           </a>
         
       
         
-          <a href="/post/about" class="menu purple-link">
+          <a href="/post/about" class="site-nav">
             关于
           </a>
         
       
     </div>
   </div>
-</transition>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      温故而知新
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://kite-007.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
 
 
-      <div class="content-container">
-        <div class="post-detail">
-          
-            <div class="feature-container" style="background-image: url('https://kite-007.github.io/post-images/linux-shou-ji-ji-chu-pian.png')">
-            </div>
-          
-          <h2 class="post-title"># Linux手记（基础篇）</h2>
-          <div class="post-info post-detail-info">
-            <span><i class="icon-calendar-outline"></i> 2021-03-06</span>
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title"># Linux手记（基础篇）</h2>
+            <div class="post-date">2021-03-06</div>
             
-              <span>
-                <i class="icon-pricetags-outline"></i>
-                
-                  <a href="https://kite-007.github.io/tag/vMLNi3LB4/">
-                    Linux
-                    
-                  </a>
-                
-              </span>
+              <div class="feature-container" style="background-image: url('https://kite-007.github.io/post-images/linux-shou-ji-ji-chu-pian.png')">
+              </div>
             
-          </div>
-          <div class="post-content">
-            <p><ul class="markdownIt-TOC">
+            <div class="post-content" v-pre>
+              <p><ul class="markdownIt-TOC">
 <li><a href="#1-linux%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84">1.  Linux目录结构</a></li>
 <li><a href="#2-linux%E8%BF%9C%E7%A8%8B%E7%99%BB%E9%99%86%E4%B8%8E%E8%BF%9C%E7%A8%8B%E6%96%87%E4%BB%B6%E4%BC%A0%E8%BE%93">2. Linux远程登陆与远程文件传输</a></li>
 <li><a href="#3-vi%E4%B8%8Evim%E7%9A%84%E4%BB%8B%E7%BB%8D%E4%B8%8E%E4%BD%BF%E7%94%A8">3. vi与vim的介绍与使用</a></li>
@@ -277,45 +287,39 @@
 * 常用的运行级别为3和5，也可以指定默认运行级别<br>
 * init X , X:0.1.2.3.4.5.6,切换不同的运行级别</p>
 
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://kite-007.github.io/tag/vMLNi3LB4/" class="tag">
+                    Linux
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://kite-007.github.io/post/web-xin-shou-qu/">
+                  <h3 class="post-title">
+                    WEB新手区
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
           </div>
+
         </div>
-
-        
-          <div class="next-post">
-            <a class="purple-link" href="https://kite-007.github.io/post/web-xin-shou-qu/">
-              <h3 class="post-title">
-                下一篇：WEB新手区
-              </h3>
-            </a>
-          </div>
-          
       </div>
-
-      
-
-      <div class="site-footer">
-  <div class="slogan">温故而知新</div>
-  <div class="social-container">
-    
-      
-    
-      
-    
-      
-    
-      
-    
-      
-    
-  </div>
-  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://kite-007.github.io/atom.xml" target="_blank">RSS</a>
-</div>
-
-
     </div>
-    <script type="application/javascript">
 
-hljs.initHighlightingOnLoad()
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
 
 var app = new Vue({
   el: '#app',
@@ -325,6 +329,8 @@ var app = new Vue({
 })
 
 </script>
+
+
 
 
 
