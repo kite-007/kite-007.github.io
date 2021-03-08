@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://kite-007.github.io/favicon.ico?v=1615166714417">
+<link rel="shortcut icon" href="https://kite-007.github.io/favicon.ico?v=1615168508398">
 <link rel="stylesheet" href="https://kite-007.github.io/styles/main.css">
 
 
@@ -39,7 +39,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://kite-007.github.io">
-        <img src="https://kite-007.github.io/images/avatar.png?v=1615166714417" class="site-logo">
+        <img src="https://kite-007.github.io/images/avatar.png?v=1615168508398" class="site-logo">
         <h1 class="site-title">Fr世界</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -296,7 +296,8 @@
 <li>ls指令：ls [-选项]，列出目录。
 <ul>
 <li>-a：显示所有的文件和目录，包括隐藏的。</li>
-<li>-i：以列表的形式显示信息（用户权限等）。</li>
+<li>-l：以列表的形式显示信息（用户权限等）。</li>
+<li>-h：文件大小显示，带单位。(要搭配-l使用)</li>
 </ul>
 </li>
 <li>cd指令：cd [参数]，切换到指定目录。
@@ -435,6 +436,39 @@
 </li>
 </ol>
 <h1 id="11-搜索查找类">11. 搜索查找类</h1>
+<ol>
+<li>find指令
+<ul>
+<li>从指定目录向下递归遍历各个子目录，将满足条件的显示在终端。</li>
+<li>find [搜索范围] [选项]</li>
+<li>-name &lt;查询方式&gt; 按照指定的文件名查找模式查找文件。</li>
+<li>-user &lt;用户名&gt; 查找属于指定用户名所有文件。</li>
+<li>-size &lt;文件大小&gt; 按照指定的文件大小查找文件（+n大于，-n小于，n等于，单位：K,M,G）。</li>
+</ul>
+</li>
+<li>locate指令
+<ul>
+<li>可以快速定位文件的路径，通过建立数据库的方式实现快速查找文件路径的目的。</li>
+<li>首次执行时，需要执行updatedb指令来创建locate数据库。</li>
+<li>locate [文件]</li>
+</ul>
+</li>
+<li>which指令
+<ul>
+<li>可以查看某个指令的位置</li>
+<li>which [ls]</li>
+</ul>
+</li>
+<li>grep指令和管道符号 |
+<ul>
+<li>grep 表示过滤查找</li>
+<li>“|”，表示将前一个命令的处理结果输出传递给后面的命令处理</li>
+<li>grep [选项] [查找内容] [源文件]</li>
+<li>-n 显示匹配行及符号</li>
+<li>-i 忽略字母大小写</li>
+</ul>
+</li>
+</ol>
 
             </div>
             
