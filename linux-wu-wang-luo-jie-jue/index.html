@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title># Linux无网络解决 | Fr世界</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://kite-007.github.io/favicon.ico?v=1615166714417">
+<link rel="stylesheet" href="https://kite-007.github.io/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="
+ifconfig没有类似eth0一项
+
+
+使用cd,切换到目录/etc/sysconfig/network-scripts/
+
+cd /etc/sysconfig/network-scripts/
+
+
+使用ll ifcfg-*,查看此目录..." />
+    <meta name="keywords" content="" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://kite-007.github.io">
+        <img src="https://kite-007.github.io/images/avatar.png?v=1615166714417" class="site-logo">
+        <h1 class="site-title">Fr世界</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://kite-007.github.io/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      持之以恒
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://kite-007.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title"># Linux无网络解决</h2>
+            <div class="post-date">2021-03-08</div>
+            
+            <div class="post-content" v-pre>
+              <ol>
+<li>ifconfig没有类似eth0一项<br>
+<img src="https://kite-007.github.io/post-images/1615164253722.png" alt="" loading="lazy">
+<ul>
+<li>使用cd,切换到目录/etc/sysconfig/network-scripts/</li>
+</ul>
+<pre><code>cd /etc/sysconfig/network-scripts/
+</code></pre>
+<ul>
+<li>使用ll ifcfg-*,查看此目录文件,是否存在ifcfg-[eth0]和ifcfg- lo两项</li>
+<li>如果不存在ifcfg-[eth0],则用cp ifcfg-lo ifcfg-[eth0]拷贝一份，并修改参数</li>
+</ul>
+<pre><code>ll ifcfg-*
+cp ifcfg-lo ifcfg-[eth0]
+</code></pre>
+<ul>
+<li>ifcfg-[eth0]</li>
+</ul>
+<pre><code>TYPE=&quot;Ethernet&quot;
+PROXY_METHOD=&quot;none&quot;
+BROWSER_ONLY=&quot;no&quot;
+BOOTPROTO=&quot;dhcp&quot;
+DEFROUTE=&quot;yes&quot;
+IPV4_FAILURE_FATAL=&quot;no&quot;
+IPV6INIT=&quot;yes&quot;
+IPV6_AUTOCONF=&quot;yes&quot;
+IPV6_DEFROUTE=&quot;yes&quot;
+IPV6_FAILURE_FATAL=&quot;no&quot;
+IPV6_ADDR_GEN_MODE=&quot;stable-privacy&quot;
+NAME=&quot;ens33&quot;
+UUID=&quot;71c5edbc-7820-4bbf-9923-16d337ccc4ee&quot;
+DEVICE=&quot;ens33&quot;
+ONBOOT=&quot;yes&quot;
+HWADDR=00:0c:29:4a:63:77
+</code></pre>
+<ul>
+<li>ifcfg-lo</li>
+</ul>
+<pre><code>DEVICE=lo
+IPADDR=127.0.0.1
+NETMASK=255.0.0.0
+NETWORK=127.0.0.0
+# If you're having problems with gated making 127.0.0.0/8 a martian,
+# you can change this to something else (255.255.255.255, for example)
+BROADCAST=127.255.255.255
+ONBOOT=yes
+NAME=loopback
+</code></pre>
+<ul>
+<li>ifconfig [eth0] 192.168.XXX.XXX,给它指定ip</li>
+<li>ip addr 查看mac地址，</li>
+<li>vi ifcfg-[eth0],查看此文件内容，修改为静态或动态<br>
+这个是网络配置参数：<br>
+* BOOTPROTO=static   静态IP<br>
+* BOOTPROTO=dhcp   动态IP<br>
+BOOTPROTO=none   无（不指定）<br>
+静态下方添加<br>
+* IPADDR=静态IP地址<br>
+* GATEWAY=默认网关<br>
+* NETMASK=255.255.255.0<br>
+* DNS1=114.114.114.114<br>
+查看是否有HWADDR=xx:xx:xx:xx:xx:xx一项<br>
+* 如果没有，将刚才ip addr所查看到的内容添加进去</li>
+<li>在 /etc/sysconfig/network-scripts目录下删除掉别的ifcfg-xxx(只保留一个你网卡同名的文档)再把NetworkManager停用</li>
+</ul>
+<pre><code>systemctl stop NetworkManager
+systemctl disable NetworkManager
+</code></pre>
+<ul>
+<li>之后再执行 systemctl restart network启用网络</li>
+</ul>
+</li>
+</ol>
+
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://kite-007.github.io/linux-shou-ji-ji-chu-xia-pian/">
+                  <h3 class="post-title">
+                    # Linux手记（基础下篇）
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+
+  </body>
+</html>
