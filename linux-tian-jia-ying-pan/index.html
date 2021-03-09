@@ -3,7 +3,7 @@
         <head>
         <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
         <meta charset="utf-8">
-        <title># Linux找回root密码 | Fr</title>
+        <title># Linux添加硬盘 | Fr</title>
         <link rel="stylesheet" href="https://kite-007.github.io/styles/main.css">
         <link rel="stylesheet" href="https://at.alicdn.com/t/font_1306644_jwtuc2zzbrd.css">
         <link href="https://cdn.bootcss.com/animate.css/3.7.2/animate.min.css" rel="stylesheet">
@@ -42,31 +42,80 @@
                 <div class="mdui-row">
                         <div class="mdui-col-md-8 mdui-col-offset-md-2 ">
                                 <article class="mdui-p-a-2 post animated fadeIn" style="animation-delay: 0.8s;animation-duration: 2s">
-                                    <div class="post-title  mdui-m-b-1"># Linux找回root密码</div>
-                                    <div class="mdui-typo-body-2 mdui-m-b-2" datetime="2021-03-07 17:56:40">2021-03-07 / 1 min read</div>
-                                    <div class="mdui-m-b-2 mdui-typo post-neirong"><p><strong>使用单用户模式进行修改root的密码</strong></p>
+                                    <div class="post-title  mdui-m-b-1"># Linux添加硬盘</div>
+                                    <div class="mdui-typo-body-2 mdui-m-b-2" datetime="2021-03-09 11:01:59">2021-03-09 / 2 min read</div>
+                                    <div class="mdui-m-b-2 mdui-typo post-neirong"><ol>
+<li>
 <ol>
-<li>
-<p>再启动虚拟机时，进入开机界面后按下“e”，进入编辑页面。<br>
-<img src="https://kite-007.github.io/post-images/1615111403186.png" alt="" loading="lazy"></p>
+<li>添加一块硬盘
+<ol>
+<li>虚拟机添加硬盘
+<ul>
+<li>在VMware的菜单栏中选择（虚拟机）-》（设置）-》（根据提示添加硬盘）-》（完成重启）</li>
+<li><img src="https://kite-007.github.io/post-images/1615259136779.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1615259195844.png" alt="" loading="lazy"></li>
+<li>根据推荐一直下一步，选择要添加磁盘的大小后完成，确定。</li>
+<li><img src="https://kite-007.github.io/post-images/1615259311328.png" alt="" loading="lazy"></li>
+<li>重启后可以使用lsblk查看分区 情况</li>
+</ul>
 </li>
-<li>
-<p>按向下方向键找到如图所示一行，在这一行之后添加init=/bin/sh之后按下Ctrl+X，进入单用户模式。<br>
-<img src="https://kite-007.github.io/post-images/1615112842008.png" alt="" loading="lazy"><br>
-<img src="https://kite-007.github.io/post-images/1615112869941.png" alt="" loading="lazy"></p>
+<li>分区
+<ul>
+<li>分区命令：fdisk [/dev/sdb]，</li>
+<li>开始对[/sdb]分区
+<ul>
+<li>m:显示命令列表</li>
+<li>p:显示磁盘分区，同fdisk -l</li>
+<li>n:新增分区</li>
+<li>d:删除分区</li>
+<li>w:写入并退出</li>
+<li>说明：开始分区后输入n来新增分区，然后选择p，分区类型为主分区。两次回车默认剩余全部空间。最后输入w写入分区并退出，若不保存退出输入q。</li>
+<li><img src="https://kite-007.github.io/post-images/1615260284301.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1615260290752.png" alt="" loading="lazy"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>格式化
+<ul>
+<li>lsblk -f查看，上面三个都有UUID，下面新加的没有UUID，则还没有格式化，不可以使用。</li>
+<li>格式化命令：mkfs -t ext4 /dev/sdb1</li>
+<li>ext4为分区类型</li>
+<li><img src="https://kite-007.github.io/post-images/1615260711731.png" alt="" loading="lazy"></li>
+</ul>
+</li>
+<li>挂载
+<ul>
+<li>mount /dev/sdb1 [要挂载的目录]</li>
+<li><img src="https://kite-007.github.io/post-images/1615261173084.png" alt="" loading="lazy"></li>
+<li>用命令行挂挂载，重启后会失效。</li>
+<li>永久挂载
+<ul>
+<li>修改 /etc/fstab，实现自动挂载</li>
+<li>添加完成后，执行mount -a 即刻生效</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>卸载
+<ul>
+<li>umount /dev/sdb1 或者 umount [要卸载的目录]</li>
+</ul>
 </li>
 </ol>
-<p>3.之后输入mount -o remount,rw /按下Enter，在输入passwd，之后修改密码，成功之后键入touch /.autorelabel按下Enter，再键入exec /sbin/init按下Enter等待修改成功，如图（这里密码输入了两遍）。<br>
-<img src="https://kite-007.github.io/post-images/1615113030396.png" alt="" loading="lazy"></p>
+</li>
+</ol>
+</li>
+</ol>
 </div>
                                     <div class="mdui-divider mdui-m-b-2"></div>
                                     <div class="mdui-row-xs-2 post-fenye">
                                        
-                                        <div class="mdui-col"> <div class="mdui-text-left"><a href="https://kite-007.github.io/linux-wu-wang-luo-jie-jue/"># Linux无网络解决</a></div></div>
+                                        <div class="mdui-col"> </div>
                                         
 
                                         
-                                        <div class="mdui-col"><div class="mdui-text-right "><a href="https://kite-007.github.io/linux-shou-ji-ji-chu-pian/"># Linux手记（基础篇）</a></div> </div>
+                                        <div class="mdui-col"><div class="mdui-text-right "><a href="https://kite-007.github.io/linux-wu-wang-luo-jie-jue/"># Linux无网络解决</a></div> </div>
                                        
                                       </div>
                                    

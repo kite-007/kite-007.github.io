@@ -1,15 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://kite-007.github.io</id>
-    <title>Fr世界</title>
-    <updated>2021-03-08T01:55:30.190Z</updated>
+    <title>Fr</title>
+    <updated>2021-03-09T08:04:24.457Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://kite-007.github.io"/>
     <link rel="self" href="https://kite-007.github.io/atom.xml"/>
-    <subtitle>持之以恒</subtitle>
+    <subtitle>意志坚定，持之以恒</subtitle>
     <logo>https://kite-007.github.io/images/avatar.png</logo>
     <icon>https://kite-007.github.io/favicon.ico</icon>
-    <rights>All rights reserved 2021, Fr世界</rights>
+    <rights>All rights reserved 2021, Fr</rights>
+    <entry>
+        <title type="html"><![CDATA[# Linux添加硬盘]]></title>
+        <id>https://kite-007.github.io/linux-tian-jia-ying-pan/</id>
+        <link href="https://kite-007.github.io/linux-tian-jia-ying-pan/">
+        </link>
+        <updated>2021-03-09T03:01:59.000Z</updated>
+        <content type="html"><![CDATA[<ol>
+<li>
+<ol>
+<li>添加一块硬盘
+<ol>
+<li>虚拟机添加硬盘
+<ul>
+<li>在VMware的菜单栏中选择（虚拟机）-》（设置）-》（根据提示添加硬盘）-》（完成重启）</li>
+<li><img src="https://kite-007.github.io/post-images/1615259136779.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1615259195844.png" alt="" loading="lazy"></li>
+<li>根据推荐一直下一步，选择要添加磁盘的大小后完成，确定。</li>
+<li><img src="https://kite-007.github.io/post-images/1615259311328.png" alt="" loading="lazy"></li>
+<li>重启后可以使用lsblk查看分区 情况</li>
+</ul>
+</li>
+<li>分区
+<ul>
+<li>分区命令：fdisk [/dev/sdb]，</li>
+<li>开始对[/sdb]分区
+<ul>
+<li>m:显示命令列表</li>
+<li>p:显示磁盘分区，同fdisk -l</li>
+<li>n:新增分区</li>
+<li>d:删除分区</li>
+<li>w:写入并退出</li>
+<li>说明：开始分区后输入n来新增分区，然后选择p，分区类型为主分区。两次回车默认剩余全部空间。最后输入w写入分区并退出，若不保存退出输入q。</li>
+<li><img src="https://kite-007.github.io/post-images/1615260284301.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1615260290752.png" alt="" loading="lazy"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>格式化
+<ul>
+<li>lsblk -f查看，上面三个都有UUID，下面新加的没有UUID，则还没有格式化，不可以使用。</li>
+<li>格式化命令：mkfs -t ext4 /dev/sdb1</li>
+<li>ext4为分区类型</li>
+<li><img src="https://kite-007.github.io/post-images/1615260711731.png" alt="" loading="lazy"></li>
+</ul>
+</li>
+<li>挂载
+<ul>
+<li>mount /dev/sdb1 [要挂载的目录]</li>
+<li><img src="https://kite-007.github.io/post-images/1615261173084.png" alt="" loading="lazy"></li>
+<li>用命令行挂挂载，重启后会失效。</li>
+<li>永久挂载
+<ul>
+<li>修改 /etc/fstab，实现自动挂载</li>
+<li>添加完成后，执行mount -a 即刻生效</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>卸载
+<ul>
+<li>umount /dev/sdb1 或者 umount [要卸载的目录]</li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[# Linux无网络解决]]></title>
         <id>https://kite-007.github.io/linux-wu-wang-luo-jie-jue/</id>
@@ -92,15 +163,6 @@ systemctl disable NetworkManager
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[# Linux手记（基础下篇）]]></title>
-        <id>https://kite-007.github.io/linux-shou-ji-ji-chu-xia-pian/</id>
-        <link href="https://kite-007.github.io/linux-shou-ji-ji-chu-xia-pian/">
-        </link>
-        <updated>2021-03-07T11:32:50.000Z</updated>
-        <content type="html"><![CDATA[<p>(Linux手记)</p>
-]]></content>
-    </entry>
-    <entry>
         <title type="html"><![CDATA[# Linux找回root密码]]></title>
         <id>https://kite-007.github.io/linux-zhao-hui-root-mi-ma/</id>
         <link href="https://kite-007.github.io/linux-zhao-hui-root-mi-ma/">
@@ -123,7 +185,7 @@ systemctl disable NetworkManager
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[# Linux手记（基础上篇）]]></title>
+        <title type="html"><![CDATA[# Linux手记（基础篇）]]></title>
         <id>https://kite-007.github.io/linux-shou-ji-ji-chu-pian/</id>
         <link href="https://kite-007.github.io/linux-shou-ji-ji-chu-pian/">
         </link>
@@ -140,6 +202,11 @@ systemctl disable NetworkManager
 <li><a href="#9-%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95%E7%B1%BB">9. 文件目录类</a></li>
 <li><a href="#10-%E6%97%B6%E9%97%B4%E6%97%A5%E6%9C%9F%E7%B1%BB">10. 时间日期类</a></li>
 <li><a href="#11-%E6%90%9C%E7%B4%A2%E6%9F%A5%E6%89%BE%E7%B1%BB">11. 搜索查找类</a></li>
+<li><a href="#12-%E5%8E%8B%E7%BC%A9%E5%92%8C%E8%A7%A3%E5%8E%8B%E7%B1%BB">12. 压缩和解压类</a></li>
+<li><a href="#13-%E7%BB%84%E7%AE%A1%E7%90%86%E5%92%8C%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86">13. 组管理和权限管理</a></li>
+<li><a href="#14-crond%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6">14. crond任务调度</a></li>
+<li><a href="#15-at%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1">15. at定时任务</a></li>
+<li><a href="#16-%E7%A3%81%E7%9B%98%E5%88%86%E5%8C%BA-%E6%8C%82%E8%BD%BD">16. 磁盘分区、挂载</a></li>
 </ul>
 (Linux手记)</p>
 <h1 id="1-linux目录结构">1.  Linux目录结构</h1>
@@ -148,7 +215,7 @@ systemctl disable NetworkManager
 </blockquote>
 <pre><code>/（根）目录\*：根。
 /boot（引导）目录\*：Linux启动的核心文件。
-/swap（缓存）目录\*：与内存大小相同。
+/swap（缓存）目录\*：与内存大小相同（交换分区）。
 /bin目录：为Binary的缩写，存放着经常使用的命令和指令。
 /sbin目录：s意为Super User的意思，这里存放着系统管理员所使用的系统管理程序。
 /home目录\*：普通用户主目录。
@@ -284,6 +351,7 @@ systemctl disable NetworkManager
 <li>修改用户的组：
 <ul>
 <li>usermod -g 用户组 用户名，</li>
+<li>usermod -d 目录名 用户名 ： 改变用户登陆的初始目录，用户需要有进入该目录的权限</li>
 </ul>
 </li>
 <li>用户和组相关的文件：
@@ -494,13 +562,241 @@ systemctl disable NetworkManager
 <li>grep指令和管道符号 |
 <ul>
 <li>grep 表示过滤查找</li>
-<li>“|”，表示将前一个命令的处理结果输出传递给后面的命令处理</li>
+<li>“|”，表示将前一个命令的处理结果输出传递给后面的命令处理。</li>
 <li>grep [选项] [查找内容] [源文件]</li>
 <li>-n 显示匹配行及符号</li>
 <li>-i 忽略字母大小写</li>
+<li>写法：
+<ul>
+<li>eg:cat /home/hello.txt | grep -n &quot;yes&quot;,查找hello.txt文件中的yes,显示行号。</li>
+<li>eg:grep -n &quot;yes&quot; /home/hello.txt,与上述效果相同。</li>
+</ul>
+</li>
 </ul>
 </li>
 </ol>
+<h1 id="12-压缩和解压类">12. 压缩和解压类</h1>
+<ol>
+<li>gzip/gunzip指令：gzip为压缩命令，gunzip为解压命令
+<ul>
+<li>gzip [文件]，只能将文件压缩为.gz文件。</li>
+<li>gunzip [文件].gz，解压缩文件命令。</li>
+</ul>
+</li>
+<li>zip/unzip指令：zip用于压缩文件，unzip用于解压文件
+<ul>
+<li>zip [-选项] [压缩为XXX.zip] [要压缩的文件，包括本文件]</li>
+<li>-r：递归压缩，压缩目录</li>
+<li>unzip [-选项] [解压到此目录] [目录/XXX.zip]</li>
+<li>-d&lt;目录&gt;：指定解压文件解压后形成的文件的存放目录。</li>
+</ul>
+</li>
+<li>tar指令：将文件打包为.tar.gz
+<ul>
+<li>tar [-选项] [XXX.tar.gz] [要打包的内容，可用空格隔开]</li>
+<li>tar [-选项] [要解压的文件.tar.gz] -C [要解压到的目录]</li>
+<li>-c：产生.tar打包文件</li>
+<li>-v：显示详情信息</li>
+<li>-f：指定压缩后的文件名</li>
+<li>-z：打包同时压缩</li>
+<li>-x：解包.tar文件</li>
+</ul>
+</li>
+</ol>
+<h1 id="13-组管理和权限管理">13. 组管理和权限管理</h1>
+<p><strong>组的基本介绍：Linux中，每个用户都必须存在一个组内，不能独立与组外。在Linux中每个文件有所有者，所在组，其他组的概念</strong><br>
+<em>1. 所有者</em><br>
+<em>2. 所在组</em><br>
+<em>3. 其他组</em><br>
+* =除文件的所有者和所在组的用户外，系统的其他用户都是文件的其他组=<br>
+<em>4. 改变用户所在的组</em></p>
+<ol>
+<li>文件/目录 所有者<br>
+<strong>文件的所有者一般是该文件的创造者</strong>
+<ul>
+<li>修改文件的所有者：
+<ul>
+<li>查看文件的所有者：ls -ahl</li>
+<li>修改所有者：
+<ul>
+<li>chown [-选项] [用户名] [文件名]</li>
+</ul>
+</li>
+<li>修改所有者和所在组
+<ul>
+<li>chown [-选项] [用户名]:[所在组] [文件名]</li>
+</ul>
+</li>
+<li>修改文件所在的组：
+<ul>
+<li>chgrp [-选项] [组名] [文件名]</li>
+</ul>
+</li>
+<li>-R：递归更改文件属组，就是在更改某个目录文件的属组时，如果加上-R的参数，那么该目录下的所有文件的属组都会更改。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p><strong>权限的基本介绍：</strong><br>
+<em>使用ll命令查看：</em><br>
+<em>-rwxrwxrwx. 1 root root    314 3月   7 11:04 1.txt</em><br>
+<em>权限说明 | 文件：硬链接数 或 目录：子目录数 | 用户 | 组 | 文件大小(字节) | 最后修改日期 | 文件名</em><br>
+<em>看上述命令结果，-rwxrwxrwx. 这里一共10个位置</em><br>
+<em>rwx可以用数字表示，r代表4，w代表2，x代表1，rwx=4+2+1=7</em></p>
+<pre><code>    * 0~9位说明：
+       * 0位：确定文件的类型。
+            * （l:软连接,相当于win里的快捷方式，d:表示目录,相当于win里的文件夹，c:字符设备文件,像鼠标键盘等，b:块设备,像硬盘，-:一般文件）。
+        * 1~3：确定所有者拥有该文件的权限。rwx
+        * 4~6：确定所属组拥有该文件的权限。rwx
+        * 7~9：确定其他组拥有该文件的权限。rwx
+            * （r:表示可读，w:表示可写，x:表示可执行）。
+                * rwx作用到文件
+                    * r:可以读取查看
+                    * w:可以修改，不代表可以删除该文件，删除一个文件的前提条件是对该文件所在的目录有写权限 ，才能删除该文件。
+                    * x:代表可以被执行
+                * rwx作用到目录
+                    * r:可以读取，ls查看内容
+                    * w:可以修改，对目录内创建+删除+重命名目录
+                    * x:可以进入该目录
+</code></pre>
+<ol start="2">
+<li>修改文件权限 chmod命令,chmod [权限] [文件]
+<ol>
+<li>+、-、=号修改权限
+<ul>
+<li>u:所有者，g:所有组，o:其他人，a:所有人(u、g、o的综合)</li>
+<li>chmod u=rwx,g=rx,o=x [文件/目录名]</li>
+<li>chmod o+w [文件/目录名]</li>
+<li>chmod a-x [文件/目录名]</li>
+</ul>
+</li>
+<li>通过数字变更权限
+<ul>
+<li>chmod 777 [文件/目录名]</li>
+</ul>
+</li>
+</ol>
+</li>
+</ol>
+<h1 id="14-crond任务调度">14. crond任务调度</h1>
+<p><strong>任务调度：是指系统在某个时间执行的特定的命令或程序</strong><br>
+<em>任务调度分类：</em><br>
+1. 系统工作：有些重要的工作必须周而复始地执行。如病毒扫描等。<br>
+2. 个别用户工作：个别用户可能希望自行某些程序，比如对MySQL的数据备份。</p>
+<ul>
+<li>基本语法：crontab [-选项]
+<ul>
+<li>-e:编辑crontab定时任务</li>
+<li>-l:查询crontab任务</li>
+<li>-r:删除当前用户所有的crontab任务</li>
+<li>service cront restart:重启任务调度
+<ul>
+<li>crond任务调度入门：
+<ul>
+<li>设置任务调度文件：/etc/crontab</li>
+<li>设置个人任务调度。执行crontab -e命令</li>
+<li>接着输入任务到调度文件</li>
+<li>如：*/1 * * * * ls -l /etc/ &gt; /tmp/to.txt</li>
+<li>意思是每小时的每分钟执行 ls -l /etc/ &gt; /tmp/to.txt命令
+<ul>
+<li>*/1 * * * *中五个占位符说明：
+<ol>
+<li>一小时中的第几分钟（0~59）</li>
+<li>一天当中的第几小时（0~23）</li>
+<li>一个月当中的第几天（1~31）</li>
+<li>一年当中的第几个月（1~12）</li>
+<li>一周当中的星期几（0~7）</li>
+</ol>
+</li>
+<li>特殊符号的说明
+<ol>
+<li>* ：代表任何时间。比如上述的第一个“*”，就代表一小时中每分钟都执行一次的意思。</li>
+<li>,：代表不连续的时间。比如“0 8,12,16 * * *”，就代表在每天的8点0分，12点0分，16点0分都执行一次命令。</li>
+<li>-：代表持续的时间范围。比如“0 5 * * 1-6”，代表周一到周六的凌晨5点0分执行命令。</li>
+<li>*/n：代表每隔多久执行一次。比如“*/10  * * * *”，代表每隔10分钟就执行一次命令</li>
+</ol>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="15-at定时任务">15. at定时任务</h1>
+<p><em>基本介绍：</em><br>
+1. at命令是一次性定时计划任务，at的守护进程atd会以后台模式运行，检查作业队列来运行。<br>
+2. 默认情况下，atd守护进程每60秒检查作业队列，有作业时，会检查作业的运行时间，如果时间与当前时间匹配，则运行次作业。<br>
+3. at命令是一次性定时计划任务，执行完一个任务后不再执行此任务了。<br>
+4. 在使用at命令时，一定要保证atd进程的启动，可以使用相关指令来查看。<br>
+5. ps -ef,查看运行中的进程。<br>
+6. atq,可以查看系统中没有执行的工作任务<br>
+7. atrm [编号],删除队列中未执行的任务</p>
+<ul>
+<li>基本语法：at [选项] [时间]，回车后输入要执行的命令，之后按Ctrl+D 结束at命令的输入</li>
+<li>at命令选项:
+<ul>
+<li>-m ：当指定的任务被完成后，将给用户发送邮件，即使没有标准输出</li>
+<li>-I(大写i) ：atq的别名</li>
+<li>-d ：atrm的别名</li>
+<li>-v： 显示任务将被执行的时间</li>
+<li>-c： 打印任务的内容到标准输出</li>
+<li>-V：显示版本信息</li>
+<li>-q &lt;队列&gt;：使用指定的队列</li>
+<li>-f&lt;文件&gt;：从指定文件读入任务而不是从标准输入读入</li>
+<li>-t&lt;时间参数&gt;：以时间参数的形式提交要运行的任务</li>
+</ul>
+</li>
+<li>at指定时间的方法：
+<ol>
+<li>接受在当天的hh:mm(小时：分钟)式的时间指定。假如该时间已过去，那么就放在第二天执行。例如：04:00（如果已经过了当天的四点，那麽此进程就会放在第二天执行）。</li>
+<li>使用midnight(深夜)，noon(中午)，teatime(饮茶时间，一般是下午4点)等比较模糊的词语来指定时间。</li>
+<li>采用12小时计时制，即在时间后面加上AM(上午)或PM(下午)来说明是上午还是下午。例如：12pm。</li>
+<li>指定命令执行的具体日期，指定格式为month day(月日)或mm/dd/yy(月/日/年)或dd.mm.yy(日.月.年)，指定的日期必须跟在指定时间的后面。例如：04:00 2021-03-1。</li>
+<li>使用相对计时法。指定格式为：now + count time-units，now就是当前时间，time-units是时间单位，这里能够是minutes(分钟)、hours(小时)、days(天)、weeks(星期)。count是时间的数量，几天，几小时。例如：now + 5 minutes.</li>
+<li>直接使用today(今天)、tomorrow(明天)来指定完成命令的时间。</li>
+</ol>
+</li>
+</ul>
+<h1 id="16-磁盘分区-挂载">16. 磁盘分区、挂载</h1>
+<p><strong>Linux分区：</strong></p>
+<ul>
+<li>
+<p>原理介绍</p>
+<ol>
+<li>Linux来说无论有几个分区，分给哪一目录使用，它归根结底就只有一个根目录，一个独立且唯一的文件结构，Linux中每个分区都是用来组成整个文件系统的一部分。</li>
+<li>Linux采用了一种叫“载入”的处理方法，它的整个文件系统中包含了一整套的文件和目录，且将一个分区和一个目录联系起来。这时要载入的一个分区将使它的存储空间在一个目录下获得。</li>
+<li>示意图：<img src="https://kite-007.github.io/post-images/1615211272581.png" alt="" loading="lazy"></li>
+<li>lsblk或lsblk -f命令可以查看磁盘分区挂载情况。</li>
+</ol>
+</li>
+<li>
+<p>硬盘说明</p>
+<ol>
+<li>Linux硬盘分IDE硬盘和SCSI硬盘，目前基本上是SCSI硬盘</li>
+<li>对于IDE硬盘，驱动器标识符为“hdx<sub>”，其中“hd”表明分区所在设备的类型，这里是指IDE硬盘了。“x”为盘号（a为基本盘，b为基本从属盘，c为辅助主盘，d为辅助从属盘），“</sub>”代表分区，前四个分区用数字1到4表示，它们是主分区或扩展分区，从5开始就是逻辑分区。例，hda3表示为第一个IDE硬盘上的第三个主分区或扩展分区，hdb2表示为第二个IDE硬盘上的第二个主分区或扩展分区。</li>
+<li>对于SCSI硬盘则标识为“sdx~”，SCSI硬盘是用“sd”来表示分区所在设备的类型的，其余则和IDE硬盘的表示方法一样。</li>
+</ol>
+</li>
+<li>
+<p>挂载实例</p>
+<ol>
+<li>添加一块硬盘
+<ol>
+<li>虚拟机添加硬盘</li>
+<li>分区</li>
+<li>格式化</li>
+<li>挂载</li>
+<li>设置可以自动挂载</li>
+<li>详细步骤：</li>
+</ol>
+</li>
+</ol>
+</li>
+</ul>
 ]]></content>
     </entry>
     <entry>
