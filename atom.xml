@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://kite-007.github.io</id>
     <title>Fr</title>
-    <updated>2021-03-09T08:17:36.288Z</updated>
+    <updated>2021-03-09T14:02:28.435Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://kite-007.github.io"/>
     <link rel="self" href="https://kite-007.github.io/atom.xml"/>
@@ -10,6 +10,93 @@
     <logo>https://kite-007.github.io/images/avatar.png</logo>
     <icon>https://kite-007.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Fr</rights>
+    <entry>
+        <title type="html"><![CDATA[# Linux网络配置]]></title>
+        <id>https://kite-007.github.io/linux-wang-luo-pei-zhi/</id>
+        <link href="https://kite-007.github.io/linux-wang-luo-pei-zhi/">
+        </link>
+        <updated>2021-03-09T13:09:11.000Z</updated>
+        <content type="html"><![CDATA[<ol>
+<li>
+<p>第一种方式：（自动获取）</p>
+<ul>
+<li>登陆后通过界面的设置来进行网络IP的自动获取，好处就是会自动避免IP冲突，缺点则是每次获取的IP可能不一样。工作时需要固定的IP做服务器，所以工作环境不能用。</li>
+<li>查看是否为自动获取或者设置：</li>
+<li><img src="https://kite-007.github.io/post-images/1615295824550.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1615295835112.png" alt="" loading="lazy"></li>
+</ul>
+</li>
+<li>
+<p>第二种方式：（指定IP）<br>
+直接修改配置文件来指定IP，并可以连接到外网<br>
+编辑：vi /etc/sysconfig/network-scripts/ifcfg-ens33<br>
+要求：将ip地址配置的静态的，比如：ip地址为192.168.200.130<br>
+ifcfg-ens33 文件说明：<br>
+DEVICE=eth0 #接口名（设备，网卡）<br>
+HWADDR=00:0C:2x:6x:0x：XX #MAC地址 通用轩<br>
+TYPE=Ethernet #网络类型（通常是Ethemet） Online<br>
+UUID=926a57ba-92c6-4231-bacb-f27e5e6a9f44#随机id Privac<br>
+#系统启动的时候网络接口是否有效(yes/no)<br>
+ONBOOT=yes<br>
+#IP的配置方法none|static|bootp|dhcpBOOTPROTO=static<br>
+IP地址<br>
+IPADOR-192.168.200.130<br>
+#网关<br>
+GATEWAY=192.168.200.2<br>
+域名解析器<br>
+DNS1=192.168.200.2</p>
+</li>
+<li>
+<p>编辑：vim /etc/sysconfig/network-scripts/ifcfg-ens33 (初始内容)</p>
+</li>
+</ol>
+<pre><code>TYPE=&quot;Ethernet&quot;
+PROXY_METHOD=&quot;none&quot;
+BROWSER_ONLY=&quot;no&quot;
+BOOTPROTO=&quot;dhcp&quot;  //dhcp表示自动分配
+DEFROUTE=&quot;yes&quot;
+IPV4_FAILURE_FATAL=&quot;no&quot;
+IPV6INIT=&quot;yes&quot;
+IPV6_AUTOCONF=&quot;yes&quot;
+IPV6_DEFROUTE=&quot;yes&quot;
+IPV6_FAILURE_FATAL=&quot;no&quot;
+IPV6_ADDR_GEN_MODE=&quot;stable-privacy&quot;
+NAME=&quot;ens33&quot;
+UUID=&quot;71c5edbc-7820-4bbf-9923-16d337ccc4ee&quot;
+DEVICE=&quot;ens33&quot;
+ONBOOT=&quot;yes&quot; //这里yes表示自动分配
+</code></pre>
+<ol start="2">
+<li>更改后</li>
+</ol>
+<pre><code>TYPE=&quot;Ethernet&quot;
+PROXY_METHOD=&quot;none&quot;
+BROWSER_ONLY=&quot;no&quot;
+BOOTPROTO=&quot;static&quot;
+DEFROUTE=&quot;yes&quot;
+IPV4_FAILURE_FATAL=&quot;no&quot;
+IPV6INIT=&quot;yes&quot;
+IPV6_AUTOCONF=&quot;yes&quot;
+IPV6_DEFROUTE=&quot;yes&quot;
+IPV6_FAILURE_FATAL=&quot;no&quot;
+IPV6_ADDR_GEN_MODE=&quot;stable-privacy&quot;
+NAME=&quot;ens33&quot;
+UUID=&quot;71c5edbc-7820-4bbf-9923-16d337ccc4ee&quot;
+DEVICE=&quot;ens33&quot;
+ONBOOT=&quot;yes&quot;
+#IP地址
+IPADOR=192.168.200.130
+#网关
+GATEWAY=192.168.200.2
+#域名解析器
+DNS1=192.168.200.2
+</code></pre>
+<ol start="3">
+<li>编辑配置操作：<img src="https://kite-007.github.io/post-images/1615296856491.png" alt="" loading="lazy"></li>
+<li>service network restart，reboot</li>
+</ol>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[# Linux添加硬盘]]></title>
         <id>https://kite-007.github.io/linux-tian-jia-ying-pan/</id>
@@ -142,7 +229,7 @@ NAME=loopback
 这个是网络配置参数：<br>
 * BOOTPROTO=static   静态IP<br>
 * BOOTPROTO=dhcp   动态IP<br>
-BOOTPROTO=none   无（不指定）<br>
+* BOOTPROTO=none   无（不指定）<br>
 静态下方添加<br>
 * IPADDR=静态IP地址<br>
 * GATEWAY=默认网关<br>
@@ -152,14 +239,36 @@ BOOTPROTO=none   无（不指定）<br>
 * 如果没有，将刚才ip addr所查看到的内容添加进去</li>
 <li>在 /etc/sysconfig/network-scripts目录下删除掉别的ifcfg-xxx(只保留一个你网卡同名的文档)再把NetworkManager停用</li>
 </ul>
-<pre><code>systemctl stop NetworkManager
-systemctl disable NetworkManager
+<pre><code>    systemctl stop NetworkManager
+    systemctl disable NetworkManager
 </code></pre>
 <ul>
 <li>之后再执行 systemctl restart network启用网络</li>
 </ul>
 </li>
 </ol>
+<ul>
+<li>其余关于NetworkManager的命令
+<ul>
+<li>执行以下命令检查Network或NetworkManager的运行状态。</li>
+</ul>
+<pre><code>    systemctl status network
+    systemctl status NetworkManager
+</code></pre>
+<ul>
+<li>执行以下命令关闭network。</li>
+</ul>
+<pre><code>    systemctl stop network
+    systemctl disable network
+</code></pre>
+<ul>
+<li>执行以下命令开启NetworkManager，</li>
+</ul>
+<pre><code>    systemctl start NetworkManager
+    systemctl enable NetworkManager
+</code></pre>
+</li>
+</ul>
 ]]></content>
     </entry>
     <entry>
@@ -207,6 +316,7 @@ systemctl disable NetworkManager
 <li><a href="#14-crond%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6">14. crond任务调度</a></li>
 <li><a href="#15-at%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1">15. at定时任务</a></li>
 <li><a href="#16-%E7%A3%81%E7%9B%98%E5%88%86%E5%8C%BA-%E6%8C%82%E8%BD%BD">16. 磁盘分区、挂载</a></li>
+<li><a href="#17-linux%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE">17. Linux网络配置</a></li>
 </ul>
 (Linux手记)</p>
 <h1 id="1-linux目录结构">1.  Linux目录结构</h1>
@@ -398,6 +508,7 @@ systemctl disable NetworkManager
 <li>-a：显示所有的文件和目录，包括隐藏的。</li>
 <li>-l：以列表的形式显示信息（用户权限等）。</li>
 <li>-h：文件大小显示，带单位。(要搭配-l使用)</li>
+<li>-R：递归查询子目录</li>
 </ul>
 </li>
 <li>cd指令：cd [参数]，切换到指定目录。
@@ -791,10 +902,79 @@ systemctl disable NetworkManager
 <li>格式化</li>
 <li>挂载</li>
 <li>设置可以自动挂载</li>
-<li>详细步骤：</li>
+<li>详细步骤：https://kite-007.github.io/linux-tian-jia-ying-pan/</li>
 </ol>
 </li>
 </ol>
+</li>
+<li>
+<p>磁盘情况查询：df [-h]</p>
+</li>
+<li>
+<p>查询指定目录磁盘占用情况：du [-h] [目录]</p>
+<ul>
+<li>如果不加目录参数，则默认为当前目录。</li>
+<li>-s 指定目录占用大小汇总</li>
+<li>-h 带计量单位</li>
+<li>-a 含文件</li>
+<li>--max-depth=1 子目录深度</li>
+<li>-c 列出明细的同时，增加汇总值</li>
+</ul>
+</li>
+<li>
+<p>磁盘情况-工作实用指令</p>
+<ol>
+<li>统计/opt文件夹下文件的个数：ls -l /opt | grey &quot;^-&quot; | wc -l</li>
+</ol>
+<ul>
+<li>ls -l /opt：列出opt目录下的文件目录，grey &quot;^-&quot;：（属性以-开头）过滤掉目录留下文件，wc -l：统计留下的文件的数量。</li>
+</ul>
+<ol start="2">
+<li>统计/opt文件夹下文件的个数，包括子目录下的：ls -lR /opt | grey &quot;^-&quot; | wc -l</li>
+</ol>
+<ul>
+<li>-R：表示对子目录递归查询</li>
+</ul>
+<ol start="3">
+<li>以树状显示目录结构：tree /opt</li>
+</ol>
+<ul>
+<li>如果没有tree命令，则使用yum install tree 安装</li>
+</ul>
+</li>
+</ul>
+<h1 id="17-linux网络配置">17. Linux网络配置</h1>
+<p><strong>网络配置原理</strong><br>
+<img src="https://kite-007.github.io/post-images/1615280585697.png" alt="" loading="lazy"></p>
+<ol>
+<li>为什么是192.168.2.XXX而不是别的
+<ol>
+<li>在VMware的菜单设置中，打开（编辑）选项卡，选择（虚拟机网络编辑器）查看。</li>
+<li><img src="https://kite-007.github.io/post-images/1615281079781.png" alt="" loading="lazy"></li>
+<li>因为这里的子网IP和网关都是（192.168.2.XXX）&lt;我的是192.168.92.&gt;</li>
+<li>或者在win10下：两处都可以查看和修改。</li>
+<li><img src="https://kite-007.github.io/post-images/1615281513138.png" alt="" loading="lazy"></li>
+</ol>
+</li>
+</ol>
+<ul>
+<li>
+<p>查看网络IP和网关：</p>
+<ul>
+<li>win:ipconfig</li>
+<li>linux:ifconfig</li>
+<li>ping:测试网络连通性（ping [目的]）</li>
+</ul>
+</li>
+<li>
+<p>配置网络：</p>
+<ol>
+<li>第一种方式：（自动获取）</li>
+<li>第二种方式：（指定IP）</li>
+</ol>
+</li>
+<li>
+<p>网络恢复：</p>
 </li>
 </ul>
 ]]></content>

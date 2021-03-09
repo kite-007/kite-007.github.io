@@ -1,50 +1,99 @@
 <!DOCTYPE html>
 <html>
-        <head>
-        <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
-        <meta charset="utf-8">
-        <title># Linux手记（基础篇） | Fr</title>
-        <link rel="stylesheet" href="https://kite-007.github.io/styles/main.css">
-        <link rel="stylesheet" href="https://at.alicdn.com/t/font_1306644_jwtuc2zzbrd.css">
-        <link href="https://cdn.bootcss.com/animate.css/3.7.2/animate.min.css" rel="stylesheet">
-         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
-        <script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
-         <script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
-         <script >hljs.initHighlightingOnLoad();</script>
+  <head>
+    <meta charset="utf-8" >
 
-    </head>
-    <body>
-              <header class="header mdui-m-b-5">      
-            <div class="container  ">
-                <div class="index-title animated fadeInDown mdui-text-center mdui-text-color-white mdui-m-b-2" style="animation-delay: 0.2s"><a href="https://kite-007.github.io">Fr</a></div>
-                <div class="mdui-text-color-white animated fadeInDown mdui-text-center  mdui-m-b-3" style="animation-delay: 0.4s">意志坚定，持之以恒</div>
-           
-            <nav id="nav" class="mdui-text-center animated fadeInDown" style="animation-delay: 0.6s">
-                   
-                            <li><a href="/">首页</a>
-                                <span class="nav-style top"></span>
-                                <span class="nav-style bottom"></span>
-                                <span class="nav-style left"></span>
-                                <span class="nav-style right"></span>
-                                </li>
-                    
-                            <li><a href="https://kite-007.github.io/tags">标签</a>
-                                <span class="nav-style top"></span>
-                                <span class="nav-style bottom"></span>
-                                <span class="nav-style left"></span>
-                                <span class="nav-style right"></span>
-                                </li>
-                    
-                  </nav>
-                </div>
-        </header>
-        <div class="mdui-container ">
-                <div class="mdui-row">
-                        <div class="mdui-col-md-8 mdui-col-offset-md-2 ">
-                                <article class="mdui-p-a-2 post animated fadeIn" style="animation-delay: 0.8s;animation-duration: 2s">
-                                    <div class="post-title  mdui-m-b-1"># Linux手记（基础篇）</div>
-                                    <div class="mdui-typo-body-2 mdui-m-b-2" datetime="2021-03-06 19:41:44">2021-03-06 / 22 min read</div>
-                                    <div class="mdui-m-b-2 mdui-typo post-neirong"><p><ul class="markdownIt-TOC">
+<title># Linux手记（基础篇） | Fr</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://kite-007.github.io/favicon.ico?v=1615298545832">
+<link rel="stylesheet" href="https://kite-007.github.io/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="
+1.  Linux目录结构
+2. Linux远程登陆与远程文件传输
+3. vi与vim的介绍与使用
+4. 关机重启命令
+5. 用户
+6. 用户组
+7. 指定运行级别
+8. 帮助指令
+9. 文件目录类
+10. 时间日期类
+11. 搜索查找类..." />
+    <meta name="keywords" content="Linux" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://kite-007.github.io">
+        <img src="https://kite-007.github.io/images/avatar.png?v=1615298545832" class="site-logo">
+        <h1 class="site-title">Fr</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://kite-007.github.io/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      意志坚定，持之以恒
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://kite-007.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title"># Linux手记（基础篇）</h2>
+            <div class="post-date">2021-03-06</div>
+            
+            <div class="post-content" v-pre>
+              <p><ul class="markdownIt-TOC">
 <li><a href="#1-linux%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84">1.  Linux目录结构</a></li>
 <li><a href="#2-linux%E8%BF%9C%E7%A8%8B%E7%99%BB%E9%99%86%E4%B8%8E%E8%BF%9C%E7%A8%8B%E6%96%87%E4%BB%B6%E4%BC%A0%E8%BE%93">2. Linux远程登陆与远程文件传输</a></li>
 <li><a href="#3-vi%E4%B8%8Evim%E7%9A%84%E4%BB%8B%E7%BB%8D%E4%B8%8E%E4%BD%BF%E7%94%A8">3. vi与vim的介绍与使用</a></li>
@@ -61,6 +110,7 @@
 <li><a href="#14-crond%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6">14. crond任务调度</a></li>
 <li><a href="#15-at%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1">15. at定时任务</a></li>
 <li><a href="#16-%E7%A3%81%E7%9B%98%E5%88%86%E5%8C%BA-%E6%8C%82%E8%BD%BD">16. 磁盘分区、挂载</a></li>
+<li><a href="#17-linux%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE">17. Linux网络配置</a></li>
 </ul>
 (Linux手记)</p>
 <h1 id="1-linux目录结构">1.  Linux目录结构</h1>
@@ -252,6 +302,7 @@
 <li>-a：显示所有的文件和目录，包括隐藏的。</li>
 <li>-l：以列表的形式显示信息（用户权限等）。</li>
 <li>-h：文件大小显示，带单位。(要搭配-l使用)</li>
+<li>-R：递归查询子目录</li>
 </ul>
 </li>
 <li>cd指令：cd [参数]，切换到指定目录。
@@ -645,93 +696,129 @@
 <li>格式化</li>
 <li>挂载</li>
 <li>设置可以自动挂载</li>
-<li>详细步骤：</li>
+<li>详细步骤：https://kite-007.github.io/linux-tian-jia-ying-pan/</li>
 </ol>
 </li>
 </ol>
+</li>
+<li>
+<p>磁盘情况查询：df [-h]</p>
+</li>
+<li>
+<p>查询指定目录磁盘占用情况：du [-h] [目录]</p>
+<ul>
+<li>如果不加目录参数，则默认为当前目录。</li>
+<li>-s 指定目录占用大小汇总</li>
+<li>-h 带计量单位</li>
+<li>-a 含文件</li>
+<li>--max-depth=1 子目录深度</li>
+<li>-c 列出明细的同时，增加汇总值</li>
+</ul>
+</li>
+<li>
+<p>磁盘情况-工作实用指令</p>
+<ol>
+<li>统计/opt文件夹下文件的个数：ls -l /opt | grey &quot;^-&quot; | wc -l</li>
+</ol>
+<ul>
+<li>ls -l /opt：列出opt目录下的文件目录，grey &quot;^-&quot;：（属性以-开头）过滤掉目录留下文件，wc -l：统计留下的文件的数量。</li>
+</ul>
+<ol start="2">
+<li>统计/opt文件夹下文件的个数，包括子目录下的：ls -lR /opt | grey &quot;^-&quot; | wc -l</li>
+</ol>
+<ul>
+<li>-R：表示对子目录递归查询</li>
+</ul>
+<ol start="3">
+<li>以树状显示目录结构：tree /opt</li>
+</ol>
+<ul>
+<li>如果没有tree命令，则使用yum install tree 安装</li>
+</ul>
 </li>
 </ul>
-</div>
-                                    <div class="mdui-divider mdui-m-b-2"></div>
-                                    <div class="mdui-row-xs-2 post-fenye">
-                                       
-                                        <div class="mdui-col"> <div class="mdui-text-left"><a href="https://kite-007.github.io/linux-zhao-hui-root-mi-ma/"># Linux找回root密码</a></div></div>
-                                        
+<h1 id="17-linux网络配置">17. Linux网络配置</h1>
+<p><strong>网络配置原理</strong><br>
+<img src="https://kite-007.github.io/post-images/1615280585697.png" alt="" loading="lazy"></p>
+<ol>
+<li>为什么是192.168.2.XXX而不是别的
+<ol>
+<li>在VMware的菜单设置中，打开（编辑）选项卡，选择（虚拟机网络编辑器）查看。</li>
+<li><img src="https://kite-007.github.io/post-images/1615281079781.png" alt="" loading="lazy"></li>
+<li>因为这里的子网IP和网关都是（192.168.2.XXX）&lt;我的是192.168.92.&gt;</li>
+<li>或者在win10下：两处都可以查看和修改。</li>
+<li><img src="https://kite-007.github.io/post-images/1615281513138.png" alt="" loading="lazy"></li>
+</ol>
+</li>
+</ol>
+<ul>
+<li>
+<p>查看网络IP和网关：</p>
+<ul>
+<li>win:ipconfig</li>
+<li>linux:ifconfig</li>
+<li>ping:测试网络连通性（ping [目的]）</li>
+</ul>
+</li>
+<li>
+<p>配置网络：</p>
+<ol>
+<li>第一种方式：（自动获取）</li>
+<li>第二种方式：（指定IP）</li>
+</ol>
+</li>
+<li>
+<p>网络恢复：</p>
+</li>
+</ul>
 
-                                        
-                                        <div class="mdui-col"><div class="mdui-text-right "><a href="https://kite-007.github.io/web-xin-shou-qu/">WEB新手区</a></div> </div>
-                                       
-                                      </div>
-                                   
-                                    <div class="mdui-divider mdui-m-t-2 mdui-m-b-2"></div>
-                                    
-                                     <script src="https://kite-007.github.io/media/scripts/Valine.min.js"></script>
- <div class="comment"></div>
-
-<script>
-      new Valine({
-            el: '.comment',
-
-
-
-            path: window.location.pathname,
-            pageSize: 30,
-            avatar:'mm', 
-       })
-    </script> 
-<script>
-    if(window.location.hash){
-        var checkExist = setInterval(function() {
-           if ($(window.location.hash).length) {
-              $('html, body').animate({scrollTop: $(window.location.hash).offset().top-90}, 1000);
-              clearInterval(checkExist);
-           }
-        }, 100);
-    }
-</script>
-                                </article>
-
-                                    
-                        </div>
-                      </div>
-    
+            </div>
+            
+              <div class="tag-container">
                 
-
+                  <a href="https://kite-007.github.io/vMLNi3LB4/" class="tag">
+                    Linux
+                  </a>
+                
               </div>
-                    <footer class="footer mdui-m-t-5 mdui-text-center">
-               <nav class="social-links">
-                      <ul>
-                      
-                      
-                           
-                      
-                           
-                      
-                           
-                      
-                           
-                      
-                           
-                      
-                           
-                      
-                           
-                      
-                           
-                      
-                           
-                      
-                           
-                      
-                           
-                      
-                           
-                      </ul>
-                    </nav>
-                    <div class="copyright">
-                      <p>Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> <br/> Theme <a href="https://github.com/alterfang/gridea-theme-song/" target="_blank"  title="宋"  >Song</a> by <a href="https://shanbu.fun/" target="_blank"  title="山卜方" >shanbufun</a> </p>
-                  </div>
-                  
-              </footer>
-    </body>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://kite-007.github.io/web-xin-shou-qu/">
+                  <h3 class="post-title">
+                    WEB新手区
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+
+  </body>
 </html>
