@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://kite-007.github.io</id>
     <title>Fr</title>
-    <updated>2021-03-09T14:07:12.765Z</updated>
+    <updated>2021-03-09T14:10:27.126Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://kite-007.github.io"/>
     <link rel="self" href="https://kite-007.github.io/atom.xml"/>
@@ -91,7 +91,7 @@ GATEWAY=192.168.200.2
 #域名解析器
 DNS1=192.168.200.2
 </code></pre>
-<ol>
+<ol start="3">
 <li>编辑配置操作：<img src="https://kite-007.github.io/post-images/1615298826698.png" alt="" loading="lazy"></li>
 <li>service network restart，reboot</li>
 </ol>
@@ -104,8 +104,6 @@ DNS1=192.168.200.2
         </link>
         <updated>2021-03-09T03:01:59.000Z</updated>
         <content type="html"><![CDATA[<ol>
-<li>
-<ol>
 <li>添加一块硬盘
 <ol>
 <li>虚拟机添加硬盘
@@ -160,8 +158,6 @@ DNS1=192.168.200.2
 <ul>
 <li>umount /dev/sdb1 或者 umount [要卸载的目录]</li>
 </ul>
-</li>
-</ol>
 </li>
 </ol>
 </li>
