@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://kite-007.github.io</id>
     <title>Fr</title>
-    <updated>2021-03-12T14:12:03.910Z</updated>
+    <updated>2021-03-15T00:56:05.998Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://kite-007.github.io"/>
     <link rel="self" href="https://kite-007.github.io/atom.xml"/>
@@ -10,6 +10,386 @@
     <logo>https://kite-007.github.io/images/avatar.png</logo>
     <icon>https://kite-007.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Fr</rights>
+    <entry>
+        <title type="html"><![CDATA[1. 信息收集之基本介绍]]></title>
+        <id>https://kite-007.github.io/1-xin-xi-shou-ji/</id>
+        <link href="https://kite-007.github.io/1-xin-xi-shou-ji/">
+        </link>
+        <updated>2021-03-14T02:22:19.000Z</updated>
+        <content type="html"><![CDATA[<p><ul class="markdownIt-TOC">
+<li><a href="#1%E5%9F%9F%E5%90%8D%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86">1.域名信息收集</a>
+<ul>
+<li><a href="#1-%E5%9F%9F%E5%90%8D%E4%BB%8B%E7%BB%8D">1. 域名介绍</a></li>
+<li><a href="#2-whois%E4%BB%8B%E7%BB%8D">2. Whois介绍</a></li>
+<li><a href="#3-whois%E6%9F%A5%E8%AF%A2">3. Whois查询</a></li>
+<li><a href="#4-%E5%A4%87%E6%A1%88%E4%BF%A1%E6%81%AF%E6%9F%A5%E8%AF%A2">4. 备案信息查询</a></li>
+</ul>
+</li>
+<li><a href="#2-%E5%AD%90%E5%9F%9F%E5%90%8D%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86">2. 子域名信息收集</a>
+<ul>
+<li><a href="#1-%E5%AD%90%E5%9F%9F%E5%90%8D%E4%BB%8B%E7%BB%8D">1. 子域名介绍</a></li>
+<li><a href="#2-%E6%8C%96%E6%8E%98%E5%AD%90%E5%9F%9F%E5%90%8D%E9%87%8D%E8%A6%81%E6%80%A7">2. 挖掘子域名重要性</a></li>
+<li><a href="#3-%E5%AD%90%E5%9F%9F%E5%90%8D%E6%8C%96%E6%8E%98%E6%96%B9%E6%B3%95">3. 子域名挖掘方法</a></li>
+<li><a href="#4-%E5%88%B7%E6%B4%9E%E6%80%9D%E8%B7%AF">4. 刷洞思路</a></li>
+</ul>
+</li>
+<li><a href="#3-web%E7%AB%99%E7%82%B9%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86">3. web站点信息收集</a>
+<ul>
+<li><a href="#1-cms%E6%8C%87%E7%BA%B9%E8%AF%86%E5%88%AB">1. CMS指纹识别</a></li>
+<li><a href="#2-%E9%92%88%E5%AF%B9cms%E6%BC%8F%E6%B4%9E%E6%9F%A5%E8%AF%A2">2. 针对CMS漏洞查询</a></li>
+<li><a href="#3-%E6%95%8F%E6%84%9F%E7%9B%AE%E5%BD%95%E4%BF%A1%E6%81%AF">3. 敏感目录信息</a></li>
+<li><a href="#4-wordpress%E6%B5%8B%E8%AF%95wpscankali">4. wordpress测试（wpscan）(kali)</a></li>
+</ul>
+</li>
+<li><a href="#4-%E7%AB%AF%E5%8F%A3%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86">4. 端口信息收集</a>
+<ul>
+<li><a href="#1-%E7%AB%AF%E5%8F%A3%E4%BB%8B%E7%BB%8D">1. 端口介绍</a></li>
+<li><a href="#2-%E7%AB%AF%E5%8F%A3%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86">2. 端口信息收集</a></li>
+<li><a href="#3-%E7%AB%AF%E5%8F%A3%E6%94%BB%E5%87%BB%E4%B9%8C%E4%BA%91%E6%9F%A5%E8%AF%A2%E7%AD%89%E7%AD%89">3. 端口攻击（乌云查询等等）</a></li>
+<li><a href="#4-%E9%98%B2%E5%BE%A1%E6%8E%AA%E6%96%BD">4. 防御措施</a></li>
+</ul>
+</li>
+<li><a href="#5-%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86">5. 敏感信息收集</a>
+<ul>
+<li><a href="#1-%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E9%87%8D%E8%A6%81%E6%80%A7">1. 敏感信息收集重要性</a></li>
+<li><a href="#2-google-hacking%E8%AF%AD%E6%B3%95">2. Google Hacking语法</a></li>
+<li><a href="#3-http%E5%93%8D%E5%BA%94%E6%94%B6%E9%9B%86server%E4%BF%A1%E6%81%AF">3. HTTP响应收集Server信息</a></li>
+<li><a href="#4-github%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2">4. Github信息泄露</a></li>
+</ul>
+</li>
+<li><a href="#6-%E7%9C%9F%E5%AE%9Eip%E5%9C%B0%E5%9D%80%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86">6. 真实IP地址信息收集</a>
+<ul>
+<li><a href="#1-cdn%E4%BB%8B%E7%BB%8D">1. CDN介绍</a></li>
+<li><a href="#2-%E5%88%A4%E6%96%ADcdn%E5%AD%98%E5%9C%A8">2. 判断CDN存在</a></li>
+<li><a href="#3-%E7%BB%95%E8%BF%87cdn">3. 绕过CDN</a></li>
+<li><a href="#4-%E9%AA%8C%E8%AF%81ip%E5%9C%B0%E5%9D%80">4. 验证IP地址</a></li>
+</ul>
+</li>
+<li><a href="#7-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86">7. 信息收集</a>
+<ul>
+<li><a href="#1-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86">1. 信息收集</a></li>
+<li><a href="#2-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E6%96%B9%E5%BC%8F">2. 信息收集方式</a></li>
+</ul>
+</li>
+<li><a href="#8-shodan">8. Shodan</a>
+<ul>
+<li><a href="#1-shodan%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8">1. Shodan基本使用</a></li>
+<li><a href="#2-shodan%E5%91%BD%E4%BB%A4%E8%A1%8C">2. Shodan命令行</a></li>
+</ul>
+</li>
+</ul>
+(信息收集)</p>
+<h1 id="1域名信息收集">1.域名信息收集</h1>
+<h2 id="1-域名介绍">1. 域名介绍</h2>
+<ol>
+<li>域名（Domain Name），是由一串用点分隔的名字组成的Internet上某一台计算机或计算机组的名称，用于在数据传输时标识计算机的电子方位。在开始时，没有域名，要访问只能通过IP地址访问。
+<ul>
+<li>eg：百度：baidu.com，www为主机名</li>
+<li>浏览网站的过程：（PC发送对应请求从DNS服务器获得的指定域名对应的IP地址，后通过IP地址访问网站）</li>
+</ul>
+</li>
+</ol>
+<h2 id="2-whois介绍">2. Whois介绍</h2>
+<ol>
+<li>Whois，是用来查询域名的IP以及所有者等信息的传输协议，就是一个用来查询域名是否已经被注册，以及注册域名的详细信息的数据库。不同的域名后缀的Whois信息需要用到不同的Whois数据库查询，每个域名或IP的Whois信息由对应的管理机构保存。</li>
+<li>Whois，他的基本过程：先向服务器的TCP端口43建立一个连接，发送要查询的数据给Whois服务器，后接收服务器的查询结果。</li>
+</ol>
+<h2 id="3-whois查询">3. Whois查询</h2>
+<ol>
+<li>Whois查询的重要性：通过Whois查询可以获得域名注册者邮箱地址等信息。一般情况下对于中小型网站来说域名注册者就是网站管理员。利用搜索引擎对Whois查询到的信息进行搜索，获取更多域名注册者的个人信息。</li>
+<li>Whois查询方法：<br>
+1、Web接口查询：</li>
+</ol>
+<ul>
+<li>https://whois.aliyun.com/、</li>
+<li>https://www.whois365.com/cn/</li>
+<li>http://whois.chinaz.com/、</li>
+<li>https://whois.aizhan.com/<br>
+2、通过Whois命令行查询。</li>
+<li>在Kali linux下自带了Whois查询工具，通过命令whois域名 进行查询。</li>
+<li>whois [域名]</li>
+</ul>
+<h2 id="4-备案信息查询">4. 备案信息查询</h2>
+<ol>
+<li>ICP备案介绍：（Internet Content Provider）网络内容提供商。<br>
+《互联网信息服务管理办法》指出互联网信息服务分为经营性和非经营性两类。国家对经营性互联网信息服务实行许可制度；对非经营性互联网信息服务实行备案制度。未取得许可或者未履行备案手续的，不得从事互联网信息服务。在中华人民共和国境内提供非经营性互联网信息服务，应当依法履行备案手续。未经国家机关单位许可备案，不得在中华人民共和国境内从事非经营性互联网信息服务。</li>
+<li>备案好处：为了防止在网上从事非法的网站经营活动，打击不良互联网信息的传播，如果网站不备案的话，很有可能被查处以后关停。</li>
+<li>ICP备案查询方法：</li>
+</ol>
+<ul>
+<li>Web接口查询：
+<ul>
+<li>http://www.beianbeian.com/</li>
+<li>http://www.miitbeian.gov.cn/publish/query/indexFirst.action</li>
+<li>https://www.tianyancha.com/</li>
+</ul>
+</li>
+</ul>
+<h1 id="2-子域名信息收集">2. 子域名信息收集</h1>
+<h2 id="1-子域名介绍">1. 子域名介绍</h2>
+<ol>
+<li>顶级域名：是“.com&quot;、&quot;.net&quot;、&quot;.org”、&quot;.cn&quot;等等。</li>
+<li>子域名(Subdomain Name)，凡顶级域名前加前缀的都是该顶级域名的子域名，而子域名根据技术的多少分为二级子域名，三级子域名以及多级子域名。我国在国际互联网络信息中心正式注册并运行的顶级域名是.cn，这也是我国的一级域名。</li>
+<li>在顶级域名之下，我国的二级域名又分为类别域名和行政区域名两类。类别域名共6个， 包括用于科研机构的.ac；用于工商金融企业的.com；用于教育机构的.edu；用于政府部门的.gov；用于互联网络信息中心和运行中心的.net；用于非盈利组织的.org。而行政区域名有34个，分别对应于我国各省、自治区和直辖市。</li>
+<li>例如：www.snnu.edu.cn</li>
+</ol>
+<h2 id="2-挖掘子域名重要性">2. 挖掘子域名重要性</h2>
+<ol>
+<li>子域名是某个主域的二级域名或者多级域名，在防御措施严密情况下无法直接拿下主域，那么就可以采用迂回战术拿下子域名，然后无限靠近主域。</li>
+<li>例如：</li>
+</ol>
+<ul>
+<li>www.xxxxx.com主域不存在漏洞，并且防护措施严密。</li>
+<li>而二级域名 edu.xxxxx.com存在漏洞，并且防护措施松散。</li>
+</ul>
+<h2 id="3-子域名挖掘方法">3. 子域名挖掘方法</h2>
+<ol>
+<li>子域名挖掘工具 如：Maltego CE，wydomain，subDomainBrute，dnsmaper，Layer子域名挖掘机等等。</li>
+<li>实例演示：</li>
+</ol>
+<h2 id="4-刷洞思路">4. 刷洞思路</h2>
+<ol>
+<li>针对某个具体SRC进行挖洞，如果直接针对主域进行渗透测试很可能是很难达到挖掘的效果。此时可以<br>
+搜集对应的子域名，然后批量探测某些具体漏洞，从而更加快速容易的发现一些漏洞。之后将漏洞提交对应SRC获取奖金。</li>
+<li>针对补天刷洞思路：对应没有指定厂商的刷洞，可以根据某些具体漏洞，通过URL采集获取目标，编写探测脚本批量探测，快速高效的刷洞。</li>
+<li>注意：无论如何，都要保持警惕，不要触及不该触及的内容，不要影响公司业务，只做漏洞探测内容，确定存在漏洞即可。适可而止。</li>
+<li>挖洞高峰期：在互联网上曝出某些新漏洞的时候，会有大量的该漏洞提交到漏洞平台获取奖金。</li>
+</ol>
+<h1 id="3-web站点信息收集">3. web站点信息收集</h1>
+<h2 id="1-cms指纹识别">1. CMS指纹识别</h2>
+<ol>
+<li>CMS为内容管理系统，又称为整站系统或文章系统，通常用于网站内容管理。用户可以通过下载对应的CMS管理器软件包，通过部署搭建，可以很快地建立起一个内容管理系统，方便快捷。但是通常各种CMS都具有独特的结构命名规则和特定的软件文件内容，因此可以利用这些特定的内容来获取CMS站点的具体软件CMS与版本。</li>
+<li>常见CMS：dedecms（织梦），Discus（用于论坛），Phpcms等。</li>
+<li>CMS识别工具：</li>
+</ol>
+<ul>
+<li>在线工具：</li>
+<li>（http://whatweb.bugscaner.com/look/，http://www.yunsee.cn/finger.html）</li>
+<li>本地工具：</li>
+<li>whatweb，</li>
+<li>御剑web指纹识别程序（https://pan.baidu.com/share/link?shareid=437376&amp;uk=3526832374）</li>
+<li>大禹CMS识别程序（https://github.com/Ms0x0/Dayu）</li>
+</ul>
+<h2 id="2-针对cms漏洞查询">2. 针对CMS漏洞查询</h2>
+<ul>
+<li>对于查询到的CMS可以用https://bugs.shuimugan.com（失效）网站查询指定CMS的漏洞。</li>
+</ul>
+<h2 id="3-敏感目录信息">3. 敏感目录信息</h2>
+<ol>
+<li>针对目标Web目录结构和敏感隐藏文件探测是非常重要的。在探测过程中很用可能会探测出后台页面，上传页面，数据库文件，甚至是网站源代码文件压缩包等等。</li>
+<li>探测工具：</li>
+</ol>
+<ul>
+<li>御剑后台扫描工具</li>
+<li>wwwscan命令行工具</li>
+<li>dirb命令行工具（kali）</li>
+<li>dirbuster扫描工具（kali）</li>
+</ul>
+<h2 id="4-wordpress测试wpscankali">4. wordpress测试（wpscan）(kali)</h2>
+<h1 id="4-端口信息收集">4. 端口信息收集</h1>
+<h2 id="1-端口介绍">1. 端口介绍</h2>
+<ol>
+<li>如果将IP比作一个房子，端口就是进出这个房子的门。一个IP可以有65536个端口（2^16）。端口是通过端口号来标记的，端口号只有整数，范围是从0到65535。</li>
+<li>在计算机中一个端口代表一个服务，windows命令行可以使用netstat -anbo显示开放端口。</li>
+</ol>
+<h2 id="2-端口信息收集">2. 端口信息收集</h2>
+<ol>
+<li>对于收集的目标机器的端口状态可以使用工具来进行测试。原理：使用TCP或者UDP等协议向目标端口发送指定标志位等的数据包，接受目标返回的数据包，通过这些返回的数据包来进行判断端口的状态。</li>
+<li>工具：</li>
+</ol>
+<ul>
+<li>使用nmap(kali)探测。nmap -A -v -T4 [目标]</li>
+<li>也可以使用masscan(kali)。</li>
+<li>在线网站：http://tool.chinaz.com/port/</li>
+</ul>
+<h2 id="3-端口攻击乌云查询等等">3. 端口攻击（乌云查询等等）</h2>
+<ol>
+<li>不同的端口有不同的攻击方法。</li>
+</ol>
+<ul>
+<li>针对远程连接服务端口。</li>
+<li>端口 | 端口说明 | 攻击方法</li>
+<li>22 | SSH远程连接  | 爆破、SSH隧道及内网代理转发、文件传输</li>
+<li>23 | Telnet远程连接 | 爆破、嗅探、弱口令</li>
+<li>3389 | rdp远程桌面 | Shift后门、爆破</li>
+<li>5900  | VNC远程连接 | 弱口令、RCE</li>
+<li>5632 | PcAnywhere远程连接 | 嗅探、代码执行</li>
+</ul>
+<h2 id="4-防御措施">4. 防御措施</h2>
+<ol>
+<li>对于端口攻击来说只要端口开放并且可以连通，那么就可以利用对应的方式进行攻击测试。</li>
+<li>防御措施：</li>
+</ol>
+<ul>
+<li>关闭不必要的端口；</li>
+<li>对重要业务的服务端口设置防火墙：</li>
+<li>加强员工信息安全意识，经常性更换用户密码；</li>
+<li>经常更新软件，打补丁(patch)。</li>
+</ul>
+<h1 id="5-敏感信息收集">5. 敏感信息收集</h1>
+<h2 id="1-敏感信息收集重要性">1. 敏感信息收集重要性</h2>
+<ol>
+<li>针对某些安全做的很好的目标，直接通过技术层面是无法完成渗透测试。在这种情况下，可以利用搜索<br>
+引擎搜索目标暴露在互联网上的关联信息。例如：数据库文件、SQL注入、服务器配置信息、甚至是通<br>
+过Git找到站点泄露源代码、以及Redis等未授权访问、robots.txt等敏感信息。从而达到渗透测试的目的。</li>
+<li>知己知彼，百战不殆。某些情况下，收集到的信息会对后期进行测试起到帮助重要。如果通过收集敏感<br>
+信息直接获得了目标系统的数据库访问权限，那么渗透测试任务也就结束一大半了。因此在进行技术层<br>
+面情况下的测试之前，应该先进行更多的信息收集。</li>
+</ol>
+<h2 id="2-google-hacking语法">2. Google Hacking语法</h2>
+<ol>
+<li>google hack是指使用Google等搜索引擎对某些特定的网络主机漏洞(通常是服务器上的脚本漏洞)进行搜索，以达到快速找到漏洞主机或特定主机的漏洞的目的。</li>
+<li>关键字 | 含义</li>
+</ol>
+<ul>
+<li>site | 指定搜索域名 例如：site:baidu.com</li>
+<li>inurl | 指定URL中是否存在某些关键字 例如：inurl:.php?id=</li>
+<li>intext | 指定网页中是否存在某些关键字 例如：intext：网站管理</li>
+<li>filetype | 指定搜索文件类型 例如：filetype:txt</li>
+<li>intitle | 指定网页标题是否存在某些关键字 例如：intitle：后台管理</li>
+<li>link | 指定网页链接 例如：link：baidu.com 指定与百度做了外链的站点</li>
+<li>info | 指定搜索网页信息 info：baidu.com</li>
+</ul>
+<ol start="3">
+<li>Google hacking数据库：https://www.exploit-db.com/google-hacking-database/</li>
+<li>例如：查询Access数据：filetype:mdb &quot;standard jet&quot;(password | username | user  pass)</li>
+</ol>
+<h2 id="3-http响应收集server信息">3. HTTP响应收集Server信息</h2>
+<ol>
+<li>通过HTTP或HTTPS与目标站点进行通信中，目标响应的报文中Server头和X-Powered-By头会暴露目标服务器和使用的编程语言信息，通过这些信息可以有针对的利用漏洞尝试。</li>
+<li>获取HTTP响应的方法：</li>
+</ol>
+<ul>
+<li>利用工具如：浏览器审计工具、Burpsuite等代理截断工具。</li>
+<li>编写Python脚本requests库 参考链接：http://www.python-requests.org/en/master/</li>
+</ul>
+<pre><code>import requests
+r = requests.get('目标')
+print(r.headers)
+</code></pre>
+<h2 id="4-github信息泄露">4. Github信息泄露</h2>
+<ol>
+<li>Github是一个分布式的版本控制系统，目前拥有140多万开发者用户。随着越来越多的应用程序转移到了云上，Github已经成为了管理软件开发以及发现已有代码的首选方法。众所周知，当今是大数据时代，大规模数据泄露事情一直在发生，从未停止过，但有些人不知道的是很多时候一些敏感信息的泄露其实是我们自己无意中造成的，然而一个小疏忽，往往却造成一系列连锁反应。Github上敏感信息的泄露，就是一个典型的例子，Github虽然方便开发者，但其中也埋藏着一些安全隐患。</li>
+</ol>
+<ul>
+<li>Github之邮件配置信息泄露：site:Github.com smtp、site:Github.com smtp @qq.com</li>
+<li>Github之数据库信息泄露：site:Github.com sa password、site:Github.com root password、site:Github.com User ID=’sa’;Password</li>
+<li>Github之svn信息泄露：site:Github.com svn、site:Github.com svn username</li>
+<li>Github之综合信息泄露：site:Github.com password、site:Github.com ftp ftppassword、<br>
+site:Github.com 密码、site:Github.com 内部</li>
+</ul>
+<h1 id="6-真实ip地址信息收集">6. 真实IP地址信息收集</h1>
+<h2 id="1-cdn介绍">1. CDN介绍</h2>
+<ol>
+<li>CDN全称（Content Delivery Network），即内容分发网络。</li>
+<li>一些大型网站会拥有很多用户，而用户时常会向网站发送一些请求，不同地域有不同的缓冲服务器，用来接收用户发送的流量，如果用户发送的流量没有任何的交互数据，只是请求一个页面的话，这时用户可以根据所在地区来确定访问的缓冲服务器，那么这个高速缓冲服务器就会返回对应的响应到用户的浏览器中。</li>
+<li>只有交互时才能请求真实服务器。</li>
+</ol>
+<h2 id="2-判断cdn存在">2. 判断CDN存在</h2>
+<ol>
+<li>CDN一般存在于大型网站（用户流量特别多），通过CDN可以解决服务器性能的瓶颈。</li>
+<li>通过ping判断是否存在CDN（ping www.baihe.com）存在CDN。</li>
+<li>通过设置代理或者利用在线ping网站来使用不同地区的ping服务器来测试目标。（http://ping.chinaz.com）</li>
+</ol>
+<h2 id="3-绕过cdn">3. 绕过CDN</h2>
+<ol>
+<li>如果目标没有使用CDN，可以直接利用ping获得IP地址。或者利用在线网站（http://www.ip138.com）</li>
+<li>如果目标使用CDN，需要绕过CDN来获取真实IP地址。<br>
+1、内部邮箱源 收集到内部邮箱服务器IP地址<br>
+2、网站phpinfo文件phpinfo.php<br>
+3、分站IP地址，查询子域名 CDN很贵，很有可能分站就不再使用CDN。<br>
+4、国外访问 https://asm.ca.com/en/ping.php<br>
+5、查询域名解析记录 https://viewdns.info/</li>
+</ol>
+<h2 id="4-验证ip地址">4. 验证IP地址</h2>
+<p>利用IP地址对Web站点进行访问，如果正常表明是真实IP地址，否则不真。可能因为浏览器的原因访问的是空白的页面，有时会出来图标标明是真实的IP地址。</p>
+<h1 id="7-信息收集">7. 信息收集</h1>
+<h2 id="1-信息收集">1. 信息收集</h2>
+<ol>
+<li>信息收集在渗透测试中是重中之重，对于目标的信息收集，主要针对目标服务器系统，数据库系统，中间件系统，应用程序系统，以及边界设备等信息，以及收集针对于系统管理员的信息收集。</li>
+</ol>
+<h2 id="2-信息收集方式">2. 信息收集方式</h2>
+<ol>
+<li>主动信息收集：直接与目标进行交互，通过对交互过程中的信息进行收集。</li>
+</ol>
+<ul>
+<li>Nmap扫描，Burpsuite站点地图收集等。</li>
+</ul>
+<ol start="2">
+<li>被动信息收集：通过第三方引擎与目标进行交互，或不予目标交互查询具体数据库，获的目标信息。</li>
+</ol>
+<ul>
+<li>Google Hacking，Shodan查询等。</li>
+</ul>
+<h1 id="8-shodan">8. Shodan</h1>
+<h2 id="1-shodan基本使用">1. Shodan基本使用</h2>
+<ol>
+<li>搜索摄像头命令：webcam</li>
+<li>搜索开放指定端口的服务器：port：XXX</li>
+<li>搜索指定的IP地址信息：host：XXX.XXX.XXX.XXX</li>
+<li>搜索具体城市开放的具体端口的一些设备：city：XXXXX port：XXX</li>
+</ol>
+<h2 id="2-shodan命令行">2. Shodan命令行</h2>
+<ol>
+<li>kali安装Shodan命令行：easy_install shodan</li>
+<li>Shodan初始化：shodan init [API Key]</li>
+</ol>
+<ul>
+<li>初始化Shodan就是给Shodan初始化API Key。[API Key：hHg9HmLgZuqBc1VsNqWGd10ilpyveeesb].</li>
+<li>这个API Key在自己登陆Shodan页面之后的右上角。</li>
+</ul>
+<ol start="3">
+<li>Shodan启动与查询具体服务数量</li>
+</ol>
+<ul>
+<li>shodan count Apache(可以查询开放了Apache服务在Shodan中的具体数量)</li>
+<li>shodan count Tomcat</li>
+</ul>
+<ol start="4">
+<li>Shodan命令行搜索功能</li>
+</ol>
+<ul>
+<li>利用 shodan search microsoft iis 6.0</li>
+</ul>
+<ol start="5">
+<li>Shodan获取指定IP地址信息</li>
+</ol>
+<ul>
+<li>shodan host [ip地址]</li>
+</ul>
+<ol start="6">
+<li>Shodan获取自己shodan账号信息（会员）</li>
+</ol>
+<ul>
+<li>shodan info</li>
+</ul>
+<ol start="7">
+<li>Shodan获取自身外部可见IP地址</li>
+</ol>
+<ul>
+<li>shodan myip</li>
+</ul>
+<ol start="8">
+<li>Shodan检测是否有蜜罐保护<br>
+shodan honeyscore [目标IP]</li>
+<li>python-shodan（使用python引入shodan）</li>
+</ol>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[1. 拒绝服务攻击]]></title>
+        <id>https://kite-007.github.io/1-wang-luo-gong-ji/</id>
+        <link href="https://kite-007.github.io/1-wang-luo-gong-ji/">
+        </link>
+        <updated>2021-03-13T11:49:29.000Z</updated>
+        <content type="html"><![CDATA[<p><ul class="markdownIt-TOC">
+<li><a href="#1-%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1%E6%94%BB%E5%87%BB">1. 拒绝服务攻击</a></li>
+</ul>
+(网络攻击)</p>
+<h1 id="1-拒绝服务攻击">1. 拒绝服务攻击</h1>
+<p><strong>定义：攻击者。</strong></p>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[# Linux（Shell编程）]]></title>
         <id>https://kite-007.github.io/linuxji-chu-xia-pian/</id>
