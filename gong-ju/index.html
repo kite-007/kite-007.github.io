@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title># 工具 | Fr</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://kite-007.github.io/favicon.ico?v=1616506552970">
+<link rel="stylesheet" href="https://kite-007.github.io/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="1. sqlmap
+
+介绍：它是一个开源渗透测试工具，它可以自动检测和利用SQL注入漏洞并接管数据库服务器的工具。
+技巧：可以搜索php?id=,php?name=等等一些查看有没有表单提交。
+操作：
+
+
+sqlmap -u (需要测试的网..." />
+    <meta name="keywords" content="工具" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://kite-007.github.io">
+        <img src="https://kite-007.github.io/images/avatar.png?v=1616506552970" class="site-logo">
+        <h1 class="site-title">Fr</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://kite-007.github.io/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      意志坚定，持之以恒
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://kite-007.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title"># 工具</h2>
+            <div class="post-date">2021-03-17</div>
+            
+            <div class="post-content" v-pre>
+              <h1 id="1-sqlmap">1. sqlmap</h1>
+<ol>
+<li>介绍：它是一个开源渗透测试工具，它可以自动检测和利用SQL注入漏洞并接管数据库服务器的工具。</li>
+<li>技巧：可以搜索php?id=,php?name=等等一些查看有没有表单提交。</li>
+<li>操作：</li>
+</ol>
+<ul>
+<li>sqlmap -u (需要测试的网站)；sqlmap会直接帮我们测试存不存在该类型漏洞，也会显示出payload</li>
+<li>-h，-hh获取帮助文档或者更多帮助列表
+<ul>
+<li>Target；使用sqlmap的模式
+<ul>
+<li>-d [连接数据库信息]；测试连接数据库，需要下载驱动程序</li>
+<li>-u</li>
+<li>-m；文件中有多个参数时可以一个个遍历，查询其中一个则需要在这一个参数后面加上*</li>
+<li>-r；测试http包（burp所抓到的包存入一个文件中，对文件进行测试）</li>
+<li>-g [inurl:php?id=1]；google搜索（inurl:php?id=1）</li>
+<li>-c；加载配置文件</li>
+</ul>
+</li>
+<li>request；如何请求页面，链接页面的方式，请求页面的方式post，get等
+<ul>
+<li>--method；http请求方法</li>
+<li>--data；填充post包</li>
+<li>--cookie=COOKIE；设置COOKIE</li>
+<li>--user-agent=AGENT；将sqlmap设置来源代理为AGENT</li>
+<li>--random-agent；随机选取一个代理</li>
+<li>--host=HOST；修改HOST</li>
+<li>--referer=REFERER；修改REFERER网站来源</li>
+<li>--header=HEADER；修改以上的http头</li>
+</ul>
+</li>
+<li>optimization；实现优化作用，性能速度
+<ul>
+<li>-o；使用所有优化</li>
+</ul>
+</li>
+<li>injection；注入参数，提供自定义的方式，脚本等</li>
+<li>detection；探测注入等级</li>
+<li>techniques；调整测试技术方式
+<ul>
+<li>--technique=TECH；默认使用所有注入方式</li>
+</ul>
+</li>
+<li>enumeration；枚举参数（前提为存在sql注入）列出参数
+<ul>
+<li>--users</li>
+<li>--tables</li>
+</ul>
+</li>
+<li>windows registry access；查看win注册表</li>
+<li>general；通用</li>
+<li>miscellaneous；杂项
+<ul>
+<li>--wizard；sqlmap使用导航引导测试</li>
+<li>--sqlmap-shell；sqlmap命令选项模式</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="2-metosploit">2. metosploit</h1>
+<ol>
+<li>介绍：Metasploit渗透测试框架（Free ，Pro），再Kali中使用msfconsole打开</li>
+<li>功能：探测发现，漏洞验证，漏洞攻击，漏洞载核，编码混淆等等</li>
+<li>命令：
+<ul>
+<li>show exploits；展示可使用的漏洞的攻击方式，如果要使用一个漏洞，则须先扫描漏洞</li>
+<li>search [cve-XX]；搜索漏洞</li>
+<li>use [漏洞存放目录]；使用漏洞</li>
+<li>show info；查看漏洞设置选项</li>
+<li>show payloads；use漏洞之后要使用的</li>
+</ul>
+<pre><code>use [漏洞] //使用漏洞攻击
+set PAYLOAD &lt;Payload name&gt;//攻击成功之后会执行payload 
+set LHOST &lt;LHOST value&gt;//对方链接攻击者IP 端口是什么
+set LPORT &lt;LPORT value&gt;//
+Show info
+exploits/run
+</code></pre>
+<ul>
+<li>meterpreter（模块）；肉机管理，回话管理（控制端）
+<ul>
+<li>shell，获取对方shell</li>
+<li>Download/Upload</li>
+<li>search/edit</li>
+<li>portfwd端口转发</li>
+<li>migrate迁移进程</li>
+<li>execute</li>
+</ul>
+</li>
+<li>msfvenom；生成payload，生成木马后门的工具</li>
+</ul>
+<pre><code>msfvenom -p [payload] LHOST=X  LPORT=X -f [exe] &gt; []
+msfvenom//生成木马的工具
+-p //指定payload类型
+LHOST//是控制端IP
+LPORT//控制端端口
+-f //指文件格式
+</code></pre>
+<ul>
+<li>混淆payload</li>
+</ul>
+<pre><code>msfvenom -p [payload] LHOST=X  LPORT=X -e [混淆] -f [exe] &gt; []
+</code></pre>
+<ul>
+<li>check；扫描对方是否可以攻击，是否存在该漏洞</li>
+<li>msfvenmo -l encoders ；编码混淆，木马混淆</li>
+</ul>
+</li>
+<li>免杀*</li>
+</ol>
+<ul>
+<li>混淆的主要目的（二进制）；修改md5（pe，资源表，字符串）</li>
+</ul>
+<h1 id="3-nmap">3. Nmap</h1>
+<ol>
+<li>使用流程：(目标确认—》主机发现—》扫描端口—》扫描技术—》探测服务—》探测防火墙—》性能优化—》报告输出)</li>
+<li>用途： 活跃IP，端口的扫描，对端口，服务，操作系统的探测，将扫描的内容保存在一个文件，扫描常用的端口，多种扫描方式，脚本扫描，性能控制，主机发现，规避防火墙，MAC欺骗，空闲扫描。</li>
+<li>端口扫描：</li>
+</ol>
+<ul>
+<li>nmap 【网站/IP地址】-p 【端口】 -sS(扫描方式:基于TCP SYN) -sV(探测服务信息) -O(探测操作系统) -A(包含了-sV和-O等)
+<ul>
+<li>可以按回车显示进度，如果不对单一的端口进行扫描直接使用-sS -A即可。-iR，对随机IP扫描。</li>
+<li>活跃IP：是指 一个 ip段 ，存在的 主机 较多， 查找 活跃 ip的 人一般会，运行远程溢出，弱口令扫描软件。</li>
+<li>-p --top-ports X：扫描常用的端口X个。</li>
+<li>-oN 【目录】，输出扫描内容到该目录的文件夹</li>
+<li>--script=【./脚本目录】可以使用脚本</li>
+<li>-n；不做DNS解析，如果解析了会知道域名</li>
+<li>-F；扫描默认常用端口100多</li>
+<li>-sL；简单列出扫描目标信息</li>
+<li>-Pn；nmap扫描过程中会探测主机是否在线，如果主机在线，则会去扫描端口，通常情况下已经知道了主机在线，所以加上-Pn 【IP】，则不用再去探测主机是否在线，默认主机为在线状态。</li>
+<li>-O：检测操作系统</li>
+<li>-D 【IP】，【IP】：设置诱饵隐蔽扫描</li>
+<li>-g 【端口】 【IP】：设置自己来源端口与IP（假）</li>
+<li>-T&lt;0-5&gt;：速度性能控制</li>
+<li>--spoof -mac 【MAC地址】：伪造自己的访问目标MAC地址为对应MAC地址</li>
+<li>-sI ip:【脚本扫描到的端口】 【脚本扫描到的IP】；网络上有多台主机，当有某台空闲的时候，就可以利用对方的IP做出一些扫描。</li>
+<li>sudo nmap --script ipidseq iR 10000 -oN ipidseq.txt
+<ul>
+<li>用脚本扫描扫出可以使用空闲扫描的对应IP端口</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://kite-007.github.io/yHvCxoFSyJ/" class="tag">
+                    工具
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://kite-007.github.io/kali/">
+                  <h3 class="post-title">
+                    # KALI
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+
+  </body>
+</html>

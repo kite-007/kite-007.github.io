@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" >
 
-<title>1. 网络攻击 | Fr</title>
+<title>php 伪协议与钓鱼 | Fr</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
@@ -18,16 +18,15 @@
 
 
 
-    <meta name="description" content="
-1. 拒绝服务攻击
-
-Dos攻击
-
-
-
-(网络攻击)
-1. 拒绝服务攻击
-定义：攻击者会想办法让目标停止服务。通常是对目标网络资源上的消耗，使目标的服务器被暂停或者宕机等一系列能够给目标造成麻烦的后果的攻击方式。拒绝服务攻击一直得不到解决..." />
+    <meta name="description" content="1.
+文件包含文件写入
+flag在服务器根目录
+目录穿越（../）或伪协议（php://filter/read=convert.base64）或file协议（file:///）
+字符串过滤器
+转换过滤器
+压缩过滤器
+编码绕过
+docx可以直..." />
     <meta name="keywords" content="" />
   </head>
   <body>
@@ -87,30 +86,45 @@ Dos攻击
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">1. 网络攻击</h2>
-            <div class="post-date">2021-03-13</div>
+            <h2 class="post-title">php 伪协议与钓鱼</h2>
+            <div class="post-date">2021-03-21</div>
             
             <div class="post-content" v-pre>
-              <p><ul class="markdownIt-TOC">
-<li><a href="#1-%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1%E6%94%BB%E5%87%BB">1. 拒绝服务攻击</a>
-<ul>
-<li><a href="#dos%E6%94%BB%E5%87%BB">Dos攻击</a></li>
-</ul>
-</li>
-</ul>
-(网络攻击)</p>
-<h1 id="1-拒绝服务攻击">1. 拒绝服务攻击</h1>
-<p><strong>定义：攻击者会想办法让目标停止服务。通常是对目标网络资源上的消耗，使目标的服务器被暂停或者宕机等一系列能够给目标造成麻烦的后果的攻击方式。拒绝服务攻击一直得不到解决，其根本原因是由于网络协议本身的缺陷造成的。攻击者进行拒绝服务攻击，通常有两种效果：一个是迫使服务器的缓冲区溢满，不再接受新的请求，二是使用IP欺骗，迫使服务器把合法的用户的连接复位，影响正常用户的链接</strong></p>
-<h2 id="dos攻击">Dos攻击</h2>
+              <h1 id="1">1.</h1>
+<p>文件包含文件写入<br>
+flag在服务器根目录<br>
+目录穿越（../）或伪协议（php://filter/read=convert.base64）或file协议（file:///）<br>
+字符串过滤器<br>
+转换过滤器<br>
+压缩过滤器<br>
+编码绕过<br>
+docx可以直接改为zip，两者可以相互打开，docx-小马，1.txt-zip-docx，<br>
+phar协议-php-压缩包-木马-协议包含<br>
+加密过滤器<br>
+文件包含，直接运行php代码<br>
+分离免杀，危险数据，exe运行文件<br>
+exit绕过：exit部分进行编码处理，使php不能被识别，之后使内容写入文件，链接<br>
+.htaccess配置文件，将文件直接当作php执行<br>
+bypass绕过<br>
+usc-2，构成2的倍数，对目标字符串2位一反转<br>
+file_put_contents会解码一次，浏览器会解码一次，二次解码<br>
+tamp，Windows临时文件，爆破临时将文件，<br>
+伪造uav为一句话木马，文件包含日志文件，访问一句话木马，服务器访问临时文件，条件竞争<br>
+python脚本-服务器-不知道路径-加载phpinfo-加载路径-包含getshell<br>
+windows大小写不敏感，Linux大小写敏感</p>
+<h1 id="2">2.</h1>
+<p>打入内网，扩大成果<br>
+cobait strike<br>
+swaks</p>
 
             </div>
             
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://kite-007.github.io/linuxji-chu-xia-pian/">
+                <a href="https://kite-007.github.io/gong-ju/">
                   <h3 class="post-title">
-                    # Linux（Shell编程）
+                    # 工具
                   </h3>
                 </a>
               </div>

