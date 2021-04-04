@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title># MSF常用命令(三) | Fr</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://kite-007.github.io/favicon.ico?v=1617547013931">
+<link rel="stylesheet" href="https://kite-007.github.io/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="
+在MSF下查看帮助
+
+# 查看帮助文档
+help
+
+# 查看指定命令的帮助说明
+? search
+
+
+search查看命令
+
+
+# 以name参数为例
+search name:ms17-010
+* 这个查询的是名字含有ms17-010的文..." />
+    <meta name="keywords" content="MSF,kali,工具" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://kite-007.github.io">
+        <img src="https://kite-007.github.io/images/avatar.png?v=1617547013931" class="site-logo">
+        <h1 class="site-title">Fr</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://kite-007.github.io/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      意志坚定，持之以恒
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://kite-007.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title"># MSF常用命令(三)</h2>
+            <div class="post-date">2021-03-30</div>
+            
+            <div class="post-content" v-pre>
+              <ol>
+<li>在MSF下查看帮助</li>
+</ol>
+<pre><code># 查看帮助文档
+help
+
+# 查看指定命令的帮助说明
+? search
+</code></pre>
+<ol start="2">
+<li>search查看命令<br>
+<img src="https://kite-007.github.io/post-images/1617096460305.png" alt="" loading="lazy"></li>
+</ol>
+<pre><code># 以name参数为例
+search name:ms17-010
+* 这个查询的是名字含有ms17-010的文件
+
+search ms17-010
+* 搜索文件名字或者里面的文件内容
+
+# 查找metasploit框架中所有的渗透攻击和其他模块
+search name
+
+info //
+* 跳转到对应模块查看，展示出指定渗透攻击或模块的相关信息，帮助信息。
+eg:info exploit/windows/smb/ms17_010_eternalblue 
+* 如果已然在一个模块内部，直接使用info就能查看对应模块的信息。
+</code></pre>
+<ol start="3">
+<li>show列出所有</li>
+</ol>
+<pre><code>show XXX
+
+# 列出metasploit框架中所有的攻击模块
+show exploits
+
+# 列出metasploit框架中所有的攻击载荷
+show payloads
+
+# 列出metasploit框架中所有的辅助攻击模块
+show auxiliary
+
+# 列出渗透攻击所支持的目标平台
+show targets
+</code></pre>
+<ol start="4">
+<li>攻击测试流程(use,set,run)</li>
+</ol>
+<pre><code># 选择一个攻击或者渗透模块
+1. 打开MSF时，MSF的攻击入侵模块有很多，需要选择模块进行使用。
+eg：search ms17-010
+eg：use exploit/windows/smb/smb_doublepulsar_rce
+
+2. 查看MSF，看MSF需要哪些信息（攻击者ip，攻击者端口）才可以攻击目标。
+eg：show options
+* 选择模块show之后，发现有yes的选项参数，这里的yes表示必须要提供的参数，no表示可以不进行提供
+
+LHOST：自己
+RHOST：目标
+
+3. 要给予MSF命令来告诉MSF，要干什么，要攻击哪里，攻击的目标是什么，攻击之后要干什么。
+eg：set RHOST 1.1.1.1
+# 还可以查看已经设置了哪些选项。
+eg：show options 
+
+4. 运行模块，如果提供payloads给MSF攻击之后要干什莫，那麽MSF就会给一个默认的答案
+(主要看攻击脚本的作者有没有添加这个功能)。
+
+5. 可以提供指令给MSF指示入侵之后要拿下目标的权限，CMD或者什么都不做但是要在这之后对目标进行控制。
+eg：show payloads
+# set payload 之后按下tab键可以查看可以设置的payload
+eg：set payload windows/x64/shell/bind_tcp_uuid
+eg：show targets
+eg：set target 1
+# 如果配置错误可以使用unset来清空掉配置
+
+6. 运行，启动攻击
+run | exploit
+</code></pre>
+<ol start="5">
+<li>back跳出</li>
+<li>exit退出</li>
+</ol>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://kite-007.github.io/AalKWSLE-/" class="tag">
+                    MSF
+                  </a>
+                
+                  <a href="https://kite-007.github.io/Rq675FCzM/" class="tag">
+                    kali
+                  </a>
+                
+                  <a href="https://kite-007.github.io/yHvCxoFSyJ/" class="tag">
+                    工具
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://kite-007.github.io/msf-mo-kuai-bi-ji-er/">
+                  <h3 class="post-title">
+                    # MSF模块笔记(二)
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+
+  </body>
+</html>

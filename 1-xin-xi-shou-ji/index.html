@@ -3,12 +3,12 @@
   <head>
     <meta charset="utf-8" >
 
-<title>1. 信息收集之基本介绍 | Fr</title>
+<title># 信息收集之基本介绍 | Fr</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://kite-007.github.io/favicon.ico?v=1616506916535">
+<link rel="shortcut icon" href="https://kite-007.github.io/favicon.ico?v=1617547013931">
 <link rel="stylesheet" href="https://kite-007.github.io/styles/main.css">
 
 
@@ -46,7 +46,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://kite-007.github.io">
-        <img src="https://kite-007.github.io/images/avatar.png?v=1616506916535" class="site-logo">
+        <img src="https://kite-007.github.io/images/avatar.png?v=1617547013931" class="site-logo">
         <h1 class="site-title">Fr</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -96,7 +96,7 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title">1. 信息收集之基本介绍</h2>
+            <h2 class="post-title"># 信息收集之基本介绍</h2>
             <div class="post-date">2021-03-14</div>
             
             <div class="post-content" v-pre>
@@ -185,10 +185,10 @@
 1、Web接口查询：</li>
 </ol>
 <ul>
-<li>https://whois.aliyun.com/、</li>
-<li>https://www.whois365.com/cn/</li>
-<li>http://whois.chinaz.com/、</li>
-<li>https://whois.aizhan.com/<br>
+<li><a href="https://whois.aliyun.com/">https://whois.aliyun.com/</a></li>
+<li><a href="https://www.whois365.com/cn/">https://www.whois365.com/cn/</a></li>
+<li><a href="http://whois.chinaz.com/">http://whois.chinaz.com/</a></li>
+<li><a href="https://whois.aizhan.com/">https://whois.aizhan.com/</a><br>
 2、通过Whois命令行查询。</li>
 <li>在Kali linux下自带了Whois查询工具，通过命令whois域名 进行查询。</li>
 <li>whois [域名]</li>
@@ -198,14 +198,14 @@
 <li>ICP备案介绍：（Internet Content Provider）网络内容提供商。<br>
 《互联网信息服务管理办法》指出互联网信息服务分为经营性和非经营性两类。国家对经营性互联网信息服务实行许可制度；对非经营性互联网信息服务实行备案制度。未取得许可或者未履行备案手续的，不得从事互联网信息服务。在中华人民共和国境内提供非经营性互联网信息服务，应当依法履行备案手续。未经国家机关单位许可备案，不得在中华人民共和国境内从事非经营性互联网信息服务。</li>
 <li>备案好处：为了防止在网上从事非法的网站经营活动，打击不良互联网信息的传播，如果网站不备案的话，很有可能被查处以后关停。</li>
-<li>ICP备案查询方法：</li>
+<li>ICP备案查询方法</li>
 </ol>
 <ul>
 <li>Web接口查询：
 <ul>
-<li>http://www.beianbeian.com/</li>
-<li>http://www.miitbeian.gov.cn/publish/query/indexFirst.action</li>
-<li>https://www.tianyancha.com/</li>
+<li><a href="http://www.beianbeian.com/">http://www.beianbeian.com/</a></li>
+<li><a href="http://www.miitbeian.gov.cn/publish/query/indexFirst.action">http://www.miitbeian.gov.cn/publish/query/indexFirst.action</a></li>
+<li><a href="https://www.tianyancha.com/">https://www.tianyancha.com/</a></li>
 </ul>
 </li>
 </ul>
@@ -228,8 +228,38 @@
 </ul>
 <h2 id="3-子域名挖掘方法">3. 子域名挖掘方法</h2>
 <ol>
-<li>子域名挖掘工具 如：Maltego CE，wydomain，subDomainBrute，dnsmaper，Layer子域名挖掘机等等。</li>
-<li>实例演示：</li>
+<li>子域名挖掘工具 如：Maltego CE，wydomain，subDomainBrute，dnsmaper，Layer子域名挖掘机等等。
+<ul>
+<li>实例演示：
+<ol>
+<li>克隆git clone https://github.com/ring04h/wydomain</li>
+<li>cd 切换到wydomain目录</li>
+<li>pip指令下载</li>
+<li>安装软件需要的软件包pip install -r requirements.txt</li>
+<li>增加可执行权限chmod +x wydomain.py   chmod +x dnsburte.py</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>搜索引擎。</li>
+<li>第三方查询工具：
+<ol>
+<li><a href="http://tool.chinaz.com/subdomain">http://tool.chinaz.com/subdomain</a></li>
+<li><a href="http://dnsdumpster.com/">http://dnsdumpster.com/</a></li>
+</ol>
+</li>
+<li>证书透明度公开日志枚举：查看证书公开的日志中的子域名
+<ol>
+<li><a href="https://crt.sh">https://crt.sh</a></li>
+<li><a href="http://censys.io">http://censys.io</a></li>
+</ol>
+</li>
+<li>其他：
+<ol>
+<li><a href="https://phpinfo.me/domain">https://phpinfo.me/domain</a></li>
+<li><a href="http://dns.aizhan.com">http://dns.aizhan.com</a></li>
+</ol>
+</li>
 </ol>
 <h2 id="4-刷洞思路">4. 刷洞思路</h2>
 <ol>
@@ -247,16 +277,24 @@
 <li>CMS识别工具：</li>
 </ol>
 <ul>
-<li>在线工具：</li>
-<li>（http://whatweb.bugscaner.com/look/，http://www.yunsee.cn/finger.html）</li>
-<li>本地工具：</li>
-<li>whatweb，</li>
+<li>在线工具：
+<ul>
+<li><a href="http://whatweb.bugscaner.com/look/">https://www.whatweb.net/</a></li>
+<li><a href="http://whatweb.bugscaner.com/look/">http://whatweb.bugscaner.com/look/</a></li>
+<li><a href="http://www.yunsee.cn/finger.html">http://www.yunsee.cn/finger.html</a></li>
+</ul>
+</li>
+<li>本地工具：
+<ul>
+<li>linux ,whatweb,</li>
 <li>御剑web指纹识别程序（https://pan.baidu.com/share/link?shareid=437376&amp;uk=3526832374）</li>
-<li>大禹CMS识别程序（https://github.com/Ms0x0/Dayu）</li>
+<li>linux大禹CMS识别程序（https://github.com/Ms0x0/Dayu）</li>
+</ul>
+</li>
 </ul>
 <h2 id="2-针对cms漏洞查询">2. 针对CMS漏洞查询</h2>
 <ul>
-<li>对于查询到的CMS可以用https://bugs.shuimugan.com（失效）网站查询指定CMS的漏洞。</li>
+<li>对于查询到的CMS可以用<a href="https://bugs.shuimugan.com">https://bugs.shuimugan.com</a>（失效）网站查询指定CMS的漏洞。</li>
 </ul>
 <h2 id="3-敏感目录信息">3. 敏感目录信息</h2>
 <ol>
@@ -284,12 +322,11 @@
 <ul>
 <li>使用nmap(kali)探测。nmap -A -v -T4 [目标]</li>
 <li>也可以使用masscan(kali)。</li>
-<li>在线网站：http://tool.chinaz.com/port/</li>
+<li>在线网站：<a href="http://tool.chinaz.com/port/">http://tool.chinaz.com/port/</a></li>
 </ul>
 <h2 id="3-端口攻击乌云查询等等">3. 端口攻击（乌云查询等等）</h2>
 <ol>
-<li>不同的端口有不同的攻击方法。</li>
-</ol>
+<li>不同的端口有不同的攻击方法。
 <ul>
 <li>针对远程连接服务端口。</li>
 <li>端口 | 端口说明 | 攻击方法</li>
@@ -299,17 +336,20 @@
 <li>5900  | VNC远程连接 | 弱口令、RCE</li>
 <li>5632 | PcAnywhere远程连接 | 嗅探、代码执行</li>
 </ul>
+</li>
+</ol>
 <h2 id="4-防御措施">4. 防御措施</h2>
 <ol>
 <li>对于端口攻击来说只要端口开放并且可以连通，那么就可以利用对应的方式进行攻击测试。</li>
-<li>防御措施：</li>
-</ol>
+<li>防御措施：
 <ul>
 <li>关闭不必要的端口；</li>
 <li>对重要业务的服务端口设置防火墙：</li>
 <li>加强员工信息安全意识，经常性更换用户密码；</li>
 <li>经常更新软件，打补丁(patch)。</li>
 </ul>
+</li>
+</ol>
 <h1 id="5-敏感信息收集">5. 敏感信息收集</h1>
 <h2 id="1-敏感信息收集重要性">1. 敏感信息收集重要性</h2>
 <ol>
@@ -335,7 +375,7 @@
 <li>info | 指定搜索网页信息 info：baidu.com</li>
 </ul>
 <ol start="3">
-<li>Google hacking数据库：https://www.exploit-db.com/google-hacking-database/</li>
+<li>Google hacking数据库：<a href="https://www.exploit-db.com/google-hacking-database/">https://www.exploit-db.com/google-hacking-database/</a></li>
 <li>例如：查询Access数据：filetype:mdb &quot;standard jet&quot;(password | username | user  pass)</li>
 </ol>
 <h2 id="3-http响应收集server信息">3. HTTP响应收集Server信息</h2>
@@ -345,7 +385,7 @@
 </ol>
 <ul>
 <li>利用工具如：浏览器审计工具、Burpsuite等代理截断工具。</li>
-<li>编写Python脚本requests库 参考链接：http://www.python-requests.org/en/master/</li>
+<li>编写Python脚本requests库 参考链接：<a href="http://www.python-requests.org/en/master/">http://www.python-requests.org/en/master/</a></li>
 </ul>
 <pre><code>import requests
 r = requests.get('目标')
@@ -373,17 +413,17 @@ site:Github.com 密码、site:Github.com 内部</li>
 <ol>
 <li>CDN一般存在于大型网站（用户流量特别多），通过CDN可以解决服务器性能的瓶颈。</li>
 <li>通过ping判断是否存在CDN（ping www.baihe.com）存在CDN。</li>
-<li>通过设置代理或者利用在线ping网站来使用不同地区的ping服务器来测试目标。（http://ping.chinaz.com）</li>
+<li>通过设置代理或者利用在线ping网站来使用不同地区的ping服务器来测试目标。<a href="http://ping.chinaz.com">http://ping.chinaz.com</a></li>
 </ol>
 <h2 id="3-绕过cdn">3. 绕过CDN</h2>
 <ol>
-<li>如果目标没有使用CDN，可以直接利用ping获得IP地址。或者利用在线网站（http://www.ip138.com）</li>
+<li>如果目标没有使用CDN，可以直接利用ping获得IP地址。或者利用在线网站<a href="http://www.ip138.com">http://www.ip138.com</a></li>
 <li>如果目标使用CDN，需要绕过CDN来获取真实IP地址。<br>
 1、内部邮箱源 收集到内部邮箱服务器IP地址<br>
 2、网站phpinfo文件phpinfo.php<br>
 3、分站IP地址，查询子域名 CDN很贵，很有可能分站就不再使用CDN。<br>
-4、国外访问 https://asm.ca.com/en/ping.php<br>
-5、查询域名解析记录 https://viewdns.info/</li>
+4、国外访问 <a href="https://asm.ca.com/en/ping.php">https://asm.ca.com/en/ping.php</a><br>
+5、查询域名解析记录 <a href="https://viewdns.info/">https://viewdns.info/</a></li>
 </ol>
 <h2 id="4-验证ip地址">4. 验证IP地址</h2>
 <p>利用IP地址对Web站点进行访问，如果正常表明是真实IP地址，否则不真。可能因为浏览器的原因访问的是空白的页面，有时会出来图标标明是真实的IP地址。</p>
@@ -464,9 +504,9 @@ shodan honeyscore [目标IP]</li>
             
               <div class="next-post">
                 <div class="next">下一篇</div>
-                <a href="https://kite-007.github.io/1-wang-luo-gong-ji/">
+                <a href="https://kite-007.github.io/linuxji-chu-xia-pian/">
                   <h3 class="post-title">
-                    1. 网络攻击
+                    # Linux（Shell编程）
                   </h3>
                 </a>
               </div>

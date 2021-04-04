@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title># Docker搭建LNMP环境（CentOS-7） | Fr</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://kite-007.github.io/favicon.ico?v=1617547013931">
+<link rel="stylesheet" href="https://kite-007.github.io/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="
+1. MySQL:5.6
+2. php:5.5-fpm
+3. nginx:1.10.3
+
+(Docker)
+1. MySQL:5.6
+
+拉取镜像
+
+# 拉取5.6版本的MySQL比较稳定
+docker pull mysql:5.6
+
+# ..." />
+    <meta name="keywords" content="运维,Docker,工具,Linux" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://kite-007.github.io">
+        <img src="https://kite-007.github.io/images/avatar.png?v=1617547013931" class="site-logo">
+        <h1 class="site-title">Fr</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://kite-007.github.io/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      意志坚定，持之以恒
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://kite-007.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title"># Docker搭建LNMP环境（CentOS-7）</h2>
+            <div class="post-date">2021-03-27</div>
+            
+            <div class="post-content" v-pre>
+              <p><ul class="markdownIt-TOC">
+<li><a href="#1-mysql56">1. MySQL:5.6</a></li>
+<li><a href="#2-php55-fpm">2. php:5.5-fpm</a></li>
+<li><a href="#3-nginx1103">3. nginx:1.10.3</a></li>
+</ul>
+(Docker)</p>
+<h1 id="1-mysql56">1. MySQL:5.6</h1>
+<ol>
+<li>拉取镜像</li>
+</ol>
+<pre><code class="language-shell"># 拉取5.6版本的MySQL比较稳定
+docker pull mysql:5.6
+
+# 查看刚刚拉取的镜像
+docker images
+</code></pre>
+<ol start="2">
+<li>创建并启动容器</li>
+</ol>
+<pre><code class="language-shell">docker run -id -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 --name=mysql mysql:5.6
+# 其实这里为了方便相比于部署那篇已经少了挂载容器的内容
+</code></pre>
+<ol start="3">
+<li>测试</li>
+</ol>
+<pre><code class="language-shell">docker exec -it mysql /bin/bash
+</code></pre>
+<h1 id="2-php55-fpm">2. php:5.5-fpm</h1>
+<ol>
+<li>拉取镜像</li>
+</ol>
+<pre><code class="language-shell"># 拉取5.5版本的PHP比较稳定
+docker pull php:5.5-fpm
+
+# 查看刚刚拉取的镜像
+docker images
+</code></pre>
+<ol start="2">
+<li>创建并启动容器</li>
+</ol>
+<pre><code class="language-shell">docker run -id -v /var/nginx/www/html:/var/www/html -p 9000:9000 --link mysql:mysql --name=phpfpm php:5.5-fpm 
+# –link 与另外一个容器建立起联系，这样我们就可以在当前容器中去使用另一个容器里的服务。
+
+docker-php-ext-install pdo_mysql
+# 因为后面我要使用pdo模块进行测试，所以我需要自己安装pdo_mysql模块，在docker容器中可以这样来安装
+
+# 然后我们可以通过命令php -m查看我们的php的所有扩展模块，我们可以去看到我们刚刚安装的pdo_mysql扩展也在里面
+
+</code></pre>
+<h1 id="3-nginx1103">3. nginx:1.10.3</h1>
+<ol>
+<li>拉取镜像</li>
+</ol>
+<pre><code class="language-shell">docker pull nginx:1.10.3
+docker images
+</code></pre>
+<ol start="2">
+<li>创建并启动容器</li>
+</ol>
+<pre><code class="language-shell">docker run -id -p 80:80 --name=nginx \
+-v /var/nginx/www/html:/var/www/html \
+--link phpfpm:phpfpm --name=nginx nginx:1.10.3
+
+# 然后进入nginx容器，修改nginx的配置文件让它支持php
+docker exec -ti xy_nginx /bin/bash
+
+location ~ \.php$ {
+        root           /var/www/html;
+        fastcgi_index  index.php;
+        fastcgi_pass   phpfpm:9000;//这里改成我们之前--link进来的容器，也可以直接用php容器的ip
+	    fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        //如果你的根目录和php容器的根目录不一样，这里的$document_root需要换成你php下的根目录，不然php就找不到文件了
+        include        fastcgi_params;     
+    }
+</code></pre>
+<ol start="3">
+<li>测试</li>
+</ol>
+<pre><code class="language-php">&lt;?php
+try {
+    $con = new PDO('mysql:host=mysql;dbname=test', 'root', '123456');
+    $con-&gt;query('SET NAMES UTF8');
+    $res =  $con-&gt;query('select * from test');
+    while ($row = $res-&gt;fetch(PDO::FETCH_ASSOC)) {
+        echo &quot;id:{$row['id']} name:{$row['name']}&quot;;
+    }
+} catch (PDOException $e) {
+     echo '错误原因：'  . $e-&gt;getMessage();
+}
+</code></pre>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://kite-007.github.io/EVOwnoiCC/" class="tag">
+                    运维
+                  </a>
+                
+                  <a href="https://kite-007.github.io/Nb3cBA4n3/" class="tag">
+                    Docker
+                  </a>
+                
+                  <a href="https://kite-007.github.io/yHvCxoFSyJ/" class="tag">
+                    工具
+                  </a>
+                
+                  <a href="https://kite-007.github.io/vMLNi3LB4/" class="tag">
+                    Linux
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://kite-007.github.io/docker-fu-wu-bian-pai-centos-7/">
+                  <h3 class="post-title">
+                    # Docker服务编排（CentOS-7）*
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+
+  </body>
+</html>

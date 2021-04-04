@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title># MSF模块笔记(二) | Fr</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://kite-007.github.io/favicon.ico?v=1617547013931">
+<link rel="stylesheet" href="https://kite-007.github.io/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="
+1. exploits(漏洞攻击模块)
+2. payloads(漏洞负载模块)
+3. auxiliary(辅助模块)
+4. encoders(编码器模块)
+5. nops(无操作生成器模块)
+6. post(开发模块)
+7. evasio..." />
+    <meta name="keywords" content="MSF,kali,工具" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://kite-007.github.io">
+        <img src="https://kite-007.github.io/images/avatar.png?v=1617547013931" class="site-logo">
+        <h1 class="site-title">Fr</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://kite-007.github.io/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      意志坚定，持之以恒
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://kite-007.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title"># MSF模块笔记(二)</h2>
+            <div class="post-date">2021-03-29</div>
+            
+            <div class="post-content" v-pre>
+              <p><ul class="markdownIt-TOC">
+<li><a href="#1-exploits%E6%BC%8F%E6%B4%9E%E6%94%BB%E5%87%BB%E6%A8%A1%E5%9D%97">1. exploits(漏洞攻击模块)</a></li>
+<li><a href="#2-payloads%E6%BC%8F%E6%B4%9E%E8%B4%9F%E8%BD%BD%E6%A8%A1%E5%9D%97">2. payloads(漏洞负载模块)</a></li>
+<li><a href="#3-auxiliary%E8%BE%85%E5%8A%A9%E6%A8%A1%E5%9D%97">3. auxiliary(辅助模块)</a></li>
+<li><a href="#4-encoders%E7%BC%96%E7%A0%81%E5%99%A8%E6%A8%A1%E5%9D%97">4. encoders(编码器模块)</a></li>
+<li><a href="#5-nops%E6%97%A0%E6%93%8D%E4%BD%9C%E7%94%9F%E6%88%90%E5%99%A8%E6%A8%A1%E5%9D%97">5. nops(无操作生成器模块)</a></li>
+<li><a href="#6-post%E5%BC%80%E5%8F%91%E6%A8%A1%E5%9D%97">6. post(开发模块)</a></li>
+<li><a href="#7-evasion">7. evasion</a></li>
+</ul>
+(MSF模块)</p>
+<p><strong>模块目录：/opt/metasploit-framework/embedded/framework/modules</strong><br>
+<img src="https://kite-007.github.io/post-images/1617150488021.png" alt="" loading="lazy"></p>
+<hr>
+<h1 id="1-exploits漏洞攻击模块">1. exploits(漏洞攻击模块)</h1>
+<p><em>漏洞攻击模块列表，入侵式攻击模块</em></p>
+<ul>
+<li>必须要使用payloads模块。exploits模块的NAME命名规则：模块/系统/服务/名称<br>
+<img src="https://kite-007.github.io/post-images/1617094549761.png" alt="" loading="lazy"></li>
+</ul>
+<ol>
+<li>exploits漏洞模块下，windows漏洞目录/opt/metasploit-framework/embedded/framework/modules/exploits/windows/smb。以ms17_010_psexec.rb为例子，可以vim进入文档之后进行修改，可以以从网上面查找[MSF].rb脚本之后移入文件保存测试。</li>
+</ol>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617150955806.png" alt="" loading="lazy">
+<ul>
+<li>这里意思是如果发现了某个漏洞，但是没有对应的.rb文件去进行测试的话，就可以去github上面查找对应漏洞的.rb文件（也并不一定非要是.rb文件），之后移入到目录文件对目标进行测试。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="2-payloads漏洞负载模块">2. payloads(漏洞负载模块)</h1>
+<p><em>入侵要做什么</em></p>
+<ul>
+<li>入侵之后要使用的模块，是在渗透攻击成功后促使目标系统运行的一段植入代码，通常作用是为渗透攻击者打开在目标系统上的控制会话连接。此模块分为独立(Singles),传输器(Stager),传输体(Stage)三种类型。</li>
+</ul>
+<hr>
+<h1 id="3-auxiliary辅助模块">3. auxiliary(辅助模块)</h1>
+<p><em>一般是没有攻击载荷的漏洞攻击</em></p>
+<ul>
+<li>不属于入侵，用于信息收集以及一些不需要payload的攻击，像DOS，爆破，注入，爬虫，信息收集，资源嗅探等等。此模块的命名规则：模块(可有可无)/系统(可有可无)/服务/名称。</li>
+</ul>
+<hr>
+<h1 id="4-encoders编码器模块">4. encoders(编码器模块)</h1>
+<p><em>用于msfvenom -e or msf执行时也能用的shellcode编码</em></p>
+<ul>
+<li>一种编码转码模块，能够确保攻击载荷中不会出现渗透攻击过程中应加以避免的“坏字符”，还能对攻击模块实现免杀，躲过入侵检测和过滤系统。</li>
+<li>像典型的坏字符0x00，会截断后面的内容，从而使攻击载荷无法运行。</li>
+</ul>
+<hr>
+<h1 id="5-nops无操作生成器模块">5. nops(无操作生成器模块)</h1>
+<p><em>用来在攻击中添加空指令区，以提高攻击的可靠性</em></p>
+<hr>
+<h1 id="6-post开发模块">6. post(开发模块)</h1>
+<ul>
+<li>主要支持在渗透攻击取得目标系统远程控制权之后，在受控系统中进行各式各样的后渗透攻击动作，比如获取敏感信息，进一步扩展，实现跳板攻击等等</li>
+</ul>
+<hr>
+<h1 id="7-evasion">7. evasion</h1>
+<p><em>新模块，主要用于免杀</em></p>
+<ul>
+<li>MSF 5.0 中更新的一个新的模块，使用这个模块可以轻松创建反杀毒软件的木马。</li>
+</ul>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://kite-007.github.io/AalKWSLE-/" class="tag">
+                    MSF
+                  </a>
+                
+                  <a href="https://kite-007.github.io/Rq675FCzM/" class="tag">
+                    kali
+                  </a>
+                
+                  <a href="https://kite-007.github.io/yHvCxoFSyJ/" class="tag">
+                    工具
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://kite-007.github.io/msf-shen-tou-gong-ju-yi/">
+                  <h3 class="post-title">
+                    # MSF渗透工具(一)
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+
+  </body>
+</html>

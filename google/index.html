@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title># Google Hack | Fr</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://kite-007.github.io/favicon.ico?v=1617547013931">
+<link rel="stylesheet" href="https://kite-007.github.io/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="
+1. google搜索基本符号的意义
+2. site搜索语法
+3. inurl搜索语法
+4. intitle搜索语法
+5. cache:搜索语法
+6. Google Hack拓展
+
+(TOC)
+1. google搜索基本符号的意义
+
+【&..." />
+    <meta name="keywords" content="信息收集,工具" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://kite-007.github.io">
+        <img src="https://kite-007.github.io/images/avatar.png?v=1617547013931" class="site-logo">
+        <h1 class="site-title">Fr</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://kite-007.github.io/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      意志坚定，持之以恒
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://kite-007.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title"># Google Hack</h2>
+            <div class="post-date">2021-03-24</div>
+            
+            <div class="post-content" v-pre>
+              <p><ul class="markdownIt-TOC">
+<li><a href="#1-google%E6%90%9C%E7%B4%A2%E5%9F%BA%E6%9C%AC%E7%AC%A6%E5%8F%B7%E7%9A%84%E6%84%8F%E4%B9%89">1. google搜索基本符号的意义</a></li>
+<li><a href="#2-site%E6%90%9C%E7%B4%A2%E8%AF%AD%E6%B3%95">2. site搜索语法</a></li>
+<li><a href="#3-inurl%E6%90%9C%E7%B4%A2%E8%AF%AD%E6%B3%95">3. inurl搜索语法</a></li>
+<li><a href="#4-intitle%E6%90%9C%E7%B4%A2%E8%AF%AD%E6%B3%95">4. intitle搜索语法</a></li>
+<li><a href="#5-cache%E6%90%9C%E7%B4%A2%E8%AF%AD%E6%B3%95">5. cache:搜索语法</a></li>
+<li><a href="#6-google-hack%E6%8B%93%E5%B1%95">6. Google Hack拓展</a></li>
+</ul>
+(TOC)</p>
+<h1 id="1-google搜索基本符号的意义">1. google搜索基本符号的意义</h1>
+<ol>
+<li>【&quot;&quot;】完全匹配搜索。
+<ul>
+<li>用双引号括起来的内容会完全精确搜索，不会拆分关键词。</li>
+<li><img src="https://kite-007.github.io/post-images/1616590201238.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1616590208038.png" alt="" loading="lazy"></li>
+</ul>
+</li>
+<li>【+】指定一个一定存在的一个关键词。
+<ul>
+<li>搜索的每条结果都有百科两个字。</li>
+<li><img src="https://kite-007.github.io/post-images/1616590316641.png" alt="" loading="lazy"></li>
+</ul>
+</li>
+<li>【-】与+号相反，指定一个一定不存在的关键词。
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1616590568835.png" alt="" loading="lazy"></li>
+</ul>
+</li>
+<li>【|】或条件。
+<ul>
+<li>搜索的两个词组，只要满足一个条件都会显示出来。</li>
+<li><img src="https://kite-007.github.io/post-images/1616590748706.png" alt="" loading="lazy"></li>
+</ul>
+</li>
+<li>【AND】且条件。
+<ul>
+<li>搜索的两个词组必须都满足才能把结果显示出来。</li>
+<li><img src="https://kite-007.github.io/post-images/1616590993906.png" alt="" loading="lazy"></li>
+</ul>
+</li>
+</ol>
+<h1 id="2-site搜索语法">2. site搜索语法</h1>
+<ol>
+<li>作用：
+<ol>
+<li>可以针对目标做一次准确的信息搜集（目录，文件）</li>
+<li>可以得到目标的子域名</li>
+</ol>
+</li>
+<li>site：搜索指定域名下的结果
+<ol>
+<li>site:baidu.com</li>
+<li><img src="https://kite-007.github.io/post-images/1616591787765.png" alt="" loading="lazy"></li>
+</ol>
+</li>
+<li>拓展：site:baidu.com&amp;site:www.baidu.com(哪种方式搜索的结果多？)
+<ol>
+<li>site:www.baidu.com</li>
+<li><img src="https://kite-007.github.io/post-images/1616592133004.png" alt="" loading="lazy"></li>
+</ol>
+</li>
+</ol>
+<h1 id="3-inurl搜索语法">3. inurl搜索语法</h1>
+<ol>
+<li>作用：一般用于批量搜索较多，比如批量找后台，批量找注入点，批量找指定漏洞目标站点等等。</li>
+<li>inurl:baidu.com
+<ol>
+<li>表示搜索结果的url中一定含有baidu.com这个关键词。</li>
+<li><img src="https://kite-007.github.io/post-images/1616592583036.png" alt="" loading="lazy"></li>
+</ol>
+</li>
+<li>常用后台路径：
+<ol>
+<li>Admin/</li>
+<li>System/login.php</li>
+<li>Manage/</li>
+<li>等等···</li>
+<li><img src="https://kite-007.github.io/post-images/1616592983917.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1616592828590.png" alt="" loading="lazy"></li>
+</ol>
+</li>
+<li>批量找注入点：
+<ol>
+<li>inurl:php?id=</li>
+<li><img src="https://kite-007.github.io/post-images/1616593260339.png" alt="" loading="lazy"></li>
+</ol>
+</li>
+</ol>
+<h1 id="4-intitle搜索语法">4. intitle搜索语法</h1>
+<ol>
+<li>作用：批量搜索漏洞后台，批量搜索寻找弱点网站（需要自己构造标题），针对性寻找页面。
+<ul>
+<li>可以搜索标题为指定内容的结果。</li>
+</ul>
+</li>
+<li>intitle:后台管理
+<ol>
+<li><img src="https://kite-007.github.io/post-images/1616593711134.png" alt="" loading="lazy"></li>
+</ol>
+</li>
+<li>搜索思路多样化，使用不同的关键词，达到一样的效果
+<ul>
+<li>intitle:后台管理</li>
+<li>intitle:后台管理系统</li>
+<li>intitle:管理员登录</li>
+<li>intitle:欢迎来到管理中心</li>
+</ul>
+</li>
+<li>命令组合使用
+<ul>
+<li>intitle:登录 inurl:admin</li>
+<li><img src="https://kite-007.github.io/post-images/1616593945009.png" alt="" loading="lazy"></li>
+</ul>
+</li>
+</ol>
+<h1 id="5-cache搜索语法">5. cache:搜索语法</h1>
+<ol>
+<li>作用：类似于百度的快照功能，如果网页出现异常打不开，那麽使用这个语法就可以恢复到出现异常前的一个正常的状态。可以查看之前的内容，包括已经删掉的内容。</li>
+<li>cache:内容。
+<ol>
+<li><img src="https://kite-007.github.io/post-images/1616594666031.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1616594670715.png" alt="" loading="lazy"></li>
+</ol>
+</li>
+<li>用途：寻找物理路径时，网站异常被恢复时可以使用这个语法来进行搜索。查看网站被删除信息时，也可以使用这个语法来搜索。</li>
+<li>注意：搜索语法使用时，百度和谷歌都可以试一试，因为每个搜索引擎的收录结果都不一样。</li>
+</ol>
+<h1 id="6-google-hack拓展">6. Google Hack拓展</h1>
+<ol>
+<li>寻找管理员用户
+<ol>
+<li>www.71tv.net.cn</li>
+<li>site:71tv.net.cn &quot;发布人&quot;
+<ol>
+<li>一般这种发布人都是后台用户，后台发布新闻时根据管理用户名来发布。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>寻找目标脚本语言
+<ol>
+<li>很多伪静态网站，我们可以通过Google Hack来找到真实的脚本语言。</li>
+<li>www.csc.com.tw
+<ol>
+<li>site:www.csc.com.tw php</li>
+<li><img src="https://kite-007.github.io/post-images/1616753150892.png" alt="" loading="lazy"></li>
+</ol>
+</li>
+</ol>
+</li>
+<li>寻找c段主机，站点等
+<ol>
+<li>site:49.122.21.249:84/Admin/ZhiDao.aspx</li>
+<li><img src="https://kite-007.github.io/post-images/1616753736878.png" alt="" loading="lazy"></li>
+</ol>
+</li>
+</ol>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://kite-007.github.io/hT572ShHF/" class="tag">
+                    信息收集
+                  </a>
+                
+                  <a href="https://kite-007.github.io/yHvCxoFSyJ/" class="tag">
+                    工具
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://kite-007.github.io/xss-ba-chang/">
+                  <h3 class="post-title">
+                    # XSS-labs
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+
+  </body>
+</html>

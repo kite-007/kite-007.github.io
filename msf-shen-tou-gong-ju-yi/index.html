@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title># MSF渗透工具(一) | Fr</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://kite-007.github.io/favicon.ico?v=1617547013931">
+<link rel="stylesheet" href="https://kite-007.github.io/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="MSF 介绍:MSF 的全称为Metasploit，是一个免费的，可下载的框架，通过它我们可以很容易的获取、开发并对计算机软件漏洞实施攻击。它本身含有数百个已知软件漏洞的专业级漏洞攻击工具。
+MSF的安装：
+
+下载地址：https://ww..." />
+    <meta name="keywords" content="MSF,kali,工具" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://kite-007.github.io">
+        <img src="https://kite-007.github.io/images/avatar.png?v=1617547013931" class="site-logo">
+        <h1 class="site-title">Fr</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://kite-007.github.io/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      意志坚定，持之以恒
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://kite-007.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title"># MSF渗透工具(一)</h2>
+            <div class="post-date">2021-03-29</div>
+            
+            <div class="post-content" v-pre>
+              <p><strong>MSF 介绍</strong>:<em>MSF 的全称为Metasploit，是一个免费的，可下载的框架，通过它我们可以很容易的获取、开发并对计算机软件漏洞实施攻击。它本身含有数百个已知软件漏洞的专业级漏洞攻击工具。</em></p>
+<p><strong>MSF的安装：</strong></p>
+<ul>
+<li>下载地址：<a href="https://www.metasploit.com/download">https://www.metasploit.com/download</a>
+<ul>
+<li>(Windows下有一些功能使用不了，所以推荐Linux。)</li>
+<li>Linux这里有两种安装方式：</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li>使用指令安装</li>
+</ol>
+<pre><code>curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb &gt; msfinstall &amp;&amp; \
+  chmod 755 msfinstall &amp;&amp; \
+  ./msfinstall
+</code></pre>
+<ol start="2">
+<li>使用下载好的压缩文件。</li>
+</ol>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617019530353.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617019487323.png" alt="" loading="lazy"></li>
+<li>切换到压缩文件存放的当前目录，解包安装，切换到该目录运行测试。</li>
+</ul>
+<pre><code>sudo dpkg -i ./metasploit-framework_6.0.38+20210329102531~1rapid7-1_amd64.deb 
+
+# 切换到该安装目录
+cd /opt/metasploit-framework/bin
+
+# kali里面的目录
+cd /usr/share/metasploit-framework/bin
+
+# 打开MSF测试
+./msfconsole | msfconsole
+
+# MSF更新命令
+msfupdate
+</code></pre>
+<ul>
+<li>开始时会问是否使用数据库，选择是(这样会大大提高搜索文件的速度，没问也没关系)。</li>
+</ul>
+<ol start="3">
+<li>MSF之postgresql数据库<br>
+<em>postgresql是MSF所使用的数据库，数据库的配置文件在；~/用户/.msf4。安装时会默认创建数据库的账号密码，默认为：账号:MSF@密码:MSF@数据库:MSF（普通权限），也可以自己新建账号或者密码，然后修改XML配置文件</em></li>
+</ol>
+<pre><code class="language-shell"># XML配置文件目录
+cd /home/用户/.msf4
+vim ./database.yml
+
+# 查看是否连接数据库
+db_status
+
+# 连接数据库
+db_connect  【参数】
+
+# 历史扫描文件的路径（导入）
+db_import
+
+# 只查看扫描的ip地址
+hosts -c address
+</code></pre>
+<ul>
+<li>如果刚刚没有出现创建数据库的提示，在这里切换到普通用户进入MSF的安装目录。</li>
+</ul>
+<pre><code class="language-shell">cd /opt/metasploit-framework/bin
+
+# 查看数据库命令帮助
+./msfdb
+
+# 初始化组件
+* init     initialize the component
+
+# 重新初始化删除并重新初始化组件
+* reinit   delete and reinitialize the component
+
+# 删除并停止组件
+* delete   delete and stop the component
+
+#状态检查组件状态
+* status   check component status
+
+# 启动组件
+* start    start the component
+
+# 停止组件
+* stop     stop the component
+
+# 重新启动组件
+* restart  restart the component
+</code></pre>
+<pre><code class="language-shell"># 这里启用初始化数据库设置账户密码为MSF
+msfdb init
+
+# 启动数据库
+msfdb start
+</code></pre>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://kite-007.github.io/AalKWSLE-/" class="tag">
+                    MSF
+                  </a>
+                
+                  <a href="https://kite-007.github.io/Rq675FCzM/" class="tag">
+                    kali
+                  </a>
+                
+                  <a href="https://kite-007.github.io/yHvCxoFSyJ/" class="tag">
+                    工具
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://kite-007.github.io/docker-da-jian-lnmp-huan-jing/">
+                  <h3 class="post-title">
+                    # Docker搭建LNMP环境（CentOS-7）
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+
+  </body>
+</html>

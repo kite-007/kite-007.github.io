@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title># KALI 漏洞扫描 | Fr</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://kite-007.github.io/favicon.ico?v=1617547013931">
+<link rel="stylesheet" href="https://kite-007.github.io/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="
+1. 发现漏洞
+
+1. 发现漏洞
+2. 从信息的维度定义漏洞管理
+3. 弱点扫描类型
+4. 漏洞基本概念
+
+
+2. NMAP常用扫描脚本
+3. 弱点扫描器
+
+1. OPENVAS
+2. NESSUS
+
+
+
+(KALI)
+1. 发现漏洞
+1..." />
+    <meta name="keywords" content="" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://kite-007.github.io">
+        <img src="https://kite-007.github.io/images/avatar.png?v=1617547013931" class="site-logo">
+        <h1 class="site-title">Fr</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://kite-007.github.io/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      意志坚定，持之以恒
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://kite-007.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title"># KALI 漏洞扫描</h2>
+            <div class="post-date">2021-04-01</div>
+            
+            <div class="post-content" v-pre>
+              <p><ul class="markdownIt-TOC">
+<li><a href="#1-%E5%8F%91%E7%8E%B0%E6%BC%8F%E6%B4%9E">1. 发现漏洞</a>
+<ul>
+<li><a href="#1-%E5%8F%91%E7%8E%B0%E6%BC%8F%E6%B4%9E-2">1. 发现漏洞</a></li>
+<li><a href="#2-%E4%BB%8E%E4%BF%A1%E6%81%AF%E7%9A%84%E7%BB%B4%E5%BA%A6%E5%AE%9A%E4%B9%89%E6%BC%8F%E6%B4%9E%E7%AE%A1%E7%90%86">2. 从信息的维度定义漏洞管理</a></li>
+<li><a href="#3-%E5%BC%B1%E7%82%B9%E6%89%AB%E6%8F%8F%E7%B1%BB%E5%9E%8B">3. 弱点扫描类型</a></li>
+<li><a href="#4-%E6%BC%8F%E6%B4%9E%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5">4. 漏洞基本概念</a></li>
+</ul>
+</li>
+<li><a href="#2-nmap%E5%B8%B8%E7%94%A8%E6%89%AB%E6%8F%8F%E8%84%9A%E6%9C%AC">2. NMAP常用扫描脚本</a></li>
+<li><a href="#3-%E5%BC%B1%E7%82%B9%E6%89%AB%E6%8F%8F%E5%99%A8">3. 弱点扫描器</a>
+<ul>
+<li><a href="#1-openvas">1. OPENVAS</a></li>
+<li><a href="#2-nessus">2. NESSUS</a></li>
+</ul>
+</li>
+</ul>
+(KALI)</p>
+<h1 id="1-发现漏洞">1. 发现漏洞</h1>
+<h2 id="1-发现漏洞-2">1. 发现漏洞</h2>
+<ol>
+<li>基于端口服务扫描结果版本信息（速度比较慢）。</li>
+<li>搜索已公开的漏洞数据库（数量大）。</li>
+<li>使用弱点扫描器实现漏洞管理，自动利用漏洞代码进行探测，能够快速发现目的信息。</li>
+</ol>
+<ul>
+<li>exploit-db.com网站中存放着大量的关于漏洞以及利用的代码，可以下载漏洞源码，进行尝试。</li>
+<li><img src="https://kite-007.github.io/post-images/1617272711283.png" alt="" loading="lazy"></li>
+</ul>
+<hr>
+<ul>
+<li>searchsploit 工具，kali下自带的一个漏洞查询工具</li>
+<li><img src="https://kite-007.github.io/post-images/1617273103152.png" alt="" loading="lazy">
+<ul>
+<li>这些内容是存放在操作系统的某个目录下的，目录下会按照平台，脚本以及类型进行划分。</li>
+<li>cd /usr/share/exploitdb/exploits目录下面有分类，这是可以按照搜索下面的Path目录进行访问查看。</li>
+<li>vim ./multiple/remote/21490.txt</li>
+<li><img src="https://kite-007.github.io/post-images/1617273524071.png" alt="" loading="lazy"></li>
+</ul>
+</li>
+</ul>
+<h2 id="2-从信息的维度定义漏洞管理">2. 从信息的维度定义漏洞管理</h2>
+<ol>
+<li>企业：</li>
+</ol>
+<ul>
+<li>优先从漏洞的危险等级，从高到低进行处理，逐渐改进，不断完善。</li>
+<li>信息收集
+<ul>
+<li>漏洞扫描器扫描发现网络IP，OS，服务，配置，漏洞</li>
+<li>能力需求：定义扫描方式内容和目标。</li>
+</ul>
+</li>
+<li>信息管理*
+<ul>
+<li>格式化信息，并进行筛选，分组，定义优先级</li>
+<li>能力需求：资产分组，指定所有者，向所有者报告漏洞</li>
+</ul>
+</li>
+<li>信息输出
+<ul>
+<li>向不同层次的人群展示足够的信息量，生成不同的报告</li>
+<li>能力需求：生成报告，导出数据，SIEM集成进行统一管理</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-弱点扫描类型">3. 弱点扫描类型</h2>
+<ul>
+<li>主动扫描
+<ul>
+<li>有身份验证</li>
+<li>无身份验证</li>
+</ul>
+</li>
+<li>被动扫描
+<ul>
+<li>镜像端口抓包</li>
+<li>其他来源输入</li>
+</ul>
+</li>
+</ul>
+<pre><code>主动扫描和被动扫描都是无法进行登录目标系统，以一种接近黑盒的形式对目标系统进行探测，根据
+反馈去猜测目标系统是否存在漏洞。主动扫描也可以有目标系统的登录权，可以有扫描器登入到系统
+对目标进行扫描，通常情况使用不多。
+</code></pre>
+<ul>
+<li>基于Agent的扫描
+<ul>
+<li>支持平台有限</li>
+</ul>
+</li>
+</ul>
+<pre><code>企业中对漏洞管理会使用的一种场景，需要在所有的服务器上面所有的设备上面，安装扫描器的a，
+a工作在目标系统里面，之后会在目标系统里面进行查询，探测，软件补丁版本判断。这样，通常
+下扫描的判断比较准确，效率比较高，但是比较受平台的限制，比如一些设备不可以去安装agent，
+交换机，应用场景局限。
+</code></pre>
+<h2 id="4-漏洞基本概念">4. 漏洞基本概念</h2>
+<ol>
+<li>
+<p>CVSS（Common Vulnerability Scoring System）</p>
+<ul>
+<li>通用漏洞评分系统——工业标准，CVSS是安全内容自动化协议（SCAP）的一部分，通常CVSS与CVE一同由美国国家漏洞库（NVD）发布并保持数据的更新。
+<ul>
+<li>描述安全漏洞严重程度的统一评分方案，作用是给各个漏洞进行评分，按照漏洞的严重级别，给漏洞进行打分，最低0分，最高10分。</li>
+</ul>
+</li>
+<li>不同机构按CVSS分值定义威胁的安全程度，低，中，高。</li>
+<li>CVSS分值是工业标准，但威胁级别不是。</li>
+<li>路由度量值
+<ul>
+<li>Basic Metric：基础的恒定不变的弱点权重</li>
+<li>Temporal Metric：依赖时间因素的弱点权重</li>
+<li>Envriomental Metric：利用弱点的环境要求和实施难度的权重</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>CVE（Common Vulnerabilities and Exposures）</p>
+<ul>
+<li>每发现一个漏洞，管理组织就会给一个编号：CVE-2008-4250
+<ul>
+<li>是已公开的信息安全漏洞字典，统一的漏洞编号标准</li>
+<li>所有的扫描器都会遵守CVE的编号</li>
+<li>发布流程：发现漏洞，CAN指定CVE ID，发布到CVE List，MITRE公司负责对内容进行编辑维护。</li>
+</ul>
+</li>
+<li>很多厂商会维护自己的漏洞编号。
+<ul>
+<li>MS（微软）</li>
+<li>MSKB（微软补丁）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>SCAP</p>
+</li>
+</ol>
+<h1 id="2-nmap常用扫描脚本">2. NMAP常用扫描脚本</h1>
+<pre><code class="language-shell"># NMAP里包含所有脚本名称的一个文件，总共600+个
+cd /usr/share/nmap/scripts
+cat script.db
+
+# safe，安全类脚本，不会对目标产生破坏
+# discovery，用于发现的脚本
+# vuln，用于检测漏洞的脚本
+# exploit，漏洞利用
+</code></pre>
+<p><br><br></p>
+<ul>
+<li>smb-vuln-ms10-061.nse
+<ul>
+<li>Stuxnet蠕虫利用的4个漏洞之一，Stuxnet是美国对伊朗核设施进行攻击的震网病毒，美国军方所研发专门用来攻击伊朗核设施的一个病毒。</li>
+<li>smb-vuln-ms10-061.nse通过LANMAN API枚举对方系统的共享打印机，如果发现对方的打印机的话，一些低版本的系统(win XP，Server 2003 SP2，Vista，Server 2008，win 7)的Print Spooler权限默认是不当的，通过请求Print Spooler就可以在目标系统的操作目录下去执行恶意代码，去控制目标操作系统。<br>
+<br><br></li>
+</ul>
+</li>
+<li>smb-enum-shares.nse
+<ul>
+<li>如果目标系统没有开放LANMAN API就可以用smb-enum-shares.nse枚举共享去发现对方的打印机。 但是需要提供管理员账号，smbuser，smbpassword。</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-shell">nmap -p445 --script=smb-enum-shares.nse --script-args=smbuser=admin,smbpassword=pass 1.1.1.1
+
+eg：
+1. # 扫描查看此网段下的主机
+    nmap 192.168.200.0/24 -sn
+</code></pre>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617281958281.png" alt="" loading="lazy"></li>
+</ul>
+<pre><code class="language-shell">2. # 对此网段下的主机进行测试查看，看有没有开放端口
+nmap -p445 --script=smb-enum-shares.nse 192.168.200.*
+</code></pre>
+<figure data-type="image" tabindex="5"><img src="https://kite-007.github.io/post-images/1617282092379.png" alt="" loading="lazy"></figure>
+<h1 id="3-弱点扫描器">3. 弱点扫描器</h1>
+<h2 id="1-openvas">1. OPENVAS</h2>
+<ul>
+<li>是开源的扫描器，最早是Nessus的一个项目分支，Nessus是目前世界上使用最广的一个商业的弱点扫描器。有开源版本，kali默认安装，但未配置和启用。</li>
+</ul>
+<ol>
+<li>配置OPENVAS(早期)
+<ol>
+<li>安装</li>
+<li>创建证书</li>
+<li>同步弱点数据库</li>
+<li>创建客户端证书</li>
+<li>重建数据库</li>
+<li>备份数据库</li>
+<li>启动服务装入插件</li>
+<li>创建管理员账号</li>
+<li>配置服务监听端口</li>
+<li>安装验证</li>
+</ol>
+</li>
+<li>目前配置(kali)</li>
+</ol>
+<pre><code># 初始化安装
+sudo gvm-setup
+
+# 检查安装结果
+gvm-check-setup
+
+# 查看当前帐号
+openvasmd --list-users
+
+# 修改账号密码
+openvasmd --user=admin --new-password=Password
+
+# 升级
+openvas-feed-update
+</code></pre>
+<p><br><br><br><br>
+3. openvas体系<br>
+1. openvas manager，核心组件，负责把其他不同的组件统一进行一个连接，所发出的每一个指令都是通过manager进行下发并调度执行的。<br>
+2. openvas scanner，扫描器，可以管理多个scanner，扫描目标系统，当扫描的任务巨大时，它可以进行多级部署，形成一个集群式的部署方式，也可以在多台服务器上面安装scanner，通过一个manager进行调用scanner扫描不同的目标系统。<br>
+3. osp scanner，osp scanner里包含了多个扫描器，是一个扫描器组，统一交给manager，进行统一管理，每一次扫描对目标系统的扫描配置都是一致的。<br>
+4. Greenbone Security Assistant，绿骨头安全助理，给用户提供一个能够访问openvas manager的一个外部接口，相当于一个Web的服务器端，通过服务器端可以在客户端上面使用Web浏览器上面去访问Web接口去访问这个网站，可以通过这个网站去page去管理manager里面的内容，由manager去制定策略，去指定扫描目标，由scanner对目标进行扫描。<br>
+5. gmp clients，可以使用命令行，通过api去调用管理manager。<br>
+6. 通过feed更新的NVTs，SCAPCERT信息会同步到scanner，manager。<br>
+7. UserData，用户数据会存在本地的数据库里面，通过manager管理。<br>
+8. <img src="https://kite-007.github.io/post-images/1617285259599.png" alt="" loading="lazy"></p>
+<h2 id="2-nessus">2. NESSUS</h2>
+<p>下载链接：<a href="http://www.tenable.com/products/nessus/select-your-operating-system">http://www.tenable.com/products/nessus/select-your-operating-system</a></p>
+<p>安装后进入下载的目录：</p>
+<pre><code># 安装路径：/opt/nessus
+dpkg -i [安装的压缩文件名]
+
+# 启动服务：
+/etc/init.d/nessusd start
+/opt/nessus/bin ./nessusd
+service nessusd start
+
+# 查看服务信息
+/etc/init.d/nessusd status
+/opt/nessus/bin ./nessus-service
+service nessusd status
+
+# 管理地址
+• https://127.0.0.1:8834
+
+# 注册激活码，这个是一次性码如果你卸载，然后重新安装，你需要再次注册扫描仪，并收到另一个激活码。
+• http://www.tenable.com/products/nessus-home
+</code></pre>
+<p><strong>以扫描主机为主</strong><br>
+    与openvas大体上相同，如果需要去做一个扫描，openvas：（page文件——》目标——》text），nessus：（策略policy——》扫描scan），nessus里面默认集成了许多扫描模板，以下是2015年免费使用的模板，当然现在的模板比当时的要多好多了，这里以Advanced Scan为主。<br>
+<br><br><br><br>
+功能模块：</p>
+<ul>
+<li>
+<ol>
+<li>Advanced Scan(高级扫描)<br>
+最经常使用的扫描。</li>
+</ol>
+</li>
+<li>
+<ol start="2">
+<li>Basic Network Scan(基础网络扫描)<br>
+完全的操作系统扫描，对任何主机进行一个全系统扫描。</li>
+</ol>
+</li>
+<li>
+<ol start="3">
+<li>Bash Shellshock Detection(检测破壳漏洞扫描)2014</li>
+</ol>
+</li>
+<li>
+<ol start="4">
+<li>Credentialed Patch Audit(身份验证信息审计)</li>
+</ol>
+</li>
+<li>
+<ol start="5">
+<li>Spectre and Meltdown(幽灵病毒)2015<br>
+有的版本叫做（GHOST(glibc) Detection）基于C语言最底层glibc模块的一个漏洞。</li>
+</ol>
+</li>
+<li>
+<ol start="6">
+<li>Host Discovery(主机发现模板)</li>
+</ol>
+</li>
+<li>
+<ol start="7">
+<li>Web Application Tests(Web应用扫描测试)<br>
+通常不会使用这个模块，最新版有这个功能，但是能扫的漏洞非常少，如果需要扫描Web应用，最好使用专业的Web应用扫描器。<br>
+<br><br><br></li>
+</ol>
+</li>
+</ul>
+<p>一下为Advanced Scan模块操作：</p>
+<ol>
+<li>进入主界面，选择policy制作策略，新增策略：</li>
+</ol>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617523402954.png" alt="" loading="lazy"></li>
+</ul>
+<ol start="2">
+<li>nessus先创建策略，在进行Scan，这里直接选择Scan：</li>
+</ol>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617524121489.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617524166643.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617524179982.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617524188632.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617524196330.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617524205328.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617524232816.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617524240163.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617524251147.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617524261430.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617524275439.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617524285292.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617524293542.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617524318178.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617524327177.png" alt="" loading="lazy"></li>
+</ul>
+<ol start="3">
+<li>开启扫描，等待完成：</li>
+</ol>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617524601436.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617524848493.png" alt="" loading="lazy"></li>
+</ul>
+
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://kite-007.github.io/kali-ji-ben-gong-ju/">
+                  <h3 class="post-title">
+                    # KALI 基本工具
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+
+  </body>
+</html>

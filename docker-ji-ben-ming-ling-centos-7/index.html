@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title># Docker基本命令 （CentOS-7） | Fr</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://kite-007.github.io/favicon.ico?v=1617547013931">
+<link rel="stylesheet" href="https://kite-007.github.io/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="
+1. 初识Docker
+2. Docker架构
+3. 配置Docker镜像加速
+4. Docker命令
+
+(Docker)
+1. 初识Docker
+
+Docker概述：
+
+docker为一个开源的应用容器引擎，基于Go语言。
+可以让使用者..." />
+    <meta name="keywords" content="运维,Docker,工具,Linux" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://kite-007.github.io">
+        <img src="https://kite-007.github.io/images/avatar.png?v=1617547013931" class="site-logo">
+        <h1 class="site-title">Fr</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://kite-007.github.io/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      意志坚定，持之以恒
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://kite-007.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title"># Docker基本命令 （CentOS-7）</h2>
+            <div class="post-date">2021-03-26</div>
+            
+            <div class="post-content" v-pre>
+              <p><ul class="markdownIt-TOC">
+<li><a href="#1-%E5%88%9D%E8%AF%86docker">1. 初识Docker</a></li>
+<li><a href="#2-docker%E6%9E%B6%E6%9E%84">2. Docker架构</a></li>
+<li><a href="#3-%E9%85%8D%E7%BD%AEdocker%E9%95%9C%E5%83%8F%E5%8A%A0%E9%80%9F">3. 配置Docker镜像加速</a></li>
+<li><a href="#4-docker%E5%91%BD%E4%BB%A4">4. Docker命令</a></li>
+</ul>
+(Docker)</p>
+<h1 id="1-初识docker">1. 初识Docker</h1>
+<ol>
+<li>Docker概述：
+<ol>
+<li>docker为一个开源的应用容器引擎，基于Go语言。</li>
+<li>可以让使用者打包应用以及依赖包到另外一个轻型、可移植的容器中，然后发布到任何流行的linux机器上。</li>
+<li>沙箱机制，相互隔离。</li>
+<li>容器性能开销低。</li>
+<li>IO CE EE。</li>
+</ol>
+</li>
+<li>Docker安装：
+<ol>
+<li>升级软件包到最新：
+<ul>
+<li>yum update</li>
+</ul>
+</li>
+<li>安装需要升级的软件包，yum-util 提供yum-config-manager功能，另外两个是devicemapper驱动依赖的
+<ul>
+<li>yum install -y yum-utils device-mapper-persistent-data lvm2</li>
+</ul>
+</li>
+<li>设置yum源
+<ul>
+<li>sudo yum-config-manager --add-repo http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo</li>
+</ul>
+</li>
+<li>安装Docker
+<ul>
+<li>yum install -y docker-ce</li>
+</ul>
+</li>
+<li>查看Docker的版本
+<ul>
+<li>docker -v</li>
+</ul>
+</li>
+<li>kali中命令docker后选择y安装即可，不过是io版本</li>
+</ol>
+</li>
+</ol>
+<h1 id="2-docker架构">2. Docker架构</h1>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1616758711517.png" alt="" loading="lazy"></li>
+</ul>
+<ol>
+<li>Clients：客户端
+<ol>
+<li>操作Docker的客户端</li>
+</ol>
+</li>
+<li>Hosts：Docker核心
+<ol>
+<li>localhost：本机机器
+<ol>
+<li>在本机机器上面安装完Docker之后，Docker会以daemon(守护进程的形式存在，后台运行)，Docker中有两部分内容，一个叫做image镜像（相当于一个root文件系统），一个container容器，相当于面向对象里的类与对象的关系，镜像来源于远程的仓库。</li>
+</ol>
+</li>
+<li>remotehost：远程机器</li>
+</ol>
+</li>
+<li>Registries：仓库
+<ol>
+<li>官方提供的仓库，存在相当多的镜像文件，可以从本地拉取使用，因为官方在国外，速度比较慢，所以可以搭建私有的仓库。</li>
+<li>私有仓库可以进行资源的共享，速度比较快。</li>
+</ol>
+</li>
+</ol>
+<h1 id="3-配置docker镜像加速">3. 配置Docker镜像加速</h1>
+<ul>
+<li>默认的情况，会从Docker hub (https://hub.docker.com/)上面下载docker镜像，但是比较慢，一般会配置镜像加速器：
+<ul>
+<li>USTC、阿里云、网易云、腾讯云等等</li>
+<li><img src="https://kite-007.github.io/post-images/1616761129149.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1616761134031.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1616761138565.png" alt="" loading="lazy"></li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-shell"># 创建一个docker文件夹
+sudo mkdir -p /etc/docker
+# 将此配置写入（固定写法）
+sudo tee /etc/docker/daemon.json &lt;&lt;-'EOF'
+{
+  &quot;registry-mirrors&quot;: [&quot;https://ktem79m6.mirror.aliyuncs.com&quot;]
+}
+EOF
+# 重新加载docker进程
+sudo systemctl daemon-reload
+# 重启docker服务
+sudo systemctl restart docker
+</code></pre>
+<ul>
+<li>其他的镜像加速器修改一下地址即可</li>
+</ul>
+<h1 id="4-docker命令">4. Docker命令</h1>
+<ol>
+<li>操作Docker整体，服务相关命令，开启与关闭Docker命令</li>
+</ol>
+<pre><code class="language-shell"># 开启docker服务
+systemctl start docker
+
+# 查看docker信息
+systemctl status docker
+
+# 停止docker服务
+systemctl stop docker
+
+# 重启docker服务
+systemctl restart docker
+
+# 设置开机docker自启动
+systemctl enable docker
+</code></pre>
+<ol start="2">
+<li>操作image镜像</li>
+</ol>
+<pre><code class="language-shell"># 1. 查看镜像
+docker images
+
+#所有镜像id表
+docker images -q 
+
+# 2. 搜索镜像
+docker search php
+
+# 官方中搜索查找版本信息
+hub.docker.com
+
+# 3. 拉取镜像
+docker pull php:7.5
+
+# 4. 删除镜像
+docker rei REPOSITORY:TAG
+docker rei IMAGE_ID
+id相同表示相同版本
+
+#删除所有镜像,这里的引号为tab键上面的引号
+docker rei `docker images -q`
+</code></pre>
+<ol>
+<li><strong>操作容器</strong>
+<ol>
+<li>查看容器</li>
+</ol>
+<pre><code>docker ps 
+# 查看开启的容器
+
+docker ps -a
+# 查看所有的容器，包括历史打开过的
+</code></pre>
+<ol start="2">
+<li>创建并启动容器</li>
+</ol>
+<pre><code>docker run -it --name=c1 centos:7 /bin/bash
+# i：表示容器一直运行着，无客户端连接也会运行
+# t：给容器分配一个终端输入命令
+# --name：给容器起个名字
+# centos:7：镜像版本
+# /bin/bash：进入容器初始化指令，打开一个shell窗口
+
+exit退出之后容器会自动关闭
+
+docker run -id --name=c2 centos:7 /bin/bash
+# d：表示后台运行创建容器，可以通过命令进入容器，
+
+exit退出之后容器不会自动关闭
+</code></pre>
+<ol start="3">
+<li>进入容器</li>
+</ol>
+<pre><code>docker exec -it c2 /bin/bash
+</code></pre>
+<ol start="4">
+<li>启动容器</li>
+</ol>
+<pre><code>docker start c2
+</code></pre>
+<ol start="5">
+<li>停止容器</li>
+</ol>
+<pre><code>docker stop c2
+</code></pre>
+<ol start="6">
+<li>删除容器</li>
+</ol>
+<pre><code>docker rm c1
+docker rm `docker ps -aq`
+# 开启的容器不能被删除
+</code></pre>
+<ol start="7">
+<li>查看容器信息</li>
+</ol>
+<pre><code>docker inspect c1
+</code></pre>
+</li>
+</ol>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://kite-007.github.io/EVOwnoiCC/" class="tag">
+                    运维
+                  </a>
+                
+                  <a href="https://kite-007.github.io/Nb3cBA4n3/" class="tag">
+                    Docker
+                  </a>
+                
+                  <a href="https://kite-007.github.io/yHvCxoFSyJ/" class="tag">
+                    工具
+                  </a>
+                
+                  <a href="https://kite-007.github.io/vMLNi3LB4/" class="tag">
+                    Linux
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://kite-007.github.io/google/">
+                  <h3 class="post-title">
+                    # Google Hack
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+
+  </body>
+</html>

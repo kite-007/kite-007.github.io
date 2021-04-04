@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title># Docker服务编排（CentOS-7）* | Fr</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://kite-007.github.io/favicon.ico?v=1617547013931">
+<link rel="stylesheet" href="https://kite-007.github.io/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="
+1. 服务编排概念
+2. Docker Compose
+
+(TOC)
+1. 服务编排概念
+
+微服务架构的应用系统中一般包含若干个微服务，每个微服务一般都会部署多个实例，如果每个微服务都要手动启停，维护的工作量会很大。
+• 要从Docker..." />
+    <meta name="keywords" content="运维,Docker,工具,Linux" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://kite-007.github.io">
+        <img src="https://kite-007.github.io/images/avatar.png?v=1617547013931" class="site-logo">
+        <h1 class="site-title">Fr</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://kite-007.github.io/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      意志坚定，持之以恒
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://kite-007.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title"># Docker服务编排（CentOS-7）*</h2>
+            <div class="post-date">2021-03-27</div>
+            
+            <div class="post-content" v-pre>
+              <p><ul class="markdownIt-TOC">
+<li><a href="#1-%E6%9C%8D%E5%8A%A1%E7%BC%96%E6%8E%92%E6%A6%82%E5%BF%B5">1. 服务编排概念</a></li>
+<li><a href="#2-docker-compose">2. Docker Compose</a></li>
+</ul>
+(TOC)</p>
+<h1 id="1-服务编排概念">1. 服务编排概念</h1>
+<ul>
+<li>微服务架构的应用系统中一般包含若干个微服务，每个微服务一般都会部署多个实例，如果每个微服务都要手动启停，维护的工作量会很大。<br>
+• 要从Dockerfile build image 或者去dockerhub拉取image<br>
+• 要创建多个container<br>
+• 要管理这些container（启动停止删除）</li>
+</ul>
+<p><strong>服务编排</strong>：按照一定的业务规则批量管理容器</p>
+<ul>
+<li>Docker Compose是一个编排多容器分布式部署的工具，提供命令集管理容器化应用的完整开发周期，包括服务构建，启动和停止。使用步骤：</li>
+</ul>
+<ol>
+<li>利用 Dockerfile 定义运行环境镜像</li>
+<li>使用 docker-compose.yml 定义组成应用的各服务</li>
+<li>运行 docker-compose up 启动应用</li>
+</ol>
+<h1 id="2-docker-compose">2. Docker Compose</h1>
+<p>一、安装Docker Compose</p>
+<pre><code class="language-shell"># Compose目前已经完全支持Linux、Mac OS和Windows，在我们安装Compose之前，需要先安装Docker。下面我 们以编译好的二进制包方式安装在Linux系统中。 
+curl -L https://github.com/docker/compose/releases/download/1.22.0/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+# 设置文件可执行权限 
+chmod +x /usr/local/bin/docker-compose
+# 查看版本信息 
+docker-compose -version
+</code></pre>
+<p>二、卸载Docker Compose</p>
+<pre><code class="language-shell"># 二进制包方式安装的，删除二进制文件即可
+rm /usr/local/bin/docker-compose
+</code></pre>
+<p>三、 使用docker compose编排nginx+springboot项目</p>
+<ol>
+<li>创建docker-compose目录</li>
+</ol>
+<pre><code class="language-shell">mkdir ~/docker-compose
+cd ~/docker-compose
+</code></pre>
+<ol start="2">
+<li>编写 docker-compose.yml 文件</li>
+</ol>
+<pre><code class="language-shell">version: '3'
+services:
+  nginx:
+   image: nginx
+   ports:
+    - 80:80
+   links:
+    - app
+   volumes:
+    - ./nginx/conf.d:/etc/nginx/conf.d
+  app:
+    image: app
+    expose:
+      - &quot;8080&quot;
+</code></pre>
+<ol start="3">
+<li>创建./nginx/conf.d目录</li>
+</ol>
+<pre><code class="language-shell">mkdir -p ./nginx/conf.d
+</code></pre>
+<ol start="4">
+<li>在./nginx/conf.d目录下 编写itheima.conf文件</li>
+</ol>
+<pre><code class="language-shell">server {
+    listen 80;
+    access_log off;
+
+    location / {
+        proxy_pass http://app:8080;
+    }
+   
+}
+</code></pre>
+<ol start="5">
+<li>在~/docker-compose 目录下 使用docker-compose 启动容器</li>
+</ol>
+<pre><code class="language-shell">docker-compose up
+</code></pre>
+<ol start="6">
+<li>测试访问</li>
+</ol>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://kite-007.github.io/EVOwnoiCC/" class="tag">
+                    运维
+                  </a>
+                
+                  <a href="https://kite-007.github.io/Nb3cBA4n3/" class="tag">
+                    Docker
+                  </a>
+                
+                  <a href="https://kite-007.github.io/yHvCxoFSyJ/" class="tag">
+                    工具
+                  </a>
+                
+                  <a href="https://kite-007.github.io/vMLNi3LB4/" class="tag">
+                    Linux
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://kite-007.github.io/dockerfile-jing-xiang-yuan-li-centos-7/">
+                  <h3 class="post-title">
+                    # Dockerfile镜像原理（CentOS-7）
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+
+  </body>
+</html>

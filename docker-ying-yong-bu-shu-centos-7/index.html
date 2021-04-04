@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title># Docker应用部署（CentOS-7） | Fr</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://kite-007.github.io/favicon.ico?v=1617547013931">
+<link rel="stylesheet" href="https://kite-007.github.io/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="
+1. MySQL部署
+2. Tomcat部署
+3. Nginx部署
+
+(Docker)
+
+容器内的网络服务和外部机器不能直接通信
+外部机器可以和宿主机可以进行直接通信
+宿主机和容器可以进行直接通信
+操作（端口映射 -p）：假设容器内打开了..." />
+    <meta name="keywords" content="运维,Docker,工具,Linux" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://kite-007.github.io">
+        <img src="https://kite-007.github.io/images/avatar.png?v=1617547013931" class="site-logo">
+        <h1 class="site-title">Fr</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://kite-007.github.io/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      意志坚定，持之以恒
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://kite-007.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title"># Docker应用部署（CentOS-7）</h2>
+            <div class="post-date">2021-03-27</div>
+            
+            <div class="post-content" v-pre>
+              <p><ul class="markdownIt-TOC">
+<li><a href="#1-mysql%E9%83%A8%E7%BD%B2">1. MySQL部署</a></li>
+<li><a href="#2-tomcat%E9%83%A8%E7%BD%B2">2. Tomcat部署</a></li>
+<li><a href="#3-nginx%E9%83%A8%E7%BD%B2">3. Nginx部署</a></li>
+</ul>
+(Docker)</p>
+<ul>
+<li>容器内的网络服务和外部机器不能直接通信</li>
+<li>外部机器可以和宿主机可以进行直接通信</li>
+<li>宿主机和容器可以进行直接通信</li>
+<li>操作（端口映射 -p）：假设容器内打开了端口3306，那麽在宿主机上面打开端口3307，将端口3306与3307进行一个映射，之后外部机器访问3307端口就相当于访问了容器内部的3306端口。</li>
+</ul>
+<h1 id="1-mysql部署">1. MySQL部署</h1>
+<ul>
+<li>需求：在Docker容器中部署MySQL，并通过外部MySQL客户端操作MySQL Server</li>
+</ul>
+<ol>
+<li>搜索MySQL镜像</li>
+</ol>
+<pre><code class="language-shell">docker search MySQL
+</code></pre>
+<ol start="2">
+<li>拉取MySQL镜像</li>
+</ol>
+<pre><code class="language-shell">docker pull MySQL:5.6
+</code></pre>
+<ol start="3">
+<li>创建启动容器</li>
+</ol>
+<pre><code class="language-shell"># 在root目录下创建mysql目录用于存储mysql数据信息
+mkdir /root/mysql
+cd /root/mysql
+
+#创建并运行
+docker run -id \
+-p 3307:3306 \
+--name=c_mysql \
+-v $PWD/conf:/etc/mysql/conf.d \
+-v $PWD/logs:/logs \
+-v $PWD/data:/var/lib/mysql \
+-e MYSQL_ROOT_RASSWORD=123456 \
+mysql:5.6
+</code></pre>
+<ul>
+<li>-id：以守护进程的方式运行。</li>
+<li>-p：端口映射，宿主机的3307端口与容器的3306端口进行映射，一般情况下宿主机端口与容器端口相同，即3306：3306。</li>
+<li>-v $PWD/conf:/etc/mysql/conf.d ：将主机当前目录下的conf/my.cnf挂载到容器的/etc/mysql/my.cnf。配置目录</li>
+<li>-v $PWD/logs:/logs ：将主机当前目录下的logs目录挂载到容器的/logs。日志目录</li>
+<li>-v $PWD/data:/var/lib/mysql ：将主机当前目录下的data目录挂载到容器的/var/lib/mysql。数据目录</li>
+<li>-e MYSQL_ROOT_RASSWORD=123456 ：初始化root用户密码</li>
+</ul>
+<p>$PWD：我们先创建了MySQL目录，之后进入到MySQL目录，就相当于/root/mysql</p>
+<ol start="4">
+<li>操作MySQL</li>
+</ol>
+<pre><code>mysql -uroot -p123456
+</code></pre>
+<h1 id="2-tomcat部署">2. Tomcat部署</h1>
+<ul>
+<li>需求：在Docker容器中部署Tomcat，并通过外部访问Tomcat</li>
+</ul>
+<ol>
+<li>搜索Tomcat镜像</li>
+</ol>
+<pre><code class="language-shell">docker search Tomcat
+</code></pre>
+<ol start="2">
+<li>拉取MySQL镜像</li>
+</ol>
+<pre><code class="language-shell">docker pull Tomcat:9.0
+</code></pre>
+<ol start="3">
+<li>创建启动容器</li>
+</ol>
+<pre><code class="language-shell"># 在root目录下创建tomcat目录用于存储tomcat数据信息
+mkdir /root/tomcat
+cd /root/tomcat
+
+#创建并运行
+docker run -id \
+-p 8080:8080 \
+--name=c_tomcat \
+-v $PWD:/usr/local/tomcat/webapps \
+tomcat:9.0
+</code></pre>
+<ul>
+<li>-id：以守护进程的方式运行。</li>
+<li>-p：端口映射，宿主机的8080端口与容器的8080端口进行映射，一般情况下宿主机端口与容器端口相同，即8080：8080。</li>
+<li>-v $PWD:/usr/local/tomcat/webapps \：将主机的当前目录挂载到容器的webapps，项目文件存放在webapps中。</li>
+</ul>
+<h1 id="3-nginx部署">3. Nginx部署</h1>
+<ul>
+<li>需求：在Docker容器中部署Nginx，并通过外部访问Nginx</li>
+</ul>
+<ol>
+<li>搜索Nginx镜像</li>
+</ol>
+<pre><code class="language-shell">docker search nginx
+</code></pre>
+<ol start="2">
+<li>拉取MySQL镜像</li>
+</ol>
+<pre><code class="language-shell">docker pull nginx
+</code></pre>
+<ol start="3">
+<li>创建启动容器</li>
+</ol>
+<pre><code class="language-shell"># 在/root目录下创建nginx目录用于存储nginx数据信息
+mkdir ~/nginx
+cd ~/nginx
+mkdir conf
+cd conf
+# 在~/nginx/conf/下创建nginx.conf文件,粘贴下面内容
+vim nginx.conf
+</code></pre>
+<ul>
+<li>nginx.conf文件需要提前准备好</li>
+</ul>
+<pre><code class="language-shell">user  nginx;
+worker_processes  1;
+
+error_log  /var/log/nginx/error.log warn;
+pid        /var/run/nginx.pid;
+
+
+events {
+    worker_connections  1024;
+}
+
+
+http {
+    include       /etc/nginx/mime.types;
+    default_type  application/octet-stream;
+
+    log_format  main  '$remote_addr - $remote_user [$time_local] &quot;$request&quot; '
+                      '$status $body_bytes_sent &quot;$http_referer&quot; '
+                      '&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;';
+
+    access_log  /var/log/nginx/access.log  main;
+
+    sendfile        on;
+    #tcp_nopush     on;
+
+    keepalive_timeout  65;
+
+    #gzip  on;
+
+    include /etc/nginx/conf.d/*.conf;
+}
+</code></pre>
+<pre><code class="language-shell">#创建并运行
+docker run -id \
+-p 80:80 \
+--name=c_nginx \
+-v $PWD/conf/nginx.conf:/etc/nginx/nginx.conf \
+-v $PWD/logs:/var/log/nginx \
+-v $PWD/html:/usr/share/nginx/html \
+nginx
+</code></pre>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://kite-007.github.io/EVOwnoiCC/" class="tag">
+                    运维
+                  </a>
+                
+                  <a href="https://kite-007.github.io/Nb3cBA4n3/" class="tag">
+                    Docker
+                  </a>
+                
+                  <a href="https://kite-007.github.io/yHvCxoFSyJ/" class="tag">
+                    工具
+                  </a>
+                
+                  <a href="https://kite-007.github.io/vMLNi3LB4/" class="tag">
+                    Linux
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://kite-007.github.io/docker-rong-qi-shu-ju-juan-centos-7/">
+                  <h3 class="post-title">
+                    # Docker容器数据卷（CentOS-7）
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+
+  </body>
+</html>

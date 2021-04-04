@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title># Dockerfile镜像原理（CentOS-7） | Fr</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://kite-007.github.io/favicon.ico?v=1617547013931">
+<link rel="stylesheet" href="https://kite-007.github.io/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="
+1. Dockerfile介绍
+2. Docker镜像原理
+3. Dockerfile概念作用
+4. Dockerfile关键字
+5. 实例
+
+(Dockerfile)
+1. Dockerfile介绍
+
+Dockerfile，文件，用来制..." />
+    <meta name="keywords" content="运维,Docker,工具,Linux" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://kite-007.github.io">
+        <img src="https://kite-007.github.io/images/avatar.png?v=1617547013931" class="site-logo">
+        <h1 class="site-title">Fr</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://kite-007.github.io/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      意志坚定，持之以恒
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://kite-007.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title"># Dockerfile镜像原理（CentOS-7）</h2>
+            <div class="post-date">2021-03-27</div>
+            
+            <div class="post-content" v-pre>
+              <p><ul class="markdownIt-TOC">
+<li><a href="#1-dockerfile%E4%BB%8B%E7%BB%8D">1. Dockerfile介绍</a></li>
+<li><a href="#2-docker%E9%95%9C%E5%83%8F%E5%8E%9F%E7%90%86">2. Docker镜像原理</a></li>
+<li><a href="#3-dockerfile%E6%A6%82%E5%BF%B5%E4%BD%9C%E7%94%A8">3. Dockerfile概念作用</a></li>
+<li><a href="#4-dockerfile%E5%85%B3%E9%94%AE%E5%AD%97">4. Dockerfile关键字</a></li>
+<li><a href="#5-%E5%AE%9E%E4%BE%8B">5. 实例</a></li>
+</ul>
+(Dockerfile)</p>
+<h1 id="1-dockerfile介绍">1. Dockerfile介绍</h1>
+<ul>
+<li>Dockerfile，文件，用来制作镜像。</li>
+</ul>
+<h1 id="2-docker镜像原理">2. Docker镜像原理</h1>
+<ul>
+<li>Docker镜像的本质是什么？<br>
+*</li>
+<li>Docker中一个centos镜像为什么只有200MB，而一个ios就几个G？<br>
+*</li>
+<li>Docker中一个tomcat镜像为什莫有500MB，而一个tomcat安装包只有70多MB？<br>
+*</li>
+<li><img src="https://kite-007.github.io/post-images/1616845302083.png" alt="" loading="lazy"></li>
+</ul>
+<ol>
+<li>
+<p>操作系统组成部分：</p>
+<ol>
+<li>进程调度子系统</li>
+<li>进程通信子系统</li>
+<li>内存管理子系统</li>
+<li>设备管理子系统</li>
+<li><strong>文件管理子系统</strong></li>
+<li>网络通信子系统</li>
+<li>作业控制子系统</li>
+</ol>
+</li>
+<li>
+<p>Docker是基于Linux下学习安装的，而Linux文件系统是由bootfs和rootfs两部分组成。</p>
+</li>
+</ol>
+<ul>
+<li>bootfs：包含bootloader（引导加载程序）和kernel（内核）。</li>
+<li>rootfs：root文件系统，包含的就是典型的Linux系统中的dev，proc，bin等等标准目录和文件。</li>
+<li>不同的Linux发行版，bootfs基本一样，而rootfs不同。</li>
+<li>统一文件系统（Union File System）技术能够将不同的层整合成一个文件系统，为这些层提供了一个统一的视角，这样就隐藏了多层的存在，在用户的角度看来，只存在一个文件系统。</li>
+<li>一个镜像可以放在另一个镜像的上面。位于下面的镜像称为父镜像，最底部的镜像成为基础镜像。</li>
+<li>当从一个镜像启动容器时，Docker会在最顶层加载一个读写文件系统作为容器</li>
+</ul>
+<ol>
+<li>镜像原理</li>
+</ol>
+<ul>
+<li>Docker镜像是由特殊的文件系统叠加而成</li>
+<li>最低端是bootfs，并使用宿主机的boofts，同Linux一样Docker也加载内核，但是使用的是宿主机的内核，所以Docker启动的非常快。</li>
+<li>第二层是root文件系统rootfs，称为base image（基础镜像）。</li>
+<li>再向上可以叠加其他镜像文件。</li>
+</ul>
+<ol start="4">
+<li>镜像制作
+<ol>
+<li>dockerfile</li>
+<li>容器转为镜像</li>
+</ol>
+</li>
+</ol>
+<pre><code class="language-shell"># 容器转为镜像
+docker commit 容器id 镜像名称：版本号
+
+# 镜像转化为压缩文件
+docker save -o 压缩文件名称 镜像名称：版本号
+
+# 压缩文件还原为镜像
+docker load -i 压缩文件名称
+</code></pre>
+<h1 id="3-dockerfile概念作用">3. Dockerfile概念作用</h1>
+<ol>
+<li>dockerfile概念
+<ol>
+<li>dockerfile是一个文本文件。</li>
+<li>包含了一条条的指令。</li>
+<li>每一条指令构建一层镜像，基于基础的镜像，最终构建出一个新的镜像。</li>
+<li>对于开发人员：可以为开发团队提供一个完全一致的开发环境。</li>
+<li>对于测试人员：可以直接拿开发人员开发时所构建的镜像或者通过Dockerfile文件构造一个新的镜像开始工作。</li>
+<li>对于运维人员：在部署时，可以实现应用的无缝移植。</li>
+</ol>
+</li>
+<li>Dochub网址：<a href="https://hub.docker.com">https://hub.docker.com</a></li>
+</ol>
+<h1 id="4-dockerfile关键字">4. Dockerfile关键字</h1>
+<table>
+<thead>
+<tr>
+<th>关键字</th>
+<th>作用</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FROM</td>
+<td>指定父镜像</td>
+<td>指定dockerfile基于那个image构建</td>
+</tr>
+<tr>
+<td>MAINTAINER</td>
+<td>作者信息</td>
+<td>用来标明这个dockerfile谁写的</td>
+</tr>
+<tr>
+<td>LABEL</td>
+<td>标签</td>
+<td>用来标明dockerfile的标签 可以使用Label代替Maintainer 最终都是在docker image基本信息中可以查看</td>
+</tr>
+<tr>
+<td>RUN</td>
+<td>执行命令</td>
+<td>执行一段命令 默认是/bin/sh 格式: RUN command 或者 RUN [&quot;command&quot; , &quot;param1&quot;,&quot;param2&quot;]</td>
+</tr>
+<tr>
+<td>CMD</td>
+<td>容器启动命令</td>
+<td>提供启动容器时候的默认命令 和ENTRYPOINT配合使用.格式 CMD command param1 param2 或者 CMD [&quot;command&quot; , &quot;param1&quot;,&quot;param2&quot;]</td>
+</tr>
+<tr>
+<td>ENTRYPOINT</td>
+<td>入口</td>
+<td>一般在制作一些执行就关闭的容器中会使用</td>
+</tr>
+<tr>
+<td>COPY</td>
+<td>复制文件</td>
+<td>build的时候复制文件到image中</td>
+</tr>
+<tr>
+<td>ADD</td>
+<td>添加文件</td>
+<td>build的时候添加文件到image中 不仅仅局限于当前build上下文 可以来源于远程服务</td>
+</tr>
+<tr>
+<td>ENV</td>
+<td>环境变量</td>
+<td>指定build时候的环境变量 可以在启动的容器的时候 通过-e覆盖 格式ENV name=value</td>
+</tr>
+<tr>
+<td>ARG</td>
+<td>构建参数</td>
+<td>构建参数 只在构建的时候使用的参数 如果有ENV 那么ENV的相同名字的值始终覆盖arg的参数</td>
+</tr>
+<tr>
+<td>VOLUME</td>
+<td>定义外部可以挂载的数据卷</td>
+<td>指定build的image那些目录可以启动的时候挂载到文件系统中 启动容器的时候使用 -v 绑定 格式 VOLUME [&quot;目录&quot;]</td>
+</tr>
+<tr>
+<td>EXPOSE</td>
+<td>暴露端口</td>
+<td>定义容器运行的时候监听的端口 启动容器的使用-p来绑定暴露端口 格式: EXPOSE 8080 或者 EXPOSE 8080/udp</td>
+</tr>
+<tr>
+<td>WORKDIR</td>
+<td>工作目录</td>
+<td>指定容器内部的工作目录 如果没有创建则自动创建 如果指定/ 使用的是绝对地址 如果不是/开头那么是在上一条workdir的路径的相对路径</td>
+</tr>
+<tr>
+<td>USER</td>
+<td>指定执行用户</td>
+<td>指定build或者启动的时候 用户 在RUN CMD ENTRYPONT执行的时候的用户</td>
+</tr>
+<tr>
+<td>HEALTHCHECK</td>
+<td>健康检查</td>
+<td>指定监测当前容器的健康监测的命令 基本上没用 因为很多时候 应用本身有健康监测机制</td>
+</tr>
+<tr>
+<td>ONBUILD</td>
+<td>触发器</td>
+<td>当存在ONBUILD关键字的镜像作为基础镜像的时候 当执行FROM完成之后 会执行 ONBUILD的命令 但是不影响当前镜像 用处也不怎么大</td>
+</tr>
+<tr>
+<td>STOPSIGNAL</td>
+<td>发送信号量到宿主机</td>
+<td>该STOPSIGNAL指令设置将发送到容器的系统调用信号以退出。</td>
+</tr>
+<tr>
+<td>SHELL</td>
+<td>指定执行脚本的shell</td>
+<td>指定RUN CMD ENTRYPOINT 执行命令的时候 使用的shell</td>
+</tr>
+</tbody>
+</table>
+<h1 id="5-实例">5. 实例</h1>
+<ul>
+<li>
+<p>需求：（官方提供的centos镜像，默认路径在/，而且没有vim功能）</p>
+<ul>
+<li>登录之后默认路径在/usr</li>
+<li>可以使用vim</li>
+</ul>
+</li>
+<li>
+<p>实现步骤：</p>
+<ol>
+<li>定义父镜像：FROM centos:7</li>
+<li>定义作者信息：MAINTAINER itheima &lt;itheima@itcast.cn&gt;</li>
+<li>执行安装vim命令：RUN yum install -y vim（-y自动选择y）</li>
+<li>工作路径：WORKDIR /usr</li>
+<li>定义容器启动执行的命令：CMD /bin/bash</li>
+<li>构造镜像：</li>
+</ol>
+</li>
+</ul>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://kite-007.github.io/EVOwnoiCC/" class="tag">
+                    运维
+                  </a>
+                
+                  <a href="https://kite-007.github.io/Nb3cBA4n3/" class="tag">
+                    Docker
+                  </a>
+                
+                  <a href="https://kite-007.github.io/yHvCxoFSyJ/" class="tag">
+                    工具
+                  </a>
+                
+                  <a href="https://kite-007.github.io/vMLNi3LB4/" class="tag">
+                    Linux
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://kite-007.github.io/docker-ying-yong-bu-shu-centos-7/">
+                  <h3 class="post-title">
+                    # Docker应用部署（CentOS-7）
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+
+  </body>
+</html>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title># Docker容器数据卷（CentOS-7） | Fr</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://kite-007.github.io/favicon.ico?v=1617547013931">
+<link rel="stylesheet" href="https://kite-007.github.io/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="
+1. 数据卷概念及作用
+2. 配置数据卷
+3. 配置数据卷容器
+
+(Docker)
+1. 数据卷概念及作用
+
+思考：
+
+Docker容器删除后，在容器中产生的数据还在吗？
+Docker容器和外部机器能直接交换文件吗？
+Docker容器之间..." />
+    <meta name="keywords" content="运维,Docker,工具,Linux" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://kite-007.github.io">
+        <img src="https://kite-007.github.io/images/avatar.png?v=1617547013931" class="site-logo">
+        <h1 class="site-title">Fr</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://kite-007.github.io/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      意志坚定，持之以恒
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://kite-007.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title"># Docker容器数据卷（CentOS-7）</h2>
+            <div class="post-date">2021-03-26</div>
+            
+            <div class="post-content" v-pre>
+              <p><ul class="markdownIt-TOC">
+<li><a href="#1-%E6%95%B0%E6%8D%AE%E5%8D%B7%E6%A6%82%E5%BF%B5%E5%8F%8A%E4%BD%9C%E7%94%A8">1. 数据卷概念及作用</a></li>
+<li><a href="#2-%E9%85%8D%E7%BD%AE%E6%95%B0%E6%8D%AE%E5%8D%B7">2. 配置数据卷</a></li>
+<li><a href="#3-%E9%85%8D%E7%BD%AE%E6%95%B0%E6%8D%AE%E5%8D%B7%E5%AE%B9%E5%99%A8">3. 配置数据卷容器</a></li>
+</ul>
+(Docker)</p>
+<h1 id="1-数据卷概念及作用">1. 数据卷概念及作用</h1>
+<ul>
+<li>思考：
+<ul>
+<li>Docker容器删除后，在容器中产生的数据还在吗？</li>
+<li>Docker容器和外部机器能直接交换文件吗？</li>
+<li>Docker容器之间如何交换数据？</li>
+<li><img src="https://kite-007.github.io/post-images/1616767147232.png" alt="" loading="lazy"></li>
+</ul>
+</li>
+</ul>
+<ol>
+<li>数据卷是宿主机中的一个目录或文件
+<ol>
+<li>容器里也有一个目录，某个操作使宿主机里的目录和容器里的目录挂载起来，这时，宿主机的目录就被称为数据卷。</li>
+<li>这时，宿主机目录里的文件进行了改变，容器里的目录文件也会跟着改变，改变会同步。</li>
+<li>一个数据卷目录可以被多个容器挂载。</li>
+</ol>
+</li>
+</ol>
+<h1 id="2-配置数据卷">2. 配置数据卷</h1>
+<ul>
+<li>创建启动容器时，使用-v参数设置数据卷</li>
+</ul>
+<pre><code>docker run ... -v 宿主机目录文件(文件):容器内目录(文件) ...
+</code></pre>
+<ul>
+<li>注意：
+<ul>
+<li>目录必须是绝对路径。</li>
+<li>如果目录不在，会自动创建。</li>
+<li>多个容器可以挂载同一个数据卷。</li>
+<li><img src="https://kite-007.github.io/post-images/1616767642325.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1616767647504.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1616767751605.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1616768125728.png" alt="" loading="lazy"></li>
+</ul>
+</li>
+</ul>
+<pre><code>docker run -it --name=c1 -v /root/data:/root/data_container centos:7 /bin/bash
+</code></pre>
+<h1 id="3-配置数据卷容器">3. 配置数据卷容器</h1>
+<ul>
+<li>多容器进行数据交换
+<ul>
+<li>多个容器挂载同一个数据卷，比较麻烦。</li>
+<li>数据卷容器。
+<ul>
+<li>有容器c1，c2，c3，和一个数据卷。</li>
+<li>c1和c2要实现数据操作。</li>
+<li>c3可以先挂载到数据卷上，之后c1和c2再挂再到c3上，这样c3就相当于是一个数据卷容器。</li>
+<li>c1，c2也可以理解为挂载到了宿主机的数据卷上。</li>
+<li><img src="https://kite-007.github.io/post-images/1616768767077.png" alt="" loading="lazy"></li>
+<li>即使把c3删掉，c1.c2也安然的挂载在数据卷上。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code>#1. 创建启动c3数据卷容器，使用-v参数设置数据卷
+docker run -it --name=c3 -v /volume centos:7 /bin/bash
+-v：这里为一个容器目录，刚刚左边的不见了，如果不设置左边的部分，docker会在宿主机上自动分配一个目录当作数据卷。
+docker inspect c3
+查看容器信息，主要查看数据卷目录。
+
+# 2. 创建启动c1.c2容器，使用--volumes-from设置数据卷
+ docker run -it --name=c1 --volumes-from c3 centos:7 /bin/bash
+ docker run -it --name=c2 --volumes-from c3 centos:7 /bin/bash
+</code></pre>
+
+            </div>
+            
+              <div class="tag-container">
+                
+                  <a href="https://kite-007.github.io/EVOwnoiCC/" class="tag">
+                    运维
+                  </a>
+                
+                  <a href="https://kite-007.github.io/Nb3cBA4n3/" class="tag">
+                    Docker
+                  </a>
+                
+                  <a href="https://kite-007.github.io/yHvCxoFSyJ/" class="tag">
+                    工具
+                  </a>
+                
+                  <a href="https://kite-007.github.io/vMLNi3LB4/" class="tag">
+                    Linux
+                  </a>
+                
+              </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://kite-007.github.io/docker-ji-ben-ming-ling-centos-7/">
+                  <h3 class="post-title">
+                    # Docker基本命令 （CentOS-7）
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+
+  </body>
+</html>

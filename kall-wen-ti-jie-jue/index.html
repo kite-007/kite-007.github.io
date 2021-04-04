@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title># KALL 问题解决 | Fr</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://kite-007.github.io/favicon.ico?v=1617547013931">
+<link rel="stylesheet" href="https://kite-007.github.io/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="
+1. 宕机导致i2c_piix4
+2. 安装openvas
+
+1. rsync error: error in socket IO (code 10) at clientserver.c(137) [Receiver=3.2.3]
+2. ..." />
+    <meta name="keywords" content="" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://kite-007.github.io">
+        <img src="https://kite-007.github.io/images/avatar.png?v=1617547013931" class="site-logo">
+        <h1 class="site-title">Fr</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://kite-007.github.io/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      意志坚定，持之以恒
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://kite-007.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title"># KALL 问题解决</h2>
+            <div class="post-date">2021-04-04</div>
+            
+            <div class="post-content" v-pre>
+              <p><ul class="markdownIt-TOC">
+<li><a href="#1-%E5%AE%95%E6%9C%BA%E5%AF%BC%E8%87%B4i2c_piix4">1. 宕机导致i2c_piix4</a></li>
+<li><a href="#2-%E5%AE%89%E8%A3%85openvas">2. 安装openvas</a>
+<ul>
+<li><a href="#1-rsync-error-error-in-socket-io-code-10-at-clientserverc137-receiver323">1. rsync error: error in socket IO (code 10) at clientserver.c(137) [Receiver=3.2.3]</a></li>
+<li><a href="#2-root%E6%9D%83%E9%99%90%E9%97%AE%E9%A2%98">2. /root/权限问题</a></li>
+<li><a href="#3-error-redis-server-is-not-running-or-not-listening-on-socket-varrunredis-openvasredis-serversock">3. ERROR: redis-server is not running or not listening on socket: /var/run/redis-openvas/redis-server.sock</a></li>
+<li><a href="#4-error-no-users-found-you-need-to-create-at-least-one-user-to-log-in">4. ERROR: No users found. You need to create at least one user to log in.</a></li>
+</ul>
+</li>
+</ul>
+(问题解决)</p>
+<h1 id="1-宕机导致i2c_piix4">1. 宕机导致i2c_piix4</h1>
+<p>报错：</p>
+<pre><code>piix4_smbus 0000:00:07.3: SMBus Host controller not enabled
+</code></pre>
+<br>
+1. 重启kali，进入运行级别3，选择第二个，之后选择进入运行级别3
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617535739059.png" alt="" loading="lazy"></li>
+</ul>
+<ol start="2">
+<li>这时出现错误：类似于图下
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617535894449.png" alt="" loading="lazy"></li>
+</ul>
+</li>
+</ol>
+<pre><code>Failure:File system check of the root filesystem failed
+</code></pre>
+<ol start="3">
+<li>输入：</li>
+</ol>
+<pre><code># 一致按y，yes
+fsck [红色方框中的路径]
+或
+fsck -y [红色方框中的路径]
+# 直到看到initramfs命令行
+</code></pre>
+<ol start="4">
+<li>重启kali，进入运行级别3，选择第二个，之后选择进入运行级别3，输入root密码</li>
+</ol>
+<pre><code>1.查明装入模块的名字：lsmod | grep i2c
+# 会回显i2c_piix4 或者其他
+</code></pre>
+<br>
+<pre><code>2.切换目录查看：
+cd /etc/modprobe.d/
+ls
+</code></pre>
+<br>
+<pre><code>3. 在文件最后一行加：blacklist i2c_piix4
+# 主要是libhackrf0.conf
+# 但是并不确定具体是哪一个所以我都加了
+# 不是root用sudo
+vi [****]
+按ESC退出编辑模式；
+按下shift+：，输入wq!，这里是vim命令，表示强制保存并退出
+</code></pre>
+<br>
+<pre><code>4. 重新生成引导文件：
+sudo update-initramfs -u -k all
+</code></pre>
+<br>
+<pre><code>5.重启
+</code></pre>
+<h1 id="2-安装openvas">2. 安装openvas</h1>
+<h2 id="1-rsync-error-error-in-socket-io-code-10-at-clientserverc137-receiver323">1. rsync error: error in socket IO (code 10) at clientserver.c(137) [Receiver=3.2.3]</h2>
+<ol>
+<li>下载安装redis-server</li>
+</ol>
+<pre><code>apt search redis
+apt install redis-server
+</code></pre>
+<ol start="2">
+<li>安装firewall，开放873端口：</li>
+</ol>
+<pre><code>apt install firewall
+firewall-cmd --permanent --add-port=873/tcp
+firewall-cmd --query-port=873/tcp
+firewall-cmd --reload
+</code></pre>
+<h2 id="2-root权限问题">2. /root/权限问题</h2>
+<p>给root目录开放777权限</p>
+<pre><code># root ：777
+# /var/log/gvm：777
+chmod 777 [目录]
+</code></pre>
+<h2 id="3-error-redis-server-is-not-running-or-not-listening-on-socket-varrunredis-openvasredis-serversock">3. ERROR: redis-server is not running or not listening on socket: /var/run/redis-openvas/redis-server.sock</h2>
+<p>提示：FIX: You should start the redis-server with 'systemctl start redis-server@openvas.service' or configure it to listen on socket: /var/run/redis-openvas/redis-server.sock</p>
+<pre><code>systemctl start redis-server@openvas.service
+</code></pre>
+<h2 id="4-error-no-users-found-you-need-to-create-at-least-one-user-to-log-in">4. ERROR: No users found. You need to create at least one user to log in.</h2>
+<p>提示：FIX: create a user by running 'sudo runuser -u _gvm -- gvmd --create-user=&lt;name&gt; --password=&lt;password&gt;'</p>
+
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://kite-007.github.io/kali-lou-dong-sao-miao/">
+                  <h3 class="post-title">
+                    # KALI 漏洞扫描
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+
+  </body>
+</html>

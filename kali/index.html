@@ -3,12 +3,12 @@
   <head>
     <meta charset="utf-8" >
 
-<title># KALI | Fr</title>
+<title># KALI 基本定制 | Fr</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://kite-007.github.io/favicon.ico?v=1616506916535">
+<link rel="shortcut icon" href="https://kite-007.github.io/favicon.ico?v=1617547013931">
 <link rel="stylesheet" href="https://kite-007.github.io/styles/main.css">
 
 
@@ -24,6 +24,7 @@
 1. 更改root密码，使kali能够开机登陆
 2. 换源并更新
 3. 安装输入法
+4. 网络配置
 
 
 2. 信息收集
@@ -35,7 +36,7 @@
 
 (KALI)
 1. 基本
-1. 更改root密码，使kali能够开机登..." />
+1. 更改root密码，使k..." />
     <meta name="keywords" content="kali,工具,Linux" />
   </head>
   <body>
@@ -45,7 +46,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://kite-007.github.io">
-        <img src="https://kite-007.github.io/images/avatar.png?v=1616506916535" class="site-logo">
+        <img src="https://kite-007.github.io/images/avatar.png?v=1617547013931" class="site-logo">
         <h1 class="site-title">Fr</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -95,7 +96,7 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title"># KALI</h2>
+            <h2 class="post-title"># KALI 基本定制</h2>
             <div class="post-date">2021-03-15</div>
             
             <div class="post-content" v-pre>
@@ -105,6 +106,7 @@
 <li><a href="#1-%E6%9B%B4%E6%94%B9root%E5%AF%86%E7%A0%81%E4%BD%BFkali%E8%83%BD%E5%A4%9F%E5%BC%80%E6%9C%BA%E7%99%BB%E9%99%86">1. 更改root密码，使kali能够开机登陆</a></li>
 <li><a href="#2-%E6%8D%A2%E6%BA%90%E5%B9%B6%E6%9B%B4%E6%96%B0">2. 换源并更新</a></li>
 <li><a href="#3-%E5%AE%89%E8%A3%85%E8%BE%93%E5%85%A5%E6%B3%95">3. 安装输入法</a></li>
+<li><a href="#4-%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE">4. 网络配置</a></li>
 </ul>
 </li>
 <li><a href="#2-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86">2. 信息收集</a>
@@ -164,6 +166,24 @@ sudo reboot  #重启
 <li>安装输入法框架（apt install fcitx）</li>
 <li>安装谷歌拼音（apt install fcitx-googlepinyin）</li>
 </ol>
+<h2 id="4-网络配置">4. 网络配置</h2>
+<ol>
+<li>临时IP地址<br>
+（有DHCP服务器的话，kali会自动的去获取IP地址(通过DHCP)，如果出现一些问题，或者向DHCP发送请求需要手动设置IP）</li>
+</ol>
+<pre><code># 后面跟上要获取IP地址的网卡的名称，可以自动获得IP地址
+dhclient eth0
+</code></pre>
+<pre><code># 如果需要自己手动来设置IP地址可以使用 /24 掩码
+ifconfig eth0 192.168.1.10/24
+
+# 指定网关，之后可以和其他网关的电脑进行通信，不然只能在本网段之内
+（添加缺省路由）
+route add default gw 192.168.1.1（default表示默认，gw为网关）
+
+
+
+</code></pre>
 <h1 id="2-信息收集">2. 信息收集</h1>
 <h2 id="1-nmap扫描ip">1. Nmap扫描（IP）</h2>
 <ol>
@@ -226,7 +246,7 @@ sudo reboot  #重启
                 <div class="next">下一篇</div>
                 <a href="https://kite-007.github.io/1-xin-xi-shou-ji/">
                   <h3 class="post-title">
-                    1. 信息收集之基本介绍
+                    # 信息收集之基本介绍
                   </h3>
                 </a>
               </div>
