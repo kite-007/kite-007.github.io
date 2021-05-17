@@ -1,0 +1,1846 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title># KALI 主动信息收集 | Fr</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://kite-007.github.io/favicon.ico?v=1621251676600">
+<link rel="stylesheet" href="https://kite-007.github.io/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="
+KALI 主动信息收集
+
+简要介绍
+阶段一：发现主机
+
+二层发现（ARP）
+
+arping
+nmap
+netdiscover
+scapy
+
+
+三层发现（ICMP）
+
+Ping
+traceroute
+scapy
+nmap
+fping
+hpi..." />
+    <meta name="keywords" content="" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://kite-007.github.io">
+        <img src="https://kite-007.github.io/images/avatar.png?v=1621251676600" class="site-logo">
+        <h1 class="site-title">Fr</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://kite-007.github.io/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      意志坚定，持之以恒
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://kite-007.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title"># KALI 主动信息收集</h2>
+            <div class="post-date">2021-04-09</div>
+            
+            <div class="post-content" v-pre>
+              <p><ul class="markdownIt-TOC">
+<li><a href="#kali-%E4%B8%BB%E5%8A%A8%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86">KALI 主动信息收集</a>
+<ul>
+<li><a href="#%E7%AE%80%E8%A6%81%E4%BB%8B%E7%BB%8D">简要介绍</a></li>
+<li><a href="#%E9%98%B6%E6%AE%B5%E4%B8%80%E5%8F%91%E7%8E%B0%E4%B8%BB%E6%9C%BA">阶段一：发现主机</a>
+<ul>
+<li><a href="#%E4%BA%8C%E5%B1%82%E5%8F%91%E7%8E%B0arp">二层发现（ARP）</a>
+<ul>
+<li><a href="#arping">arping</a></li>
+<li><a href="#nmap">nmap</a></li>
+<li><a href="#netdiscover">netdiscover</a></li>
+<li><a href="#scapy">scapy</a></li>
+</ul>
+</li>
+<li><a href="#%E4%B8%89%E5%B1%82%E5%8F%91%E7%8E%B0icmp">三层发现（ICMP）</a>
+<ul>
+<li><a href="#ping">Ping</a></li>
+<li><a href="#traceroute">traceroute</a></li>
+<li><a href="#scapy-2">scapy</a></li>
+<li><a href="#nmap-2">nmap</a></li>
+<li><a href="#fping">fping</a></li>
+<li><a href="#hping">hping</a></li>
+</ul>
+</li>
+<li><a href="#%E5%9B%9B%E5%B1%82%E5%8F%91%E7%8E%B0tcpudp">四层发现（TCP/UDP）</a>
+<ul>
+<li><a href="#tcp%E5%8F%91%E7%8E%B0">TCP发现</a>
+<ul>
+<li><a href="#scapy-3">scapy</a></li>
+</ul>
+</li>
+<li><a href="#udp%E5%8F%91%E7%8E%B0">UDP发现</a>
+<ul>
+<li><a href="#scapy-4">scapy</a></li>
+<li><a href="#nmap-3">nmap</a></li>
+<li><a href="#hping3">hping3</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E9%98%B6%E6%AE%B5%E4%BA%8C%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F">阶段二：端口扫描</a>
+<ul>
+<li><a href="#udp%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F">UDP端口扫描</a>
+<ul>
+<li><a href="#scapy-5">scapy</a></li>
+<li><a href="#nmap-4">nmap</a></li>
+</ul>
+</li>
+<li><a href="#tcp%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F">TCP端口扫描</a>
+<ul>
+<li><a href="#%E9%9A%90%E8%94%BD%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F">隐蔽端口扫描</a>
+<ul>
+<li><a href="#scapy-6">Scapy</a></li>
+<li><a href="#nmap-5">nmap</a></li>
+<li><a href="#hping3-2">hping3</a></li>
+</ul>
+</li>
+<li><a href="#%E5%85%A8%E8%BF%9E%E6%8E%A5%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F">全连接端口扫描</a>
+<ul>
+<li><a href="#scapy-7">scapy</a></li>
+<li><a href="#nmap-6">nmap</a></li>
+<li><a href="#dmitry">dmitry</a></li>
+<li><a href="#nc">nc</a></li>
+</ul>
+</li>
+<li><a href="#%E5%83%B5%E5%B0%B8%E6%89%AB%E6%8F%8F">僵尸扫描</a>
+<ul>
+<li><a href="#scapy-8">scapy</a></li>
+<li><a href="#nmap-7">nmap</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E9%98%B6%E6%AE%B5%E4%B8%89%E6%9C%8D%E5%8A%A1%E6%89%AB%E6%8F%8F">阶段三：服务扫描</a>
+<ul>
+<li><a href="#banner">Banner</a>
+<ul>
+<li><a href="#nc-2">nc</a></li>
+<li><a href="#socker">socker</a></li>
+<li><a href="#dmitry-2">dmitry</a></li>
+<li><a href="#namp">namp</a></li>
+<li><a href="#amap">amap</a></li>
+</ul>
+</li>
+<li><a href="#%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E8%AF%86%E5%88%AB">操作系统识别</a>
+<ul>
+<li><a href="#%E4%B8%BB%E5%8A%A8%E5%BC%8F%E6%89%AB%E6%8F%8F">主动式扫描</a>
+<ul>
+<li><a href="#scapy-9">scapy</a></li>
+<li><a href="#nmap-8">nmap</a></li>
+<li><a href="#xprobe2">xprobe2</a></li>
+</ul>
+</li>
+<li><a href="#%E8%A2%AB%E5%8A%A8%E5%BC%8F%E6%89%AB%E6%8F%8F">被动式扫描</a>
+<ul>
+<li><a href="#p0f">p0f</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#snmp%E6%89%AB%E6%8F%8F">SNMP扫描</a>
+<ul>
+<li><a href="#onesixtyone">onesixtyone</a></li>
+<li><a href="#snmpwalk">snmpwalk</a></li>
+<li><a href="#snmpcheck">snmpcheck</a></li>
+</ul>
+</li>
+<li><a href="#smb%E6%89%AB%E6%8F%8F">SMB扫描</a>
+<ul>
+<li><a href="#nmap-9">nmap</a></li>
+<li><a href="#nbtscan">nbtscan</a></li>
+<li><a href="#enum4liunx">enum4liunx</a></li>
+</ul>
+</li>
+<li><a href="#smtp%E6%89%AB%E6%8F%8F">SMTP扫描</a>
+<ul>
+<li><a href="#nc-3">nc</a></li>
+<li><a href="#nmap-10">nmap</a></li>
+<li><a href="#smtppy">smtp.py</a></li>
+</ul>
+</li>
+<li><a href="#%E9%98%B2%E7%81%AB%E5%A2%99%E8%AF%86%E5%88%AB">防火墙识别</a>
+<ul>
+<li><a href="#scapy-10">scapy</a></li>
+<li><a href="#nmap-11">nmap</a></li>
+</ul>
+</li>
+<li><a href="#%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1%E8%AF%86%E5%88%AB">负载均衡识别</a>
+<ul>
+<li><a href="#lbd">lbd</a></li>
+</ul>
+</li>
+<li><a href="#waf%E8%AF%86%E5%88%AB">WAF识别</a>
+<ul>
+<li><a href="#wafw00f">wafw00f</a></li>
+<li><a href="#nmap-12">nmap</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#nmap%E5%8F%82%E6%95%B0%E4%BD%BF%E7%94%A8">NMAP参数使用</a></li>
+</ul>
+</li>
+</ul>
+( KALI 主动信息收集)</p>
+<h1 id="kali-主动信息收集">KALI 主动信息收集</h1>
+<h2 id="简要介绍">简要介绍</h2>
+<ul>
+<li>被动信息收集原则，不直接与目标交互进行访问。而主动信息大部分反之。</li>
+<li>主动信息收集过程对目标的端口进行探测，搜集服务信息（主机，域名，IP等等）。</li>
+<li>这样做会无法避免在目标机上面留下访问痕迹。</li>
+<li>为了避免这种情况：
+<ul>
+<li>通常会使用第三方电脑进行探测，因为可以使用代理进行混淆视听，但是这些第三方电脑也还是有被封杀IP的概率。</li>
+<li>有两种隐藏的方法，一种就是藏着，另一种则是发送大量垃圾信息，迷惑目标系统的日志分析功能以及抓包分析系统，这种用来迷惑的垃圾信息称之为噪声。</li>
+</ul>
+</li>
+</ul>
+<h2 id="阶段一发现主机">阶段一：发现主机</h2>
+<h3 id="二层发现arp">二层发现（ARP）</h3>
+<ul>
+<li>识别网络中存在的主机，是潜在攻击的目标。这里所说的层为OSI七层网络。</li>
+<li>二层中基于数据链路层ARP协议，具有扫描速度快，可靠的优点，但是不可路由，一但需要进行到路由的下一跳，就会无法进行。</li>
+</ul>
+<h4 id="arping">arping</h4>
+<pre><code class="language-shell">arping 1.1.1.1 -c 1
+# 与ping命令差不多，但是发送的是arp包
+# arping 后面紧跟目标IP，-c表示发送几次arp包，如果不加参数则会一直发送。
+# 如果存在该目标，就会收到返回信息，像ping命令一样。
+
+-d 参数
+# 发现重复的响应，能够发现两个不同的MAC地址拥有同样一个IP这种情况，（不同的地址，相同
+# 的IP）如果出现了这种情况，并且真的是两个不同的地址相同的IP，存在ARP地址欺骗，欺骗网
+# 关，可能会实施中间人攻击，纂改发送的数据，窃取流量等等，这时可以根据MAC地址，在交换
+# 机端口上，如果是有线网络的话，通过交换机端口查ARP表，去寻找这个人的位置，连接的是哪
+# 个交换机端口，如果是无线环境的话，定位起来会比较难。
+
+arping -c 1 1.1.1.1 | grep &quot;bytes from&quot; | cut -d&quot; &quot; -f 5 | cut -d &quot;(&quot; -f 2 | cut -d&quot;)&quot; -f 1
+# 发送arp包到此IP，grep只显示“bytes from”的结果，之后cut -d显示通过空格差分，-f显示第五列的内容。
+</code></pre>
+<p>arping方便快捷但是难以发现一个网段下的主机，因为是命令行工具，所以可以尝试使用脚本来实现。</p>
+<pre><code class="language-shell"># arping1.sh
+# 通过arping对一个网段下的主机及全部网络进行发现
+
+#!/bin/bash
+# 脚本使用/bin/bash来进行解释
+
+if ('$#' -ne 1); then
+# $#表示该脚本可以跟随增加一些参数，如果这里增加的参数的数量不等于一，就会回显一下三个echo
+
+	echo&quot;Usage /arping.sh [interfacel&quot;
+	# 告诉正确使用方法 /arping.sh 后加网卡接口 例如：
+	echo&quot;Example /arping.sh eth0&quot;
+
+	echo&quot;Example will perform an ARPscan of the local subnet to which eth0 is assigned&quot;
+	exit
+fi
+
+interface=$1
+# 参数定义等于$1,输入的值
+
+prefix=$(ifconfig $interface | grep 'inet' | cut -d ':' -f 2 | cut -d ' ' -f 10 | cut -d '.' -f 1-3)
+# 取interface网卡前缀，网络地址，192.168.200.0，这里第二个cut那里，如果你的输出是顶格的话，就将10改为2，如果没有顶格，可以进行试试，我的是10
+
+for addr in $(seq 1 254);do
+	arping -c 1 $prefix.$addr | grep &quot;bytes from&quot; | cut -d &quot; &quot; -f 5 | cut -d&quot;(&quot; -f 2 | cut -d&quot;)&quot; -f 1 &gt;&gt; addr.txt
+	
+done
+</code></pre>
+<pre><code class="language-shell"># arping2.sh
+# 通过arping对一个网段下的主机及全部网络进行发现验证是否存活
+
+#!/bin/bash
+# 脚本使用/bin/bash来进行解释
+
+if ('$#' -ne 1); then
+# $#表示该脚本可以跟随增加一些参数，如果这里增加的参数的数量不等于一，就会回显一下三个echo
+
+	echo&quot;Usage /arping.sh [interfacel&quot;
+	# 告诉正确使用方法 /arping.sh 后加网卡接口 例如：
+	echo&quot;Example /arping.sh eth0&quot;
+
+	echo&quot;Example will perform an ARPscan of the local subnet to which eth0 is assigned&quot;
+	exit
+fi
+
+file=$1
+for addr in $(cat $file); do
+	arping -c 1 $addr | grep &quot;bytes from&quot; | cut -d &quot; &quot; -f 5 | cut -d &quot;(&quot; -f 2 | cut -d &quot;)&quot; -f 1
+	
+done
+
+</code></pre>
+<h4 id="nmap">nmap</h4>
+<ul>
+<li>最需熟练掌握的工具之一。默认情况下，如果只跟IP地址的话，那麽nmap会对IP进行一系列的扫描，首先发现是否存在，其次对常用端口进行扫描。现在只做二层发现，不做端口扫描。也不仅仅只发送arp包，还有dns（通过地址解析主机名，扫描公网，内网）等等</li>
+</ul>
+<pre><code class="language-shell">nmap 1.1.1.1-255 -sn
+nmap 1.1.1.0/24 -sn
+# -sn参数，让nmap只做ping扫描
+# 支持地址段，不用写脚本，而且比arping快
+
+namp -iL addr.txt -sn
+# 也可以实现上述arping2功能，查询地址列表中存活的主机
+</code></pre>
+<h4 id="netdiscover">netdiscover</h4>
+<ul>
+<li>
+<p>可实现主动发现，也可实现被动发现，有线，无线环境下都可以使用，使用arp协议。</p>
+</li>
+<li>
+<p>主动发现：</p>
+<ul>
+<li>与上述的工作原理基本相同，都是向IP发送arp包，如果目标有返回信息的话，就可以判断目标是活着的。</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-shell">netdiscover -i eth0 -r 192.168.200.0/24
+netdiscover -l addr.txt
+-i 指定收获信息的网卡
+-r 指定ip网段
+</code></pre>
+<ul>
+<li>被动发现：
+<ul>
+<li>不主动发送arp包，在网络里面侦听，将自己的网卡置为混杂模式，收取非本网卡的IP地址，非本网卡的mac地址的包，而arp协议的机制又是进行广播的。</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-shell">netdiscover -p
+</code></pre>
+<h4 id="scapy">scapy</h4>
+<ul>
+<li>
+<p>可以作为Python库进行调用，也可以作为工具使用，抓包，分析，对网络流量进行操作。</p>
+</li>
+<li>
+<p>实际上使python中的一个模块，可以用scapy库写各种扫描脚本的程序。</p>
+</li>
+<li>
+<p>Scapy ARP函数使用</p>
+</li>
+</ul>
+<pre><code class="language-shell">ARP()发现
+1. ARP().disply()
+展示ARP函数参数列表，像MSF里的info
+# 默认字段
+###[ ARP ]###
+  hwtype= 0x1 # 硬件类型:以太网1（eth0）
+  ptype= IPv4 # 协议类型:IPv4
+  hwlen= None # 硬件地址长度，通常为6
+  plen= None # 协议地址长度，通常为4
+  op= who-has # ARP查询包，操作，进行查询，以源来发送
+  hwsrc= 00:0c:29:dd:9e:44 # 源
+  psrc= 192.168.200.147 # 源
+  hwdst= 00:00:00:00:00:00 # 目标
+  pdst= 0.0.0.0 # 目标
+# 通常是使用函数时会应定义变量，来进行调用，使arp得以继承ARP()
+arp=ARP()
+所以现在
+arp.display()=ARP().display()
+
+# 像MSF那样给默认字段赋值
+arp.pdst()=&quot;192.168.200.1&quot;
+
+# 发送包,如果存在则会收到返回的响应包
+sr1(arp)
+# 后面的&lt;Padding ...&gt;部分是包未达到最小以太网包大小的要求，加上以达到要求
+# 也可以将包赋给一个变量
+answer=sr1(arp)
+answer.display()
+
+#上面发送包也可以写成
+sr1(ARP(pdst=&quot;192.168.200.1&quot;))
+# 如果发送的包不存在，则scapy会一直发包，直到存在该IP为止
+</code></pre>
+<ul>
+<li>使用python脚本实现，程序会默认发送两个包</li>
+</ul>
+<pre><code class="language-python"># arp1.py
+
+#!/usr/bin/python
+# 声明代码解释器，生成字节码，通过引擎调用字节码进行运行
+
+import logging
+import subprocess
+# 实现系统命令的调用
+# 导入日志模块(日志记录)，导入库(系统指令)
+logging.getLogger(&quot;scapy.runtime&quot;).setLevel(logging.ERROR)
+# 运行时，日志记录等级设置
+from scapy.all import*
+
+if len(sys.argv)!=2:
+# 脚本可以跟参数，如果连命令带参数不等于2，不是两块的话，就执行以下
+ print&quot;Usage ./arp_disc.py (interface)&quot;
+ print&quot;Example ./arp_disc.py eth0&quot;
+ print&quot;Example will perform an ARP scan of the local subnet to which eth0 is assigned&quot;
+ sys.exit()
+	
+interface=str(sys.argv[1])
+# 将接收到的参数转换为字符串类型
+
+ip=subprocess.check_output(&quot;ifconfig &quot;+interface+&quot; | grep 'inet' | cut -d ':' -f 10 | cut -d ' ' -f 10&quot;,shell=True).strip()
+# 运行shell得到ip
+prefix=ip.split('.')(O)+'.'+ip.split('.')(1)+'.'+ip.split('.')(2)+'.'
+# 将ip进行分割，再拼接
+
+for addr in range(0,255):
+ answer = sr1(ARP(pdst=prefix+str(addr)),timeout=0.1,verbose=0)
+	# timeout 超时停止发送，verbose 发送显示错误报告，1为显示，0不显示
+ if answer == None:
+  pass
+ else:
+  print prefix+str(addr)
+</code></pre>
+<ul>
+<li>调用IP地址列表文件</li>
+</ul>
+<pre><code class="language-python"># arp2.py
+
+#!/usr/bin/python
+# 声明代码解释器，生成字节码，通过引擎调用字节码进行运行
+
+import logging
+logging.getLogger(&quot;scapy.runtime&quot;).setLevel(logging.ERROR)
+# 运行时，日志记录等级设置
+from scapy.all import*
+
+if len(sys.argv)!=2:
+# 脚本可以跟参数，如果连命令带参数不等于2，不是两块的话，就执行以下
+ print&quot;Usage - ./arp_disc.py (interface)&quot;
+ print&quot;Example - ./arp_disc.py eth0&quot;
+ print&quot;Example will perform an ARP scan of the local subnet to which eth0 is assigned&quot;
+ sys.exit()
+	
+filename=str(sys.argv[1])
+file=open(filename,'r')
+# 打开读取内容，一行一次
+
+for addr in file:
+ answer = sr1(ARP(pdst=addr.strip()),timeout=0.1,verbose=0)
+ if answer == None:
+  pass
+ else:
+  print addr.strip()
+</code></pre>
+<ul>
+<li>二层发现的使用：通常来说，在渗透测试目标系统时，一般在已经控制了一台目标系统机器，取得了这台机器的控制权，要继续对目标系统的内网进行进一步渗透，以已经控制的机器作为跳板，进一步渗透，可以先使用二层发现，来发现目标系统的内网中还存活哪些机器主机，可以进行进一步渗透。充分证明控制了一台机器的危害，一般机器上面没有nmap，但是可能会有arping，netdiscover或者python环境来进行二层扫描。</li>
+</ul>
+<h3 id="三层发现icmp">三层发现（ICMP）</h3>
+<ul>
+<li>三层协议，基于TCP/IP层，IP，icmp协议（Internet控制管理协议：主要用来做路径发现，做一个探测，根据相应结果来返回目标主机的一个状态的一种协议），这里以icmp为主，相比较二层速度比较慢，经常被边界防火墙过滤，也可能会出现目标机器宕机，但是扫描发现它在线的误判情况。</li>
+<li>优点：可以发现路由，理论上可以发现上世界上所有的目标主机，前提是目标机需要接收所发送的icmp包，像被防火墙拦截过滤设备数据包等等，就可能会出现一种发送了数据包，但是目标机器没有返回icmp的响应包，这样，扫描工具就有可能会出现一个该主机不在线的一个错误判断。这是扫描无法避免的一个问题。</li>
+</ul>
+<h4 id="ping">Ping</h4>
+<ul>
+<li>Ping命令使用icmp的其中两种类型数据包，icmp协议会根据包头的type字段有0-15个定义，每种定义都表示一种包的类型，用途也不一样，在发ping包的时候，发送的实际上是icmp的type8的数据包，接收到ping包的机器，如果没有防火墙过滤，接收到正常响应的话，就会返回一个type0的数据包。</li>
+</ul>
+<pre><code class="language-shell">ping 192.168.200.1 -c 5
+# 发送五个包就结束date：特殊字符加数字
+
+ping -R 1.1.1.1
+# 请求离主机比较远的目标地址
+</code></pre>
+<p>ping实现ping网段的脚本</p>
+<pre><code class="language-shell">#！/bin/bash
+if [&quot;$#&quot; -ne 1];then
+	echo &quot;Usage - ./yarping.sh [interface]&quot;
+	echo &quot;Example - ./arping.sh etho&quot;
+	echo &quot;Example will perform an ARP scan of the local subnet to which etho is assigned&quot;
+	exit
+fi
+
+interface=$1
+prefix=$(ifconfig $interface | grep 'inet addr' | cut -d ':' -f 2 | cut -d ' ' -f 1 | cut -d  '.' -f 1-3)
+for addr in $(seg 1 254):do
+	arping -c 1 Sprefix.$addr | grep &quot;bytes from&quot; | cut -d'' -f 5 | cut -d &quot;(&quot; -f 2 | cut -d &quot;)&quot; -f 1
+done
+</code></pre>
+<h4 id="traceroute">traceroute</h4>
+<ul>
+<li>探测目标机器，不仅可以发现目标机器在线或是不在线的状态，还可以发现从主机到目标机器中间经历了多少跳的路由。</li>
+</ul>
+<pre><code>traceroute www.baidu.com
+# 发出icmp数据包，相应的也是icmp数据包，这些序号表示从主机到目标机器中间经历了多少跳的路由。
+# * * * 表示边界路由设备的拦截过滤
+# traceroute与ping不同，他会先设置ttl（Time-to-live）的值为1，（一般的Linux数据包的ttl值默认开始为64，每经过一跳，ttl值减一）当包到达第一个路由器，他的值会减一，当路由器发现这个包的值变成了0之后会返回一个数据包，告诉ttl的值已经到达边界范围了。
+</code></pre>
+<h4 id="scapy-2">scapy</h4>
+<ul>
+<li>scayp也可以调用icmp协议实现ping命令，三层发现。</li>
+<li>先定义ip包头，再定义icmp包头在将两者组合起来，形成icmp的ping包。</li>
+</ul>
+<pre><code># 定义的两个包头，再将两个包头进行组合，形成ping包
+i=IP()
+p=ICMP()
+ping=(i/p)
+
+# 查看ping包默认参数，设置目标地址,src源地址会自动设置
+ping.display()
+ping[IP].dst=&quot;192.168.200.2&quot;
+
+# 发送,受到响应包，查看包的内容
+a=sr1(ping)
+a.display()
+
+# 以上命令使用一行显示
+sr1(IP(dst=&quot;192.168.200.2&quot;)/ICMP(),timeout=0.1)
+# 与之前相同，如果不存在ip地址，则发送包会一直进行等待，需要加上超时命令。
+</code></pre>
+<ul>
+<li>使用以上原理的python脚本</li>
+</ul>
+<pre><code class="language-python">#！/usr/bin/python
+
+import logging
+import subprocess
+logging getLogger(&quot;scapy.runtime&quot;).setLevel(logging.ERROR)
+from scapy.all import*
+
+if len(sys.argv)!= 2:
+ print &quot;Usage - ./pinger.py [/24 network address]&quot;
+ print &quot;Exanple - ./pinger.py 172.16.36.0&quot;
+ print &quot;Example will perform an ICHP scan of the 172.16.36.0/24 range&quot;
+ sys.exit()
+    
+address =str(sys.argv[1])
+prefix=address.split('.')[0] +'.'+address.split('.') [1]+'.'+address.split('.')[]2+'.'
+
+for addr in range(1,254):
+ a=sr1(IP(dst=prefix+str(addr)/ICHP().timeout=0.1,verbose=0)
+if a == None:
+ pass
+else:
+ print prefix+str(addr)
+</code></pre>
+<pre><code class="language-python">#！/usr/bin/python
+
+import logging
+import subprocess
+logging getLogger(&quot;scapy.runtime&quot;).setLevel(logging.ERROR)
+from scapy.all import*
+
+if len(sys.argv)!=2:
+ print&quot;Usage - ./pinger.py [/24 network address]&quot;
+ print&quot;Exanple - ·/pinger.py 172.16.36.0°
+ print&quot;Exanplewill performanICHP scanofthe 172.16.36.0/24 range&quot; 	sys.exit()
+
+filename=str(sys.argv[1])
+file=open(filenane,'r')
+
+for addr in file:
+ a=sr1(IP(dst=addr.strip())/ICMP().timeout=0.1,verbase=0)
+ if a == None:
+  pass
+ else:
+  print addr.strip0
+</code></pre>
+<h4 id="nmap-2">nmap</h4>
+<ul>
+<li>使用nmap进行三层发现</li>
+<li>使用综合的多种技术对目标进行探测（二层arp，三层icmp，四层tcp）</li>
+</ul>
+<pre><code># 如果目标ip是在本网段的话，nmap会发送arp包，如果不在同一网段的话则会发送icmp包
+nmap 1.1.1.1 -sn
+# Type 13 获取目标操作系统时间戳
+</code></pre>
+<h4 id="fping">fping</h4>
+<ul>
+<li>类似于ping 比它强大</li>
+<li>ping不支持对地址段进行扫描，fping支持</li>
+</ul>
+<pre><code class="language-shell">fping 1.1.1.1 -c 1
+fping -g 1.1.1.100 1.1.1.200
+fping -g 1.1.1.0/24
+fping -f addr.txt
+
+-c 发送几个包
+-g 支持地址段
+-f 支持地址列表
+</code></pre>
+<h4 id="hping">hping</h4>
+<ul>
+<li>比较强大，完成tcp ip协议包头，两者所有参数在该hping命令中都有涉及，可以设计不同的字段组合，实现类似于Scapy对IP包头每一个字段的内容进行设置，可进行三层发现，可对tcp服务器进行压力测试，发送大量的包，特殊定制的包的内容(拒绝服务攻击)。</li>
+</ul>
+<pre><code>hping3 192.168.200.2 --icmp -c 2
+
+# 如果对不存在的地址进行ping报的话则得不到响应
+
+一行脚本：
+for addr in $(seq 1 254); do hping3 1.1.1.$addr --icmp -c 1 &gt;&gt; handle.txt &amp; done
+
+//测试。查看
+for addr in $(seq 1 254); do hping3 192.168.200.$addr --icmp -c 1 &gt;&gt; handle.txt &amp; done
+
+cat handle.txt | grep len
+</code></pre>
+<h3 id="四层发现tcpudp">四层发现（TCP/UDP）</h3>
+<ul>
+<li>优点：可以进行路由，结果比较可靠，不太可能被防火墙过滤，甚至可以发现所有端口都关闭的主机。</li>
+<li>全端口扫描速度慢，基于状态检测过滤的防火请可能会被过滤掉。</li>
+<li>使用tcp/udp协议对端口进行探测，根据探测端口相应的结果判断发现IP是否在线，可靠性更高。</li>
+<li>为什么不太可能被防火墙过滤：防火墙也可以看作是一种打开端口的服务，即使端口关闭，根据探测边界防火墙的结果也能判断该主机的状态。</li>
+<li>TCP
+<ul>
+<li>正常过程是发送SYN包，目标返回SYN/ACK，在发送ACK建立连接，之后可以向目标发送资源请求，目标服务器就会响应数据包，接着确认，发送下一个包，如此往返，比较可靠，如果目标端口是关闭状态则会返回RST包。</li>
+<li>如果没有建立连接，则直接向目标发送ACK包，在未建立连接状态下，基于TCP协议，目标会向主机发送一个RST，请求终端ACK请求，一般都会发送。</li>
+</ul>
+</li>
+<li>UDP
+<ul>
+<li>ICMP端口不可达，一去不复返。可达则，一去不复返。</li>
+<li>不建立连接，向目标发送包，不需要确认，结果没有TCP准确。</li>
+<li>如果目标的端口未开放，则目标会返回一个端口（ICMP）不可达的数据包。确认目标在线。</li>
+</ul>
+</li>
+</ul>
+<h4 id="tcp发现">TCP发现</h4>
+<h5 id="scapy-3">scapy</h5>
+<ul>
+<li>在TCP包中设置flag位为ACK，发送向一个目标IP，通过目标的响应，来确认目标是否在线，如果目标返回一个RST则在线，如果目标不发送任何数据，则不在线。</li>
+</ul>
+<pre><code class="language-shell"># 定义三层包，将三层包与四层包结合起来
+i=IP()
+t=TCP()
+r=(i/t)
+
+# 查看发送内容，设置目标
+r.display()
+r[IP].dst=&quot;192.168.200.2&quot;
+
+# 设置TCP包的flag内容为ACK，发送,查看
+r[TCP].flags=&quot;A&quot;
+a=sr1(r)
+a.display()
+# dport= http 意思默认为80端口
+
+# 上述用一行表示：
+a=sr1(IP(dst=&quot;1.1.1.1&quot;)/TCP(dport=80,flags=&quot;A&quot;),timeout=1)
+</code></pre>
+<p>对应脚本ACK_Ping.py</p>
+<pre><code class="language-python">#!/usr/bin/python
+
+import logging
+logging.getLogger(&quot;scapy.runtime&quot;).setLevel(logging.ERROR)
+from scapy.all import*
+
+if len(sys.argv)!=2;
+ print &quot;Usage - ./ACK Ping.py [/24 network address]&quot;
+ print &quot;Example - ./ACK Ping.Py 1.1.1.6°
+ print &quot;Example will perfors a TCP ACK ping scan of the 1.1.1.0/24 ran
+ sys.exit()
+
+address =str(sys.argv[1])
+prefix=address.split('.')[0]+'.'+address.split('.')[1]+'.'+address.split('.')[2]+'.'
+
+for addr in range(1,254):
+ response=sr1(IP(dst=prefix+str(addr))/TCP(dport=2222,flags='A'ltimeout=0
+  try:
+    if int(response[TCP].flags)==4;
+     print prefix+str(addr)
+  except:
+   pass
+</code></pre>
+<h4 id="udp发现">UDP发现</h4>
+<h5 id="scapy-4">scapy</h5>
+<ul>
+<li>设置UDP包，选择一个不常用的端口（未开放）来发送。</li>
+</ul>
+<pre><code class="language-shell"># 定义三层包，将三层包与四层包结合起来
+i=IP()
+u=UDP()
+r=(i/u)
+
+# 查看发送内容，设置目标
+r.display()
+r[IP].dst=&quot;192.168.200.2&quot;
+
+# 更改默认端口53为不常用端口7345
+r[UDP].dport=7345
+
+# 设置TCP包的flag内容为ACK，发送,查看
+r[UDP].flags=&quot;A&quot;
+a=sr1(r)
+a.display()
+# dport= http 意思默认为80端口
+
+# 上述用一行表示：
+a=sr1(IP(dst=&quot;1.1.1.1&quot;)/UDP(dport=7345),timeout=1)
+</code></pre>
+<pre><code class="language-python">#!/usr/bin/python
+
+import logging
+logging.getLogger(&quot;scapy.runtime&quot;).setLevel(logging.ERROR)
+from scapy.all import*
+
+if len(sys.argv) !=2:
+ print&quot;Usage - ./ACK Ping.py [/24network address]&quot;
+ print&quot;Example - ./ACK Ping.py 1.1.1.6&quot;
+ print&quot;Example willperform a TCP ACKping scan of the 1.1.1.0/24 range&quot;
+ sys.exit()
+
+address=str(sys.argv[1])
+prefix=address.split('.')[0]+'.'+address.split('.')[1]+'.'+address.split('.')[2]+'.'
+
+for addr in range(1,254):
+ response=sri(IP(dst=prefix+str(addr)/UDP(dport=33333),timeout=0.1,verbose=0)
+ try:
+  if int(response[IP]proto)==1:
+   print prefix+str(addr)
+ except:
+  pass
+</code></pre>
+<h5 id="nmap-3">nmap</h5>
+<ul>
+<li>nmap实现四层主机发现，(三四层)</li>
+</ul>
+<pre><code class="language-shell">nmap 1.1.1.1-254 -PU53 -sn
+# -PU端口:udp方式
+
+nmap 1.1.1.1-254 -PA80 -sn
+# -PA端口:tcp的ack方式
+
+# -PS：SYN方式，
+# —PY：SCTP方式（uip上的协议）
+# -PE：ICMP的ping包
+# -PO：IP的ping包
+# -PP：时间戳
+# -PM：请求目标netmask
+
+nmap -iL iplist.txt -PA80 -sn
+</code></pre>
+<h5 id="hping3">hping3</h5>
+<ul>
+<li>如果扫描在同一网段下，则默认为二层主机扫描，为ARP协议。</li>
+</ul>
+<p>基于tcp</p>
+<pre><code class="language-shell">hping 1.1.1.1 -c 1
+发送的包flag都是0，如果返回ACK，RST则发现目标主机
+
+#hping3 tcp shell脚本
+
+</code></pre>
+<p>基于udp</p>
+<pre><code class="language-shell">hping3 --udp 1.1.1.1 -c 1
+
+# hping3 udp shell脚本
+
+</code></pre>
+<h2 id="阶段二端口扫描">阶段二：端口扫描</h2>
+<p>​     端口号后对应各个应用程序，应用程序的漏洞则是通过端口来体现出来的，后续渗透测试也是通过端口来实现的。所以找到IP的下一步就是对端口进行探测，具体进行攻击。</p>
+<p>​    端口扫描发现tcp以及udp的端口</p>
+<h3 id="udp端口扫描">UDP端口扫描</h3>
+<p>​    与之前主机发现原理相同。不同的是主机IP已经被发现了，现在就有两种情况，端口开放以及端口未开放。可以继续使用scapy，但发现阶段是收到端口不可达，则认为主机存在，现阶段是需要返回的ICMP端口的情况都是关闭的，而没有响应的则认为是开放的，与前那刚好相反。</p>
+<h4 id="scapy-5">scapy</h4>
+<p>​    与之前的三层大致相同（如果了解UDP的应用层包结构有用帮助）</p>
+<pre><code class="language-python">sr1(IP(dst=&quot;1.1.1.1&quot;)/UDP(dport=53),timeout=1,verbose=1)
+./udp_scan.py 1.1.1.1 1 100
+
+# 存在个别特例的特殊情况
+
+#! /usr/bin/python
+
+import logging
+logging.getLogger(&quot;scapy.runtime&quot;).setLevel(logging.ERROR)
+from scapy.all import *
+import time
+import sys
+
+if len(sys.argv)!=4:
+ print&quot;Usage - ./udp_scan.py [Target-IP] [First Port] [Last Port]&quot; 
+ print&quot;Example - ./udp_scan.py 10.0.0.5 1 100&quot;
+ print&quot;Example will UDP port scan ports 1 through 100 on 10.0.0.5&quot;
+ sys.exit()
+
+ip= sys.argv[1】
+start=int(sys.argv[2])
+end=int(sys.argv([3])
+
+for port in range(start.end):
+ a=sr1(IP(dst=ip)/UDP(dport=port),timeout=5,verbose=0)
+ time.sleep(1)
+ if a == None:
+  print port
+ else:
+  pass
+</code></pre>
+<h4 id="nmap-4">nmap</h4>
+<p>​    基于nmap的udp的端口扫描</p>
+<pre><code class="language-shell">nmap -sU 1.1.1.1
+# -PU端口:udp方式
+# 不指定端口则有默认1000个参数
+# 端口关闭：ICMP host-unreachable
+
+nmap 1.1.1.1 -sU -p 53
+nmap -iL iplist.txt -sU -p 1-200
+# 回车能够查看扫描进度
+</code></pre>
+<h3 id="tcp端口扫描">TCP端口扫描</h3>
+<p>​    udp端口扫描比较简单，只有一种状态，但tcp端口存在各种各样（链接，半连接等等）的状态，比较复杂。</p>
+<p>​    基本的tcp扫描是基于tcp三次握手实现全连接扫描，基于链接的建立的协议的扫描，1.发送SYN 2.返回SYN、ACK 3. 发送ACK。发送大量请求，容易触发警报。<br>
+​    还有一些隐蔽的扫描的手段，不建立握手，不发送SYN包。不建立连接，不会体现在应用层，不会在应用层，网络层日志文件里面被发现。<br>
+​    可以手动写py脚本来实现僵尸扫描，更加隐蔽，基本不与目标系统产生直接的会话进程，就能判断目标系统的端口是否开放，极其的隐蔽。</p>
+<p>​    隐蔽扫描，只发送syn包，如果返回syn+ack则可以判断端口为开放状态，如果不开放，则返回rst，因为没有建立完整的tcp连接，目标系统的应用层的日志记录不会记录扫描的行为。但是网络层上面可能会有一些记录。<br>
+​    所有的tcp扫描的方式都是根据三次握手的变化来判断目标端口的状态。</p>
+<p>​    僵尸扫描，国内资料对此扫描的描述比较简单——这是一种极其隐蔽的扫描方式，条件比较苛刻，不经常使用，不进行介绍。</p>
+<ul>
+<li>
+<p>实现条件： 实施条件苛刻。<br>
+​    条件一：扫描的发起方与被扫描的目标服务器必须是可以实现地址伪造。多年前，在互联网上可以实现伪造地址ip实施DDOS攻击。近些年，互联网的边界路由器纷纷加入了防地址伪造过滤的策略，目前实施比较困难。<br>
+​    条件二：必须要有一台僵尸机（这里的僵尸机与僵尸网络里的僵尸机进行区分：这里的僵尸机说的是：1.在网络中什么也不干，处于闲置状态，没有被别人控制。2.操作系统中的ipid必须是递增的，如果ipid是随机状态或者永远是0的状态的话【IP包头里面的identification字段】，近期的操作系统win10等等都是随机产生的，在早期xp，2003等都是递增的）</p>
+</li>
+<li>
+<p>实现过程：（三方，判断被扫服务器那个端口是开放的）</p>
+<ol>
+<li>
+<p>本地向僵尸机发送SYN+ACK的数据包(在没有建立三次握手的情况下)，僵尸机回访回一个RST包（正常情况下没有建立握手）给扫描器，通常情况下这个RST包中会有IPID（假设=X），扫描者就会收到IPID=X的信息。</p>
+</li>
+<li>
+<p>第二步会向目标服务器发送一个SYN包请求，伪造源地址（因为不能透露本机IP，所以这里的IP地址为僵尸机的。也就是说对目标服务器来说，这个SYN包就来源于僵尸机，但实际上是由扫描者发送过来的）。</p>
+<ol>
+<li>如果这个端口为开放状态，那么目标服务器就会向僵尸机IP发送SYN+ACK包，但是这里对僵尸机来说，他是非常莫名其妙的就接收到了一个SYN+ACK数据包（没有建立连接），所以僵尸机就会返回一个RST（IPID=X+1）（这里为僵尸机闲置的原因，如果僵尸机没有足够闲置，那么IPID!=X+1，这里也是需要递增的原因）数据包给目标服务器。扫描者对目标服务器来说完全隐藏。</li>
+<li>如果这个端口为关闭状态，那么目标服务器就会向僵尸机IP发送RST包，僵尸机器不会有任何反应。</li>
+</ol>
+</li>
+<li>
+<p>扫描者重复步骤一，发送SYN+ACK包。</p>
+<ol>
+<li>如果这个端口为开放状态，僵尸机返回RST包（IPID=X+2）。</li>
+<li>如果这个端口为关闭状态，僵尸机返回RST包（IPID=X+1）。</li>
+</ol>
+</li>
+</ol>
+</li>
+</ul>
+<img src="https://gitee.com/qu-xiaolei001/pic/raw/master/img/Screenshot_2021_0510_202927.png" alt="Screenshot_2021_0510_202927" style="zoom:80%;" />
+<img src="https://gitee.com/qu-xiaolei001/pic/raw/master/img/QQ%E6%88%AA%E5%9B%BE20210509190650.png" style="zoom:150%;" />
+<h4 id="隐蔽端口扫描">隐蔽端口扫描</h4>
+<p>过程1：主机主动发送syn——目标机发送syn/ack——主机自动发送rst</p>
+<p>过程2：主机主动发送syn——目标机发送rst</p>
+<h5 id="scapy-6">Scapy</h5>
+<pre><code class="language-python">sr1(IP(dst=&quot;192.168.60.3&quot;)/TCP(flags=&quot;S&quot;,dport=80),timeout=1,verbose=1)
+verbose=1显示详情信息，等于0则不显示
+
+a.display()//查看返回的数据包
+
+./syn_scan.py
+#!/usr/bin/python
+import logging
+logging.getLogger(&quot;scapy.runtime&quot;).setLevel(logging.ERROR)
+from scapy.all import*
+import sys
+
+if len(sys.argv)!=4:
+ print &quot;Usage - ./syn_scan.py [Target-IP] [First Port] [Last Port]&quot;
+ print &quot;Exanple - ./syn scan.py 10.0.0.5 1 100&quot;
+ print &quot;Example will TCP SYN scan ports 1 through 100 on 10.0.0.5&quot;
+sys.exit()
+
+ip=sys.argv(1)
+start=int(sys.argv([Z])
+end=int(sys.argv[3])
+ 
+for port in range(start,end):
+ a=sr1(IP(dst=ip)/TCP(dport=port),timeout=1,verbose=0)
+ if a == None:
+  pass
+ else:
+  if int(a[TCP].flags) ==18:
+   print port
+  else:
+   pass
+       
+# 18表示返回（SYN+ACK），可以在wireshark中查看
+</code></pre>
+<h5 id="nmap-5">nmap</h5>
+<p>会做DNS解析，不是顺序发送</p>
+<pre><code class="language-shell">nmap -sS 1.1.1.1 -p 80,21,25,110,443
+# -sS，使用扫描，使用syn的方式扫描（默认方式）
+
+nmap -sS 1.1.1.1 -p 1-65535 --open
+# --open，当遇到某种情况，存在防火墙，返回除了open以外的情况时（close等等），可以使用--open来达到过滤的效果，只显示open的
+
+nmap -sS 1.1.1.1 -p- --open 
+# -p 1-65535=-p-
+
+nmap -sS -iL iplist.txt -p 80,21,22,23
+</code></pre>
+<h5 id="hping3-2">hping3</h5>
+<p>不做DNS解析，顺序发送</p>
+<pre><code class="language-shell">hping3 
+
+hping3 1.1.1.1 --scan 80 -S
+# -S syn扫描
+
+hping3 1.1.1.1 --scan 80,21,25,443 -S 
+hping3 1.1.1.1 --scan 0-65535 -S 
+
+hping3 -c 10 -S --spoof 1.1.1.2 -p ++1 1.1.1.3
+# -c 10 -S 发送10个syn包
+# --spoof 表示欺骗地址，伪造地址，接收不到回包，只能间接查看结果，在该欺骗地址的主机上
+# -p ++1 从端口1开始扫描的端口依次发送10个包，到端口10
+</code></pre>
+<h4 id="全连接端口扫描">全连接端口扫描</h4>
+<p>​	如果SYN扫描在某种特别严格的网络服务器上，或者有防火墙过滤，或是更特殊的情况下，无法探测目标端口的状态，就要使用全连接端口扫描。</p>
+<p>​	因为这就是一种三次握手建立连接的一个比较正常的过程，如果能够建立连接，就表示目标端口开放，否则没有开放或是有更强的过滤机制。</p>
+<p>​	结果准确，不隐蔽。</p>
+<h5 id="scapy-7">scapy</h5>
+<pre><code class="language-python">Scapy
+• Syn扫描不需要raw packets
+• ٖ内核认为syn/ack是非法包，直接发rst中断连接
+• 全连接扫描对scapy来实现比较困难
+
+原理与上面相同：
+sr1(IP(dst=&quot;192.168.20.2&quot;)/TCP(dport=22,flags='S'))
+</code></pre>
+<pre><code class="language-python">./tcp_scan1.py 
+#! /usr/bin/python
+import logging
+logging.getLogger(&quot;scapy.runtime&quot;).setLevel(logging.ERROR)
+from scapy.all import *
+
+response=sr1(IP(dst=&quot;192.168.20.2&quot;)/TCP(dport=22,flags='S'))
+reply=sr1(IP(dst=&quot;192.168.20.2&quot;)/TCP(dport=22,flags='A',ack=(response[TCP].seq+1)))
+# response[TCP].seq+1:TCP序列号类似于IPID，这里作用是与上一个包形成序列，表示是一个完整的建立连接的过程。
+
+问题：SYN--SYN+ACK--（RST）--ACK--RST
+#操作系统内核会发送RST中断三次握手
+</code></pre>
+<pre><code class="language-python">./tcp_scan2.py
+#! /usr/bin/python
+
+import logging
+logging.getLogger(&quot;scapy.runtime&quot;).setLevel(logging.ERROR)
+from scapy.all inport*
+
+SYN = IP(dst=&quot;192.168.1.134&quot;)/TCP(dport=25,flags='s')
+
+print &quot;--- SENT&quot;
+SYN.display()
+
+print &quot;\n\n-- RECEIVED --&quot;
+response = srl(SYN,timeout=1,verbose=0)
+response.display()
+
+if int(response[TCP].flags)== 18:
+ print &quot;\n\n-- SENT --&quot;
+ A = IP(dst=&quot;192.168.1.134&quot;)/TCP(dport=25,flags='A',ack=(response[TCP].seq +1))
+ A.display()
+ print &quot;\n\n-- RECEIVED --&quot;
+ response2=sr1(A,timeout=1,verbosea0)
+ response2.display()
+else:
+ print&quot;SYN-ACK not returned&quot;
+
+如何防止rst产生，从而建立正常的三次握手
+答案：iptables -A OUTPUT -p tcp --tcp-flags RST RST -d 192.168.20.2 -j DROP
+通过iptables（操作系统默认自带的防火墙）把内核产生的向目标及发送的RST包禁用掉。
+-A OUTPUT 出栈
+</code></pre>
+<h5 id="nmap-6">nmap</h5>
+<pre><code class="language-shell">nmap -sT 1.1.1.1 -p 80
+nmap -sT 1.1.1.1 -p 80,21,25 
+nmap -sT 1.1.1.1 -p 80-2000
+# TCP全连接方式实现扫描,扫描速度略慢与SYN扫描
+
+nmap -sT -iL iplist.txt -p 80 
+# 不加-p参数则默认1000个常用端口
+</code></pre>
+<h5 id="dmitry">dmitry</h5>
+<p>功能简单，使用比较简便。默认150个常用端口。还可以whois查询等等。</p>
+<pre><code class="language-shell">• dmitry -p 172.16.36.135 
+• dmitry -p 172.16.36.135 -o output
+
+dmitry -h
+</code></pre>
+<h5 id="nc">nc</h5>
+<pre><code>nc -nv -w 1 -z 192.168.60.4 1-100
+• for x in $(seq 20 30); do nc -nv -w 1 -z 1.1.1.1 $x; done | grep open 
+• for x in $(seq 1 254); do nc -nv -w 1 -z 1.1.1.$x 80; done
+</code></pre>
+<h4 id="僵尸扫描">僵尸扫描</h4>
+<p>​	优先寻找一台僵尸机器（需要足够的闲置，操作系统的IPID为递增【XP，2003】，能实现源地址伪造）。</p>
+<p>​	具体实现：</p>
+<h5 id="scapy-8">scapy</h5>
+<p>工具：</p>
+<p>​	扫描者：Kail，僵尸机：XP，目标：Metasploitable2</p>
+<pre><code class="language-shell">Scapy —— zombie.py 
+
+# 要发送的包是TCP的包所以先要组合构造TCP包
+i=IP()
+t=TCP()
+
+# 定义向僵尸机发送的数据包
+rz=(i/t)
+
+# 定义向目标机发送的数据包
+rt=(i/t)
+
+# 定义向僵尸机发送的包的包头的内容（包1）
+# ip:字段目标地址
+rz[IP].dst=&quot;IPz&quot;
+# TCP:僵尸机定义的目标端口，必须是开放的，这样返回RST才能返回IPID
+rz[TCP].dport=445
+rz[TCP].flags=&quot;SA&quot;
+
+# 定义向目标机发送的包的包头的内容（包2）
+# ip:ip端需要填写的是要伪造的僵尸机的IP地址
+# 伪造IP
+rt[IP].src=&quot;IPz&quot;
+# 目标IP
+rt[IP].dst=&quot;IPt&quot;
+# 扫描目标机器的端口
+rt[TCP].dport=22
+rt[TCP].flags=&quot;S&quot;
+
+# 发包
+# 向僵尸机发送包1
+az1=sr1(rz)
+# 向目标机发送包2
+at=sr1(rt)
+# 向僵尸机发送包1
+az2=sr1(rz)
+
+# 查看僵尸机回包的内容IPID的值，差值为2则开放，为1则关闭
+az1.display()
+az2.display()
+</code></pre>
+<pre><code class="language-python">zombie.py 
+
+#!/usr/bin/python
+import logging
+logging.getLogger(&quot;scapy.runtime&quot;).setLevel(logging.ERROR)
+from scapy.all import*
+
+# 定义函数，在函数里面定义了一个变量：zombie僵尸机，僵尸机的IP地址作为变量来输入
+# 判断一台电脑适不适合做一台僵尸机
+def ipid(zombie):
+ # 这里意思是要发送三个包，判断reply1和replay2的应答数据包的IP值，判断适不适合做僵尸机
+ #函数里面定义变量replay1，发送包
+ reply1 = sr1(IP(dst=zombie)/TCP(flags=&quot;SA&quot;).timeout=2,verbose=0)
+ send(IP(dst=zombie)/TCP(flags=&quot;SA&quot;).verbose=0)
+ #这里两条语句都是发包，区别就是sr1只接收1个应答数据包，send只发送，不接受
+ reply2 = sr1(IP(dst=zombie)/TCP(flags=&quot;SA&quot;).timeout=2,verbose=0)
+ if reply2[IP].id == (reply1[IP].id+2):
+  print&quot;IPID sequence is incremental and target appers to be idle. ZOMBIE LOCATED&quot;
+  response = raw_input(&quot;Do you want to use zombie to perform a scan? (Y or N):&quot;)
+  if response == &quot;Y&quot;:
+   target =raw_input(&quot;Enter the IP address of the target system:&quot;)
+   zombiescan(target,zombie)
+ else:
+  print&quot;Either the IPID sequence is not incremental or the target is not idle. NOT A GOOD ZOHBIE&quot;
+
+# 定义函数
+def zombiescan(target,zomble):
+ print&quot;\nScanning target &quot; + target + &quot; with zombie &quot; + zombie
+ print&quot;\n------------------OPen Ports on Target------------------\n&quot;
+ for port in range(1,100):
+  try:
+    # 定义发包，这里是TCP
+   start_val = sr1(IP(dst=zombie)/TCP(flags=&quot;SA&quot;.dport=port),timeout=2.verbose=0)
+   send(IP(src=zombie.dst=target)/TCP(flags=&quot;S&quot;.dport=port),verbose=0)
+   end_val = sr1(IP(dst=zombie)/TCP(flags=&quot;SA&quot;),timeout=2,verbose0)
+   if end_val[IP].id == (start_val[IP].id+2):
+    print port
+  except:
+   pass
+
+print &quot;------------------Zombie Scan Suite------------------\n&quot;
+print &quot;1 - Identify Zombie Host\n&quot;
+print &quot;2 - PerformZombie Scan\n&quot;
+ans =raw_input(&quot;Select an Option (1 or 2):&quot;)
+if ans ==&quot;1&quot;:
+ zombie = raw_input(&quot;Enter IP address to test IPID sequence: &quot;) 
+ ipid(zombie)
+else:
+ if ans ==&quot;2&quot;:
+  zonbie = raw_input(&quot;Enter IP address for zombie system:&quot;)
+  target = raw_input(&quot;Enter IP address for scan target:&quot;)
+  zombiescan(target.zombie)
+</code></pre>
+<h5 id="nmap-7">nmap</h5>
+<p>nmap也可以进行僵尸扫描，但是前提还是事先要发现一个僵尸机。nmap里面也有大量的脚本，我们可以调用nmap里面的脚本实现僵尸机的发现，看他是否满足一个僵尸机的条件。</p>
+<pre><code>发现僵尸机
+• nmap -p445 192.168.1.133 --script=ipidseq.nse
+扫描目标
+• nmap 172.16.36.135 -sI 172.16.36.134 -Pn -p 0-100
+</code></pre>
+<h2 id="阶段三服务扫描">阶段三：服务扫描</h2>
+<p>​	经过了前两个阶段已经能发现存活的IP以及对应IP开放的端口，但是在这些端口中，可能存在一些协议服务，比如他是22端口，但是他并不是远程连接的服务，或者把其他的服务也开在了22端口上面，由此可见，我们并不能由发现的端口判断对应的服务。</p>
+<p>​	所以现在就需要识别开放端口上运行的应用，服务及其版本。查到了版本之后，就可以到对应的官网上面去查找对应版本的漏洞，发掘利用方式。</p>
+<p>​	识别目标操作系统，目的原理与上述相同。</p>
+<p>​	收集到以上的信息就能够提高攻击的效率。</p>
+<p>​	几种扫描服务的方法：</p>
+<ol>
+<li>
+<p>Banner捕获<br>
+主要，简单，不准确，连接一个应用端口，这时，该服务就会返回一些Banner信息，可以通过此来识别，但是这种信息可能是管理员持有者进行修改伪造的虚假信息，用来迷惑扫描者。</p>
+</li>
+<li>
+<p>服务识别</p>
+</li>
+<li>
+<p>操作系统识别<br>
+服务和操作系统，可以使用更加准确的方法，像nmap，有大量脚本，可以进行CMS指纹识别。</p>
+</li>
+<li>
+<p>SNMP分析（简单网络管理协议）<br>
+SNMP配置不当，SNMP的端口开放也可能导致信息泄露，进行扫描，识别目标系统以及上面的软件，版本信息，因为SNMP是通过系统内部的信息来进行信息的探测和搜索，准确性比较高。</p>
+</li>
+<li>
+<p>防火墙识别<br>
+扫描判断防火前版本信息，来进行绕过。</p>
+</li>
+</ol>
+<h3 id="banner">Banner</h3>
+<p>​	首先通过Banner信息可以发现软件开发商信息，像Apache，微软等各种开发商开发的软件，以及软件的名称，软件的类型，比如tomcat，MySQL以及他们的版本，可以通过他们的版本号来进行定位目标存在怎样的漏洞，可以直接打入</p>
+<p>​	要获取目标信息的Banner只能通过建立完整的连接。才能查看更准确的服务。</p>
+<p>​	但是只是用Banner信息是不准确的，还需要使用另外一些方法进行验证，可以由特征行为和相应字段，指纹信息，不同的响应可用于识别底层操作系统（windows与Linux的ping包的区别）</p>
+<h4 id="nc-2">nc</h4>
+<pre><code class="language-shell">nc -nv 1.1.1.1 22
+# 使用nc进行连接会进行banner信息的回显
+
+get /（80端口）
+# 获取更多信息
+</code></pre>
+<h4 id="socker">socker</h4>
+<p>​	python的另外一个模块--socket。scapy最适用于网络上里面注入数据包的一个工具（主要是三四层网络包的劫持，嗅探，注入等等），如果建立网络应用连接scary缺乏对应用层数据包的支持（http，dns，ssh），对应用层数据包的支持不够完整，建立完整会话比较困难。</p>
+<p>​	现在这里对网络应用，端口建立完整链接，再去进行应用层通信的话，使用scary已经不合适了，最经常使用python的下一个模块--socket，可以建立tcp连接，建立之后可以跟目标进行应用层会话的数据传输。</p>
+<pre><code class="language-python">python的另外一个模块--socket，scapy最适用于网络上里面
+Python socket
+
+先进入python命令行
+
+import socket 
+# 导入socket模块，使用此进行连接的建立以及信息的获取。
+
+# bangrab定义的一个变量（创建一个对象，这个对象以变量的命名的方式体现，他就可以使用socket里面的大部分的方法）建立socket连接的一个标准的格式。
+bangrab = socket.socket(socket.AF_INET, socket.SOCK_STREAM) 
+# socket.SOCK_STREAM表示建立的是一个tcp的连接。
+
+# connect，socket里面的方法，连接目标
+bangrab.connect((“1.1.1.1&quot;, 21)) 
+
+# 接收数据（大小）
+bangrab.recv(4096) 
+
+返回的信息：'220 (vsFTPd 2.3.4)\r\n'
+
+# 过程结束，关闭连接（connect）
+bangrab.close() 
+exit() 
+
+Banner当不允许抓取时，recv函数无返回将被挂起
+. /ban_grab.py 192.168.1.134 1 100
+</code></pre>
+<pre><code class="language-python">#!/usr/bin/python
+
+import socket
+import select
+import sys
+
+if len(sys.argv)=4:
+ print&quot;Usage - ./banner_grab.py [Target-IP] [First Port] [Last Port]&quot;
+ print&quot;Example /banner grab.py 10.0.0.5 1 100&quot;
+ print&quot;Example will grab banners for TCP ports 1 through 100 on 10.0.0.5&quot;
+ sys.exit()
+
+ip=sys.argv[1]
+start=int(sys.argv[2))
+end= int(sys.argv[3])
+
+for port in range(start,end):
+ try:
+  bangrab=socket.socket(socketAF_INET,socket.SOCK_STREAM)
+  bangrab.connect((ip,port))
+  
+  如果超时时间是一的话，ready就是select返回的结果
+  ready = select.select([bangrab].[].[].1)
+  如果超时时间是零的话，打印返回的结果
+  if ready[0]:
+   print&quot;TCP Port &quot;+str(port)+&quot;.&quot;+ bangrab.recv[4096]
+   每显示一个端口都要进行close关闭连接,否则会进行产生大量的TCP连接
+   bangrab.close()
+ except:
+  pass
+</code></pre>
+<h4 id="dmitry-2">dmitry</h4>
+<pre><code class="language-shell">dmitry -p 172.16.36.135 
+dmitry -pb 172.16.36.135
+</code></pre>
+<h4 id="namp">namp</h4>
+<pre><code class="language-shell">nmap -sT 1.1.1.1 -p 22 --script=banner.nse
+# 通过使用banner脚本来实现banner信息的发现
+-sT 完整的TCP连接，banner信息获取的必要条件。
+-p表示端口，可以用范围来表示
+
+# 在此目录下面发现更多的扫描脚本，使用Lua语言编写
+cd /usr/share/nmap/scripts/
+ls
+</code></pre>
+<p>​	nmap还能够根据响应特征分析发现识别服务，有一个丰富的特征库signature，扫描结果更加准确</p>
+<pre><code class="language-shell">nmap 1.1.1.1 -p 80 -sV
+# -sV 识别端口后面跑服务，基于指纹特征匹配的方式
+</code></pre>
+<h4 id="amap">amap</h4>
+<p>专门用来发现端口后面跑的是什么服务的一种工具，但是结果还是比较粗略</p>
+<pre><code class="language-shell">amap -B 172.16.36.135 21 
+amap -B 172.16.36.135 1-65535 
+amap -B 172.16.36.135 1-65535 | grep on
+
+# -B 参数：专门用来发现指定端口下面的Banner的信息，还有其他发现服务的方式
+# grep on 过滤开放着的
+</code></pre>
+<pre><code class="language-shell">amap 192.168.1.134 80 
+amap 172.16.36.135 20-30 
+amap 172.16.36.135 20-30 –q 
+amap 172.16.36.135 20-30 -qb
+
+# -q ：不只是banner信息，但是结果比较乱，所以加上-q参数
+# -b ：更加详细准确
+</code></pre>
+<h3 id="操作系统识别">操作系统识别</h3>
+<p>​	扫描端口服务的目的是发现应用版本，之后可以通过应用的版本信息来判断版本上面是否存在漏洞。</p>
+<p>​	这里扫描操作系统的目的与扫描端口后面的服务的目的基本上相同。</p>
+<p>​	操作系统安装之后，无论什么操作系统，上面都会默认开放一些服务，端口。通过扫描操作系统的版本，就可以了解操作系统上默认开放的端口以及服务，了解一些旧的版本的漏洞，利用操作系统本身自带的漏洞也可以进入目标的操作系统。</p>
+<p>​	识别扫描操作系统的原理，最简单的一种说法，扫描--TTL值来进行识别，理论上来说各种操作系统的默认的TTL的值是不同的，从以下的值的范围值来判断，不免会有出现TTL值的修改的情况。</p>
+<p>​	Windows ：128(65——128)，起始TTL值：128。如果win作为服务器来说，每经过一个路由器，他的TTL的值会被减一。所以根据这点来说，数据包发送的目标地址，在目标主机上通过抓取目标机上收到的TTL值可以判断源地址到目标地址中间经过几条路由器。在这之前有路由追踪的方式，通过设置TTL值，逐个变化来判断经过了哪些路由器，路由器的接口上面的IP地址是多少。</p>
+<p>​	Linux / Unix ： 64 (1-64)</p>
+<p>​	某些Unix ：255</p>
+<h4 id="主动式扫描">主动式扫描</h4>
+<h5 id="scapy-9">scapy</h5>
+<pre><code class="language-python">python 脚本逻辑判断：
+# 导入scapy
+from scapy.all import *
+
+# 定义IP
+win=&quot;1.1.1.1&quot;
+linu=&quot;1.1.1.2&quot;
+
+# 分别向win和linux发包，根据TTL值进行判断
+aw=sr1(IP(dst=win)/ICMP())
+al=sr1(IP(dst=linu)/ICMP())
+if al[IP].ttl&lt;=64:
+print &quot;host is Linux&quot;
+else:
+print &quot;host is windows&quot;
+</code></pre>
+<pre><code>#!/usr/bin/python
+from scapy.all import*
+import Logging
+logging.getLogger(&quot;scapy.runtime&quot;).setLevel(logging.ERROR)
+import sys
+
+if len(sys.argv)!=2:
+ print&quot;Usage - ./ttl_os.py [IP Address]&quot;
+ print&quot;Example - ./ttl_os.py 10.0.0.5&quot;
+ print&quot;Example will perform ttl analysis to attempt to determine whether the system is Windows or Linux/Unix
+ sys.exit()
+
+ip =sys.argv[1]
+
+# 发ICMP的包进行回包，如果回包没有取得，目标系统不存在或者网络系统不在线，就显示“无响应”
+ans=sr1(IP(dst=str(ip))/ICMP().timeout=1,verbose=0)
+if ans == None:
+ print &quot;No response was returned&quot;
+
+# 否则主机是 Linux/Unix，否则是win系统
+elif int(ans[IP].ttl)&lt;=64:
+ print &quot;Host is Linux/Unix&quot;
+else:
+ print &quot;Host is Windows&quot;
+</code></pre>
+<h5 id="nmap-8">nmap</h5>
+<pre><code># 能够使用多种技术识别操作系统
+nmap 1.1.1.1 -O
+-O 判断操作系统具体版本
+
+# 不知扫出了win 还显示为XP
+# 通过匹配CPE的设备类性 国际标准化组织制定了一套标准，标准会把每种类型的操作系统，软件硬件等等都会进行一个CPE的一个编号，通过CPE的编号判断具体是一个怎样的系统。
+</code></pre>
+<h5 id="xprobe2">xprobe2</h5>
+<p>专门用来识别目标操作系统的一种工具</p>
+<pre><code>xprobe2 1.1.1.1
+# 进行的扫描过程：ping，抓ttl，端口扫描，进行tcmp的特征判断，指纹信息（tcp，smb，snmp）等等，最后得出结论，猜出的范围比较广，但是不准确
+</code></pre>
+<h4 id="被动式扫描">被动式扫描</h4>
+<p>​	主动式扫描，扫描者向目标发包，之后根据被扫者的特征进行判断。</p>
+<p>​	被动式扫描，与主动式刚好对应，不主动发包，基于网络抓包（eg：win linux的ping包的不同），网络监听的原理。被动式扫描，可以部署在网络出口的地方，凡是有进出网络的数据包，有外部主机的通信，有数据包访问的时候，可以抓包，或者通过交换机做镜像端口，或者通过地址欺骗进行抓包，从而让信息流入到主机IP上，开着被动扫描分析的软件，通过这个软件分析收到的包，通过包里的信息进行判断，分别是什么操作系统。</p>
+<h5 id="p0f">p0f</h5>
+<p>​	使用简单，输入p0f之后就开始工作，每发送出去数据包，回收进来的数据包他就会进行监听，只要监听到有数据包，他就会根据数据包来判断目标IP操作系统类型。可以结合ARP地址欺骗识别全网OS。</p>
+<h3 id="snmp扫描">SNMP扫描</h3>
+<p>​	他是信息的金矿，可以查看非常详细的配置内容，同时也是网络管理员配置起来最最最容易疏漏的一项服务，因为一般管理员配置信息只要认为配置通了就可以了，但是还不行，SNMP里面有一个community，包括像服务中思科交换机的默认的Community strings，类似于SNMP的默认密码的一种机制，默认情况下SNMP有两个Community也会有默认的值，一个是public（win和Linux都是）默认只读，默认情况下所有的网络设备和操作系统都会使用这个密码，身份验证信息；一个是private是可读可写的。public权限可以拥有进行查看SNMP配置的权限，private可以进行SNMP配置的更改操作（信息查询或重新配置）。</p>
+<p>​	如果管理员的安全意识不强，没有更改Community的默认设定，如果只想查询目标机器的信息，默认情况下的默认配置，无论是windows还是Linux配置里面都会使用public作为communtity，如果管理员的安全意识不强，没有更改Community的默认设定，还是public的设定的话，那么任何人都可以使用SNMP的扫描工具，客户端工具，去用public连接目标设备，从而获取目标机器的非常全面的目标信息。如果是private甚至可以修改目标的配置信息。此为还有一些非标准，但管理员常用的特征字符：admin，manager等等（字典）。</p>
+<p>​	简单网络管理协议（SNMP），通信所走的UDP的161、162两个端口，snmp服务端（信息被查询被管理端使用的是161端口），snmp客户端（使用的是162端口）。与DHCP协议相似，主机获取IP地址的DHCP协议，DHCP也是基于UDP协议之上的一种应用层的协议(服务端:67、客户端:68)。</p>
+<p>​	SNMP是在网络拥有一定规模的时候，进行人工手动的网络监控以及管理就难以实现，并且效率很低。所以出现了SNMP协议的监控机制，通过SNMP协议，监控网络交换机，服务器，防火墙像CPU运行情况，内存运行情况，并发连接数，带宽使用情况等等一些系统的内部信息。几乎很少有一些需求，用SNMP监控不到的。</p>
+<p>​	国际标准化组织制定了一个通用的SNMP的管理信息库--MIB Tree(SNMP Managerment information Base)，是一种树形的网络设备管理功能数据库。里面定义了SNMP的通用标准，规定了对应发送指令(编号1.3.6.1.4.1.77.1.2.25)来查询对应的信息，SNMP收到此编号之后就会把相应的数据显示出来。基于此库，可以查一些常用的操作系统或者网络设备里面的信息（通过客户端导入标准库）。</p>
+<p>​	SNMP的安装：win+R搜索，打开添加删除程序（appwiz.cpl），在添加组件一栏单击，找到管理和组件工具，将看到的（基于wmi对SNMP查询的程序）SNMP提供程序和简单网络管理协议打钩，单击确定即可安装。安装之后在操作系统的win+R中打开服务（services.msc），可以看到多出了两项SNMP的服务，在SNMP service中，代理一栏可以添加设备进行管理。陷阱一栏设置之后，机器就会成为SNMP的客户端，之后可以向SNMP的服务端进行连接，发送SNMP的信息。安全一栏可以查看Community的默认设定，默认为public，默认情况下是来自任何主机的连接查询请求，需要进行设置，只接受来自手动指定的主机的请求。</p>
+<p>​	SNMP的传输是进行明文传输的，可以通过嗅探的方式来进行查找community信息。</p>
+<h4 id="onesixtyone">onesixtyone</h4>
+<pre><code class="language-shell">onesixtyone 1.1.1.1 public 
+# 比nmap扫描的信息要多
+
+onesixtyone -c dict.txt -i hosts -o my.log -w 100
+# 如果上一个不能进行扫描，可能是管理员指定修改了public。
+# -c 指定一个字典（community）的
+# -i 指定主机，多个
+
+dpkg -L onosixtyone
+# 查看默认字典
+</code></pre>
+<h4 id="snmpwalk">snmpwalk</h4>
+<pre><code class="language-shell">snmpwalk 192.168.20.199 -c public -v 2c 
+# -v 指定communtiy的版本信息，v1 v2c v3
+# v3加入了很多安全机制，加密机制，身份验证机制
+# 硬件架构，操作系统，用户名，mac地址，IP地址，子网掩码，存在通信的网络机器的IP，系统时间，硬盘序列号，虚拟内存，物理内存大小，本地网卡等等，meb库id号，系统目录，网络服务，安装的软件，系统进程，
+
+snmpwalk -c public -v 2c 1.1.1.1 1.3.6.1.4.1.77.1.2.25
+# 可以查询oid，（当前系统所有账号）
+</code></pre>
+<h4 id="snmpcheck">snmpcheck</h4>
+<pre><code class="language-shell">snmpcheck -t 192.168.20.199 
+snmpcheck -t 192.168.20.199 -c private -v 2 
+snmpcheck -t 192.168.20.199 -w
+# 可读性比较好 默认为public，
+# 硬件架构，开机时间，SNMP后台运行时间，联系人home，工作组，硬盘设备，磁盘信息，进程信息，网络信息等等
+</code></pre>
+<h3 id="smb扫描">SMB扫描</h3>
+<p>​	SMB协议（Server Message Block）服务器消息块，微软开发使用最广的协议，微软历史上出现安全问题最多的协议，实现起来比较复杂，服务默认开放（文件共享）使用-- ip就可以访问到目标系统的默认文件。</p>
+<p>​	早期存在一个漏洞（SMB1）——空会话未身份认证访问。建立空会话连接，获取目标系统上面的重要的信息。所谓的空会话就是在不使用账号密码的情况下与目标建立空连接，从而获取到目标系统的（密码策略，用户名，组名，机器名，用户，组SID等等信息），当可以获取到SID时，即使把超级用户administrators跟改为ABCD等用来迷惑其他黑客，但是它也可以轻松的识别改名之后的，因为administrators默认SID信息为500。包括现在的（SM08-067）经典漏洞。</p>
+<figure data-type="image" tabindex="1"><img src="https://gitee.com/qu-xiaolei001/pic/raw/master/img/QQ%E6%88%AA%E5%9B%BE20210516154850.png" alt="" loading="lazy"></figure>
+<h4 id="nmap-9">nmap</h4>
+<p>​	SMB经常使用两个端口，一个是139端口，一个是445端口，老版本经常使用139端口，新版本经常使用445端口</p>
+<p>​	扫描主机如果出现了一种情况，发现从1-255所有的主机的端口都是打开着的并且都显示filtered，filtered表示可能是由于防火墙的过滤，或是其他的过滤机制，但是我这里的问题是使用了NAT模式，需要更改为桥接模式，桥接到无线网卡上面，重启。</p>
+<pre><code class="language-shell">nmap -v -p139,445 192.168.60.1-20 --open
+# 扫描端口是否开放，-v参数是显示更加详细的信息
+# --open 查看开放端口的主机
+# 问题：扫描比较粗糙，139以及445虽然是win下的默认开放的端口，但是如果是在linux上面安装了某些服务，Linux也会开放139以及445端口，所以单单依据开放139以及445端口就判断操作系统是win就有一些粗糙了
+
+nmap 192.168.60.4 -p139,445 --script=smb-os-discovery.nse
+# 进一步高级扫描方式，脚本，对win的smb协议进行大量的探测会扫描出很多的结果，很多的服务信息。
+
+nmap -v -p139,445 --script=smb-check-vulns --script-args=unsafe=1 1.1.1.1
+# 判断139 以及445是否存在漏洞
+# --script=smb-check-vulns：检查smb存在的漏洞
+# --script-args=unsafe=1：进行操作系统破坏性的扫描
+# --script-args=safe=1：进行操作系统安全性的扫描
+# 加上-Pn参数：对方即使开了防火墙也会去做扫描
+</code></pre>
+<h4 id="nbtscan">nbtscan</h4>
+<pre><code class="language-shell">nbtscan -r 192.168.60.0/24 
+nbtscan -h
+# -r：使用本地端口137进行扫描，本地端口137兼容性好，甚至可以兼容win95，win98操作系统
+# 好处：在局域网下，（ARP扫）假如是192.168.1的网段，去扫192.168.2的网段，可能扫描出网段的mac地址。跨网段扫描mac地址
+</code></pre>
+<h4 id="enum4liunx">enum4liunx</h4>
+<pre><code class="language-shell">enum4linux -a 192.168.60.10
+# 不支持大范围扫描
+# 用户名，工作组，信息比较多，支持建立空连接
+</code></pre>
+<h3 id="smtp扫描">SMTP扫描</h3>
+<p>​	主要发现目标系统的邮件账号，被动信息也可以。扫描主要是用来社会工程学，发送钓鱼邮件等等。</p>
+<p>​	SMTP走的是25端口，可以使用nc进行连接。</p>
+<h4 id="nc-3">nc</h4>
+<pre><code class="language-shell">• nc -nv 1.1.1.1 25 
+	• VRFY root
+	# 确认有没有root账号
+</code></pre>
+<h4 id="nmap-10">nmap</h4>
+<p>​	前提是已经做了端口扫描，并且发现25端口开放</p>
+<pre><code class="language-shell">• nmap smtp.163.com -p25 --script=smtp-enum-users.nse --script-args=smtp-enum-users.methods={VRFY} 
+# 扫描脚本smtp枚举用户，后面是指定使用的方式，扫描用户账号
+
+• nmap smtp.163.com -p25 --script=smtp-open-relay.nse
+# 扫描用户账号
+</code></pre>
+<h4 id="smtppy">smtp.py</h4>
+<pre><code class="language-python">• smtp-user-enum -M VRFY -U users.txt -t 10.0.0.1 
+# 扫描用户账号，加上字典参数 -U
+• ./smtp.py
+</code></pre>
+<p>​	另一个重要的概念：SMTP的开放中介。除了扫描用户之外，扫描开放中介。一般邮件服务器只能给开放账号的人发送邮件，（经过审核身份，身份验证）。早期SMTP服务以及一些软件，存在配置不当的情况下，可能打开了开放中介的功能。弊端：所有人都可能使用此邮件服务器去给别人发送邮件，可能出现一个黑客，使用你的邮件服务器去给别人发送一个钓鱼邮件，你的邮件服务器在这个过程中扮演了黑客的肉机的角色，攻击别人的一个中介的手段（open-relay）。可能发送病毒邮件，钓鱼邮件如果最后触犯了法律，最后追踪下来可能是你的邮件地址，造成一些问题。</p>
+<pre><code class="language-python">#!/usr/bin/python
+
+import socket
+import sys
+
+if len(sys,argv)!=2:
+ print &quot;Usage:smtp.py &lt;username&gt;&quot;
+ sys.exit(0)
+
+s=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+connect=s.connect(('192.168.20.5',25))
+# 先建立s对象，之后socket进行tcp连接
+banner=s.recv(1024)
+# 回收返回包进行打印
+print banner + 'aaaaaaaaaaaa'
+s.send('VRFY' + sys.argv[1] + '\r\n')
+
+
+# 使用VRFY验证用户是否存在
+result=s.recv(1024)
+print result
+s.close()
+</code></pre>
+<h3 id="防火墙识别">防火墙识别</h3>
+<p>​	原理：向目标发送包，不引起防火墙的报警，通过回包判断防火墙的类型，过滤的端口(过滤的端口不是开放在防火墙上的端口，比如防火墙内部存在一台机器，他主动向外发送访问链接，这时，防火墙也会开放一个1024以上的一个高位端口与外面的服务器进行连接，向外发送请求，不是接受外部的请求。)比如这里需要进行百度的访问，那么会在这台主机的边界防火墙上面临时为这个访问请求开放一个临时的端口，这个端口只是用来向外发送请求，他不是接收外部人员向内部发送请求。另外还有一些防火墙可能会做一些源地址或是目标地址的过滤，只允许来自某个IP地址对他的端口的访问，否则其他的访问会默认地进行过滤掉，这些端口也可能开放在防火墙上，只是被防火墙进行了过滤，如果要扫描发现这些端口，通过这些端口来访问识别是什么类型的防火墙，以及端口过滤是如何做到的，大概有四种情况存在：</p>
+<figure data-type="image" tabindex="2"><img src="https://gitee.com/qu-xiaolei001/pic/raw/master/img/QQ%E6%88%AA%E5%9B%BE20210516171400.png" alt="" loading="lazy"></figure>
+<h4 id="scapy-10">scapy</h4>
+<pre><code class="language-python">./fw_detect.py 1.1.1.1 443
+
+#!/usr/bin/python
+
+import sys
+import logging
+logging.getLogger(&quot;scapy.runtime&quot;).setLevel(logging.ERROR)
+fron scapy.all import*
+
+if len(sys.argv)!=3:
+ print &quot;Usage - ./FW_detect.py [Target-IP] [Target Port]&quot;
+ print &quot;Example - ./FW_detect.py 10.0.0.5 443&quot;
+ print &quot;Example will determine if filtering exists on port 443 of host 10.0.0.5&quot;
+ sys.exit()
+# 两个参数：防火墙IP地址与防火墙端口
+
+# 参数赋值
+ip = sys.argv[1]
+port = int(sys.argv[2])
+
+# 发送ACK包收到的响应
+ACK_response = sr1(IP(dst=ip)/TCP(dport=port,flags='A'),timeout=1,verbose=0)
+# 发送SYN包收到的响应
+SYN_response = sr1(IP(dst=ip)/TCP(dport=port,flags='S'),timeout=1，verbose=0)
+if (ACK_response == None) and (SYN_response == None):
+ print &quot;Port is either unstatefully filtered or hostis down&quot;
+elif ((ACK_response == None) or (SYN_response == None)) and not ((ACK_response == None) and (SYN_response == None)):
+ print &quot;Stateful filtering in place&quot;
+elif int (SYN_response[TCP].flags) == 18:
+ print &quot;Port is unfiltered and open&quot;
+elif int (SYN_response[TCP].flags) == 20:
+ print &quot;Port is unfiltered and closed&quot;
+else:
+ print&quot;Unable to dotermine if the port is filtered&quot;
+</code></pre>
+<h4 id="nmap-11">nmap</h4>
+<pre><code class="language-shell"> Nmap有系列防火墙锅炉检测功能
+ 
+nmap 172.16.36.135 -p 22
+nmap -sA 172.16.36.135 -p 22
+# 结和syn以及ack进行判断防火墙类型
+# nmap默认情况下会进行SYN包的发送，-sA参数可以进行ACK包的发送
+</code></pre>
+<h3 id="负载均衡识别">负载均衡识别</h3>
+<p>​	除了防火墙识别有的时候在目标系统之上还会存在各种各样的负载均衡的技术，他简单的来说分为两大类，一类是广域网负载均衡，另外一类是服务器负载均衡。</p>
+<p>​	广域网负载均衡的本质实际上可以说是DNS，简单的来说。有种方法就是通过DNS轮询进行负载均衡，当需要访问一个域名的时候，一个域名被解析为多个A记录，解析到多个IP地址上，实现一个域名对应多个IP（每次访问相同的域名但是对应的IP不同）；另一种是基于智能DNS，进行访问同一个域名，在不同的地方，解析到的IP不同；或者还有智能判断等等。</p>
+<p>​	服务器负载均衡，基于web的服务经常使用Nginx，Apache这种应用层的负载均衡，还可以使用lvs或者f5这种网络层的负载均衡设备去实现服务器的负载均衡。</p>
+<p>​	在扫描探测的阶段，有必要去发现一个目标域名下面有多少个服务器，这些服务器可能由于管理员的配置不善，不同的服务器之间的安全防护不同，配置不同，有的IP可以发现问题，有些服务器进不去，这时目标系统时用的是什么样的负载均衡，以及这个负载均衡它本身是否就存在漏洞，这也是扫描的一点，kali里面也有这样的工具。</p>
+<p>​	负载均衡：</p>
+<h4 id="lbd">lbd</h4>
+<pre><code class="language-shell">lbd www.baidu.com 
+lbd mail.163.com
+
+# 扫描到同一个域名只解析到一个IP地址的话，那麽这个IP地址对应的应该是对应负载均衡的设备，而不是真实的服务器，这些真实的设备通过转发，在将用户的请求转发到真实的后端服务器上面，通过这种方式可以将后端的服务器保护起来，攻击者没有办法发现，同时在这些负载均衡上面可能存在一些过滤安全防护机制，会对信息先进行过滤。
+</code></pre>
+<h3 id="waf识别">WAF识别</h3>
+<p>​	WAF——web应用防火墙，主要是用来防护web层的攻击。</p>
+<h4 id="wafw00f">wafw00f</h4>
+<p>​	能够进行常用的waf的检测</p>
+<pre><code class="language-shell">wafw00f -l 
+# 查看能够检测waf的列表
+
+wafw00f http://www.microsoft.com
+</code></pre>
+<h4 id="nmap-12">nmap</h4>
+<pre><code>nmap www.microsoft.com --script=http-waf-detect.nse
+</code></pre>
+<h2 id="nmap参数使用">NMAP参数使用</h2>
+<pre><code class="language-shell">Nmap 7.91 ( https://nmap.org )
+Usage: nmap [Scan Type(s)] [Options] {target specification}
+
+# 0. nmap 手册
+man nmap 
+
+# 1. 目标发现
+TARGET SPECIFICATION:
+  Can pass hostnames, IP addresses, networks, etc.
+  可以跟参数主机名、IP地址、网络等。
+  
+  Ex: scanme.nmap.org, microsoft.com/24, 192.168.0.1; 10.0.0-255.1-254
+  域名，子网掩码，IP地址
+  
+  -iL &lt;inputfilename&gt;: Input from list of hosts/networks
+  把不连续的IP存成一个文件，做成一个列表文件，去扫列表文件里的IP
+  
+  -iR &lt;num hosts&gt;: Choose random targets
+  eg:nmap -iR 100 -p22
+  随机选择目标
+  
+  --exclude &lt;host1[,host2][,host3],...&gt;: Exclude hosts/networks
+  eg:nmap 192.168.200.0/24 --exclude 192.168.200.1-100 
+  假如要扫描的地址段中存在不想要扫描的目标，但是又不想要分次扫描
+  
+  --excludefile &lt;exclude_file&gt;: Exclude list from file
+  要排除的地址放入一个文件中
+  
+# 2. 主机发现  
+HOST DISCOVERY:
+  -sL: List Scan - simply list targets to scan
+  eg:nmap -sL 192.168.200.0/28
+  不做扫描，只是将要进行扫描的地址段输出出来表示,子网掩码计算的功能
+  
+  -sn: Ping Scan - disable port scan
+  不做端口扫描
+  
+  -Pn: Treat all hosts as online -- skip host discovery
+  假如有些目标机器是防火墙，现在对他进行探测，他会进行拒绝发现，将包丢弃，或发送rst，这种情况如果不加-Pn，nmap会：它没有对我进行回报，所以我认为它不存在，不进行后续端口扫描，加上则会进行更加详细的扫描，判断IP是否存在
+  
+  -PS/PA/PU/PY[portlist]: TCP SYN/ACK, UDP or SCTP discovery to given ports
+  使用SYN/ACK/UDP/SCTP进行发现
+  
+  -PE/PP/PM: ICMP echo, timestamp, and netmask request discovery probes
+  ICMP echo/时间戳/查询子网掩码（一般查不到，需要结合脚本）
+  
+  -PO[protocol list]: IP Protocol Ping
+  IP扫描
+  
+  -n/-R: Never do DNS resolution/Always resolve [default: sometimes]
+  -n不做DNS地址解析，
+  -R反向解析
+  
+  --dns-servers &lt;serv1[,serv2],...&gt;: Specify custom DNS servers
+  nmap做DNS解析时调用的是指定的DNS服务器，而不用操作系统配置的DNS服务器，有时对国外的DNS做解析时会使用
+  
+  --system-dns: Use OS's DNS resolver
+  操作系统默认的DNS
+  
+  --traceroute: Trace hop path to each host
+  扫描时进行路由追踪
+  
+# 3. 端口发现
+SCAN TECHNIQUES:
+  -sS/sT/sA/sW/sM: TCP SYN/Connect()/ACK/Window/Maimon scans
+  TCP扫描发SYN/完整TCP扫描/ACK/TCP窗口/Maimon(Ack+Fin)进行扫描，默认为-sS
+  
+  -sU: UDP Scan
+  eg:nmap -sU -p53 192.168.200.134
+  UDP扫描
+  
+  -sN/sF/sX: TCP Null, FIN, and Xmas scans
+  TCP全空/FIN/(FIN+PSH+URG)
+  
+  --scanflags &lt;flags&gt;: Customize TCP scan flags
+  自定义TCP的flags发包
+  
+  -sI &lt;zombie host[:probeport]&gt;: Idle scan
+  僵尸扫描
+  
+  -sY/sZ: SCTP INIT/COOKIE-ECHO scans
+  为SCTP协议准备的参数，很少使用
+  
+  -sO: IP protocol scan
+  IP扫描
+  
+  -b &lt;FTP relay host&gt;: FTP bounce scan
+  专门针对FTP中继的场景使用
+
+# 4. 如何指定扫描的端口
+PORT SPECIFICATION AND SCAN ORDER:
+  -p &lt;port ranges&gt;: Only scan specified ports
+    Ex: -p22; -p1-65535; -p U:53,111,137,T:21-25,80,139,8080,S:9
+  直接指定端口，可以指定使用UDP或是TCP的端口，不指定则都会去扫
+  
+  --exclude-ports &lt;port ranges&gt;: Exclude the specified ports from scanning
+  不扫描的端口
+  
+  -F: Fast mode - Scan fewer ports than the default scan
+  不加端口参数会扫描1000个常用端口，加上-F则会扫描少一些端口
+  
+  -r: Scan ports consecutively - don't randomize
+  扫描端口连续的扫描，顺序进行扫描，默认是无序的
+  
+  --top-ports &lt;number&gt;: Scan &lt;number&gt; most common ports
+  只扫1000个端口排名靠前的
+  
+  --port-ratio &lt;ratio&gt;: Scan ports more common than &lt;ratio&gt;
+  扫描更常见端口
+
+# 5. 探测端口上面跑的服务
+SERVICE/VERSION DETECTION:  
+  -sV: Probe open ports to determine service/version info
+  默认情况下-sV会集成使用大量的特征库，进行探测
+  
+  --version-intensity &lt;level&gt;: Set from 0 (light) to 9 (try all probes)
+  nmap -p21 192.168.200.134 -sV --version-intensity 9 
+  扫描的深入程度从0-9，特征库，当扫描结果不是那麽准确时使用9
+  
+  --version-light: Limit to most likely probes (intensity 2)
+  相当于：--version-intensity 2
+  
+  --version-all: Try every single probe (intensity 9)
+  相当于：--version-intensity 9
+  
+  --version-trace: Show detailed version scan activity (for debugging)
+  nmap -p21 192.168.200.134 -sV --version-intensity 9 --version-trace
+  对扫描的过程进行一个追踪，能够更加清楚扫描的过程
+
+# 6. 脚本扫描/usr/share/nmap/scripts/
+SCRIPT SCAN:
+  -sC: equivalent to --script=default
+  --script=&lt;Lua scripts&gt;: &lt;Lua scripts&gt; is a comma separated list of
+           directories, script-files or script-categories
+  以上两个等价
+  
+  --script-args=&lt;n1=v1,[n2=v2,...]&gt;: provide arguments to scripts
+  --script-args-file=filename: provide NSE script args in a file
+  使用脚本时可以设置脚本参数
+  
+  --script-trace: Show all data sent and received
+  对脚本扫描的过程进行一个追踪，能够更加清楚脚本扫描的过程
+  
+  --script-updatedb: Update the script database.
+  eg：nmap --script-updatedb
+  nmap升级脚本库，来源于官方
+  
+  --script-help=&lt;Lua scripts&gt;: Show help about scripts.
+           &lt;Lua scripts&gt; is a comma-separated list of script-files or
+           script-categories.
+  eg：nmap --script-help=&lt;脚本名称&gt;
+  使用脚本帮助。
+  
+# 7. 操作系统扫描
+OS DETECTION:
+  -O: Enable OS detection
+  检测操作系统类型
+  
+  --osscan-limit: Limit OS detection to promising targets
+  限制OS检测（只检测win或只检测Linux）
+  
+  --osscan-guess: Guess OS more aggressively
+
+# 8. 时间与性能相关
+TIMING AND PERFORMANCE:
+  Options which take &lt;time&gt; are in seconds, or append 'ms' (milliseconds), 's' (seconds), 'm' (minutes), or 'h' (hours) to the value (e.g. 30m).
+  默认扫描时，nmap扫描很快，容易引起操作系统的警觉，容易被发现，这时，可以通过设置时间参数，来进行时间间隔的设定（毫秒，秒，分，时）
+  
+  -T&lt;0-5&gt;: Set timing template (higher is faster)
+  
+  --min-hostgroup/max-hostgroup &lt;size&gt;: Parallel host scan group sizes
+  最少一次扫描多少个主机，或最大一次扫多少个主机
+  
+  --min-parallelism/max-parallelism &lt;numprobes&gt;: Probe parallelization
+  指定并行扫描最小还是最大的扫描的数量
+  
+  --min-rtt-timeout/max-rtt-timeout/initial-rtt-timeout &lt;time&gt;: Specifies probe round trip time.
+  指定最小/最大的rtt：来回访问时间
+  
+  --max-retries &lt;tries&gt;: Caps number of port scan probe retransmissions.
+  最大retries探测次数
+  
+  --host-timeout &lt;time&gt;: Give up on target after this long
+  目标主机超时时间
+  
+  --scan-delay/--max-scan-delay &lt;time&gt;: Adjust delay between probes
+  eg：nmap 1.1.1.1 --scan-delay 10s
+  扫描延迟多长时间，每发一次
+  
+  --min-rate &lt;number&gt;: Send packets no slower than &lt;number&gt; per second
+  --max-rate &lt;number&gt;: Send packets no faster than &lt;number&gt; per second
+  最小或最大速率，限制每秒发包的数量
+
+# 9. 防火墙与IDS的躲避与欺骗
+FIREWALL/IDS EVASION AND SPOOFING:
+  -f; --mtu &lt;val&gt;: fragment packets (optionally w/given MTU)
+  设置传输单元，最大传输单元默认由mtu最小值的设备决定
+  
+  -D &lt;decoy1,decoy2[,ME],...&gt;: Cloak a scan with decoys
+  eg：nmap -D 192.168.1.10,192.168.1.11,192.168.1.134 1.1.1.1
+  伪造源地址，增加噪声IP，不是对本身地址进行隐藏
+  
+  -S &lt;IP_Address&gt;: Spoof source address
+  eg：nmap -S 192.168.1.11 -e eth0 1.1.1.1
+  欺骗源地址，有明显弊端，得不到回报
+  
+  -e &lt;iface&gt;: Use specified interface
+  指定使用网卡接收信息，可以搭配wireshark
+  
+  -g/--source-port &lt;portnum&gt;: Use given port number
+  使用指定的源端口，可以搭配wireshark使用
+  
+  --proxies &lt;url1,[url2],...&gt;: Relay connections through HTTP/SOCKS4 proxies
+  扫描目标，使用代理，掩护真实扫描地址
+  
+  --data &lt;hex string&gt;: Append a custom payload to sent packets
+  eg：nmap -p22 192.168.1.134 --data=FFFFFFFFFF
+  扫描包里通常没有数据字段，加上，则除了发送平常的信息之外，还会加上所指定的一堆东西
+  
+  --data-string &lt;string&gt;: Append a custom ASCII string to sent packets
+  也可以加ASCII码，ABC，12345
+  
+  --data-length &lt;num&gt;: Append random data to sent packets
+  限制数据长度
+  
+  --ip-options &lt;options&gt;: Send packets with specified ip options
+  可以有源路由等的信息
+  
+  --ttl &lt;val&gt;: Set IP time-to-live field
+  设定ttl值，为固定的
+  
+  --spoof-mac &lt;mac address/prefix/vendor name&gt;: Spoof your MAC address
+  nmap -p22 192.168.1.134 --spoof-mac 00:11:11:11:11:11
+  欺骗mac地址
+  
+  --badsum: Send packets with a bogus TCP/UDP/SCTP checksum
+  每个数据包的包头里面都有一个差错校验值(checksum)，是根据TCP的包头字段,进行二进制运算，通过这个值对数据包进行检验完整性
+  这里是nmap可以故意发送一些bad错误的包，因为某些东西对包的处理机制不一样，可以由此来欺骗防火墙，使包能够正常发送
+
+# 10. 输出格式
+OUTPUT:
+  -oN/-oX/-oS/-oG &lt;file&gt;: Output scan in normal, XML, s|&lt;rIpt kIddi3,
+     and Grepable format, respectively, to the given filename.
+  -oA &lt;basename&gt;: Output in the three major formats at once
+  -v: Increase verbosity level (use -vv or more for greater effect)
+  -d: Increase debugging level (use -dd or more for greater effect)
+  --reason: Display the reason a port is in a particular state
+  --open: Only show open (or possibly open) ports
+  --packet-trace: Show all packets sent and received
+  --iflist: Print host interfaces and routes (for debugging)
+  --append-output: Append to rather than clobber specified output files
+  --resume &lt;filename&gt;: Resume an aborted scan
+  --stylesheet &lt;path/URL&gt;: XSL stylesheet to transform XML output to 
+HTML
+  --webxml: Reference stylesheet from Nmap.Org for more portable XML
+  --no-stylesheet: Prevent associating of XSL stylesheet w/XML output
+# 11. 杂项
+MISC:
+  -6: Enable IPv6 scanning
+  可以扫IPv6的地址
+  
+  -A: Enable OS detection, version detection, script scanning, and traceroute
+  许多参数扫描的组合 -O -VS --script -traceroute
+  
+  --datadir &lt;dirname&gt;: Specify custom Nmap data file location
+  --send-eth/--send-ip: Send using raw ethernet frames or IP packets
+  --privileged: Assume that the user is fully privileged
+  --unprivileged: Assume the user lacks raw socket privileges
+  -V: Print version number
+  -h: Print this help summary page.
+
+EXAMPLES:
+  nmap -v -A scanme.nmap.org
+  nmap -v -sn 192.168.0.0/16 10.0.0.0/8
+  nmap -v -iR 10000 -Pn -p 80
+SEE THE MAN PAGE (https://nmap.org/book/man.html) FOR MORE OPTIONS AND EXAMPLES
+</code></pre>
+
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://kite-007.github.io/kali-xin-xi-shou-ji/">
+                  <h3 class="post-title">
+                    # KALI 被动信息收集
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+
+  </body>
+</html>

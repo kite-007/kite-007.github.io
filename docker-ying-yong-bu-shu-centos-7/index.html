@@ -8,7 +8,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://kite-007.github.io/favicon.ico?v=1617547278428">
+<link rel="shortcut icon" href="https://kite-007.github.io/favicon.ico?v=1621251676600">
 <link rel="stylesheet" href="https://kite-007.github.io/styles/main.css">
 
 
@@ -22,13 +22,17 @@
 1. MySQL部署
 2. Tomcat部署
 3. Nginx部署
+4. LAMP环境部署
+
+1. mysql:5.6
+2. php:5.5-fpm
+3. nginx:1.10.3
+
+
 
 (Docker)
 
-容器内的网络服务和外部机器不能直接通信
-外部机器可以和宿主机可以进行直接通信
-宿主机和容器可以进行直接通信
-操作（端口映射 -p）：假设容器内打开了..." />
+容器内的网络服务和外部机器不能..." />
     <meta name="keywords" content="运维,Docker,工具,Linux" />
   </head>
   <body>
@@ -38,7 +42,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://kite-007.github.io">
-        <img src="https://kite-007.github.io/images/avatar.png?v=1617547278428" class="site-logo">
+        <img src="https://kite-007.github.io/images/avatar.png?v=1621251676600" class="site-logo">
         <h1 class="site-title">Fr</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -96,6 +100,13 @@
 <li><a href="#1-mysql%E9%83%A8%E7%BD%B2">1. MySQL部署</a></li>
 <li><a href="#2-tomcat%E9%83%A8%E7%BD%B2">2. Tomcat部署</a></li>
 <li><a href="#3-nginx%E9%83%A8%E7%BD%B2">3. Nginx部署</a></li>
+<li><a href="#4-lamp%E7%8E%AF%E5%A2%83%E9%83%A8%E7%BD%B2">4. LAMP环境部署</a>
+<ul>
+<li><a href="#1-mysql56">1. mysql:5.6</a></li>
+<li><a href="#2-php55-fpm">2. php:5.5-fpm</a></li>
+<li><a href="#3-nginx1103">3. nginx:1.10.3</a></li>
+</ul>
+</li>
 </ul>
 (Docker)</p>
 <ul>
@@ -126,18 +137,27 @@ mkdir /root/mysql
 cd /root/mysql
 
 #创建并运行
-docker run -id \
+docker run -itd \
 -p 3307:3306 \
---name=c_mysql \
+--name=mysql \
 -v $PWD/conf:/etc/mysql/conf.d \
 -v $PWD/logs:/logs \
 -v $PWD/data:/var/lib/mysql \
--e MYSQL_ROOT_RASSWORD=123456 \
-mysql:5.6
+-e MYSQL_ROOT_PASSWORD=root \
+mysql:5.7
+
+docker run -itd \
+-p 3306:3306 \
+--name=mysql \
+-v $PWD/conf:/etc/mysql/conf.d \
+-v $PWD/logs:/logs \
+-v $PWD/data:/var/lib/mysql \
+-e MYSQL_ROOT_PASSWORD=root \
+mysql:5.7
 </code></pre>
 <ul>
 <li>-id：以守护进程的方式运行。</li>
-<li>-p：端口映射，宿主机的3307端口与容器的3306端口进行映射，一般情况下宿主机端口与容器端口相同，即3306：3306。</li>
+<li>-p：端口映射，宿主机的3307端口1与容器的3306端口2进行映射，一般情况下宿主机端口与容器端口相同，即3306：3306。</li>
 <li>-v $PWD/conf:/etc/mysql/conf.d ：将主机当前目录下的conf/my.cnf挂载到容器的/etc/mysql/my.cnf。配置目录</li>
 <li>-v $PWD/logs:/logs ：将主机当前目录下的logs目录挂载到容器的/logs。日志目录</li>
 <li>-v $PWD/data:/var/lib/mysql ：将主机当前目录下的data目录挂载到容器的/var/lib/mysql。数据目录</li>
@@ -147,7 +167,15 @@ mysql:5.6
 <ol start="4">
 <li>操作MySQL</li>
 </ol>
-<pre><code>mysql -uroot -p123456
+<pre><code>docker start c_mysql
+
+docker exec -it c_mysql /bin/bash
+
+mysql -u root -p 123456
+
+quit
+
+exit
 </code></pre>
 <h1 id="2-tomcat部署">2. Tomcat部署</h1>
 <ul>
@@ -200,8 +228,8 @@ tomcat:9.0
 <li>创建启动容器</li>
 </ol>
 <pre><code class="language-shell"># 在/root目录下创建nginx目录用于存储nginx数据信息
-mkdir ~/nginx
-cd ~/nginx
+mkdir /root/nginx
+cd /root/nginx
 mkdir conf
 cd conf
 # 在~/nginx/conf/下创建nginx.conf文件,粘贴下面内容
@@ -220,7 +248,6 @@ pid        /var/run/nginx.pid;
 events {
     worker_connections  1024;
 }
-
 
 http {
     include       /etc/nginx/mime.types;
@@ -251,6 +278,89 @@ docker run -id \
 -v $PWD/html:/usr/share/nginx/html \
 nginx
 </code></pre>
+<h1 id="4-lamp环境部署">4. LAMP环境部署</h1>
+<h2 id="1-mysql56">1. mysql:5.6</h2>
+<h2 id="2-php55-fpm">2. php:5.5-fpm</h2>
+<ol>
+<li>拉取镜像，为了练习可以多试一试几个版本</li>
+</ol>
+<pre><code class="language-shell"># 拉取5.5版本的PHP比较稳定
+docker pull php:5.5-fpm
+
+# 查看刚刚拉取的镜像
+docker images
+</code></pre>
+<ol start="2">
+<li>创建并启动容器</li>
+</ol>
+<pre><code class="language-shell">docker run -id  \
+-v /root/nginx/www/html:/var/www/html \
+-p 9000:9000 \
+--link mysql:mysql \
+--name=phpfpm \
+php:5.5-fpm 
+# –link 与另外一个容器建立起联系，这样我们就可以在当前容器中去使用另一个容器里的服务。
+</code></pre>
+<h2 id="3-nginx1103">3. nginx:1.10.3</h2>
+<ol>
+<li>拉取镜像</li>
+</ol>
+<pre><code class="language-shell">docker pull nginx:1.10.3
+docker images
+</code></pre>
+<ol start="2">
+<li>创建并启动容器</li>
+</ol>
+<pre><code class="language-shell">docker run -id -\
+p 80:80 \
+--name=nginx \
+-v /root/nginx/www/html:/var/www/html \
+--link phpfpm:phpfpm \
+--name=nginx nginx:1.10.3
+</code></pre>
+<pre><code class="language-shell"># 然后进入nginx容器，修改nginx的配置文件让它支持php。
+docker exec -ti nginx /bin/bash
+
+location ~ \.php$ {
+        root           /var/www/html;
+        fastcgi_index  index.php;
+        fastcgi_pass   phpfpm:9000;
+        //这里改成我们之前--link进来的容器，也可以直接用php容器的ip
+	    fastcgi_param  SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        //如果你的根目录和php容器的根目录不一样，这里的$document_root需要换成你php下的根目录，不然php就找不到文件了
+        include        fastcgi_params;     
+    }
+</code></pre>
+<hr>
+<p><img src="https://kite-007.github.io/post-images/1618319102996.png" alt="" loading="lazy"><br>
+<strong>这里我看大多数的博客上面修改的都是nginx.conf文件，但是我试了好多次都不正确。</strong><br>
+<strong>最后发现我应该修改的其实是default.conf文件，而且进入这个文件会发现里面存在php的配置模板，如上图。</strong></p>
+<pre><code class="language-shell">docker exec -ti nginx /bin/bash
+
+cd /etc/nginx/conf.d
+# 这个文件目录下的default.conf目录
+
+cat default.conf
+# 因为没有vi和vim命令
+# 这个default.conf也可以尝试映射到主机上面去。
+
+# default.conf默认在主机
+/var/lib/docker/overlay2/***********/merged/etc/nginx/conf.d目录下面
+</code></pre>
+<ol start="3">
+<li>测试</li>
+</ol>
+<pre><code class="language-php">index.php
+&lt;?php echo &quot;Hello World!&quot;; ?&gt;
+</code></pre>
+<ol start="4">
+<li>处理错误。
+<ul>
+<li>如果127.0.0.1之后出现了nginx欢迎页面，但是127.0.0.1/index.php之后404，就有可能和我是一样的错误。按照上面的步骤改正即可。</li>
+<li>如果是php出现了第几几几行错误，那是代码问题。</li>
+</ul>
+</li>
+</ol>
 
             </div>
             

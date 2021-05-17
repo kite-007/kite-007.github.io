@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title># KALI 被动信息收集 | Fr</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://kite-007.github.io/favicon.ico?v=1621251676600">
+<link rel="stylesheet" href="https://kite-007.github.io/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="
+介绍
+1. 信息收集——DNS
+*
+
+NSLOOKUP
+DIG
+DNS 区域传输
+DNS 字典爆破
+DNS 注册信息
+3. 搜索引擎
+
+shodan
+google
+
+1. google搜索基本符号的意义
+2. site搜索语法
+3. in..." />
+    <meta name="keywords" content="" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://kite-007.github.io">
+        <img src="https://kite-007.github.io/images/avatar.png?v=1621251676600" class="site-logo">
+        <h1 class="site-title">Fr</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://kite-007.github.io/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      意志坚定，持之以恒
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://kite-007.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title"># KALI 被动信息收集</h2>
+            <div class="post-date">2021-04-09</div>
+            
+            <div class="post-content" v-pre>
+              <p><ul class="markdownIt-TOC">
+<li><a href="#%E4%BB%8B%E7%BB%8D">介绍</a></li>
+<li><a href="#1-%E4%BF%A1%E6%81%AF%E6%94%B6%E9%9B%86dns">1. 信息收集——DNS</a><br>
+*
+<ul>
+<li><a href="#nslookup">NSLOOKUP</a></li>
+<li><a href="#dig">DIG</a></li>
+<li><a href="#dns-%E5%8C%BA%E5%9F%9F%E4%BC%A0%E8%BE%93">DNS 区域传输</a></li>
+<li><a href="#dns-%E5%AD%97%E5%85%B8%E7%88%86%E7%A0%B4">DNS 字典爆破</a></li>
+<li><a href="#dns-%E6%B3%A8%E5%86%8C%E4%BF%A1%E6%81%AF">DNS 注册信息</a></li>
+<li><a href="#3-%E6%90%9C%E7%B4%A2%E5%BC%95%E6%93%8E">3. 搜索引擎</a>
+<ul>
+<li><a href="#shodan">shodan</a></li>
+<li><a href="#google">google</a>
+<ul>
+<li><a href="#1-google%E6%90%9C%E7%B4%A2%E5%9F%BA%E6%9C%AC%E7%AC%A6%E5%8F%B7%E7%9A%84%E6%84%8F%E4%B9%89">1. google搜索基本符号的意义</a></li>
+<li><a href="#2-site%E6%90%9C%E7%B4%A2%E8%AF%AD%E6%B3%95">2. site搜索语法</a></li>
+<li><a href="#3-inurl%E6%90%9C%E7%B4%A2%E8%AF%AD%E6%B3%95">3. inurl搜索语法</a></li>
+<li><a href="#4-intitleintext%E6%90%9C%E7%B4%A2%E8%AF%AD%E6%B3%95">4. intitle，intext搜索语法</a></li>
+<li><a href="#5-cache%E6%90%9C%E7%B4%A2%E8%AF%AD%E6%B3%95">5. cache:搜索语法</a></li>
+<li><a href="#6-filetype%E6%90%9C%E7%B4%A2%E8%AF%AD%E6%B3%95">6. filetype搜索语法</a></li>
+<li><a href="#7-google-hack%E6%8B%93%E5%B1%95">7. Google Hack拓展</a></li>
+</ul>
+</li>
+<li><a href="#%E5%85%B6%E4%BB%96%E6%90%9C%E7%B4%A2%E5%B7%A5%E5%85%B7">其他搜索工具</a>
+<ul>
+<li><a href="#yandex">YANDEX</a></li>
+<li><a href="#kali-theharvester">KALI-theHarvester</a></li>
+<li><a href="#kali-metagoofil">KALI-metagoofil</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#4-maltego">4. maltego</a></li>
+</ul>
+</li>
+</ul>
+(渗透测试信息收集)</p>
+<h1 id="介绍">介绍</h1>
+<ul>
+<li>公开渠道可获得的信息</li>
+<li>与标系统不产⽣直接交互</li>
+<li>尽量避免留下⼀切痕迹</li>
+<li>被动信息收集主要的方式是通过互联网的搜集，目标的信息(ip ，域名等等)</li>
+<li>关于信息收集的两个文档：
+<ul>
+<li>美国军⽅：<a href="http://www.fas.org/irp/doddir/army/atp2-22-9.pdf">http://www.fas.org/irp/doddir/army/atp2-22-9.pdf</a></li>
+<li>北⼤⻄洋公约组织：<a href="http://information-retrieval.info/docs/NATO-OSINT.html">http://information-retrieval.info/docs/NATO-OSINT.html</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li>信息收集三个步骤：
+<ol>
+<li>被动信息收集，不与目标直接发生交互。</li>
+<li>正常交互。</li>
+<li>主动信息收集，扫描，探测等等。</li>
+</ol>
+</li>
+</ul>
+<hr>
+<ul>
+<li>
+<p>信息收集内容</p>
+<ul>
+<li>IP地址段</li>
+<li>域名信息</li>
+<li>邮件地址</li>
+<li>⽂档图⽚数据</li>
+<li>公司地址</li>
+<li><strong>公司组织架构</strong></li>
+<li>联系电话 / 传真号码</li>
+<li>⼈员姓名 / 职务</li>
+<li><strong>目标系统使⽤的技术架构</strong></li>
+<li>公开的商业信息
+<ul>
+<li>主要用于后期，通过邮件地址后续可以进行社会工程学的攻击和探测。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>信息收集用途</p>
+<ul>
+<li>用信息描述目标</li>
+<li>发现
+<ul>
+<li>发现目标所使用的系统，发现具体的服务，后续社工</li>
+</ul>
+</li>
+<li>社会工程学攻击</li>
+<li>物理缺口</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h1 id="1-信息收集dns">1. 信息收集——DNS</h1>
+<ul>
+<li>域名解析成IP地址
+<ul>
+<li>域名与完全限定域名(FQDN)的区别；
+<ul>
+<li>eg：baidu.com就是一个域名，而www.baidu.com是一个FQDN。</li>
+<li>FQDN可以说是域名的一个记录，一个域可以有很多种类型的域名记录。</li>
+<li>域名记录：
+<ul>
+<li>A：主机记录，会把域名解析到一个IP地址上。</li>
+<li>C name：别名记录，会把域名解析到另外一个域名上。</li>
+<li>NS：这个域的域名服务器的地址记录。每一个域名都有一个域名服务器，一个或几个域名服务器对这个域进行域名的解析，域名服务器地址是通过DNS中的NS记录进行定义和注册的。</li>
+<li>MX：邮件交换记录，会指向这个域的SMTP交换地址，每一个域名可能有邮件服务器，邮件服务器专门有针对邮件服务器地址的MX记录，也就是邮件交换记录。</li>
+<li>ptr：反向解析，将IP解析为域名。前面的都是讲主机名解析为另外一个主机名，或者将主机名解析成一个IP地址这样的一个记录。ptr与他们相反，作用是是通过IP地址反向分析域名，这也需要有一个记录来进行解析，就是ptr记录。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<ul>
+<li>
+<p>DNS解析过程：</p>
+<ol>
+<li>客户端会指定一个DNS服务器地址，这个DNS服务器地址通常会指向本地的运营商的一个域名服务器的地址，如果客户端有要访问百度的请求，那么就会先把域名发向本地服务器，由本地服务器来做域名解析，之后将目标服务器的域名解析成对应的IP地址，然后把结果返回给客户端。</li>
+<li>客户端拿到真正的IP地址之后，就会访问真正应该访问的请求。</li>
+<li>但是，本地运营商服务器通常情况下它本身并没有存储任何DNS记录，这种DNS服务器我们称之为缓存服务器，这种缓存DNS服务器它里面不包含任何的DNS缓存记录，它本身并不知道任何一个域名对应的IP地址是什么，当他接收到请求之后，会做进进一步的域名查询。他会首先将请求发送给根域服务器，根域也就是点域，像www.xinlang.com这个并不是一个完整意义上的域名，完整意义上称之为www.xinlang.com.最后的那个点我们通常会省略，实际上是真实存在的，那个点域就是DNS的根域，所有的DNS查询都可以从点域发起，来进行从头溯源的一个查询过程。</li>
+<li>如果现在要解析www.xinlang.com会先将域名发送给本地的DNS缓存服务器，本地的DNS缓存服务器如果记录里面有这条记录，他就会直接把结果返回给客户端；如果没有就会把请求首先发给点域的域名服务器，点域的域名服务器查看该地址解析记录是否存在点域，点域服务器会回复不存在。</li>
+<li>因为www.xinlang.com是不存在于根域里面的，DNS是一个分布式数据库，所以没有任何一台DNS服务器有全球上完整的DNS记录，他是分层级的，根域只保存根域里面的缓存记录，com域只保存com域的域名记录等等。</li>
+<li>点域服务器中不存在之后，会返回一个结果给本地的DNS服务器，返回的结果是.com域的域名服务器的地址（NS记录），本地服务器缓存拿到之后就会象点域服务器的下一级.com域询问，.com域的服务器中也不存在这条记录，它里面存在类似XX.com这些.com的各种记录，之后他会像本地DNS服务器返回一个信息，xinlang.com（NS记录）的地址。本地服务器拿到返回之后就又会向xinlang.com这个域的域名服务器的地址，找到记录，返回正确的结果给本地缓存服务器，本地缓存服务器会先进行缓存一份，保存一个ttl的生成时间，当这个生成时间过去之后，它会将该记录删除掉，在这之前他会在一直保存这条记录，如果有其他的电脑来访问它，他就会在缓存记录中找到这条记录，就不会有后续的过程了。</li>
+<li>客户端拿到真实IP之后会向外部通过路由访问向www.xinlang.com的web服务器，发出请求。</li>
+<li>从客户端到DNS服务器为递归查询，从DNS服务器到各域服务器为迭代查询。</li>
+<li><img src="https://kite-007.github.io/post-images/1618025139997.png" alt="" loading="lazy"></li>
+</ol>
+</li>
+<li>
+<p>运营商DNS 解释</p>
+</li>
+</ul>
+<ol>
+<li>
+<p>本地dns到底是什么？为什么有时候看到的本地dns的ip是局域网类型的ip?</p>
+</li>
+<li>
+<p>权威dns服务器是什么？ 是域名商在管理他吗？<br>
+答：</p>
+</li>
+</ol>
+<p>第一个问题：本地DNS一般是指你电脑上网时IPv4或者IPv6设置中填写的那个DNS。这个有可能是手工指定的或者是DHCP自动分配的。</p>
+<p>如果你的电脑是直连运营商网络，一般默认设置情况下DNS为DHCP分配到的运营商的服务器地址。如果你的电脑和运营商之间还加了无线或者有线路由，那极有可能路由器本身还内置了一个DNS转发器，这玩意的作用是将发往他所有的DNS请求转发到上层DNS。此时由于路由器本身也接管了下挂电脑的DHCP服务，所以它分配给下面电脑的DNS地址就是它自身，所以你能看到电脑的DNS分配到的可能是192.168.1.1。实际上就是路由器自身，而路由器的DNS转发器将请求转发到上层ISP的DNS。所以这里说DNS是局域网或者是运营商的都可以（因为最终都是转发到运营商，小细节不用纠结）。</p>
+<p>第二个问题：权威服务器是特殊的DNS服务器，所谓的权威是针对特定域名来说的。所以一般会说某某域名的权威DNS是谁，不能单纯的抛离域名问权威DNS是谁。是域名商在管理，负责解析在他这里购买的域名的权威解析（当然也存在此处购买域名挂靠别处权威的情况。同样，不要纠结于小细节，意思懂了就行。如果要了解原理请查找一下NS记录这个名词）。</p>
+<h3 id="nslookup">NSLOOKUP</h3>
+<p>windows和linux上面都存在。</p>
+<pre><code># 输入nslookup进入工具
+nslookup
+
+# 输入域名,进行解析
+www.sina.com
+
+# 过滤查找记录为A记录，指定查找记录类型
+set type=a（mx，记录优先级的数字，越小优先级越高）
+或
+set q=ptr（反向解析ip）
+set q=any（任何类型的记录）
+（text-spf记录：反垃圾邮件，反向域名解析，查询域名，如果和发送的域名相匹配，则不会被人认定为垃圾邮件。）
+
+# 设置使用其他的域名服务器来查询
+server 8.8.8.8
+
+# 也可以用一条命令查询
+nslookup -q=any www.baidu.com 8.8.8.8
+</code></pre>
+<ul>
+<li><img src="https://gitee.com/qu-xiaolei001/pic/raw/master/20210412192336.png" alt="" loading="lazy"></li>
+<li>server：本地主机使用的域名服务器地址，本地的DNS缓存服务器</li>
+<li>后面是解析结果</li>
+<li>解析并没有把这个域名的IP解析出来，说明这个域名不是一个A记录，返回了C Name记录，再对C Name进行解析，反复，可能到了最后就会得到A记录从而得到ip地址，逐级解析。</li>
+<li><img src="https://gitee.com/qu-xiaolei001/pic/raw/master/20210412194225.png" alt="" loading="lazy"></li>
+<li><img src="https://gitee.com/qu-xiaolei001/pic/raw/master/20210412194954.png" alt="" loading="lazy"></li>
+<li>有时查出来的结果不一致是由于一个域名可以对应多个IP</li>
+<li>server之后解析相同域名出来不一样的IP：现在大多数网站会使用智能DNS，意思是所处的网络终端用户所处的网络环境不同，那么他会根据终端用户所处的网络环境会返回的查询结果可能不同。为了优化互联网流量。</li>
+</ul>
+<h3 id="dig">DIG</h3>
+<p>kali自带与nslookup类似但有更多的功能</p>
+<pre><code>dig sina.com any 8.8.8.8
+
++noall #什么结果都不输出
++answer #输出的结果只看answer，
+awk '{print $5}'#输出第五列
+
+dig +noall +answer mail.163.com any | awk '{print $5}'
+</code></pre>
+<ul>
+<li><img src="https://gitee.com/qu-xiaolei001/pic/raw/master/20210412202130.png" alt="" loading="lazy"></li>
+</ul>
+<ol start="0">
+<li>反向解析域名：</li>
+</ol>
+<pre><code># -x为反向解析域名所增加的参数，所查的为PTR记录
+dig -x 123.126.97.202 
+</code></pre>
+<ul>
+<li><img src="https://gitee.com/qu-xiaolei001/pic/raw/master/20210412202734.png" alt="" loading="lazy"></li>
+</ul>
+<ol>
+<li>查询bind版本信息</li>
+</ol>
+<ul>
+<li>Linux或Uinux下如果要作为DNS服务器，在他们之中提供DNS服务的软件包通常情况下为bind。</li>
+<li>在前面使用nslookup或是dig查询，不管是域名或是IP都出现了1对多的情况，而且dig即使其中加入了any参数，所查出来的结果中也只是sina.com的记录，不包含www.sina.com，这些FQDN记录。</li>
+<li>最好是查到所有的DNS注册记录</li>
+</ul>
+<hr>
+<pre><code>dig +noall +answer txt chaos VERSION.BIND ns3.dnsv4.com
+
+查ns3.dnsv4.com所对应的版本信息。
+txt： bind所对应的版本信息的记录
+VERSION.BIND： bind版本
+chaos： bind版本所对应的class类，前面的都是internet类
+</code></pre>
+<p>目的：寻查漏洞，能通过查到bind信息，如果bind的版本比较老的话，或者是存在漏洞的版本，那麽就可以利用这个漏洞，下载目标上所有的DNS记录并加以破解。</p>
+<ol start="2">
+<li>DNS追踪</li>
+</ol>
+<ul>
+<li>发现DNS劫持</li>
+</ul>
+<pre><code>dig +trace www.baidu.com 
+</code></pre>
+<ul>
+<li><img src="https://gitee.com/qu-xiaolei001/pic/raw/master/20210412212041.png" alt="" loading="lazy"></li>
+<li>启用wireshark抓包：
+<ul>
+<li><img src="https://gitee.com/qu-xiaolei001/pic/raw/master/20210412213507.png" alt="" loading="lazy"></li>
+<li>第一条表示的是本机向本地域名服务器发送请求，请求根域服务器，目前根域服务器全球一共有13个，所以每台DNS缓存上面都存在他们的域名及IP。</li>
+<li>第二条会返回13个根域域名服务器的名称。</li>
+<li>第三第四本地回向本地域名服务器查询IP地址，A表示IPv4下的g记录，AAAA表示IPv6下的g记录。</li>
+<li>第五第六向本地返回了IP地址的结果IPv4的以及IPv6的。</li>
+<li>一直持续到13条全部返回完毕之后</li>
+<li>2</li>
+<li><img src="https://gitee.com/qu-xiaolei001/pic/raw/master/20210412215035.png" alt="" loading="lazy"></li>
+<li>到了第55条，从13个根域服务器里面任意挑选了一个进行查询。</li>
+<li>56条，根域服务器返回结果，查询到一些C域，及最后的A域，如果没有查询到，则会继续向com域查询。</li>
+<li><img src="https://gitee.com/qu-xiaolei001/pic/raw/master/20210412215414.png" alt="" loading="lazy"></li>
+<li>能够抓包查看对应解析的服务器名称，如果名称不正确，则发生DNS欺骗。</li>
+<li>以上为迭代查询。</li>
+<li>递归查询只查询了一次，并且返回了一条结果，dig www.baidu.com</li>
+<li><img src="https://gitee.com/qu-xiaolei001/pic/raw/master/20210412215807.png" alt="" loading="lazy"></li>
+</ul>
+</li>
+</ul>
+<h3 id="dns-区域传输">DNS 区域传输</h3>
+<ul>
+<li>可以知道一个域里面的主机名称。</li>
+<li>DNS 区域传输原本是发生在DNS之间信息同步的过程。像一个点域做出了改变，那麽在这个域名的数据库中的信息就发生了改变，所同步到的其他的点域也发生了改变。</li>
+<li>正常情况下DNS区域传输只发生在本域的传输之间。如果DNS配置出现错误的话，可能会造成任何人都可以对此域名服务器进行区域传输，那麽就可以拿到此域下所有的主机记录以及IP地址。</li>
+<li>常见命令：</li>
+</ul>
+<pre><code class="language-shell">dig @ns1.example.com example.com axfr
+# 对example.com进行区域传输，先要知道此域的一个域名服务器ns1.example.com
+# axfr 区域传输所使用的方法
+
+host -T -l example.com ns1.example.com 8.8.8.8
+# -l 进行axfr全区域传输
+# -T 显示时间
+
+host info
+host --help
+host -h
+</code></pre>
+<h3 id="dns-字典爆破">DNS 字典爆破</h3>
+<ul>
+<li>如果DNS区域传输的思想无法使用的话，可以进行DNS字典爆破，这种方法也能进行主机记录收集。</li>
+<li>使用一个常用的字典，里面含有一些主机记录的名称。大量主机名的字符串形成一个字典，使用这个字典，向DNS服务器发送字典式的暴力破解。比如有一万个主机记录的字典，对DNS进行爆破，如果DNS里面含有某个记录，则这个DNS会进行反馈对应的IP地址，反之DNS会反馈一个错误的结果。基于此，进行字典爆破，尝试把目标域的主机记录以及子域的域名记录爆破出来。</li>
+<li>熟练掌握一个即可</li>
+<li>以下是一些例子，本质上都是使用自带字典进行破解</li>
+</ul>
+<pre><code class="language-shell">• fierce -dnsserver 8.8.8.8 -dns sina.com.cn -wordlist a.txt 
+# -dnsserver 8.8.8.8需要指定一个域名服务器，任意的DNS缓存服务器
+# -dns sina.com.cn指定需要查询的域
+# -wordlist a.txt指定当前目录下的字典
+# 区域传输失败会尝试使用字典
+dpkg -L fierce 
+# 查看软件包相关联的软件包（可以查看自带字典位置） 
+fierce --dns-servers 8.8.8.8  --domain sina.com.cn
+
+• dnsdict6 -d4 -t 16 -x sina.com
+# -d：显示IPv6的地址，-d4：显示IPv4的地址
+# -t：指定线程数
+# -D：指定字典
+# -S：使用SRV服务进行猜解，服务资源记录，特殊的记录类型，资源记录标记
+# -s，-m，-l，-x，-u：字典使用，小中大排列
+
+• dnsenum -f dnsbig.txt -dnsserver 8.8.8.8 sina.com -o sina.xml
+# -o：将执行结果导出成一个文件
+# -f：会自己从自己的程序目录里面寻找字典，找不到的情况下需要自己自行指定目录
+
+• dnsmap sina.com -w dns.txt
+
+
+• dnsrecon -d sina.com --lifetime 10 -t brt -D dnsbig.txt 
+# --lifetime 10：指定超时时间，如果查找这条记录超过了这个时间，则会被进行超时处理。
+# -t brt：指定查找时使用字典。
+# -D：指定字典的目录。
+# -d：指定目标主机。
+
+• dnsrecon -t std -d sina.com
+# -t std：标准破解方式，也需要使用字典。
+</code></pre>
+<p>dnsdict6在 kali里面尚未安装，以下为安装方法</p>
+<ul>
+<li>dnsdict6：https://src.fedoraproject.org/lookaside/pkgs/thc-ipv6/thc-ipv6-2.7.tar.gz/2975dd54be35b68c140eb2a6b8ef5e59/thc-ipv6-2.7.tar.gz</li>
+</ul>
+<pre><code class="language-shell">![QQ截图20210417134341](C:\Users\DELL\Desktop\QQ截图20210417134341.png)tar -zxvf thc-ipv6-2.7.tar.gz
+
+cd thc-ipv6-2.7/
+
+apt-get install -y libpcap-dev libssl-dev
+
+make 
+
+cp dnsdict6 /usr/bin/
+
+dnsdict6
+</code></pre>
+<h3 id="dns-注册信息">DNS 注册信息</h3>
+<ul>
+<li>在注册DNS时，有DNS注册信息，有的人在注册时会留下姓名，IP，电话，邮箱，公司地址等等，可以做一些社会工程学，物理攻击等等。</li>
+<li>Whois查询：按不同地区有不同的whois</li>
+<li>InterNic，是世界上最早的对IP地址进行分配的一个机构，只有分配后才能使用IP地址。之后又有不同地区之间的Nic。</li>
+<li><img src="https://gitee.com/qu-xiaolei001/pic/raw/master/20210417134420.png" alt="" loading="lazy"></li>
+<li>Kali下有自带Whois，他也是通过链接列表里的工具进行查询，来返回一个结果。</li>
+</ul>
+<pre><code>whois -h whois.apnic.net 192.0.43.10
+</code></pre>
+<p>Web接口查询：</p>
+<ul>
+<li><a href="https://whois.aliyun.com/">https://whois.aliyun.com/</a></li>
+<li><a href="https://www.whois365.com/cn/">https://www.whois365.com/cn/</a></li>
+<li><a href="http://whois.chinaz.com/">http://whois.chinaz.com/</a></li>
+<li><a href="https://whois.aizhan.com/">https://whois.aizhan.com/</a></li>
+</ul>
+<h2 id="3-搜索引擎">3. 搜索引擎</h2>
+<h3 id="shodan">shodan</h3>
+<ul>
+<li>会对互联网上面的设备进行查询爬取，通过此，使用各种爬虫技术，获取获取服务器的banner信息，如果是http的头，就会识别http信息，如果是ftp就识别ftp信息，不管目标使用的是标准端口还是非标准端口，shodan都会爬取出来。未来的发展趋势物联网是其中的一项，比如现在的冰箱，扫地机器人，空调等等。而且物联网设备安全性能差，一般使用的是默认的账号密码，存在弱口令问题，也可以直接在官网中查询默认密码，登录此设备进一步进行渗透。</li>
+<li>在之前的DNS域名查询中，假如已经查询到了该目标域名所对应的域名子域，以及相应的IP，就可以拿取这些IP在shodan上面去进行查询，看该目标是否已被shodan爬取，还可以看看该c位网段下是否存在去其他主机，代替我们去扫描这个系统。</li>
+</ul>
+<ol>
+<li>浏览器
+<ul>
+<li>net:211.144.145.0/24：如果已知目标网站的ip地址，现在要查询与这个IP地址在一个c段的所有的主机都开放了哪些端口，能够查看该网段下的IP。</li>
+<li>country:&amp;&amp;city:过滤country:CN{net:202.207.177.3  country:CN city:beijing}，爬取到的中国北京的设备</li>
+<li>port:查看开放端口：{country:CN city:beijing port:22}查看中国北京开放22端口的设备。除了标准端口，还可以进行非标准端口的爬取。</li>
+<li>os:查看IP下的操作系统{os:windows}</li>
+<li>hostname:保证目标是百度这家公司的服务器或设备{hostname:baidu.com}(主机或域名)</li>
+<li>server:搜索服务，apache等等</li>
+<li>搜索摄像头命令：webcam</li>
+<li>搜索开放指定端口的服务器：port：XXX</li>
+<li>搜索指定的IP地址信息：host：XXX.XXX.XXX.XXX</li>
+<li>搜索具体城市开放的具体端口的一些设备：city：XXXXX port：XXX</li>
+<li>https://www.shodan.io/explore查看帮助信息</li>
+</ul>
+</li>
+</ol>
+<pre><code>200 OK cisco country:JP
+# 200 ok 访问成功，日本的cisco设备
+
+user:admin pass:password
+
+http://1.179.177.109:81/index.htm
+
+linux ipnp avtech
+
+http://75.69.59.49:8000
+</code></pre>
+<ol start="2">
+<li>命令行
+<ul>
+<li>kali安装Shodan命令行：easy_install shodan</li>
+<li>Shodan初始化：shodan init [API Key]
+<ul>
+<li>初始化Shodan就是给Shodan初始化API Key。[API Key：hHg9HmLgZuqBc1VsNqWGd10ilpyveeesb].这个API Key在自己登陆Shodan页面之后的右上角。</li>
+</ul>
+</li>
+<li>查看具体服务count
+<ul>
+<li>shodan count Apache(可以查询开放了Apache服务在Shodan中的具体数量)</li>
+<li>shodan count Tomcat</li>
+</ul>
+</li>
+<li>Shodan命令行搜索功能
+<ul>
+<li>利用 shodan search microsoft iis 6.0</li>
+</ul>
+</li>
+<li>Shodan获取指定IP地址信息
+<ul>
+<li>shodan host [ip地址]</li>
+</ul>
+</li>
+<li>Shodan获取自己shodan账号信息（会员）
+<ul>
+<li>shodan info</li>
+</ul>
+</li>
+<li>Shodan获取自身外部可见IP地址
+<ul>
+<li>shodan myip</li>
+</ul>
+</li>
+<li>Shodan检测是否有蜜罐保护
+<ul>
+<li>shodan honeyscore [目标IP]</li>
+</ul>
+</li>
+<li>python-shodan（使用python引入shodan）</li>
+</ul>
+</li>
+</ol>
+<h3 id="google">google</h3>
+<ul>
+<li>综合性搜索浏览器，搜索网页，设备等等。</li>
+<li>Google hacking数据库：https://www.exploit-db.com/google-hacking-database/<br>
+例如：查询Access数据：filetype:mdb &quot;standard jet&quot;(password | username | user pass)</li>
+</ul>
+<h4 id="1-google搜索基本符号的意义">1. google搜索基本符号的意义</h4>
+<ol>
+<li>【&quot;&quot;】完全匹配搜索。
+<ul>
+<li>用双引号括起来的内容会完全精确搜索，不会拆分关键词。</li>
+<li><img src="https://gitee.com/qu-xiaolei001/pic/raw/master/20210417224245.png" alt="" loading="lazy"></li>
+<li><img src="https://gitee.com/qu-xiaolei001/pic/raw/master/20210417224259.png" alt="" loading="lazy"></li>
+</ul>
+</li>
+<li>【+】指定一个一定存在的一个关键词。
+<ul>
+<li>搜索的每条结果都有百科两个字。</li>
+<li><img src="https://gitee.com/qu-xiaolei001/pic/raw/master/20210417224337.png" alt="" loading="lazy"></li>
+</ul>
+</li>
+<li>【-】与+号相反，指定一个一定不存在的关键词。
+<ul>
+<li><img src="https://gitee.com/qu-xiaolei001/pic/raw/master/20210417224353.png" alt="" loading="lazy"></li>
+</ul>
+</li>
+<li>【|】或条件。
+<ul>
+<li>搜索的两个词组，只要满足一个条件都会显示出来。</li>
+<li><img src="https://gitee.com/qu-xiaolei001/pic/raw/master/20210418161129.png" alt="" loading="lazy"></li>
+</ul>
+</li>
+<li>【AND】且条件。
+<ul>
+<li>搜索的两个词组必须都满足才能把结果显示出来。</li>
+<li><img src="https://gitee.com/qu-xiaolei001/pic/raw/master/20210418161126.png" alt="" loading="lazy"></li>
+</ul>
+</li>
+</ol>
+<h4 id="2-site搜索语法">2. site搜索语法</h4>
+<ol>
+<li>作用：
+<ol>
+<li>可以针对目标做一次准确的信息搜集（目录，文件），搜索目标站点</li>
+<li>可以得到目标的子域名</li>
+<li>指定国家（cn：中国，fr：法国）</li>
+</ol>
+</li>
+<li>site：搜索指定域名下的结果
+<ol>
+<li>site:baidu.com</li>
+<li><img src="https://gitee.com/qu-xiaolei001/pic/raw/master/20210418161119.png" alt="" loading="lazy"></li>
+</ol>
+</li>
+<li>拓展：site:baidu.com&amp;site:www.baidu.com(哪种方式搜索的结果多？)
+<ol>
+<li>site:www.baidu.com</li>
+<li><img src="https://gitee.com/qu-xiaolei001/pic/raw/master/20210418161116.png" alt="" loading="lazy"></li>
+</ol>
+</li>
+</ol>
+<h4 id="3-inurl搜索语法">3. inurl搜索语法</h4>
+<ol>
+<li>作用：一般用于批量搜索较多，比如批量找后台，批量找注入点，批量找指定漏洞目标站点等等。</li>
+<li>inurl:baidu.com
+<ol>
+<li>表示搜索结果的url中一定含有baidu.com这个关键词。</li>
+<li><img src="https://gitee.com/qu-xiaolei001/pic/raw/master/20210418161040.png" alt="" loading="lazy"></li>
+</ol>
+</li>
+<li>常用后台路径：
+<ol>
+<li>Admin/</li>
+<li>System/login.php</li>
+<li>Manage/</li>
+<li>等等···</li>
+<li><img src="https://gitee.com/qu-xiaolei001/pic/raw/master/20210418161030.png" alt="" loading="lazy"></li>
+<li><img src="https://gitee.com/qu-xiaolei001/pic/raw/master/20210418161014.png" alt="" loading="lazy"></li>
+</ol>
+</li>
+<li>批量找注入点：
+<ol>
+<li>inurl:php?id=</li>
+<li><img src="https://gitee.com/qu-xiaolei001/pic/raw/master/20210418161007.png" alt="" loading="lazy"></li>
+</ol>
+</li>
+</ol>
+<h4 id="4-intitleintext搜索语法">4. intitle，intext搜索语法</h4>
+<ol>
+<li>作用：批量搜索漏洞后台，批量搜索寻找弱点网站（需要自己构造标题），针对性寻找页面。
+<ul>
+<li>可以搜索标题为指定内容的结果。</li>
+<li>intitle是在标题里面，intext是在正文里面</li>
+</ul>
+</li>
+<li>intitle:后台管理
+<ol>
+<li><img src="https://gitee.com/qu-xiaolei001/pic/raw/master/20210418160958.png" alt="" loading="lazy"></li>
+<li><img src="https://gitee.com/qu-xiaolei001/pic/raw/master/20210418160954.png" alt="" loading="lazy"></li>
+</ol>
+</li>
+<li>搜索思路多样化，使用不同的关键词，达到一样的效果
+<ul>
+<li>intitle:后台管理</li>
+<li>intitle:后台管理系统</li>
+<li>intitle:管理员登录</li>
+<li>intitle:欢迎来到管理中心</li>
+</ul>
+</li>
+<li>命令组合使用
+<ul>
+<li>intitle:登录 inurl:admin</li>
+<li><img src="https://gitee.com/qu-xiaolei001/pic/raw/master/20210418160950.png" alt="" loading="lazy"></li>
+</ul>
+</li>
+</ol>
+<h4 id="5-cache搜索语法">5. cache:搜索语法</h4>
+<ol>
+<li>作用：类似于百度的快照功能，如果网页出现异常打不开，那麽使用这个语法就可以恢复到出现异常前的一个正常的状态。可以查看之前的内容，包括已经删掉的内容。</li>
+<li>cache:内容。
+<ol>
+<li><img src="https://gitee.com/qu-xiaolei001/pic/raw/master/20210418160943.png" alt="" loading="lazy"></li>
+<li><img src="https://gitee.com/qu-xiaolei001/pic/raw/master/20210418160937.png" alt="" loading="lazy"></li>
+</ol>
+</li>
+<li>用途：寻找物理路径时，网站异常被恢复时可以使用这个语法来进行搜索。查看网站被删除信息时，也可以使用这个语法来搜索。</li>
+<li>注意：搜索语法使用时，百度和谷歌都可以试一试，因为每个搜索引擎的收录结果都不一样。</li>
+</ol>
+<h4 id="6-filetype搜索语法">6. filetype搜索语法</h4>
+<ol>
+<li>搜索一个文件，指定文件类型</li>
+<li>举例：SOX filetype:PDF
+<ul>
+<li>带有SOX关键字的文档，PDF格式</li>
+</ul>
+</li>
+</ol>
+<h4 id="7-google-hack拓展">7. Google Hack拓展</h4>
+<ol>
+<li>寻找管理员用户
+<ol>
+<li>www.71tv.net.cn</li>
+<li>site:71tv.net.cn &quot;发布人&quot;
+<ol>
+<li>一般这种发布人都是后台用户，后台发布新闻时根据管理用户名来发布。</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>寻找目标脚本语言
+<ol>
+<li>很多伪静态网站，我们可以通过Google Hack来找到真实的脚本语言。</li>
+<li>www.csc.com.tw
+<ol>
+<li>site:www.csc.com.tw php</li>
+<li><img src="https://gitee.com/qu-xiaolei001/pic/raw/master/20210418160929.png" alt="" loading="lazy"></li>
+</ol>
+</li>
+</ol>
+</li>
+<li>寻找c段主机，站点等
+<ol>
+<li>site:49.122.21.249:84/Admin/ZhiDao.aspx</li>
+<li><img src="https://gitee.com/qu-xiaolei001/pic/raw/master/20210418160919.png" alt="" loading="lazy"></li>
+</ol>
+</li>
+<li>支付页面
+<ul>
+<li>法国：payment site:fr</li>
+<li>中国：payment site:cn</li>
+</ul>
+</li>
+<li>搜索摄像头
+<ul>
+<li>intitle:&quot;netbotz appliance&quot; &quot;OK&quot;</li>
+</ul>
+</li>
+<li>另外实例</li>
+</ol>
+<pre><code>• inurl:&quot;level/15/exec/-/show&quot; 
+• intitle:&quot;netbotz appliance&quot; &quot;ok&quot; 
+• inurl /admin/login.php 
+• inurl:qq.txt 
+• filetype:xls &quot;username | password“ 
+• inurl:ftp &quot;password&quot; filetype:xls site:baidu.com 
+• inurl:Service.pwd 
+
+# 参考指令： 
+• http://exploit-db.com/google-dorks
+</code></pre>
+<h3 id="其他搜索工具">其他搜索工具</h3>
+<h4 id="yandex">YANDEX</h4>
+<ul>
+<li>世界第四大搜索引擎——俄罗斯</li>
+<li>https://yandex.com/</li>
+</ul>
+<h4 id="kali-theharvester">KALI-theHarvester</h4>
+<h4 id="kali-metagoofil">KALI-metagoofil</h4>
+<h2 id="4-maltego">4. maltego</h2>
+<ul>
+<li>kali自动集成的十大安全工具之一，专门与KALI定制的版本，综合性信息收集软件，为数不多的用户体验比较好的软件之一，全图形化界面，首次进入需要申请账户注册登录。</li>
+</ul>
+
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://kite-007.github.io/upload-labsshang/">
+                  <h3 class="post-title">
+                    # upload-labs
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+
+  </body>
+</html>

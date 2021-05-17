@@ -3,12 +3,12 @@
   <head>
     <meta charset="utf-8" >
 
-<title># KALL 问题解决 | Fr</title>
+<title># KALI 问题解决 | Fr</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-<link rel="shortcut icon" href="https://kite-007.github.io/favicon.ico?v=1617547278428">
+<link rel="shortcut icon" href="https://kite-007.github.io/favicon.ico?v=1621251676600">
 <link rel="stylesheet" href="https://kite-007.github.io/styles/main.css">
 
 
@@ -33,7 +33,7 @@
   <div class="top-container" data-aos="fade-right">
     <div class="top-header-container">
       <a class="site-title-container" href="https://kite-007.github.io">
-        <img src="https://kite-007.github.io/images/avatar.png?v=1617547278428" class="site-logo">
+        <img src="https://kite-007.github.io/images/avatar.png?v=1621251676600" class="site-logo">
         <h1 class="site-title">Fr</h1>
       </a>
       <div class="menu-btn" @click="menuVisible = !menuVisible">
@@ -83,7 +83,7 @@
       <div class="main-container">
         <div class="content-container" data-aos="fade-up">
           <div class="post-detail">
-            <h2 class="post-title"># KALL 问题解决</h2>
+            <h2 class="post-title"># KALI 问题解决</h2>
             <div class="post-date">2021-04-04</div>
             
             <div class="post-content" v-pre>
@@ -97,6 +97,7 @@
 <li><a href="#4-error-no-users-found-you-need-to-create-at-least-one-user-to-log-in">4. ERROR: No users found. You need to create at least one user to log in.</a></li>
 </ul>
 </li>
+<li><a href="#3-zsh-corrupt-history-file-homexxxzsh_history">3. zsh: corrupt history file /home/XXX/.zsh_history</a></li>
 </ul>
 (问题解决)</p>
 <h1 id="1-宕机导致i2c_piix4">1. 宕机导致i2c_piix4</h1>
@@ -181,6 +182,14 @@ chmod 777 [目录]
 </code></pre>
 <h2 id="4-error-no-users-found-you-need-to-create-at-least-one-user-to-log-in">4. ERROR: No users found. You need to create at least one user to log in.</h2>
 <p>提示：FIX: create a user by running 'sudo runuser -u _gvm -- gvmd --create-user=&lt;name&gt; --password=&lt;password&gt;'</p>
+<h1 id="3-zsh-corrupt-history-file-homexxxzsh_history">3. zsh: corrupt history file /home/XXX/.zsh_history</h1>
+<p>zsh是一个相当好用的shell，相信使用linux系统的朋友都不陌生，当然还有my zsh,不过有的时候会出现一些问题，例如因为有的时候系统因为默写原因强行启动的时候会破坏zsh的历史文件，导致下次使用的时候提示：zsh: corrupt history file /home/xxx/.zsh_history错误。</p>
+<p>我们有一种暴力的解决方式，那就是删除，但是这样的话，我们以前的很多的历史命令就会没有，非常的麻烦。</p>
+<pre><code>cp .zsh_history zsh_history
+rm -f .zsh_history 
+strings zsh_history .zsh_history
+#OK了，修复成功。
+</code></pre>
 
             </div>
             
